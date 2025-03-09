@@ -11,10 +11,12 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@react-oauth/google": "^0.12.1",
     "@tanstack/react-query": "^5.67.2",
     "axios": "^1.8.2",
     "axios-retry": "^4.5.0",
     "countries-and-timezones": "^3.7.2",
+    "framer-motion": "^12.4.10",
     "luxon": "^3.5.0",
     "next": "15.2.1",
     "react": "^19.0.0",
@@ -25,6 +27,8 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/node": "22.13.10",
+    "@types/react": "19.0.10",
     "eslint": "^9",
     "eslint-config-next": "15.2.1"
   }

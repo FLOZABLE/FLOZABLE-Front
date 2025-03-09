@@ -29,6 +29,12 @@
     var(--blue-3),
     var(--blue-2)
   );
+  --modal-width: 18rem;
+}
+
+html {
+  font-size: clamp(0.5rem, 0.7vw, 1rem);
+  scroll-behavior: smooth;
 }
 
 html,
@@ -54,6 +60,30 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+input {
+  outline: none;
+}
+
+.modal {
+  visibility: hidden;
+  opacity: 0;
+  top: 31.25rem;
+  position: fixed;
+  left: calc(50vw - var(--modal-width) / 2);
+  /* transform: translateX(-50%); */
+  transition: 0.3s ease-in-out opacity, 0.3s ease-in-out visibility,
+    0.3s ease-in-out top;
+  background-color: #fff;
+  z-index: 7;
+  box-shadow: rgba(100, 100, 111, 0.2) 0em 0.4375rem 1.8125rem 0em;
+  border-radius: 1.25rem;
+}
+
+.modal.open {
+  visibility: visible;
+  opacity: 1;
 }
 
 /* @media (prefers-color-scheme: dark) {

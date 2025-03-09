@@ -1,3 +1,4 @@
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 
 function useWindowSize() {
@@ -30,4 +31,18 @@ function useWindowSize() {
   return windowSize;
 }
 
-export { useWindowSize };
+// Custom hook to manage modal state with reset on pathname change
+function useModalState(initialState, resetOnPathChange = true) {
+  const [state, setState] = useState(initialState);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (resetOnPathChange) {
+      setState(initialState);
+    }
+  }, [pathname, resetOnPathChange, initialState]);
+
+  return [state, setState];
+}
+
+export { useWindowSize, useModalState };

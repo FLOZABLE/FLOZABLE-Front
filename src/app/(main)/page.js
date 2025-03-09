@@ -22,6 +22,7 @@ import { useCallback, useRef, useState } from "react";
 import { useWindowSize } from "@/hooks/otherHooks";
 import GradientBtn from "@/components/buttons/GradientBtn/GradientBtn";
 import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
+import AppTrial from "@/components/others/AppTrial/AppTrial";
 
 const SMALL_SCREEN = 768;
 
@@ -183,7 +184,9 @@ export default function Home() {
             alt={`background`}
           />
         </div>
-        <div className={styles.app}>{/* <AppTrial /> */}</div>
+        <div className={styles.app}>
+          <AppTrial />
+        </div>
       </div>
       <div id={styles.about} className={styles.section}>
         <div className={styles.scroll} id="about"></div>
@@ -235,12 +238,12 @@ export default function Home() {
           </BlobBtn>
         </div>
         <div className={styles.layer} id={styles.phoneLayer}>
-          {/*  <div id={styles.phone2}>
+          <div id={styles.phone2}>
             <AppTrial initialSlide={1} />
           </div>
           <div id={styles.phone3}>
             <AppTrial initialSlide={2} />
-          </div> */}
+          </div>
         </div>
       </div>
       <div className={styles.section} id={styles.features}>

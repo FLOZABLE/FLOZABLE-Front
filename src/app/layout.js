@@ -5,6 +5,7 @@ import { AppContainer } from "@/components/structure/Providers";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import AccountModal from "@/components/modals/AccountModal/AccountModal";
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -23,14 +24,14 @@ export default function RootLayout({ children }) {
       <body className={`${roboto.variable}`}>
         <AppContainer>
           {/* <PlanModal />
-            <ChatModal />
-            <AccountModal />
-            <JoinGroupModal />
-            <AddSubjectModal />
-            <SubjectsModal />
-            <SearchUsersModal />
-            <EditGroupModal />
-            <WelcomeModal /> */}
+          <ChatModal /> */}
+          <AccountModal />
+          {/* <JoinGroupModal />
+          <AddSubjectModal />
+          <SubjectsModal />
+          <SearchUsersModal />
+          <EditGroupModal />
+          <WelcomeModal /> */}
           {children}
         </AppContainer>
         <ToastContainer

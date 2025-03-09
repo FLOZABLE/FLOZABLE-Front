@@ -36,6 +36,8 @@
 .page a {
   padding: 1rem;
   color: #000;
+  font-weight: 600;
+  font-size: 1.2rem;
 }
 
 @media (max-width: 600px) {
