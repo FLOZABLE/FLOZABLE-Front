@@ -1,0 +1,61 @@
+.MainFooter {
+  background: var(--blue-gradient);
+  color: #fff;
+  white-space: nowrap;
+}
+
+.MainFooter a {
+  color: #fff;
+}
+
+.section {
+  display: flex;
+}
+
+.section#middle,
+.section#bottom {
+  padding: 0rem var(--main-offset);
+}
+
+.layer {
+  margin-right: 20rem;
+}
+
+.layer .title {
+  margin-bottom: 1rem;
+}
+
+.item {
+  display: flex;
+  transition: font-size 0.2s ease-in-out;
+  align-items: center;
+  height: 2.5rem;
+}
+
+.layer#links .item:hover {
+  font-size: 1.1rem;
+}
+
+.item i {
+  margin-right: 1rem;
+}
+
+.section#bottom {
+  padding-bottom: 2rem;
+}
+
+.divider {
+  height: 1px;
+  background-color: #fff;
+  margin: 2rem var(--main-offset);
+}
+
+@media (max-width: 600px) {
+  .section {
+    flex-direction: column;
+  }
+
+  .layer .title {
+    margin-top: 1rem;
+  }
+}

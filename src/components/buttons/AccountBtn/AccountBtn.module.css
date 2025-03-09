@@ -1,0 +1,23 @@
+.AccountBtn {
+  display: flex;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  transition: 0.3s ease-in-out box-shadow;
+}
+
+.AccountBtn:hover {
+  box-shadow: var(--shadow-1);
+}
+
+.AccountBtn i {
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.AccountBtn p {
+  font-size: 1rem;
+  margin-left: 1rem;
+}

@@ -1,14 +1,15 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
+import { Bounce, ToastContainer } from "react-toastify";
+import { AppContainer } from "@/components/structure/Providers";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const roboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
 });
 
 export const metadata = {
@@ -19,8 +20,33 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+      <body className={`${roboto.variable}`}>
+        <AppContainer>
+          {/* <PlanModal />
+            <ChatModal />
+            <AccountModal />
+            <JoinGroupModal />
+            <AddSubjectModal />
+            <SubjectsModal />
+            <SearchUsersModal />
+            <EditGroupModal />
+            <WelcomeModal /> */}
+          {children}
+        </AppContainer>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce}
+          style={{ zIndex: 10000000 }}
+        />
       </body>
     </html>
   );
