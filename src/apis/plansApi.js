@@ -1,5 +1,5 @@
-import AxiosInstance from "@/app/utils/axiosInstance";
-import { getTimezone, requestHandler } from "@/app/utils/Tool";
+import AxiosInstance from "@/utils/axiosInstance";
+import { getTimezone, requestHandler } from "@/utils/tools";
 import { DateTime } from "luxon";
 
 async function getPlans() {

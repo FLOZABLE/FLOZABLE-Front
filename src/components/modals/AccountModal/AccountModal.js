@@ -11,13 +11,13 @@ import {
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
-import { AccountModalContext } from "@/components/structure/Providers";
 import { postAuthSignin, postAuthSignup } from "@/apis/authApi";
 import { useAccount } from "@/hooks/accountHooks";
 import GoogleLoginBtn from "@/components/buttons/GoogleLoginBtn/GoogleLoginBtn";
 import ShowPasswordBtn from "@/components/buttons/ShowPasswordBtn/ShowPasswordBtn";
 import LineInput from "@/components/inputs/LineInput/LineInput";
 import { getTimezone } from "@/utils/tools";
+import { AccountModalContext } from "@/components/structure/ModalProviders";
 
 export default function AccountModal() {
   const searchParams = useSearchParams();

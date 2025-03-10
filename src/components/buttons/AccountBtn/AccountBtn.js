@@ -5,9 +5,9 @@ import {
   faArrowRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAccount } from "@/hooks/accountHooks";
-import { AccountModalContext } from "@/components/structure/Providers";
 import { getAuthLogout } from "@/apis/authApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AccountModalContext } from "@/components/structure/ModalProviders";
 
 export default function AccountBtn() {
   const { setIsAccountModal } = useContext(AccountModalContext);
