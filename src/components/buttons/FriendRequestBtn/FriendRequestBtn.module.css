@@ -1,0 +1,14 @@
+.FriendRequestBtn {
+  position: relative;
+}
+
+.FriendRequestBtn .blobWrapper:hover ~ .hoverText {
+  visibility: visible;
+  opacity: 1;
+  bottom: -2rem;
+}
+
+.FriendRequestBtn .hoverText {
+  bottom: -3rem;
+  right: -1rem;
+}

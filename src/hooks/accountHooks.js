@@ -15,7 +15,7 @@ function useAccount() {
     queryKey: [`useAccount`],
     queryFn: getAccount,
     staleTime: 1000 * 60 * 10,
-    select: (response) => response?.data?.userInfo || false,
+    select: (response) => response?.data?.userinfo || false,
   });
 
   const {

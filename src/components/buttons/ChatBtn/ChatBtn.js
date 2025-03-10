@@ -65,7 +65,7 @@ export default function ChatBtn({ targetInfo, padding }) {
           <FontAwesomeIcon icon={faComments} />
         </BlobBtn>
       </div>
-      <div className={`HoverText ${styles.hoverText}`}>
+      <div className={`hoverText ${styles.hoverText}`}>
         Chat with {targetInfo?.name}!
       </div>
     </div>

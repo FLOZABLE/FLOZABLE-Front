@@ -47,7 +47,7 @@ function NotificationBtn({ children, hoverText, onClick }) {
     <div className={styles.NotificationBtn} onClick={onClick}>
       <i>{children}</i>
       {hoverText ? (
-        <div className={`HoverText ${styles.hoverText}`}>{hoverText}</div>
+        <div className={`hoverText ${styles.hoverText}`}>{hoverText}</div>
       ) : null}
     </div>
   );

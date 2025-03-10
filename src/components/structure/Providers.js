@@ -4,6 +4,9 @@ import config from "@/utils/config";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ModalProviders from "./ModalProviders";
+import { NextStep, NextStepProvider } from "nextstepjs";
+import { usePlans, usePlansGoogle } from "@/hooks/plansHooks";
+import { createContext, useEffect, useState } from "react";
 //modals
 
 /* const AccountModalContext = createContext({
@@ -19,6 +22,9 @@ const SearchUsersModalContext = createContext({});
 const WelcomeModalContext = createContext({});
 const PlanModalContext = createContext({});
  */
+
+export const PlansContext = createContext({});
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -51,11 +57,36 @@ export function AppContainer({ children }) {
   );
 }
 
+const steps = [
+  {
+    tour: "mainTour",
+    steps: [
+      {
+        icon: "👋",
+        title: "Welcome",
+        content: "Let's get started with NextStep!",
+        selector: "#step1",
+        side: "right",
+        showControls: true,
+        showSkip: true,
+      },
+      // More steps...
+    ],
+  },
+];
+
 function AppProvider({ children }) {
-  return <ModalProviders>{children}</ModalProviders>;
+  return (
+    <NextStepProvider>
+      <NextStep steps={steps}></NextStep>
+      <ModalProviders>
+        <PlansProvider>{children}</PlansProvider>
+      </ModalProviders>
+    </NextStepProvider>
+  );
 }
 
-/* function PlansProvider({ children }) {
+function PlansProvider({ children }) {
   const [plans, setPlans] = useState([]);
   const [plansDate, setPlansDate] = useState(
     new Date(new Date().setHours(0, 0, 0, 0))
@@ -78,4 +109,3 @@ function AppProvider({ children }) {
     </PlansContext.Provider>
   );
 }
- */

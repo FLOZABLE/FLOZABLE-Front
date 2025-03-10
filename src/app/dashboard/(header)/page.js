@@ -1,7 +1,11 @@
 "use client";
 
+import PlansTimeline from "@/components/plans/PlansTimeline/PlansTimeline";
 import styles from "./page.module.css";
 import { useState } from "react";
+import SubjectsPie from "@/components/charts/SubjectsPie/SubjectsPie";
+import Analysis from "@/components/charts/Analysis/Analysis";
+import FriendsViewer from "@/components/friends/FriendsViewer/FriendsViewer";
 
 export default function Dashboard() {
   const [viewDate, setViewDate] = useState(
@@ -12,7 +16,7 @@ export default function Dashboard() {
   return (
     <div className={`Main`}>
       <div className={styles.Main}>
-        {/* <div className={styles.layer}>
+        <div className={styles.layer}>
           <div className={styles.left}>
             <div
               className={`${styles.box} BoxContainer`}
@@ -49,7 +53,7 @@ export default function Dashboard() {
               <FriendsViewer />
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
     </div>
   );

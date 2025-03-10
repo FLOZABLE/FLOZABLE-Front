@@ -30,10 +30,13 @@
     var(--blue-2)
   );
   --modal-width: 18rem;
+  --sidebar-offset: 18rem;
+  --subject-labels-color: var(--gray-2);
+  --filtered-subject-labels-color:: var(--gray-1);
 }
 
 html {
-  font-size: clamp(0.5rem, 0.7vw, 1rem);
+  font-size: clamp(10px, 0.8vw, 16px);
   scroll-behavior: smooth;
 }
 
@@ -84,6 +87,21 @@ input {
 .modal.open {
   visibility: visible;
   opacity: 1;
+}
+
+.hoverText {
+  position: absolute;
+  background-color: #000000c3;
+  color: #fff;
+  transition: 0.3s ease-in-out opacity, 0.3s ease-in-out bottom;
+  opacity: 0;
+  pointer-events: none;
+  padding: 0.2rem;
+  border-radius: 0.3rem;
+  font-size: 0.75rem;
+  z-index: 2;
+  white-space: nowrap;
+  bottom: 0rem;
 }
 
 /* @media (prefers-color-scheme: dark) {

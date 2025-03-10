@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  reactStrictMode: true,
+  experimental: {
+    esmExternals: true,
+  },
+  transpilePackages: ["nextstepjs"],
+};
 
 export default nextConfig;

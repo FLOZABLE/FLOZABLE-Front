@@ -27,8 +27,8 @@ import { useAccount } from "@/hooks/accountHooks";
 import { useSubjects } from "@/hooks/subjectsHooks";
 import NotificationsContainer from "@/components/notifications/NotificationsContainer/NotificationsContainer";
 import { AccountModalContext } from "../ModalProviders";
-import ChatBtn from "@/components/buttons/ChatBtn/ChatBtn";
 import ProfileImage from "@/components/Users/ProfileImage/ProfileImage";
+import ChatModalBtn from "@/components/buttons/ChatModalBtn/ChatModalBtn";
 
 function HeaderEl({ children, value, title }) {
   return (
@@ -97,6 +97,7 @@ function Header({}) {
   }, [extensionUsageData]);
 
   useEffect(() => {
+    console.log("account data", accountData);
     if (!accountData) {
       setIsAccountModal(true);
     } else {
@@ -156,7 +157,7 @@ function Header({}) {
             </button>
           )}
           <div className={styles.ChatBtn}>
-            <ChatBtn />
+            <ChatModalBtn />
           </div>
           <div className={styles.NotificationsBtn}>
             <NotificationsContainer />

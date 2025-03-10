@@ -20,7 +20,7 @@ export default function TutorialBtn() {
       <i>
         <FontAwesomeIcon icon={faMap} />
       </i>
-      <div className={`${styles.hoverText} HoverText`}>Start Tutorial!</div>
+      <div className={`${styles.hoverText} hoverText`}>Start Tutorial!</div>
     </div>
   );
 }
