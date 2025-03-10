@@ -169,7 +169,7 @@ function FriendsViewer() {
         <h2>Friends</h2>
         <div className="button" onClick={addFriend}>
           <FontAwesomeIcon icon={faPlus} />
-          <div className={`HoverText ${styles.hoverText}`}>Add friend!</div>
+          <div className={`hoverText ${styles.hoverText}`}>Add friend!</div>
         </div>
       </div>
       <div className={styles.sections}>

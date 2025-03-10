@@ -31,7 +31,7 @@ function SentFriendRequestContainer({
           }}
         >
           <FontAwesomeIcon icon={faXmark} />
-          <div className={`HoverText ${styles.hoverText}`}>Abort</div>
+          <div className={`hoverText ${styles.hoverText}`}>Abort</div>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@ function ReceivedFriendRequestContainer({
           }}
         >
           <FontAwesomeIcon icon={faXmark} />
-          <div className={`HoverText ${styles.hoverText}`}>Decline</div>
+          <div className={`hoverText ${styles.hoverText}`}>Decline</div>
         </div>
         <div
           className={styles.button}
@@ -70,7 +70,7 @@ function ReceivedFriendRequestContainer({
           }}
         >
           <FontAwesomeIcon icon={faCheck} />
-          <div className={`HoverText ${styles.hoverText}`}>Accept</div>
+          <div className={`hoverText ${styles.hoverText}`}>Accept</div>
         </div>
       </div>
     </div>

@@ -3,11 +3,11 @@
   top: 0em;
   left: 0em;
   height: 100vh;
-  width: var(--sidebar-offset);
+  width: var(--sidebar-width);
   display: flex;
   flex-direction: column;
   background-color: var(--gray-1);
-  box-shadow: var(--shadow4);
+  box-shadow: var(--shadow-2);
   z-index: 3;
 }
 

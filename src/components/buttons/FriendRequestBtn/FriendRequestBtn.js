@@ -44,7 +44,7 @@ function FriendDeleteBtn({ userInfo, friendData, padding }) {
           <FontAwesomeIcon icon={faBan} />
         </BlobBtn>
       </div>
-      <div className={`HoverText ${styles.hoverText}`}>
+      <div className={`hoverText ${styles.hoverText}`}>
         Friend since {DateTime.fromSeconds(friendData.date).toISODate()}
       </div>
     </div>
@@ -95,7 +95,7 @@ function FriendRequestBtn({ userInfo, padding }) {
           +<FontAwesomeIcon icon={faUser} />
         </BlobBtn>
       </div>
-      <div className={`HoverText ${styles.hoverText}`}>
+      <div className={`hoverText ${styles.hoverText}`}>
         Become a friend with {userInfo.name}
       </div>
     </div>

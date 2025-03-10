@@ -6,41 +6,34 @@
   color: var(--text-color);
 }
 
-.PlansTimeline .header .layer {
+.header .layer {
   display: flex;
   align-items: center;
 }
 
-.PlansTimeline .header .layer#notes {
-  color: var(--notes-color);
-  font-weight: 600;
-  margin-left: 0.2rem;
+.DateSelectorBtn {
   font-size: 1rem;
+  color: var(--gray-3);
 }
 
-.PlansTimeline .DateSelectorBtn {
-  font-size: 1rem;
-  color: var(--gray1);
-}
-
-.PlansTimeline .subjectEl {
+.subjectEl {
   padding: 0rem 0.5rem;
   border-radius: 0.5rem;
   cursor: pointer;
 }
 
-.PlansTimeline .plansContainer {
+.plansContainer {
   margin-top: 1rem;
 }
 
-.PlansTimeline .plansContainer .type {
+.plansContainer .type {
   font-weight: 500;
 }
 
-.PlansTimeline .plansContainer#donePlans .type {
+.plansContainer#donePlans .type {
   color: #1bc100;
 }
 
-.PlansTimeline .plansContainer#todoPlans .type {
+.plansContainer#todoPlans .type {
   color: #d60000;
 }

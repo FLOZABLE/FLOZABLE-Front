@@ -89,6 +89,14 @@ const reviews = [
     `,
     imageSrc: "/img/main/testimonial-6.jpg",
   },
+  {
+    name: "Xinzhou Song",
+    description: "MIT Quantum Researcher",
+    review: `
+      "I would marry FLOZABLE if I could! 😉 I can now lock in and feel rewarded for my weeklong research sessions!"
+    `,
+    imageSrc: "/img/main/testimonial-7.jpg",
+  },
 ];
 
 function Box({ children, title, description }) {
@@ -191,12 +199,10 @@ export default function Home() {
       <div id={styles.about} className={styles.section}>
         <div className={styles.scroll} id="about"></div>
         <div className={styles.layer}>
-          <div className={styles.title}>
-            <h2>About App</h2>
-          </div>
-          <div className={styles.subTitle}>
-            <p>#1 App for Empowering Your Focus and Productivity</p>
-          </div>
+          <h1 className={styles.title}>About App</h1>
+          <h2 className={styles.subTitle}>
+            #1 App for Empowering Your Focus and Productivity
+          </h2>
           <div className={styles.description}>
             <p>
               Flozable is the #1 app that empowers you to regain control of your
@@ -249,12 +255,8 @@ export default function Home() {
       <div className={styles.section} id={styles.features}>
         <div className={styles.scroll} id="feature"></div>
         <div className={styles.layer}>
-          <div className={styles.title}>
-            <h2>App Features</h2>
-          </div>
-          <div className={styles.subTitle}>
-            <p>Awesome Features</p>
-          </div>
+          <h1 className={styles.title}>App Features</h1>
+          <h2 className={styles.subTitle}>Awesome Features</h2>
           <div className={styles.boxes}>
             <Box
               title="Timer and Study Tracker"
@@ -299,7 +301,7 @@ export default function Home() {
       <div className={styles.section} id={styles.review}>
         <div className={styles.scroll} id="review"></div>
         <div className={styles.layer}>
-          <div className={styles.subTitle}>What Our Client Say!</div>
+          <h2 className={styles.subTitle}>What Our Client Say!</h2>
           <Swiper
             slidesPerView={width > SMALL_SCREEN ? 3 : 1}
             loop={true}

@@ -1,13 +1,17 @@
 .Header {
-  height: 4rem;
-  width: calc(100vw - 19rem);
+  height: var(--header-height);
+  width: calc(100vw - var(--sidebar-width) - var(--header-offset) * 2);
   position: absolute;
   top: 1rem;
-  left: 19rem;
+  left: calc(var(--sidebar-width) + var(--header-offset));
   display: flex;
   align-items: center;
   z-index: 4;
   background-color: #ffffff00;
+  position: fixed;
+  box-shadow: var(--shadow-7);
+  border-radius: 0.5rem;
+  background-color: #fff;
 }
 
 .Header .left {
@@ -85,7 +89,6 @@
   color: var(--gray2);
   font-size: 0.8rem;
 }
-
 
 button#tryExtensionBtn {
   font-size: 1.3rem;

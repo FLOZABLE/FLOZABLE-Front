@@ -37,7 +37,7 @@ function RecommendedFriendsViewer({}) {
             }));
           }}
         >
-          +<div className={`HoverText ${styles.hoverText}`}>Add friend!</div>
+          +<div className={`hoverText ${styles.hoverText}`}>Add friend!</div>
         </div>
       </div>
       <div className={`contents customScroll`}>

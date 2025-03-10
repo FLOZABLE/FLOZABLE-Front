@@ -1,4 +1,4 @@
-import { Roboto } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import { Bounce, ToastContainer } from "react-toastify";
 import { AppContainer } from "@/components/structure/Providers";
@@ -7,10 +7,16 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import AccountModal from "@/components/modals/AccountModal/AccountModal";
 
-const roboto = Roboto({
-  variable: "--font-roboto",
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
+  variable: "--font-inter",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata = {
@@ -21,7 +27,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable}`}>
+      <body className={`${inter.variable} ${roboto.variable}`}>
         <AppContainer>
           {/* <PlanModal />
           <ChatModal /> */}

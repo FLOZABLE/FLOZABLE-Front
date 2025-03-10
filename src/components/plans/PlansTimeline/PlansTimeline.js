@@ -124,7 +124,7 @@ export default function PlansTimeline({
 
   return (
     <div
-      className={`Box hiddenScroll ${styles.PlansTimeline} ${
+      className={`hiddenScroll ${styles.PlansTimeline} ${
         mode === "study" ? styles.studyMode : ""
       }`}
       ref={containerRef}
