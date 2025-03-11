@@ -6,8 +6,9 @@
   width: var(--sidebar-width);
   display: flex;
   flex-direction: column;
-  background-color: var(--gray-1);
-  box-shadow: var(--shadow-2);
+  /* background-color: var(--gray-1); */
+  background-color: #fff;
+  box-shadow: var(--shadow-7);
   z-index: 3;
 }
 
@@ -35,7 +36,7 @@
   height: 3.6rem;
   position: absolute;
   transition: 0.15s ease-in-out transform;
-  background-color: var(--gray-2);
+  background-color: var(--orange-1);
   border-radius: 0.5rem;
   transform: translateY(-5rem);
 }
@@ -75,11 +76,11 @@
 } */
 
 .SidebarEl.activeSidebar i {
-  color: var(--gray-3);
+  color: var(--orange-4);
 }
 
 .SidebarEl.activeSidebar h3 {
-  color: var(--gray-3);
+  color: var(--orange-4);
 }
 
 .Sidebar .buttons {

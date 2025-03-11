@@ -164,7 +164,7 @@ function FriendsViewer() {
   );
 
   return (
-    <div className={`Box ${styles.FriendsViewer}`}>
+    <div className={`box ${styles.FriendsViewer}`}>
       <div className={`header`}>
         <h2>Friends</h2>
         <div className="button" onClick={addFriend}>

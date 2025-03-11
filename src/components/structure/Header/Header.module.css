@@ -29,9 +29,10 @@
 
 .HeaderEl {
   display: flex;
-  font-weight: 700;
+  font-weight: 500;
   flex: 1;
   justify-content: center;
+  color: var(--gray-3);
 }
 
 .HeaderEl i {
@@ -40,6 +41,7 @@
   justify-content: center;
   align-items: center;
   margin-right: 1rem;
+  color: var(--orange-3);
 }
 
 .HeaderEl .title {

@@ -7,6 +7,10 @@ import ModalProviders from "./ModalProviders";
 import { NextStep, NextStepProvider } from "nextstepjs";
 import { usePlans, usePlansGoogle } from "@/hooks/plansHooks";
 import { createContext, useEffect, useState } from "react";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
+import { isEqual } from "lodash";
+
 //modals
 
 /* const AccountModalContext = createContext({
@@ -79,9 +83,11 @@ function AppProvider({ children }) {
   return (
     <NextStepProvider>
       <NextStep steps={steps}></NextStep>
-      <ModalProviders>
-        <PlansProvider>{children}</PlansProvider>
-      </ModalProviders>
+      <LocalizationProvider dateAdapter={AdapterLuxon}>
+        <ModalProviders>
+          <PlansProvider>{children}</PlansProvider>
+        </ModalProviders>
+      </LocalizationProvider>
     </NextStepProvider>
   );
 }
@@ -99,6 +105,7 @@ function PlansProvider({ children }) {
     const sortedPlans = [...plansData, ...plansGoogleData].sort(
       (a, b) => a.start - b.start
     );
+    console.log("calculated");
     if (JSON.stringify(sortedPlans) === JSON.stringify(plans)) return;
     setPlans(sortedPlans);
   }, [plansData, plansGoogleData]);

@@ -1,12 +1,31 @@
 import styles from "./DateSelectorBtn.module.css";
 import React, { useState, useEffect } from "react";
 import { DateTime } from "luxon";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { getDatesDisplay } from "@/utils/tools";
+import { DatePicker } from "@mui/x-date-pickers";
+import BlobBtn from "../BlobBtn/BlobBtn";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarDay } from "@fortawesome/free-solid-svg-icons";
+
+function ButtonField({ setIsOpened, label, InputProps }) {
+  return (
+    <BlobBtn
+      onClick={() => setIsOpened?.((prev) => !prev)}
+      ref={InputProps.ref}
+    >
+      <div className={styles.label}>
+        <p>{label}</p>
+        <i>
+          <FontAwesomeIcon icon={faCalendarDay} />
+        </i>
+      </div>
+    </BlobBtn>
+  );
+}
 
 function DateSelectorBtn({ viewDate, setViewDate, viewer }) {
   const [dateDisp, setDateDisp] = useState("");
+  const [isOpened, setIsOpened] = useState(false);
 
   useEffect(() => {
     if (!viewDate || !viewer) return;
@@ -19,7 +38,7 @@ function DateSelectorBtn({ viewDate, setViewDate, viewer }) {
       date2,
       mode: viewer,
       formats: {
-        day: "LLL d",
+        day: "cccc, LLL d",
         week: "LLL d",
         month: "kkkk LLL",
       },
@@ -27,33 +46,18 @@ function DateSelectorBtn({ viewDate, setViewDate, viewer }) {
     setDateDisp(dateDisp);
   }, [viewDate, viewer]);
 
-  function onDecr() {
-    let viewDateTime = DateTime.fromJSDate(viewDate);
-
-    viewDateTime = viewDateTime.minus({ [viewer]: 1 });
-    setViewDate(viewDateTime.toJSDate());
-  }
-
-  function onIncr() {
-    let viewDateTime = DateTime.fromJSDate(viewDate);
-
-    viewDateTime = viewDateTime.plus({ [viewer]: 1 });
-    setViewDate(viewDateTime.toJSDate());
-  }
-
   return (
     <div className={styles.DateSelectorBtn}>
-      {setViewDate ? (
-        <div className={styles.button} onClick={onDecr}>
-          <FontAwesomeIcon icon={faArrowLeft} />
-        </div>
-      ) : null}
-      <p>{dateDisp}</p>
-      {setViewDate ? (
-        <div className={styles.button} onClick={onIncr}>
-          <FontAwesomeIcon icon={faArrowRight} />
-        </div>
-      ) : null}
+      <DatePicker
+        slots={{ field: ButtonField }}
+        slotProps={{ field: { setIsOpened } }}
+        open={isOpened}
+        onClose={() => setIsOpened(false)}
+        onOpen={() => setIsOpened(true)}
+        label={dateDisp}
+        value={DateTime.fromJSDate(viewDate)}
+        onChange={(viewDate) => setViewDate(viewDate.toJSDate())}
+      />
     </div>
   );
 }

@@ -9,7 +9,6 @@ import { useSubjects } from "@/hooks/subjectsHooks";
 import { AddSubjectsModalContext } from "@/components/structure/ModalProviders";
 import ViewerSelectorBtn from "@/components/buttons/ViewerSelectorBtn/ViewerSelectorBtn";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
-import DateSelectorBtn from "@/components/Buttons/DateSelectorBtn/DateSelectorBtn";
 import PieCustomTooltip from "../PieCustomTooltip";
 import { updateTimeUsagePie } from "@/utils/statTools";
 
@@ -39,16 +38,9 @@ function SubjectsPie({ viewDate, setViewDate, viewer, setViewer }) {
   }, [subjects, viewDate, viewer]);
 
   return (
-    <div className={`Box ${styles.SubjectsPie}`}>
+    <div className={`box ${styles.SubjectsPie}`}>
       <div className={`header`} data-tutorial={17}>
         <h2>Subjects</h2>
-        <div id={styles.dateSelectorBtn}>
-          <DateSelectorBtn
-            viewDate={viewDate}
-            setViewDate={setViewDate}
-            viewer={viewer}
-          />
-        </div>
         <div
           id={styles.addSubjectBtn}
           className="button"

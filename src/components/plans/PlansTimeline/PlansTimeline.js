@@ -17,13 +17,12 @@ import { useSubjects } from "@/hooks/subjectsHooks";
 import { PlanModalContext } from "@/components/structure/ModalProviders";
 import { useNextStep } from "nextstepjs";
 import { PlansContext } from "@/components/structure/Providers";
-import DateSelectorBtn from "@/components/Buttons/DateSelectorBtn/DateSelectorBtn";
+import { DEFAULT_PLAN } from "@/utils/constants";
 
 export default function PlansTimeline({
   viewer,
   viewDate,
   mode,
-  setViewDate,
   maxHeight = "50rem",
 }) {
   const { subjects } = useSubjects();
@@ -124,7 +123,7 @@ export default function PlansTimeline({
 
   return (
     <div
-      className={`hiddenScroll ${styles.PlansTimeline} ${
+      className={`box hiddenScroll ${styles.PlansTimeline} ${
         mode === "study" ? styles.studyMode : ""
       }`}
       ref={containerRef}
@@ -132,14 +131,6 @@ export default function PlansTimeline({
     >
       <div className="header">
         <h2>Tasks</h2>
-        <div className={styles.DateSelectorBtn}>
-          <DateSelectorBtn
-            viewDate={viewDate}
-            setViewDate={setViewDate}
-            viewer={viewer}
-            style={{ color: "var(--gray2)" }}
-          />
-        </div>
         <div className={styles.buttons}>
           <div
             id={styles.addPlan}

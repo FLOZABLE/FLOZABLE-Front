@@ -27,8 +27,10 @@ export default function Analysis({ viewDate, viewer }) {
   }, [viewDate, viewer, subjects]);
 
   return (
-    <div className={`Box ${styles.Analysis}`}>
-      <p className={styles.summary}>{summary}</p>
+    <div className={`box ${styles.Analysis}`}>
+      <div className="header">
+        <h2 className={styles.summary}>{summary}</h2>
+      </div>
       <div className={styles.barChart}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart

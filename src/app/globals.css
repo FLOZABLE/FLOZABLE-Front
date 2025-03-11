@@ -33,11 +33,12 @@
   --header-height: 4rem;
   --header-offset: 1rem;
   --subject-labels-color: var(--gray-3);
-  --filtered-subject-labels-color:: var(--gray-1);
-  --orange-1: #fadcb6;
+  --filtered-subject-labels-color: var(--gray-1);
+  --orange-1: #f5efe7;
   --orange-2: #f7d2a4;
   --orange-3: #f5b76b;
-  --orange-4: #FF9D23;
+  --orange-4: #ff9d23;
+  --white-1: #fafafa;
 }
 
 html {
@@ -57,6 +58,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--orange-1);
 }
 
 * {
@@ -66,7 +68,12 @@ body {
   font-family: var(--font-roboto);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-inter);
 }
 
@@ -114,22 +121,28 @@ input {
   bottom: 0rem;
 }
 
-.main {
+.page {
   position: relative;
   margin-top: calc(var(--header-height) + var(--header-offset) * 2);
   margin-left: calc(var(--sidebar-width));
-  padding: 1rem;
+  padding: 1rem 2rem;
   width: calc(100vw - var(--sidebar-width));
 }
 
-.boxContainer {
-  border-radius: 0.5rem;
-  border: 0.1rem solid var(--gray-1);
-  padding: 1rem;
-  margin: 2rem
+.main {
+  background-color: var(--white-1);
+  padding: 2rem;
+  border-radius: 2rem;
 }
 
-.boxContainer .header {
+.box {
+  border-radius: 0.7rem;
+  /* border: 0.1rem solid var(--gray-1); */
+  padding: 1rem;
+  background-color: #fff;
+}
+
+.box .header {
   display: flex;
   justify-content: space-between;
   align-items: center;

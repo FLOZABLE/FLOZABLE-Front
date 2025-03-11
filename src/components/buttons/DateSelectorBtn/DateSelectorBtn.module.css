@@ -1,21 +1,13 @@
-.DateSelectorBtn {
+.label {
   display: flex;
+  gap: 1rem;
   align-items: center;
-  color: var(--gray2);
-  margin: 0rem 0.2rem;
 }
 
-.DateSelectorBtn p {
-  font-size: 1.6em;
-  font-weight: 700;
-  margin: 0em 0.5em;
-  cursor: pointer;
-  white-space: nowrap;
-  color: var(--date-selector-color);
+.label p {
+  font-size: 1.2rem;
 }
 
-.DateSelectorBtn .button {
-  font-size: 2em;
-  cursor: pointer;
-  padding: 0.4rem;
+.label i {
+  font-size: 1.3rem;
 }
