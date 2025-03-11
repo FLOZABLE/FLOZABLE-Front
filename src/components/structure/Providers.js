@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ModalProviders from "./ModalProviders";
 import { NextStep, NextStepProvider } from "nextstepjs";
 import { usePlans, usePlansGoogle } from "@/hooks/plansHooks";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useRef, useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { isEqual } from "lodash";
@@ -27,6 +27,7 @@ const WelcomeModalContext = createContext({});
 const PlanModalContext = createContext({});
  */
 
+export const WorkersContext = createContext({});
 export const PlansContext = createContext({});
 
 const queryClient = new QueryClient({
@@ -81,14 +82,51 @@ const steps = [
 
 function AppProvider({ children }) {
   return (
-    <NextStepProvider>
-      <NextStep steps={steps}></NextStep>
-      <LocalizationProvider dateAdapter={AdapterLuxon}>
-        <ModalProviders>
-          <PlansProvider>{children}</PlansProvider>
-        </ModalProviders>
-      </LocalizationProvider>
-    </NextStepProvider>
+    <WorkersProvider>
+      <NextStepProvider>
+        <NextStep steps={steps}></NextStep>
+        <LocalizationProvider dateAdapter={AdapterLuxon}>
+          <ModalProviders>
+            <PlansProvider>{children}</PlansProvider>
+          </ModalProviders>
+        </LocalizationProvider>
+      </NextStepProvider>
+    </WorkersProvider>
+  );
+}
+
+function WorkersProvider({ children }) {
+  const membersTimerWorkerRef = useRef(null);
+  const subjectsTimerWorkerRef = useRef(null);
+
+  useEffect(() => {
+    membersTimerWorkerRef.current = new Worker(
+      new URL("@/utils/workers/timerWorker.js", import.meta.url)
+    );
+    subjectsTimerWorkerRef.current = new Worker(
+      new URL("@/utils/workers/subjectTimerWorker.js", import.meta.url)
+    );
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/service-worker.js")
+        .then((registration) => {
+          console.log("scope is: ", registration.scope);
+        });
+    }
+
+    return () => {
+      membersTimerWorkerRef.current?.terminate();
+      subjectsTimerWorkerRef.current?.terminate();
+    };
+  }, []);
+
+  return (
+    <WorkersContext.Provider
+      value={{ membersTimerWorkerRef, subjectsTimerWorkerRef }}
+    >
+      {children}
+    </WorkersContext.Provider>
   );
 }
 
@@ -101,14 +139,18 @@ function PlansProvider({ children }) {
   const { plansData } = usePlans();
   const { plansGoogleData } = usePlansGoogle(plansDate);
 
-  useEffect(() => {
-    const sortedPlans = [...plansData, ...plansGoogleData].sort(
-      (a, b) => a.start - b.start
-    );
-    console.log("calculated");
-    if (JSON.stringify(sortedPlans) === JSON.stringify(plans)) return;
-    setPlans(sortedPlans);
+  // Memoize the sorted plans so it only recomputes when data changes
+  const sortedPlans = useMemo(() => {
+    return [...plansData, ...plansGoogleData].sort((a, b) => a.start - b.start);
   }, [plansData, plansGoogleData]);
+
+  useEffect(() => {
+    setPlans((prevPlans) => {
+      // Merge existing plans with new sorted plans while keeping references if unchanged
+      if (isEqual(prevPlans, sortedPlans)) return prevPlans;
+      return sortedPlans;
+    });
+  }, [sortedPlans]);
 
   return (
     <PlansContext.Provider value={{ plans, setPlans, plansDate, setPlansDate }}>

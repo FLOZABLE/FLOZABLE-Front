@@ -1,11 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./MemberTimer.module.css";
-import { WorkersContext } from "@//utils/Contexts";
-import { toTimer } from "@/utils/tools";
-import { DateTime } from "luxon";
 
-function MemberTimer({ initialSec = 0, run }) {
-  const { membersTimerWorkerRef } = useContext(WorkersContext);
+export default function MemberTimer({ initialSec = 0, run }) {
 
   const [timer, setTimer] = useState({
     value: 0,
@@ -42,5 +38,3 @@ function MemberTimer({ initialSec = 0, run }) {
     </div>
   );
 }
-
-export default MemberTimer;

@@ -68,6 +68,12 @@ body {
   font-family: var(--font-roboto);
 }
 
+i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 h1,
 h2,
 h3,
@@ -84,6 +90,12 @@ a {
 
 input {
   outline: none;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  border-radius: 0.625rem;
 }
 
 .modal {
@@ -146,6 +158,12 @@ input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.box .header .button {
+  font-size: 2rem;
+  cursor: pointer;
+  position: relative;
 }
 
 /* @media (prefers-color-scheme: dark) {

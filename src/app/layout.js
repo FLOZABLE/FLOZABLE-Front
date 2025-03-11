@@ -6,6 +6,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import AccountModal from "@/components/modals/AccountModal/AccountModal";
+import PlanModal from "@/components/modals/PlanModal/PlanModal";
+import AddSubjectModal from "@/components/modals/AddSubjectModal/AddSubjectModal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,6 +34,8 @@ export default function RootLayout({ children }) {
           {/* <PlanModal />
           <ChatModal /> */}
           <AccountModal />
+          <PlanModal />
+          <AddSubjectModal />
           {/* <JoinGroupModal />
           <AddSubjectModal />
           <SubjectsModal />

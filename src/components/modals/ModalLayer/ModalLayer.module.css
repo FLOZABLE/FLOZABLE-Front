@@ -1,0 +1,35 @@
+.ModalLayer {
+  display: flex;
+  flex-direction: row;
+  margin: 0.625rem 1rem;
+  align-items: center;
+}
+
+.iconWrapper {
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.688rem;
+  position: relative;
+  color: var(--gray2);
+  margin-right: 1rem;
+}
+
+.iconWrapper:hover .hoverText {
+  opacity: 1;
+  bottom: -1.5rem;
+}
+
+.iconWrapper .hoverText {
+  bottom: -2rem;
+  left: 0rem;
+}
+
+.contentWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

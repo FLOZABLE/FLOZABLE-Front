@@ -1,6 +1,7 @@
 import styles from "./UserSubjectViewer.module.css";
 import React, { useEffect, useState } from "react";
 import { DateTime } from "luxon";
+import MemberTimer from "@/components/groups/MemberTimer/MemberTimer";
 
 function UserSubjectViewer({ userInfo }) {
   const [subjectName, setSubjectName] = useState("Offline");
@@ -30,7 +31,7 @@ function UserSubjectViewer({ userInfo }) {
   return (
     <div className={styles.UserSubjectViewer}>
       <p>{subjectName}</p>
-      {run ? <MemberTime initialSec={total} run={run} /> : null}
+      {run ? <MemberTimer initialSec={total} run={run} /> : null}
     </div>
   );
 }
