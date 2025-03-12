@@ -1,8 +1,7 @@
 .RefreshBtn {
   position: relative;
-  display: flex;
-  align-items: center;
   cursor: pointer;
+  font-size: 1.5rem;
 }
 
 @keyframes rotate {
@@ -22,5 +21,5 @@
 }
 
 .RefreshBtn.refresh {
-  animation: rotate 1s forwards;
+  animation: rotate 0.5s forwards;
 }
