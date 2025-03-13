@@ -17,8 +17,7 @@
 
 .DropDownButton.clicked,
 .DropDownButton:hover {
-  background-color: var(--dark-gray);
-  color: var(--hoverTextColor);
+  background-color: var(--orange-1);
 }
 
 .DropDownButton i {
@@ -39,7 +38,7 @@
   position: absolute;
   visibility: hidden;
   opacity: 0;
-  background-color: var(--dark-gray);
+  background-color: var(--orange-1);
   left: 0px;
   width: 100%;
   top: 0em;

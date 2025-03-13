@@ -6,4 +6,4 @@ const mediaSocket = io(config.media_socket, {
   withCredentials: true,
 });
 
-export { mediaSocket };
+export default mediaSocket;

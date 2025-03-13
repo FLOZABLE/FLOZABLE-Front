@@ -10,7 +10,7 @@ export default function ShareUserBox({ userInfo, onClick, text }) {
       onClick={onClick}
     >
       <ProfileImage userId={userInfo.user_id} />
-      <div className={`HoverText ${styles.hoverText}`}>{text}</div>
+      <div className={`hoverText ${styles.hoverText}`}>{text}</div>
     </div>
   );
 }

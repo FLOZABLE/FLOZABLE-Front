@@ -11,14 +11,17 @@
 }
 
 .contents .left {
-  flex: 1;
 }
 
 .center {
-  max-width: 25rem;
+  width: 40rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.right {
+  width: 30rem;
 }
 
 /* @media (max-width: 1800px) {

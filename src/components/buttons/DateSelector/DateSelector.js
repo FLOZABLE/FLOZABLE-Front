@@ -35,12 +35,12 @@ const StyleWrapper = styled.div`
     position: relative;
   }
 
-  .selectorWrapper .inputWrapper:hover .HoverText {
+  .selectorWrapper .inputWrapper:hover .hoverText {
     opacity: 1;
     bottom: -1rem;
   }
 
-  .selectorWrapper .HoverText {
+  .selectorWrapper .hoverText {
     bottom: -2rem;
     left: 50%;
     transform: translateX(-50%);
@@ -142,7 +142,7 @@ export default function DateSelector({
                 format="MMM, dd"
                 onChange={handleDateChange}
               />
-              <div className="HoverText">Start Date</div>
+              <div className="hoverText">Start Date</div>
             </div>
             <div className="startWrapper inputWrapper">
               <TimePicker
@@ -151,7 +151,7 @@ export default function DateSelector({
                 value={DateTime.fromMillis(start.getTime())}
                 onChange={handleStartTimeChange}
               />
-              <div className="HoverText">Start Time</div>
+              <div className="hoverText">Start Time</div>
             </div>
             <div className="stopWrapper inputWrapper">
               <TimePicker
@@ -160,7 +160,7 @@ export default function DateSelector({
                 value={DateTime.fromMillis(end.getTime())}
                 onChange={handleEndTimeChange}
               />
-              <div className="HoverText">End Time</div>
+              <div className="hoverText">End Time</div>
             </div>
           </div>
         </StyledEngineProvider>

@@ -10,6 +10,8 @@ import { createContext, useEffect, useMemo, useRef, useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { isEqual } from "lodash";
+import socket from "@/utils/sockets/socket";
+import { useFriendsStatus } from "@/hooks/friendsHooks";
 
 //modals
 
@@ -81,6 +83,91 @@ const steps = [
 ];
 
 function AppProvider({ children }) {
+  const { updateFriendsStatus } = useFriendsStatus();
+
+  useEffect(() => {
+    const onStudying = ({ userId, subject }) => {
+      updateFriendsStatus((prev) => {
+        const friendIndex = prev.findIndex(
+          (friend) => friend.user_id === userId
+        );
+        if (friendIndex === -1) return prev;
+
+        const newFriends = [...prev];
+        newFriends[friendIndex] = {
+          ...newFriends[friendIndex],
+          activeSubject: subject,
+        };
+
+        return newFriends;
+      });
+    };
+
+    const onStopStudying = ({ userId, subject, duration }) => {
+      updateFriendsStatus((prev) => {
+        const friendIndex = prev.findIndex(
+          (friend) => friend.user_id === userId
+        );
+        if (friendIndex === -1) return prev;
+
+        const newFriends = [...prev];
+        const study_time = newFriends[friendIndex].study_time + duration;
+        newFriends[friendIndex] = {
+          ...newFriends[friendIndex],
+          activeSubject: subject,
+          study_time,
+        };
+
+        return newFriends;
+      });
+    };
+
+    const onDeActiveGroup = ({ userId }) => {
+      updateFriendsStatus((prev) => {
+        const friendIndex = prev.findIndex(
+          (friend) => friend.user_id === userId
+        );
+        if (friendIndex === -1) return prev;
+
+        const newFriends = [...prev];
+        newFriends[friendIndex] = {
+          ...newFriends[friendIndex],
+          activeGroup: null,
+        };
+
+        return newFriends;
+      });
+    };
+
+    const onActiveGroup = ({ userId, group }) => {
+      updateFriendsStatus((prev) => {
+        const friendIndex = prev.findIndex(
+          (friend) => friend.user_id === userId
+        );
+        if (friendIndex === -1) return prev;
+
+        const newFriends = [...prev];
+        newFriends[friendIndex] = {
+          ...newFriends[friendIndex],
+          activeGroup: group,
+        };
+
+        return newFriends;
+      });
+    };
+
+    socket.on("studying", onStudying);
+    socket.on("stopStudying", onStopStudying);
+    socket.on(`deActiveGroup`, onDeActiveGroup);
+    socket.on(`activeGroup`, onActiveGroup);
+    return () => {
+      socket.off("studying", onStudying);
+      socket.off("stopStudying", onStopStudying);
+      socket.off(`deActiveGroup`, onDeActiveGroup);
+      socket.off(`activeGroup`, onActiveGroup);
+    };
+  }, []);
+  
   return (
     <WorkersProvider>
       <NextStepProvider>

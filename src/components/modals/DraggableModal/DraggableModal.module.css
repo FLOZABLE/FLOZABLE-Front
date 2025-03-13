@@ -1,5 +1,5 @@
 .DraggableModal .header {
-  background-color: rgba(111, 111, 111, 0.267);
+  background-color: var(--orange-2);
   height: 2.1rem;
   border-top-right-radius: 1.25rem;
   border-top-left-radius: 1.25rem;

@@ -7,7 +7,7 @@ export default function ModalLayer({ children, icon, hoverText, tutorial }) {
         <div className={styles.iconWrapper}>
           {icon}
           {hoverText ? (
-            <div className={`HoverText ${styles.hoverText}`}>{hoverText}</div>
+            <div className={`hoverText ${styles.hoverText}`}>{hoverText}</div>
           ) : null}
         </div>
       ) : null}

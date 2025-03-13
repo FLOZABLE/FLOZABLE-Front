@@ -25,12 +25,12 @@
   position: relative;
 }
 
-.selectorWrapper .inputWrapper:hover .HoverText {
+.selectorWrapper .inputWrapper:hover .hoverText {
   opacity: 1;
   bottom: -1rem;
 }
 
-.selectorWrapper .HoverText {
+.selectorWrapper .hoverText {
   bottom: -2rem;
   left: 50%;
   transform: translateX(-50%);
