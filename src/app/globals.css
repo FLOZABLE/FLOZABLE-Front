@@ -158,7 +158,7 @@ input[type="search"]::-webkit-search-results-decoration {
 .box {
   border-radius: 0.7rem;
   /* border: 0.1rem solid var(--gray-1); */
-  padding: 1rem;
+  padding: 2rem;
   background-color: #fff;
 }
 

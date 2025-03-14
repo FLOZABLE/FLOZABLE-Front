@@ -1,8 +1,10 @@
 .SubjectsPie {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.SubjectsPie .options {
+.options {
   justify-content: center;
 }
 
@@ -14,13 +16,13 @@
   font-size: 1rem;
 }
 
-.SubjectsPie .options {
+.options {
   font-size: 0.8rem;
   display: flex;
   align-items: center;
 }
 
-.SubjectsPie .chartContainer {
+.chartContainer {
   width: 100%;
   aspect-ratio: 1 / 1;
   position: relative;
@@ -29,7 +31,7 @@
   align-self: center;
 }
 
-.SubjectsPie .chartContainer#noChart {
+.chartContainer#noChart {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,7 +40,7 @@
   align-self: center;
 }
 
-.SubjectsPie .totalTime {
+.totalTime {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -47,15 +49,15 @@
   font-size: 1.2rem;
 }
 
-.SubjectsPie .totalTime .time {
+.totalTime .time {
   font-size: 1.5rem;
 }
 
-.SubjectsPie .totalTime .text {
-  color: var(--gray1);
+.totalTime .text {
+  color: var(--gray-3);
 }
 
-.SubjectsPie .labels {
+.labels {
   display: grid;
   grid-template-columns: repeat(auto-fill, 40%);
   justify-content: center;
@@ -63,14 +65,14 @@
   overflow-y: auto;
 }
 
-.SubjectsPie .labels .label {
+.labels .label {
   position: relative;
   display: flex;
   flex-direction: column;
   margin-left: 2rem;
 }
 
-.SubjectsPie .labels .label .icon {
+.labels .label .icon {
   left: -1.25rem;
   top: 0.25rem;
   position: absolute;
@@ -79,11 +81,11 @@
   border-radius: 0.5rem;
 }
 
-.SubjectsPie .labels .label .name {
+.labels .label .name {
   font-size: 0.9rem;
-  color: var(--gray1);
+  color: var(--gray-3);
 }
 
-.SubjectsPie .labels .label .time {
+.labels .label .time {
   font-size: 1.1rem;
 }

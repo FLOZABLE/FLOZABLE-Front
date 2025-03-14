@@ -1,0 +1,81 @@
+.WebsiteUsageChart {
+  height: 100%;
+  width: 100%;
+}
+
+.WebsiteUsageChart svg > * {
+  pointer-events: all;
+}
+
+.chartsContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.chartWrapper {
+  aspect-ratio: 1;
+  width: 40%;
+  position: relative;
+}
+
+.totalTime {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 0;
+}
+
+.totalTime .time {
+  font-size: 1.8rem;
+}
+
+.totalTime .text {
+  color: var(--gray1);
+}
+
+.noChart {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 2.5rem;
+  height: 100%;
+  text-decoration: underline;
+}
+
+.labels {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 14rem);
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.labels .label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s ease-in-out opacity;
+}
+
+.label.filtered {
+  opacity: 0.3;
+}
+
+.label .color {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 1rem;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.label .name {
+  overflow-x: hidden;
+  margin-right: 0.5rem;
+}
+
+.chromeExtensionLink {
+  font-size: 2rem;
+}

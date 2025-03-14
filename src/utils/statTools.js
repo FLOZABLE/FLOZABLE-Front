@@ -56,8 +56,12 @@ function updateSubjectsTrendChart(subjects, viewDate, type) {
     const day = {
       label,
     };
+    //initial filler as 0
+    subjects.map((subject) => {
+      day[subject.subject_id] = 0;
+    });
     subjectData.map((subject) => {
-      day[subject.subject_id] = subject.value;
+      day[subject.subject_id] += subject.value;
     });
     data.push(day);
   });

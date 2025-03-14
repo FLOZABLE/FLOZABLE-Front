@@ -12,7 +12,7 @@ import CircularLoading from "@/components/loadings/CircularLoading/CircularLoadi
 import PieCustomTooltip from "../PieCustomTooltip";
 import { updateTimeUsagePie } from "@/utils/statTools";
 
-function SubjectsPie({ viewDate, setViewDate, viewer, setViewer }) {
+function SubjectsPie({ viewDate, viewer, setViewer }) {
   const { subjects, subjectsIsLoading } = useSubjects();
   const { setIsAddSubjectModal } = useContext(AddSubjectsModalContext);
 

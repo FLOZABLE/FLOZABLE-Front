@@ -16,12 +16,9 @@ import UserSubjectViewer from "@/components/users/UserSubjectViewer/UserSubjectV
 import UserGroupViewer from "@/components/users/UserGroupViewer/UserGroupViewer";
 import ChatBtn from "@/components/buttons/ChatBtn/ChatBtn";
 import { useNotifications } from "@/hooks/notificationsHooks";
-import { WorkersContext } from "@/components/structure/Providers";
-import { DateTime } from "luxon";
 
 function FriendsViewer() {
   const { setSearchUsersModal } = useContext(SearchUsersModalContext);
-  const { membersTimerWorkerRef } = useContext(WorkersContext);
 
   const router = useRouter();
 
@@ -29,7 +26,6 @@ function FriendsViewer() {
     friendsStatus,
     friendsStatusIsLoading,
     friendsStatusError,
-    updateFriendsStatus,
     friendsStatusRefetch,
   } = useFriendsStatus();
 
@@ -49,6 +45,19 @@ function FriendsViewer() {
       opened: !prev.opened,
     }));
   }, []);
+
+  useEffect(() => {
+    if (!notifications) return;
+    const friendRequests = [];
+
+    notifications.map((notification) => {
+      if (notification.type === "friend_request") {
+        friendRequests.push(notification);
+      }
+    });
+
+    setFriendRequests(friendRequests);
+  }, [notifications]);
 
   const friendRequestReply = useCallback(async (notificationId, accepted) => {
     const response = await postFriendsRequestReply({

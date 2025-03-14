@@ -1,0 +1,28 @@
+.top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.layer {
+  height: 40vh;
+  min-height: 30rem;
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 2rem;
+  overflow: hidden;
+}
+
+.layer#heatmap {
+  height: unset;
+  min-height: unset;
+}
+
+.layer#timeline {
+  height: 50vh;
+}
+
+.subjectsPie {
+  width: 50rem;
+}

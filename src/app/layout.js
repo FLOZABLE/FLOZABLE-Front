@@ -2,14 +2,18 @@ import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import { Bounce, ToastContainer } from "react-toastify";
 import { AppContainer } from "@/components/structure/Providers";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import AccountModal from "@/components/modals/AccountModal/AccountModal";
 import PlanModal from "@/components/modals/PlanModal/PlanModal";
 import AddSubjectModal from "@/components/modals/AddSubjectModal/AddSubjectModal";
 import SearchUsersModal from "@/components/modals/SearchUsersModal/SearchUsersModal";
 import { Suspense } from "react";
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "react-calendar-heatmap/dist/styles.css";
+import "react-tooltip/dist/react-tooltip.css";
+import "react-vertical-timeline-component/style.min.css";
 
 const inter = Inter({
   subsets: ["latin"],
