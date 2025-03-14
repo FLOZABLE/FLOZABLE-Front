@@ -11,14 +11,17 @@ import { postFriendsRequestReply } from "@/apis/friendsApi";
 import { ReceivedFriendRequestContainer } from "../FriendRequestsViewer/FriendRequestsViewer";
 import { SearchUsersModalContext } from "@/components/structure/ModalProviders";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
-import UserContainer from "@/components/Users/UserContainer/UserContainer";
+import UserContainer from "@/components/users/UserContainer/UserContainer";
 import UserSubjectViewer from "@/components/users/UserSubjectViewer/UserSubjectViewer";
 import UserGroupViewer from "@/components/users/UserGroupViewer/UserGroupViewer";
 import ChatBtn from "@/components/buttons/ChatBtn/ChatBtn";
 import { useNotifications } from "@/hooks/notificationsHooks";
+import { WorkersContext } from "@/components/structure/Providers";
+import { DateTime } from "luxon";
 
 function FriendsViewer() {
   const { setSearchUsersModal } = useContext(SearchUsersModalContext);
+  const { membersTimerWorkerRef } = useContext(WorkersContext);
 
   const router = useRouter();
 
@@ -33,20 +36,19 @@ function FriendsViewer() {
   const { friendsTrendRefetch } = useFriendsTrends();
   const { notifications, filterNotification } = useNotifications();
 
+  const [onlineFriends, setOnlineFriends] = useState([]);
+  const [offlineFriends, setOfflineFriends] = useState([]);
+
   const [friendRequests, setFriendRequests] = useState([]);
 
-  /* useEffect(() => {
-    if (!notifications) return;
-    const friendRequests = [];
-
-    notifications.map((notification) => {
-      if (notification.type === "friend_request") {
-        friendRequests.push(notification);
-      }
-    });
-
-    setFriendRequests(friendRequests);
-  }, [notifications]);
+  const addFriend = useCallback(() => {
+    setSearchUsersModal((prev) => ({
+      onClick: (userInfo) => {
+        router.push(`/dashboard/user/${userInfo.user_id}`);
+      },
+      opened: !prev.opened,
+    }));
+  }, []);
 
   const friendRequestReply = useCallback(async (notificationId, accepted) => {
     const response = await postFriendsRequestReply({
@@ -63,105 +65,19 @@ function FriendsViewer() {
   }, []);
 
   useEffect(() => {
-    const onStudying = ({ userId, subject }) => {
-      updateFriendsStatus((prev) => {
-        const friendIndex = prev.findIndex(
-          (friend) => friend.user_id === userId
-        );
-        if (friendIndex === -1) return prev;
-
-        const newFriends = [...prev];
-        newFriends[friendIndex] = {
-          ...newFriends[friendIndex],
-          activeSubject: subject,
-        };
-
-        return newFriends;
-      });
-    };
-
-    const onStopStudying = ({ userId, subject, duration }) => {
-      updateFriendsStatus((prev) => {
-        const friendIndex = prev.findIndex(
-          (friend) => friend.user_id === userId
-        );
-        if (friendIndex === -1) return prev;
-
-        const newFriends = [...prev];
-        const study_time = newFriends[friendIndex].study_time + duration;
-        newFriends[friendIndex] = {
-          ...newFriends[friendIndex],
-          activeSubject: subject,
-          study_time,
-        };
-
-        return newFriends;
-      });
-    };
-
-    const onDeActiveGroup = ({ userId }) => {
-      updateFriendsStatus((prev) => {
-        const friendIndex = prev.findIndex(
-          (friend) => friend.user_id === userId
-        );
-        if (friendIndex === -1) return prev;
-
-        const newFriends = [...prev];
-        newFriends[friendIndex] = {
-          ...newFriends[friendIndex],
-          activeGroup: null,
-        };
-
-        return newFriends;
-      });
-    };
-
-    const onActiveGroup = ({ userId, group }) => {
-      updateFriendsStatus((prev) => {
-        const friendIndex = prev.findIndex(
-          (friend) => friend.user_id === userId
-        );
-        if (friendIndex === -1) return prev;
-
-        const newFriends = [...prev];
-        newFriends[friendIndex] = {
-          ...newFriends[friendIndex],
-          activeGroup: group,
-        };
-
-        return newFriends;
-      });
-    };
-
-    socket.on("studying", onStudying);
-    socket.on("stopStudying", onStopStudying);
-    socket.on(`deActiveGroup`, onDeActiveGroup);
-    socket.on(`activeGroup`, onActiveGroup);
-    return () => {
-      socket.off("studying", onStudying);
-      socket.off("stopStudying", onStopStudying);
-      socket.off(`deActiveGroup`, onDeActiveGroup);
-      socket.off(`activeGroup`, onActiveGroup);
-    };
-  }, []); */
-
-  const addFriend = useCallback(() => {
-    setSearchUsersModal((prev) => ({
-      onClick: (userInfo) => {
-        router.push(`/dashboard/user/${userInfo.user_id}`);
-      },
-      opened: !prev.opened,
-    }));
-  }, []);
+    const onlineFriends = friendsStatus.filter(
+      (friend) => friend.activeSubject
+    );
+    const offlineFriends = friendsStatus.filter(
+      (friend) => !friend.activeSubject
+    );
+    setOnlineFriends(onlineFriends);
+    setOfflineFriends(offlineFriends);
+  }, [friendsStatus]);
 
   if (friendsStatusError) {
     return <RecommendedFriendsViewer />;
   }
-
-  const onlineFriends = friendsStatus.filter((friend) => friend.activeSubject);
-  const offlineFriends = friendsStatus.filter(
-    (friend) => !friend.activeSubject
-  );
 
   return (
     <div className={`box ${styles.FriendsViewer}`}>

@@ -78,7 +78,7 @@ function FriendRequestBtn({ userInfo, padding }) {
       />
     );
   }
-
+  
   return (
     <div className={styles.FriendRequestBtn}>
       <div className={styles.blobWrapper}>

@@ -1,37 +1,36 @@
 import styles from "./UserSubjectViewer.module.css";
 import React, { useEffect, useState } from "react";
-import { DateTime } from "luxon";
 import MemberTimer from "@/components/groups/MemberTimer/MemberTimer";
 
 function UserSubjectViewer({ userInfo }) {
-  const [subjectName, setSubjectName] = useState("Offline");
-  const [run, setRun] = useState(false);
-  const [total, setTotal] = useState(0);
+  const [activeSubject, setActiveSubject] = useState({
+    start: null,
+    name: "",
+    total: 0,
+  });
 
-  /* useEffect(() => {
-    const { activeSubject } = userInfo;
-    if (!activeSubject) {
-      setSubjectName("Offline");
-    } else if (activeSubject.subject_id === "0") {
-      setSubjectName(`Taking break`);
-    } else {
-      setSubjectName(`Studying ${activeSubject.name}`);
+  useEffect(() => {
+    const activeSubject = {
+      name: "Offline",
+      start: userInfo?.activeSubject?.time,
+    };
+    if (!userInfo?.activeSubject) {
+      setActiveSubject(activeSubject);
+      return;
     }
-    if (activeSubject) {
-      const now = DateTime.now().toSeconds();
-      const liveTotal = 0 + now - activeSubject.time;
-      setTotal(liveTotal);
-      setRun(now);
-    } else {
-      setTotal(0);
-      setRun(false);
+
+    if (userInfo.activeSubject.subject_id !== "0") {
+      activeSubject.name = `Studying ${userInfo.activeSubject.name}`;
+    } else if (userInfo.activeSubject.subject_id === "0") {
+      activeSubject.name = "Taking break";
     }
-  }, [userInfo]); */
+    setActiveSubject(activeSubject);
+  }, [userInfo?.activeSubject]);
 
   return (
     <div className={styles.UserSubjectViewer}>
-      <p>{subjectName}</p>
-      {run ? <MemberTimer initialSec={total} run={run} /> : null}
+      <p>{activeSubject.name}</p>
+      {activeSubject.start ? <MemberTimer start={activeSubject.start} /> : null}
     </div>
   );
 }

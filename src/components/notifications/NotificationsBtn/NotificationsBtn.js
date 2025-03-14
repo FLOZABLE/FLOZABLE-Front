@@ -2,12 +2,12 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import styles from "./NotificationsBtn.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell, faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
-import UserContainer from "../../Users/UserContainer/UserContainer";
+import UserContainer from "../../users/UserContainer/UserContainer";
 import { useRouter } from "next/navigation";
 import { postFriendsRequestReply } from "@/apis/friendsApi";
 import { postChatRequestReply } from "@/apis/chatApi";
 import { postPlanShareRespond } from "@/apis/plansApi";
-import { useFriendsStatus, useFriendsTrends } from "@/Hooks/friendsHooks";
+import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendsHooks";
 
 function NotificationContainer({ children, userInfo, title }) {
   const router = useRouter();

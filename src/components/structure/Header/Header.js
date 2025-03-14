@@ -27,7 +27,7 @@ import { useAccount } from "@/hooks/accountHooks";
 import { useSubjects } from "@/hooks/subjectsHooks";
 import NotificationsContainer from "@/components/notifications/NotificationsContainer/NotificationsContainer";
 import { AccountModalContext } from "../ModalProviders";
-import ProfileImage from "@/components/Users/ProfileImage/ProfileImage";
+import ProfileImage from "@/components/users/ProfileImage/ProfileImage";
 import ChatModalBtn from "@/components/buttons/ChatModalBtn/ChatModalBtn";
 
 function HeaderEl({ children, value, title }) {

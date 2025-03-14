@@ -1,36 +1,42 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./MemberTimer.module.css";
+import { toTimer } from "@/utils/tools";
+import { WorkersContext } from "@/components/structure/Providers";
 
-export default function MemberTimer({ initialSec = 0, run }) {
+export default function MemberTimer({ initialSec = 0, start }) {
+  const { membersTimerWorkerRef } = useContext(WorkersContext);
 
   const [timer, setTimer] = useState({
     value: 0,
     disp: "",
   });
 
-  /* useEffect(() => {
+  useEffect(() => {
     const disp = toTimer(initialSec);
     setTimer({ value: initialSec, disp });
 
-    if (!membersTimerWorkerRef?.current) return;
-
     const onMessage = (e) => {
-      if (!run || e.data.command !== "update-timer") return;
+      if (!start || e.data.command !== "update-timer") return;
 
-      const now = DateTime.now().toSeconds();
-      const value = initialSec + now - run;
+      const now = Math.round(Date.now() / 1000);
+      const value = initialSec + now - start;
       const disp = toTimer(value);
       setTimer({ value, disp });
     };
 
-    if (run) {
+    if (!membersTimerWorkerRef?.current) {
+      membersTimerWorkerRef.current.removeEventListener("message", onMessage);
+      return;
+    }
+
+    if (start) {
       membersTimerWorkerRef.current.addEventListener("message", onMessage);
     }
 
     return () => {
       membersTimerWorkerRef.current.removeEventListener("message", onMessage);
     };
-  }, [run, initialSec, membersTimerWorkerRef]); */
+  }, [start, initialSec]);
 
   return (
     <div className={styles.MemberTimer}>

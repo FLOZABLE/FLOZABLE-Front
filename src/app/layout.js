@@ -9,6 +9,7 @@ import AccountModal from "@/components/modals/AccountModal/AccountModal";
 import PlanModal from "@/components/modals/PlanModal/PlanModal";
 import AddSubjectModal from "@/components/modals/AddSubjectModal/AddSubjectModal";
 import SearchUsersModal from "@/components/modals/SearchUsersModal/SearchUsersModal";
+import { Suspense } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,35 +32,37 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${roboto.variable}`}>
-        <AppContainer>
-          {/* <PlanModal />
+        <Suspense>
+          <AppContainer>
+            {/* <PlanModal />
           <ChatModal /> */}
-          <AccountModal />
-          <PlanModal />
-          <AddSubjectModal />
-          <SearchUsersModal />
-          {/* <JoinGroupModal />
+            <AccountModal />
+            <PlanModal />
+            <AddSubjectModal />
+            <SearchUsersModal />
+            {/* <JoinGroupModal />
           <AddSubjectModal />
           <SubjectsModal />
           <SearchUsersModal />
           <EditGroupModal />
           <WelcomeModal /> */}
-          {children}
-        </AppContainer>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition={Bounce}
-          style={{ zIndex: 10000000 }}
-        />
+            {children}
+          </AppContainer>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Bounce}
+            style={{ zIndex: 10000000 }}
+          />
+        </Suspense>
       </body>
     </html>
   );

@@ -21,7 +21,7 @@
 }
 
 .SubjectsPie .chartContainer {
-  width: 90%;
+  width: 100%;
   aspect-ratio: 1 / 1;
   position: relative;
   min-height: 20rem;

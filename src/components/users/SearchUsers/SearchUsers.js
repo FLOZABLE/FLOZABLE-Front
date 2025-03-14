@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./SearchUsers.module.css";
 import { useDebounce } from "use-debounce";
-import { useFriendsSearch } from "@/Hooks/friendsHooks";
+import { useFriendsSearch } from "@/hooks/friendsHooks";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
 import UserContainer from "../UserContainer/UserContainer";
 import ChatBtn from "@/components/buttons/ChatBtn/ChatBtn";

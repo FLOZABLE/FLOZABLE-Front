@@ -129,4 +129,4 @@ function deleteSubject(subjects, subject_id) {
   }
 }
 
-export { timelineSorter, sortNewSubject, deleteSubject };
+export { sortNewSubject, deleteSubject };

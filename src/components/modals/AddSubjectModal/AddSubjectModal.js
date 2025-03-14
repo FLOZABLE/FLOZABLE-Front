@@ -3,7 +3,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import styles from "./AddSubjectModal.module.css";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
-/* import { sortNewSubject } from "@/app/utils/timelineSorting"; */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDebounce } from "use-debounce";
 import { toast } from "react-toastify";
@@ -15,7 +14,7 @@ import { useSubjects } from "@/hooks/subjectsHooks";
 import { useNextStep } from "nextstepjs";
 import { AddSubjectsModalContext } from "@/components/structure/ModalProviders";
 import { WorkersContext } from "@/components/structure/Providers";
-import { socket } from "@/utils/sockets/socket";
+import socket from "@/utils/sockets/socket";
 import { putSubjectsSubject } from "@/apis/subjectsApi";
 import { sortNewSubject } from "@/utils/timelineSorter";
 

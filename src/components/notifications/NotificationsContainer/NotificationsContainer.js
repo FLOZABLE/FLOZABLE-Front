@@ -9,7 +9,7 @@ import { postPlanShareRespond } from "@/apis/plansApi";
 import { useRouter } from "next/navigation";
 import { postChatRequestReply } from "@/apis/chatApi";
 import { deleteNotification } from "@/apis/notificationsApi";
-import UserContainer from "@/components/Users/UserContainer/UserContainer";
+import UserContainer from "@/components/users/UserContainer/UserContainer";
 
 function NotificationContainer({ children, userInfo, message }) {
   const router = useRouter();

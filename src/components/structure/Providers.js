@@ -6,12 +6,21 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ModalProviders from "./ModalProviders";
 import { NextStep, NextStepProvider } from "nextstepjs";
 import { usePlans, usePlansGoogle } from "@/hooks/plansHooks";
-import { createContext, useEffect, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { isEqual } from "lodash";
 import socket from "@/utils/sockets/socket";
-import { useFriendsStatus } from "@/hooks/friendsHooks";
+import mediaSocket from "@/utils/sockets/mediaSocket";
+import { useAccount } from "@/hooks/accountHooks";
+import { updateQueryData } from "@/utils/tools";
 
 //modals
 
@@ -83,7 +92,30 @@ const steps = [
 ];
 
 function AppProvider({ children }) {
-  const { updateFriendsStatus } = useFriendsStatus();
+  /* const { updateFriendsStatus } = useFriendsStatus(); */
+
+  console.log("rerender");
+
+  const { accountData } = useAccount();
+
+  useEffect(() => {
+    if (!accountData) {
+      socket.disconnect();
+      mediaSocket.disconnect();
+      return;
+    }
+
+    setTimeout(() => {
+      socket.connect();
+      mediaSocket.connect();
+    }, 100);
+  }, [accountData?.user_id]);
+
+  const updateFriendsStatus = useCallback(async (newData) => {
+    await queryClient.setQueryData(["useFriendsStatus"], (oldData) => {
+      return updateQueryData(oldData, newData, "friends");
+    });
+  }, []);
 
   useEffect(() => {
     const onStudying = ({ userId, subject }) => {
@@ -156,18 +188,18 @@ function AppProvider({ children }) {
       });
     };
 
-    socket.on("studying", onStudying);
-    socket.on("stopStudying", onStopStudying);
-    socket.on(`deActiveGroup`, onDeActiveGroup);
-    socket.on(`activeGroup`, onActiveGroup);
+    socket.on("study:start", onStudying);
+    socket.on("study:stop", onStopStudying);
+    socket.on(`group:member:online`, onDeActiveGroup);
+    socket.on(`group:member:offline`, onActiveGroup);
     return () => {
-      socket.off("studying", onStudying);
-      socket.off("stopStudying", onStopStudying);
-      socket.off(`deActiveGroup`, onDeActiveGroup);
-      socket.off(`activeGroup`, onActiveGroup);
+      socket.off("study:start", onStudying);
+      socket.off("study:stop", onStopStudying);
+      socket.off(`group:member:online`, onDeActiveGroup);
+      socket.off(`group:member:offline`, onActiveGroup);
     };
   }, []);
-  
+
   return (
     <WorkersProvider>
       <NextStepProvider>

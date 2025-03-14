@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useFriendsRecommended } from "@/hooks/friendsHooks";
 import RefreshBtn from "@/components/buttons/RefreshBtn/RefreshBtn";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
-import UserContainer from "@/components/Users/UserContainer/UserContainer";
+import UserContainer from "@/components/users/UserContainer/UserContainer";
 import FriendRequestBtn from "@/components/buttons/FriendRequestBtn/FriendRequestBtn";
 
 function RecommendedFriendsViewer({}) {

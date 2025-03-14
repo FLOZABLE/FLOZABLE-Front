@@ -3,10 +3,14 @@ import styles from "./FriendRequestsViewer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import { deleteFriendRequest, postFriendsRequestReply } from "@/apis/friendsApi";
-import UserContainer from "@/components/Users/UserContainer/UserContainer";
+import {
+  deleteFriendRequest,
+  postFriendsRequestReply,
+} from "@/apis/friendsApi";
+import UserContainer from "@/components/users/UserContainer/UserContainer";
 import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendsHooks";
 import { useNotifications } from "@/hooks/notificationsHooks";
+import SlidingOptBtn from "@/components/buttons/SlidingOptBtn/SlidingOptBtn";
 
 function SentFriendRequestContainer({
   friendRequest,

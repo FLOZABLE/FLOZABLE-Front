@@ -3,7 +3,7 @@ import styles from "./SlidingOptBtn.module.css";
 import React from "react";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-function SlidingOptBtn({ options, setValue, value, isCheck }) {
+export default function SlidingOptBtn({ options, setValue, value, isCheck }) {
   return (
     <div className={styles.SlidingOptBtn}>
       <div
@@ -38,5 +38,3 @@ function SlidingOptBtn({ options, setValue, value, isCheck }) {
     </div>
   );
 }
-
-export default SlidingOptBtn;
