@@ -1,13 +1,13 @@
 .label {
   display: flex;
-  gap: 1rem;
+  gap: 1em;
   align-items: center;
 }
 
 .label p {
-  font-size: 1.2rem;
+  font-size: 1.2em;
 }
 
 .label i {
-  font-size: 1.3rem;
+  font-size: 1.3em;
 }

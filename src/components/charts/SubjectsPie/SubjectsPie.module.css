@@ -1,43 +1,14 @@
 .SubjectsPie {
-  height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.options {
-  justify-content: center;
-}
-
-.SubjectsPie svg > * {
-  pointer-events: all;
-}
-
-.SubjectsPie div#dateSelectorBtn {
-  font-size: 1rem;
-}
-
-.options {
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
+  height: 100%;
+  overflow: hidden;
 }
 
 .chartContainer {
-  width: 100%;
   aspect-ratio: 1 / 1;
+  width: 100%;
   position: relative;
-  min-height: 20rem;
-  margin-bottom: 1rem;
-  align-self: center;
-}
-
-.chartContainer#noChart {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  text-decoration: underline;
-  align-self: center;
 }
 
 .totalTime {
@@ -63,6 +34,7 @@
   justify-content: center;
   gap: 2rem;
   overflow-y: auto;
+  max-height: 100%;
 }
 
 .labels .label {

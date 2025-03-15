@@ -20,7 +20,7 @@
 }
 
 .layer#timeline {
-  height: 50vh;
+  min-height: 50rem;
 }
 
 .subjectsPie {

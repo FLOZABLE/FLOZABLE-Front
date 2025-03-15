@@ -1,10 +1,8 @@
 "use client";
 
-import PlansTimeline from "@/components/plans/PlansTimeline/PlansTimeline";
 import styles from "./page.module.css";
 import { useEffect, useState } from "react";
 import DateSelectorBtn from "@/components/buttons/DateSelectorBtn/DateSelectorBtn";
-import DropDownButton from "@/components/buttons/DropDownButton/DropDownButton";
 import ViewerSelectorBtn from "@/components/buttons/ViewerSelectorBtn/ViewerSelectorBtn";
 import SubjectsPie from "@/components/charts/SubjectsPie/SubjectsPie";
 import StudyTrendChart from "@/components/charts/StudyTrendChart/StudyTrendChart";

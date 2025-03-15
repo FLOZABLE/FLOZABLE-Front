@@ -1,0 +1,20 @@
+.layer {
+  display: flex;
+  gap: 2rem;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.rankingsTrendChart {
+  height: 40vh;
+}
+
+
+.right {
+  width: 29rem;
+}
