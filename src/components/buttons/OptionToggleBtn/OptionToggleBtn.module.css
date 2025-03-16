@@ -1,0 +1,111 @@
+.OptionToggleBtn {
+  display: block;
+  position: relative;
+}
+
+.tgl {
+  display: none;
+}
+
+.tgl,
+.tgl:after,
+.tgl:before,
+.tgl *,
+.tgl *:after,
+.tgl *:before,
+.tgl + .tglBtn {
+  box-sizing: border-box;
+}
+
+.tgl + .tglBtn {
+  outline: 0;
+  display: block;
+  width: 5em;
+  height: 2em;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.tgl + .tglBtn:after,
+.tgl + .tglBtn:before {
+  position: relative;
+  display: block;
+  content: "";
+  width: 50%;
+  height: 100%;
+}
+
+.tgl + .tglBtn:after {
+  left: 0;
+}
+
+.tgl + .tglBtn:before {
+  display: none;
+}
+
+.tgl:checked + .tglBtn:after {
+  left: 50%;
+}
+
+.tglSkewed + .tglBtn {
+  overflow: hidden;
+  transform: skew(-10deg);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: all 0.2s ease;
+  font-family: sans-serif;
+  background: #888;
+}
+
+.tglSkewed + .tglBtn:after,
+.tglSkewed + .tglBtn:before {
+  transform: skew(10deg);
+  display: inline-block;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  line-height: 2em;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0.0625rem 0 rgba(0, 0, 0, 0.4);
+}
+
+.tglSkewed + .tglBtn:after {
+  left: 100%;
+  content: attr(data-tg-on);
+}
+
+.tglSkewed + .tglBtn:before {
+  left: 0;
+  content: attr(data-tg-off);
+}
+
+.tglSkewed + .tglBtn:active {
+  background: #888;
+}
+
+.tglSkewed + .tglBtn:active:before {
+  left: -10%;
+}
+
+.tglSkewed:checked + .tglBtn {
+  background: #86d993;
+  width: 6em;
+}
+
+.tglSkewed:checked + .tglBtn:before {
+  left: -100%;
+}
+
+.tglSkewed:checked + .tglBtn:after {
+  left: 0;
+}
+
+.tglSkewed:checked + .tglBtn:active:after {
+  left: 10%;
+}

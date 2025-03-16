@@ -5,6 +5,7 @@ import { AppContainer } from "@/components/structure/Providers";
 import AccountModal from "@/components/modals/AccountModal/AccountModal";
 import PlanModal from "@/components/modals/PlanModal/PlanModal";
 import AddSubjectModal from "@/components/modals/AddSubjectModal/AddSubjectModal";
+import CreateGroupModal from "@/components/modals/CreateGroupModal/CreateGroupModal";
 import SearchUsersModal from "@/components/modals/SearchUsersModal/SearchUsersModal";
 import { Suspense } from "react";
 
@@ -44,6 +45,7 @@ export default function RootLayout({ children }) {
             <PlanModal />
             <AddSubjectModal />
             <SearchUsersModal />
+            <CreateGroupModal />
             {/* <JoinGroupModal />
           <AddSubjectModal />
           <SubjectsModal />

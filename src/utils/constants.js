@@ -97,3 +97,5 @@ export const COLOR_PALETTE_OPTIONS = [
     colors: ["#4C5760", "#93A8AC", "#D7CEB2", "#A59E8C"],
   },
 ];
+
+export const ACTIVE_GROUP_DEBOUNCE = 1000;
