@@ -32,6 +32,7 @@
     "html-react-parser": "^5.2.2",
     "lodash": "^4.17.21",
     "luxon": "^3.5.0",
+    "mediasoup-client": "^3.9.2",
     "mitt": "^3.0.1",
     "motion": "^12.4.10",
     "next": "15.2.1",

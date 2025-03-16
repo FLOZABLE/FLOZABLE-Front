@@ -24,22 +24,9 @@ import { updateQueryData } from "@/utils/tools";
 
 //modals
 
-/* const AccountModalContext = createContext({
-  isAccountModal: false,
-  setIsAccountModal: () => {},
-});
-const JoinGroupModalContext = createContext({});
-const EditGroupModalContext = createContext({});
-const SubjectsModalContext = createContext({});
-const AddSubjectsModalContext = createContext({});
-const ChatModalContext = createContext({});
-const SearchUsersModalContext = createContext({});
-const WelcomeModalContext = createContext({});
-const PlanModalContext = createContext({});
- */
-
 export const WorkersContext = createContext({});
 export const PlansContext = createContext({});
+export const CallOptionsContext = createContext({});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -206,7 +193,9 @@ function AppProvider({ children }) {
         <NextStep steps={steps}></NextStep>
         <LocalizationProvider dateAdapter={AdapterLuxon}>
           <ModalProviders>
-            <PlansProvider>{children}</PlansProvider>
+            <PlansProvider>
+              <CallOptionsProvider>{children}</CallOptionsProvider>
+            </PlansProvider>
           </ModalProviders>
         </LocalizationProvider>
       </NextStepProvider>
@@ -275,5 +264,19 @@ function PlansProvider({ children }) {
     <PlansContext.Provider value={{ plans, setPlans, plansDate, setPlansDate }}>
       {children}
     </PlansContext.Provider>
+  );
+}
+
+function CallOptionsProvider({ children }) {
+  const [isCam, setIsCam] = useState(false);
+  const [isMic, setIsMic] = useState(false);
+  const [isHeadphone, setIsHeadphone] = useState(false);
+
+  return (
+    <CallOptionsContext.Provider
+      value={{ isCam, setIsCam, isMic, setIsMic, isHeadphone, setIsHeadphone }}
+    >
+      {children}
+    </CallOptionsContext.Provider>
   );
 }

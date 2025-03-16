@@ -1,22 +1,22 @@
 import styles from "./MyGroupContainer.module.css";
 import React, { useContext, useEffect, useState } from "react";
-import config from "@/app/utils/config";
 import Link from "next/link";
-import {
-  CallOptionsContext,
-  EditGroupModalContext,
-} from "@/app/utils/Contexts";
-import { IconTimerOutline, IconPen, IconLeave } from "@/app/utils/Svg";
 import { mediaSocket } from "@/app/utils/mediaSocket";
 import { Device } from "mediasoup-client";
-import { socket } from "@/app/utils/socket";
-import { useGroupMembers } from "@/Hooks/groupsHook";
-import { secondConverter } from "@/app/utils/Tool";
-import MembersStatus from "../MembersStatus/MembersStatus";
-import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
+import { useGroupMembers } from "@/hooks/groupsHook";
+import {
+  faArrowRightFromBracket,
+  faHourglass,
+  faPen,
+  faPeopleGroup,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ACTIVE_GROUP_DEBOUNCE } from "@/app/utils/Constant";
 import Skeleton from "react-loading-skeleton";
+import { CallOptionsContext } from "@/components/structure/Providers";
+import { EditGroupModalContext } from "@/components/structure/ModalProviders";
+import socket from "@/utils/sockets/socket";
+import ChatModalBtn from "@/components/buttons/ChatModalBtn/ChatModalBtn";
+import MembersStatus from "../MembersStatus/MembersStatus";
 
 const videoParams = {
   encodings: [
@@ -441,13 +441,13 @@ function MyGroupContainer({ group, isAdmin, isActive, leaveGroup }) {
       }, group.group_id);
     };
 
-    socket.on("newMember", onNewMember);
-    socket.on("removeMember", onRemoveMember);
+    socket.on("group:member:new", onNewMember);
+    socket.on("group:member:left", onRemoveMember);
     socket.on("studying", onStudying);
     socket.on("stopStudying", onStopStudying);
     return () => {
-      socket.off("newMember", onNewMember);
-      socket.off("removeMember", onRemoveMember);
+      socket.off("group:member:new", onNewMember);
+      socket.off("group:member:left", onRemoveMember);
       socket.off("studying", onStudying);
       socket.off("stopStudying", onStopStudying);
     };
@@ -470,7 +470,7 @@ function MyGroupContainer({ group, isAdmin, isActive, leaveGroup }) {
           </div>
           <div>
             <i>
-              <IconTimerOutline />
+              <FontAwesomeIcon icon={faHourglass} />
             </i>
             <p>{totalTime}</p>
           </div>
@@ -484,7 +484,7 @@ function MyGroupContainer({ group, isAdmin, isActive, leaveGroup }) {
               }}
             >
               <i>
-                <IconPen />
+                <FontAwesomeIcon icon={faPen} />
               </i>
             </div>
           ) : (
@@ -494,7 +494,7 @@ function MyGroupContainer({ group, isAdmin, isActive, leaveGroup }) {
               }}
             >
               <i>
-                <IconLeave />
+                <FontAwesomeIcon icon={faArrowRightFromBracket} />
               </i>
             </div>
           )}

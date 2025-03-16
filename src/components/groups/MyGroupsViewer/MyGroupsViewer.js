@@ -8,6 +8,10 @@ import { MittInstance } from "@/utils/mittInstance";
 import { useAccount } from "@/hooks/accountHooks";
 import { useGroups } from "@/hooks/groupsHook";
 import Link from "next/link";
+import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
+import MyGroupContainer from "../MyGroupContainer/MyGroupContainer";
+import socket from "@/utils/sockets/socket";
+import mediaSocket from "@/utils/sockets/mediaSocket";
 
 function MyGroupsViewer({}) {
   const { myGroups, updateGroupsData } = useGroups();
