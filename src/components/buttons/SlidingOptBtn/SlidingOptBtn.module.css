@@ -20,7 +20,7 @@
   justify-content: center;
   font-size: 1.063rem;
   white-space: nowrap;
-  color: var(--gray0);
+  color: var(--gray-1);
   transition: 0.3s ease-in-out color;
 }
 

@@ -32,7 +32,7 @@
 }
 
 .totalTime .text {
-  color: var(--gray1);
+  color: var(--gray-2);
 }
 
 .noChart {

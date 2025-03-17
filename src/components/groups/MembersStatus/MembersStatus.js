@@ -7,7 +7,6 @@ export default function MembersStatus({ members }) {
 
   useEffect(() => {
     if (!members) return;
-    console.log("members", members);
 
     const studyingMembers = [];
     const restMembers = [];

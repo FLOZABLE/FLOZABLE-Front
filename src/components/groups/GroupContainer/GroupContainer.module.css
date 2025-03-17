@@ -23,7 +23,7 @@
 .GroupContainer .layer#name {
   margin: 0rem 0.5rem 1rem 0.5rem;
   border-radius: 2em;
-  background-color: var(--gray0);
+  background-color: var(--gray-1);
   padding-left: 0.7rem;
   height: 3rem;
   align-items: center;

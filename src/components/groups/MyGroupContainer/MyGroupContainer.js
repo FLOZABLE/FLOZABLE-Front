@@ -1,7 +1,6 @@
 import styles from "./MyGroupContainer.module.css";
 import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { mediaSocket } from "@/app/utils/mediaSocket";
 import { Device } from "mediasoup-client";
 import { useGroupMembers } from "@/hooks/groupsHook";
 import {
@@ -17,6 +16,12 @@ import { EditGroupModalContext } from "@/components/structure/ModalProviders";
 import socket from "@/utils/sockets/socket";
 import ChatModalBtn from "@/components/buttons/ChatModalBtn/ChatModalBtn";
 import MembersStatus from "../MembersStatus/MembersStatus";
+import MembersContainer from "../MembersContainer/MembersContainer";
+import CopyBtn from "@/components/buttons/CopyBtn/CopyBtn";
+import config from "@/utils/config";
+import mediaSocket from "@/utils/sockets/mediaSocket";
+import { secondConverter } from "@/utils/tools";
+import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 
 const videoParams = {
   encodings: [
@@ -254,7 +259,7 @@ function MyGroupContainer({ group, isAdmin, isActive, leaveGroup }) {
          * method in the next step.
          */
         await transport.on("produce", async (parameters, callback, errback) => {
-          const { kind, rtpParameters, appData } = parameters;
+          const { kind, rtpParameters } = parameters;
 
           try {
             // Notify the server to start producing media with the provided parameters
@@ -443,13 +448,13 @@ function MyGroupContainer({ group, isAdmin, isActive, leaveGroup }) {
 
     socket.on("group:member:new", onNewMember);
     socket.on("group:member:left", onRemoveMember);
-    socket.on("studying", onStudying);
-    socket.on("stopStudying", onStopStudying);
+    socket.on("study:start", onStudying);
+    socket.on("study:stop", onStopStudying);
     return () => {
       socket.off("group:member:new", onNewMember);
       socket.off("group:member:left", onRemoveMember);
-      socket.off("studying", onStudying);
-      socket.off("stopStudying", onStopStudying);
+      socket.off("study:start", onStudying);
+      socket.off("study:stop", onStopStudying);
     };
   }, [group]);
 
@@ -526,7 +531,7 @@ function MyGroupContainer({ group, isAdmin, isActive, leaveGroup }) {
             Go to Group
           </Link>
         </div>
-        <GroupUrlBtn
+        <CopyBtn
           text={`${config.next_server}/dashboard/groups?groupId=${group.group_id}`}
           copyText="Share"
           bgColor="var(--dark-gray)"

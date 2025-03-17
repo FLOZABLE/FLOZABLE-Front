@@ -27,6 +27,6 @@
 }
 
 .label:not(:first-child) {
-  border-left: 0.1rem solid var(--gray0);
+  border-left: 0.1rem solid var(--gray-1);
   padding: 0rem 1.5rem;
 }

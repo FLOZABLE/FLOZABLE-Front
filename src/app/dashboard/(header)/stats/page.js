@@ -38,7 +38,7 @@ export default function Stats() {
   }, [currentStep]);
 
   return (
-    <div className={`page ${styles.page}`}>
+    <div className={`page`}>
       <main className={`main`}>
         <div className={styles.top}>
           <DateSelectorBtn

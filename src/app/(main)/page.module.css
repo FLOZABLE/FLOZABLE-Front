@@ -223,7 +223,7 @@
 .Review .feedback {
   font-weight: 400;
   font-size: 0.9rem;
-  color: var(--gray2);
+  color: var(--gray-3);
   transition: color 0.3s ease-in-out;
   margin-top: 1rem;
 }

@@ -291,7 +291,7 @@ export const IconFriend = (props) => (
 
 //study icons
 
-export const StudyPerson = (props) => {
+export const IconStudyPerson = (props) => {
   return (
     <svg
       height={"1em"}
@@ -321,7 +321,7 @@ export const StudyPerson = (props) => {
   );
 };
 
-export const RestPerson = (props) => {
+export const IconRestPerson = (props) => {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -378,3 +378,108 @@ export const RestPerson = (props) => {
     </svg>
   );
 };
+
+//call options
+
+export function IconMicFill(props) {
+  return (
+    <svg
+      fill="currentColor"
+      viewBox="0 0 16 16"
+      height="1em"
+      width="1em"
+      {...props}
+    >
+      <path d="M5 3a3 3 0 016 0v5a3 3 0 01-6 0V3z" />
+      <path d="M3.5 6.5A.5.5 0 014 7v1a4 4 0 008 0V7a.5.5 0 011 0v1a5 5 0 01-4.5 4.975V15h3a.5.5 0 010 1h-7a.5.5 0 010-1h3v-2.025A5 5 0 013 8V7a.5.5 0 01.5-.5z" />
+    </svg>
+  );
+}
+
+// icon:mic-mute-fill | Bootstrap https://icons.getbootstrap.com/ | Bootstrap
+
+export function IconMicMuteFill(props) {
+  return (
+    <svg
+      fill="currentColor"
+      viewBox="0 0 16 16"
+      height="1em"
+      width="1em"
+      {...props}
+    >
+      <path d="M13 8c0 .564-.094 1.107-.266 1.613l-.814-.814A4.02 4.02 0 0012 8V7a.5.5 0 011 0v1zm-5 4c.818 0 1.578-.245 2.212-.667l.718.719a4.973 4.973 0 01-2.43.923V15h3a.5.5 0 010 1h-7a.5.5 0 010-1h3v-2.025A5 5 0 013 8V7a.5.5 0 011 0v1a4 4 0 004 4zm3-9v4.879L5.158 2.037A3.001 3.001 0 0111 3z" />
+      <path d="M9.486 10.607L5 6.12V8a3 3 0 004.486 2.607zm-7.84-9.253l12 12 .708-.708-12-12-.708.708z" />
+    </svg>
+  );
+}
+
+// icon:camera-video-fill | Bootstrap https://icons.getbootstrap.com/ | Bootstrap
+
+export function IconCameraVideoFill(props) {
+  return (
+    <svg
+      fill="currentColor"
+      viewBox="0 0 16 16"
+      height="1em"
+      width="1em"
+      {...props}
+    >
+      <path
+        fillRule="evenodd"
+        d="M0 5a2 2 0 012-2h7.5a2 2 0 011.983 1.738l3.11-1.382A1 1 0 0116 4.269v7.462a1 1 0 01-1.406.913l-3.111-1.382A2 2 0 019.5 13H2a2 2 0 01-2-2V5z"
+      />
+    </svg>
+  );
+}
+
+// icon:camera-video-off-fill | Bootstrap https://icons.getbootstrap.com/ | Bootstrap
+
+export function IconCameraVideoOffFill(props) {
+  return (
+    <svg
+      fill="currentColor"
+      viewBox="0 0 16 16"
+      height="1em"
+      width="1em"
+      {...props}
+    >
+      <path
+        fillRule="evenodd"
+        d="M10.961 12.365a1.99 1.99 0 00.522-1.103l3.11 1.382A1 1 0 0016 11.731V4.269a1 1 0 00-1.406-.913l-3.111 1.382A2 2 0 009.5 3H4.272l6.69 9.365zm-10.114-9A2.001 2.001 0 000 5v6a2 2 0 002 2h5.728L.847 3.366zm9.746 11.925l-10-14 .814-.58 10 14-.814.58z"
+      />
+    </svg>
+  );
+}
+
+// icon:headphones-off | Material Design Icons https://materialdesignicons.com/ | Austin Andrews
+
+export function IconHeadphonesOff(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      height="1em"
+      width="1em"
+      {...props}
+    >
+      <path d="M12 1a9 9 0 019 9v7c0 .62-.19 1.19-.5 1.67L15 13.18V12h4v-2a7 7 0 00-7-7c-2 0-3.77.82-5.04 2.14L5.55 3.72A8.96 8.96 0 0112 1M2.78 3.5L20.5 21.22l-1.27 1.28-2.5-2.5H15v-1.73l-6-6V20H6a3 3 0 01-3-3v-7c0-1.11.2-2.18.57-3.16L1.5 4.77 2.78 3.5m2.39 4.94C5.06 8.94 5 9.46 5 10v2h3.73L5.17 8.44z" />
+    </svg>
+  );
+}
+
+// icon:headphone-fill | Remix Icon https://remixicon.com/ | Remix Design
+
+export function IconHeadphoneFill(props) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      height="1em"
+      width="1em"
+      {...props}
+    >
+      <path fill="none" d="M0 0h24v24H0z" />
+      <path d="M4 12h3a2 2 0 012 2v5a2 2 0 01-2 2H4a2 2 0 01-2-2v-7C2 6.477 6.477 2 12 2s10 4.477 10 10v7a2 2 0 01-2 2h-3a2 2 0 01-2-2v-5a2 2 0 012-2h3a8 8 0 10-16 0z" />
+    </svg>
+  );
+}

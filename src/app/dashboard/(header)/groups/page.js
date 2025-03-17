@@ -3,6 +3,11 @@
 import React, { useState } from "react";
 import styles from "./page.module.css";
 import { useNextStep } from "nextstepjs";
+import MyGroupsViewer from "@/components/groups/MyGroupsViewer/MyGroupsViewer";
+import TagsGenerator from "@/components/inputs/TagsGenerator/TagsGenerator";
+import SearchBar from "@/components/inputs/SearchBar/SearchBar";
+import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
+import GroupsContainer from "@/components/groups/GroupsContainer/GroupsContainer";
 
 function Groups() {
   const { currentStep, setCurrentStep } = useNextStep();
@@ -12,8 +17,8 @@ function Groups() {
   const [isCreateNewGroup, setIsCreateNewGroup] = useState(false);
 
   return (
-    <div className={`Main`}>
-      <div className={styles.Groups}>
+    <div className={`page`}>
+      <main className={"main"}>
         <div className={styles.layer}>
           <div
             className={`box ${styles.boxContainer}`}
@@ -54,7 +59,7 @@ function Groups() {
             <GroupsContainer searchQuery={searchQuery} tags={tags} />
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

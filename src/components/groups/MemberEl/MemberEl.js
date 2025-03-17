@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MemberEl.module.css";
-import { DateTime } from "luxon";
-import { RestPerson, StudyPerson } from "@/app/utils/Svg";
+import { IconRestPerson, IconStudyPerson } from "@/components/others/Svgs";
 import Link from "next/link";
+import MemberCamDisp from "../MemberCamDisp.js/MemberCamDisp";
+import MemberTimer from "../MemberTimer/MemberTimer";
+import ProfileImage from "@/components/users/ProfileImage/ProfileImage";
 
 function MemberEl({ memberInfo, device, recvTransport }) {
-  const [run, setRun] = useState(false);
-  const [total, setTotal] = useState(0);
+  const [activeSubject, setActiveSubject] = useState({
+    start: null,
+    name: "",
+    total: 0,
+  });
 
   useEffect(() => {
-    if (!memberInfo) return;
-
-    const { study_time, activeSubject } = memberInfo;
-    console.log("member", memberInfo);
-    if (activeSubject && activeSubject.subject_id !== "0") {
-      const now = DateTime.now().toSeconds();
-      const liveTotal = study_time + now - activeSubject.time;
-      setTotal(liveTotal);
-      setRun(now);
-    } else {
-      setTotal(study_time);
-      setRun(false);
+    const activeSubject = {
+      name: "Offline",
+      start: memberInfo.activeSubject?.time,
+      total: null,
+    };
+    if (
+      memberInfo.activeSubject &&
+      memberInfo.activeSubject?.subject_id !== "0"
+    ) {
+      activeSubject.name = `Studying ${memberInfo.activeSubject.name}`;
+      activeSubject.total = memberInfo.study_time;
     }
+    setActiveSubject(activeSubject);
   }, [memberInfo]);
 
   return (
@@ -38,9 +43,14 @@ function MemberEl({ memberInfo, device, recvTransport }) {
         >
           <div className={styles.userName}>{memberInfo.name}</div>
         </Link>
-        <i className={styles.icon}>{run ? <StudyPerson /> : <RestPerson />}</i>
+        <i className={styles.icon}>
+          {activeSubject.start ? <IconStudyPerson /> : <IconRestPerson />}
+        </i>
         <div className={styles.timer}>
-          <MemberTimer initialSec={total} run={run} />
+          <MemberTimer
+            initialSec={activeSubject.total}
+            start={activeSubject.start}
+          />
         </div>
         <div className={styles.ProfileImage}>
           <ProfileImage userId={memberInfo.user_id} />

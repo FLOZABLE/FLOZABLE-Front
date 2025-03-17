@@ -24,7 +24,7 @@
   width: 0.1rem;
   margin-top: 0.2rem;
   height: 2.2rem;
-  background-color: var(--gray0);
+  background-color: var(--gray-1);
 }
 
 .HeaderEl {
@@ -88,7 +88,7 @@
 }
 
 .Header .userInfo .email {
-  color: var(--gray2);
+  color: var(--gray-3);
   font-size: 0.8rem;
 }
 

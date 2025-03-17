@@ -39,6 +39,7 @@
   --orange-3: #f5b76b;
   --orange-4: #ff9d23;
   --white-1: #fafafa;
+  --opacity-black: #000000c3;
 }
 
 html {
@@ -138,6 +139,12 @@ input[type="search"]::-webkit-search-results-decoration {
   z-index: 2;
   white-space: nowrap;
   bottom: 0rem;
+}
+
+.overflowDot {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .page {

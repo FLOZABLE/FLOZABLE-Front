@@ -9,7 +9,7 @@
 
 .options {
   display: flex;
-  border-bottom: 0.1rem var(--gray0) solid;
+  border-bottom: 0.1rem var(--gray-1) solid;
   padding: 1rem 0rem 1.5rem 0rem;
   margin-bottom: 1.5rem;
 }
@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   height: 1.5rem;
-  color: var(--gray2);
+  color: var(--gray-3);
 }
 
 .viewOptions .viewOption {
@@ -29,7 +29,7 @@
 }
 
 .viewOptions .viewOption.active {
-  background-color: var(--gray0);
+  background-color: var(--gray-1);
 }
 
 /* .viewOptions .viewOption:nth-child(1) {
@@ -42,7 +42,7 @@
 
 .options .viewOptions .divider {
   width: 0.1rem;
-  background-color: var(--gray0);
+  background-color: var(--gray-1);
   height: 100%;
   margin: 0.5rem;
 }
@@ -54,7 +54,7 @@
 
 .friendsBtn p {
   margin-left: 1rem;
-  color: var(--gray1);
+  color: var(--gray-2);
   font-weight: 400;
   transition: 0.3s ease-in-out color;
 }

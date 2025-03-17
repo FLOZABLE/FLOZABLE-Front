@@ -12,6 +12,12 @@ import config from "@//utils/config";
 import { postGroupLike } from "@/apis/groupsApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { useGroups } from "@/hooks/groupsHook";
+import { secondConverter } from "@/utils/tools";
+import LikeBtn from "@/components/buttons/LikeBtn/LikeBtn";
+import GroupJoinBtn from "@/components/buttons/GroupJoinBtn/GroupJoinBtn";
+import CopyBtn from "@/components/buttons/CopyBtn/CopyBtn";
+import SocketCounter from "@/components/others/SocketCounter/SocketCounter";
+import GroupMemCounter from "../GroupMemCounter/GroupMemCounter";
 
 function GroupContainer({
   groupInfo,
@@ -83,10 +89,7 @@ function GroupContainer({
       className={`${styles.GroupContainer} ${!isSearched ? styles.hidden : ""}`}
       style={style}
     >
-      {/* <div
-        className={styles.layer}
-        id={styles.name}
-      >
+      <div className={styles.layer} id={styles.name}>
         <p className={`overflowDot`}>{groupInfo?.name}</p>
       </div>
       <div className={`hiddenScroll ${styles.layer}`} id={styles.description}>
@@ -120,7 +123,7 @@ function GroupContainer({
           </i>
           <SocketCounter
             id={groupInfo.group_id}
-            events={{ add: "like:group", remove: "unlike:group" }}
+            events={{ add: "group:like", remove: "group:unlike" }}
             members={likes}
             setMembers={setLikes}
           />
@@ -140,7 +143,7 @@ function GroupContainer({
         })}
       </div>
       <div className={styles.layer} id={styles.buttons}>
-        <GroupUrlBtn
+        <CopyBtn
           text={`${config.next_server}/dashboard/groups?groupId=${groupInfo.group_id}`}
         />
         <GroupJoinBtn groupInfo={groupInfo} />
@@ -148,7 +151,7 @@ function GroupContainer({
           liked={likes.includes(accountData?.user_id)}
           onClick={onLike}
         />
-      </div> */}
+      </div>
     </div>
   );
 }

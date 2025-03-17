@@ -33,7 +33,7 @@
 .FriendCard {
   display: flex;
   align-items: center;
-  border-bottom: 0.1rem solid var(--gray3);
+  border-bottom: 0.1rem solid var(--gray-4);
   padding: 0.25rem 0rem;
   position: relative;
 }
@@ -64,7 +64,7 @@
 }
 
 .FriendsViewer .header {
-  background-color: var(--gray0);
+  background-color: var(--gray-1);
   display: flex;
   justify-content: center;
   height: 3rem;

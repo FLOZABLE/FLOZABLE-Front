@@ -12,6 +12,7 @@ import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 import MyGroupContainer from "../MyGroupContainer/MyGroupContainer";
 import socket from "@/utils/sockets/socket";
 import mediaSocket from "@/utils/sockets/mediaSocket";
+import { useDebounce } from "use-debounce";
 
 function MyGroupsViewer({}) {
   const { myGroups, updateGroupsData } = useGroups();
