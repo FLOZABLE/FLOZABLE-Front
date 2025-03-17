@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import styles from "./CreateGroupModal.module.css";
 import { putGroup } from "@/apis/groupsApi";
 import { useGroups } from "@/hooks/groupsHook";
@@ -17,8 +17,14 @@ import SliderAnimation from "@/components/inputs/SliderAnimation/SliderAnimation
 import TagsGenerator from "@/components/inputs/TagsGenerator/TagsGenerator";
 import OptionToggleBtn from "@/components/buttons/OptionToggleBtn/OptionToggleBtn";
 import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
+import MittInstance from "@/utils/mittInstance";
+import { CreateGroupModalContext } from "@/components/structure/ModalProviders";
 
-function CreateGroupModal({ isOpen, setIsOpen }) {
+function CreateGroupModal() {
+  const { createGroupModal, setCreateGroupModal } = useContext(
+    CreateGroupModalContext
+  );
+
   const { updateGroupsData } = useGroups();
   const { updateUserInfo } = useAccount();
 
@@ -33,7 +39,7 @@ function CreateGroupModal({ isOpen, setIsOpen }) {
 
       const { data } = response;
 
-      setIsOpen(false);
+      setCreateGroupModal(false);
       setNewGroup(DEFAULT_GROUP);
 
       const groupId = data.group.group_id;
@@ -41,7 +47,9 @@ function CreateGroupModal({ isOpen, setIsOpen }) {
         ...prev,
         groups: [...prev.groups, groupId],
       }));
-      updateGroupsData((prev) => [...prev, data.group]);
+      await updateGroupsData((prev) => [...prev, data.group]);
+
+      updateGroupsData((prev) => [...prev, data.group], "my_groups");
 
       setTimeout(() => {
         MittInstance.emit("moveMyGroupsViewer", { groupId });
@@ -55,7 +63,7 @@ function CreateGroupModal({ isOpen, setIsOpen }) {
 
   return (
     <div className={styles.CreateGroupModal}>
-      <DraggableModal isOpen={isOpen} setIsOpen={setIsOpen}>
+      <DraggableModal isOpen={createGroupModal} setIsOpen={setCreateGroupModal}>
         <div className={`${styles.inner} customScroll`}>
           <ModalLayer>
             <CustomInput

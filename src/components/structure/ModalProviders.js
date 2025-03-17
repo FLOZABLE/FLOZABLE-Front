@@ -65,6 +65,12 @@ export const {
   Provider: JoinGroupModalProvider,
 } = createModalProvider({ open: false, group: null }, "joinGroupModal");
 
+// CreateGroupModalProvider
+export const {
+  Context: CreateGroupModalContext,
+  Provider: CreateGroupModalProvider,
+} = createModalProvider(false, "createGroupModal");
+
 // EditGroupModalProvider
 export const {
   Context: EditGroupModalContext,
@@ -116,19 +122,21 @@ export default function ModalProviders({ children }) {
   return (
     <AccountModalProvider>
       <JoinGroupModalProvider>
-        <EditGroupModalProvider>
-          <SubjectsModalProvider>
-            <PlanModalProvider>
-              <AddSubjectsModalProvider>
-                <ChatModalProvider>
-                  <SearchUsersModalProvider>
-                    <WelcomeModalProvider>{children}</WelcomeModalProvider>
-                  </SearchUsersModalProvider>
-                </ChatModalProvider>
-              </AddSubjectsModalProvider>
-            </PlanModalProvider>
-          </SubjectsModalProvider>
-        </EditGroupModalProvider>
+        <CreateGroupModalProvider>
+          <EditGroupModalProvider>
+            <SubjectsModalProvider>
+              <PlanModalProvider>
+                <AddSubjectsModalProvider>
+                  <ChatModalProvider>
+                    <SearchUsersModalProvider>
+                      <WelcomeModalProvider>{children}</WelcomeModalProvider>
+                    </SearchUsersModalProvider>
+                  </ChatModalProvider>
+                </AddSubjectsModalProvider>
+              </PlanModalProvider>
+            </SubjectsModalProvider>
+          </EditGroupModalProvider>
+        </CreateGroupModalProvider>
       </JoinGroupModalProvider>
     </AccountModalProvider>
   );

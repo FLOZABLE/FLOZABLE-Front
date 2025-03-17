@@ -1,2 +1,3 @@
 import mitt from "mitt";
-export const MittInstance = mitt();
+const MittInstance = mitt();
+export default MittInstance;

@@ -1,4 +1,4 @@
-.Groups {
+/* .Groups {
   padding: 0rem 3.125rem;
 }
 
@@ -20,4 +20,17 @@
 
 .Groups .header .headerItem#SearchBar {
   width: 20rem;
+} */
+
+.layer {
+  margin-bottom: 2rem;
+}
+
+.header {
+  display: flex;
+  gap: 2rem;
+}
+
+.headerItem {
+  flex: 1;
 }

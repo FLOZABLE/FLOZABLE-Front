@@ -31,7 +31,7 @@ function useAccount() {
 
   const updateUserInfo = useCallback(async (newData) => {
     await queryClient.setQueryData(["useAccount"], (oldData) => {
-      return updateQueryData(oldData, newData, "userInfo");
+      return updateQueryData(oldData, newData, "userinfo");
     });
   }, []);
 

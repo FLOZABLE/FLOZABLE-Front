@@ -7,6 +7,7 @@ import PlanModal from "@/components/modals/PlanModal/PlanModal";
 import AddSubjectModal from "@/components/modals/AddSubjectModal/AddSubjectModal";
 import CreateGroupModal from "@/components/modals/CreateGroupModal/CreateGroupModal";
 import SearchUsersModal from "@/components/modals/SearchUsersModal/SearchUsersModal";
+import JoinGroupModal from "@/components/modals/JoinGroupModal/JoinGroupModal";
 import { Suspense } from "react";
 
 import "swiper/css";
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
             <AddSubjectModal />
             <SearchUsersModal />
             <CreateGroupModal />
+            <JoinGroupModal />
             {/* <JoinGroupModal />
           <AddSubjectModal />
           <SubjectsModal />

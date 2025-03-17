@@ -7,6 +7,10 @@
   height: 1.875rem;
   border-radius: 0.3rem;
   cursor: pointer;
+  width: 3rem;
+  height: 2rem;
+  border: 0.125rem solid var(--gray-2);
+  border-radius: 2.5rem;
 }
 
 .CopyBtn i {

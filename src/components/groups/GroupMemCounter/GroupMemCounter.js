@@ -7,17 +7,17 @@ function GroupMemCounter({ initialMembers, groupId }) {
   useEffect(() => {
     if (!groupId) return;
 
-    const onNewMember = ({ groupId, userInfo }) => {
-      console.log("newMember", groupId, userInfo);
-      if (group.group_id !== groupId) return;
-      setMembers((prev) => [...prev, userInfo.userId]);
+    const onNewMember = (data) => {
+      console.log("newMember", data);
+      if (data.groupId !== groupId) return;
+      setMembers((prev) => [...prev, data.userInfo.userId]);
     };
 
-    const onRemoveMember = ({ groupId, userId }) => {
-      if (!group.group_id === groupId) return;
+    const onRemoveMember = (data) => {
+      if (data.groupId !== groupId) return;
       setMembers((prev) => {
         return prev.filter((memberId) => {
-          return memberId !== userId;
+          return memberId !== data.userId;
         });
       });
     };

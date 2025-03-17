@@ -4,7 +4,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import styles from "./MyGroupsViewer.module.css";
 import { postGroupLeave } from "@/apis/groupsApi";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { MittInstance } from "@/utils/mittInstance";
+import MittInstance from "@/utils/mittInstance";
 import { useAccount } from "@/hooks/accountHooks";
 import { useGroups } from "@/hooks/groupsHook";
 import Link from "next/link";
@@ -29,8 +29,8 @@ function MyGroupsViewer({}) {
 
   const groupId = searchParams.get("group");
 
-  const leaveGroup = useCallback(async (groupId) => {
-    try {
+  const leaveGroup = useCallback(
+    async (groupId) => {
       const response = await postGroupLeave(groupId);
       if (!response.success) return;
 
@@ -39,7 +39,7 @@ function MyGroupsViewer({}) {
         groups: prev.groups.filter((group) => group !== groupId),
       }));
 
-      updateGroupsData((prev) => {
+      await updateGroupsData((prev) => {
         const newGroups = [...prev];
         const groupIndex = newGroups.findIndex(
           (group) => group.group_id === groupId
@@ -51,10 +51,14 @@ function MyGroupsViewer({}) {
         );
         return newGroups;
       });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+
+      updateGroupsData(
+        (prev) => prev.filter((group) => group.group_id !== groupId),
+        "my_groups"
+      );
+    },
+    [accountData]
+  );
 
   useEffect(() => {
     if (!debouncedIndex === -1) return;

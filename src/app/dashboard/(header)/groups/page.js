@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styles from "./page.module.css";
 import { useNextStep } from "nextstepjs";
 import MyGroupsViewer from "@/components/groups/MyGroupsViewer/MyGroupsViewer";
@@ -8,32 +8,36 @@ import TagsGenerator from "@/components/inputs/TagsGenerator/TagsGenerator";
 import SearchBar from "@/components/inputs/SearchBar/SearchBar";
 import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
 import GroupsContainer from "@/components/groups/GroupsContainer/GroupsContainer";
+import { CreateGroupModalContext } from "@/components/structure/ModalProviders";
 
 function Groups() {
+  const { setCreateGroupModal, createGroupModal } = useContext(
+    CreateGroupModalContext
+  );
+
   const { currentStep, setCurrentStep } = useNextStep();
 
   const [tags, setTags] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isCreateNewGroup, setIsCreateNewGroup] = useState(false);
-
+  console.log(createGroupModal);
   return (
     <div className={`page`}>
       <main className={"main"}>
         <div className={styles.layer}>
           <div
-            className={`box ${styles.boxContainer}`}
-            style={{ "--textColor": "#000000" }}
+            className={`box ${styles.box}`}
+            style={{ "--text-color": "#000000" }}
           >
             <MyGroupsViewer />
           </div>
         </div>
         <div className={styles.layer}>
-          <div className={`BoxContainer ${styles.boxContainer}`}>
+          <div className={`box ${styles.box}`}>
             <div className={styles.header}>
-              <div className={styles.headerItem} id={styles.Tags}>
+              <div className={styles.headerItem} id={styles.tags}>
                 <TagsGenerator tags={tags} setTags={setTags} />
               </div>
-              <div className={styles.headerItem} id={styles.SearchBar}>
+              <div className={styles.headerItem} id={styles.searchBar}>
                 <SearchBar
                   searchQuery={searchQuery}
                   setSearchQuery={setSearchQuery}
@@ -41,12 +45,13 @@ function Groups() {
               </div>
               <div
                 className={styles.headerItem}
-                id={styles.CreateGroup}
+                id={styles.createGroupBtn}
                 data-tutorial={23}
               >
                 <BlobBtn
                   onClick={() => {
-                    setIsCreateNewGroup(!isCreateNewGroup);
+                    console.log(setCreateGroupModal);
+                    setCreateGroupModal((prev) => !prev);
                     if (currentStep === 23) {
                       setCurrentStep(24);
                     }

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./MembersContainer.module.css";
-import { useAccount } from "@/Hooks/accountHooks";
+import { useAccount } from "@/hooks/accountHooks";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
 import MyEl from "../MyEl/MyEl";
 import MemberEl from "../MemberEl/MemberEl";

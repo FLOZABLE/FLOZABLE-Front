@@ -15,12 +15,12 @@
   display: none;
 }
 
-.GroupContainer .layer {
+.layer {
   display: flex;
   width: 100%;
 }
 
-.GroupContainer .layer#name {
+.layer#name {
   margin: 0rem 0.5rem 1rem 0.5rem;
   border-radius: 2em;
   background-color: var(--gray-1);
@@ -30,12 +30,12 @@
   justify-content: center;
 }
 
-.GroupContainer .layer#name p {
+.layer#name p {
   max-width: calc(100% - 3rem);
   font-size: 1.1rem;
 }
 
-.GroupContainer .layer#description {
+.layer#description {
   word-break: break-all;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -44,17 +44,17 @@
   font-weight: 500;
 }
 
-.GroupContainer .layer#info > div {
+.layer#info > div {
   display: flex;
   margin: 0.3rem;
   font-weight: 500;
 }
 
-.GroupContainer .layer#info i {
+.layer#info i {
   margin-right: 0.2rem;
 }
 
-.GroupContainer .layer#tags {
+.layer#tags {
   height: 3rem;
   flex-wrap: wrap;
   height: 1.5rem;
@@ -62,7 +62,7 @@
   overflow-y: auto;
 }
 
-.GroupContainer .tag {
+.tag {
   height: 1.5rem;
   border-radius: 0.5rem;
   padding: 0rem 0.3rem;
@@ -73,7 +73,8 @@
   font-weight: 500;
 }
 
-.GroupContainer .layer#buttons {
+.layer#buttons {
   align-items: center;
   justify-content: space-around;
+  margin-top: 0.5rem;
 }
