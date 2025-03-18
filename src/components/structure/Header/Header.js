@@ -29,6 +29,12 @@ import NotificationsContainer from "@/components/notifications/NotificationsCont
 import { AccountModalContext } from "../ModalProviders";
 import ProfileImage from "@/components/users/ProfileImage/ProfileImage";
 import ChatModalBtn from "@/components/buttons/ChatModalBtn/ChatModalBtn";
+import {
+  IconBookShelf,
+  IconFocus,
+  IconMeteor,
+  IconPhone,
+} from "@/components/others/Svgs";
 
 function HeaderEl({ children, value, title }) {
   return (
@@ -110,25 +116,25 @@ function Header({}) {
       <div className={styles.left}>
         <HeaderEl title={"Today Total"} value={totalStudied}>
           <i>
-            <FontAwesomeIcon icon={faBookOpen} />
+            <IconBookShelf />
           </i>
         </HeaderEl>
         <div className={styles.divider}></div>
         <HeaderEl title={"App Usage"} value={appUsage}>
           <i>
-            <FontAwesomeIcon icon={faHourglassStart} />
+            <IconPhone />
           </i>
         </HeaderEl>
         <div className={styles.divider}></div>
         <HeaderEl title={"Streak"} value={studyStreak}>
           <i>
-            <FontAwesomeIcon icon={faRocket} />
+            <IconMeteor />
           </i>
         </HeaderEl>
         <div className={styles.divider}></div>
         <HeaderEl title={"Focus Time"} value={longestSession}>
           <i>
-            <FontAwesomeIcon icon={faBrain} />
+            <IconFocus />
           </i>
         </HeaderEl>
       </div>

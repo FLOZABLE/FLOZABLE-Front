@@ -13,9 +13,10 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     rules: {
-      "react-hooks/exhaustive-deps": "off", // Disable the rule
+      "react-hooks/exhaustive-deps": "off",
       "no-unused-vars": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-explicit-any": "off", // Disable the 'any' rule globally
     },
   },
 ];

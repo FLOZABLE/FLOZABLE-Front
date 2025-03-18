@@ -16,6 +16,8 @@ import "swiper/css/navigation";
 import "react-calendar-heatmap/dist/styles.css";
 import "react-tooltip/dist/react-tooltip.css";
 import "react-vertical-timeline-component/style.min.css";
+import "react-loading-skeleton/dist/skeleton.css";
+import ChatModal from "@/components/modals/ChatModal/ChatModal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -48,6 +50,7 @@ export default function RootLayout({ children }) {
             <SearchUsersModal />
             <CreateGroupModal />
             <JoinGroupModal />
+            <ChatModal />
             {/* <JoinGroupModal />
           <AddSubjectModal />
           <SubjectsModal />

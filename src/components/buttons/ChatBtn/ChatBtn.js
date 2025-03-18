@@ -33,7 +33,7 @@ export default function ChatBtn({ targetInfo, padding }) {
       <div className={styles.blobWrapper}>
         <BlobBtn
           onClick={(e) => {
-            e.stopPropagation();
+            e?.stopPropagation();
             if (!targetInfo) {
               return setChatModal((prev) => ({
                 ...prev,
