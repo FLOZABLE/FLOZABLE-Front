@@ -1,14 +1,15 @@
 .FriendRequestsViewer {
   position: relative;
   overflow: hidden;
-}
-
-.FriendRequestsViewer .header {
+  display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.FriendRequestsViewer .friendRequests {
+.header {
+  flex-direction: column;
+}
+
+.friendRequests {
   overflow-y: auto;
 }
 

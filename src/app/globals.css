@@ -181,6 +181,12 @@ input[type="search"]::-webkit-search-results-decoration {
   position: relative;
 }
 
+.box .contents {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+}
+
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

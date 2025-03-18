@@ -10,13 +10,7 @@ import {
 } from "@/utils/tools";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowUpRightFromSquare,
-  faBookOpen,
-  faBrain,
-  faHourglassStart,
-  faRocket,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import {

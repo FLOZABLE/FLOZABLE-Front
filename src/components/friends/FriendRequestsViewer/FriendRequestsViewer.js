@@ -130,9 +130,9 @@ function FriendRequestsViewer() {
   }, []);
 
   return (
-    <div className={`Box ${styles.FriendRequestsViewer}`}>
+    <div className={`box ${styles.FriendRequestsViewer}`}>
       <div className={`header ${styles.header}`}>
-        <p>Friend Requests</p>
+        <h2>Friend Requests</h2>
         <SlidingOptBtn
           options={[
             {
