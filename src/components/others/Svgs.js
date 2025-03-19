@@ -54,6 +54,90 @@ export const IconGoogle = (props) => (
   </svg>
 );
 
+export const LogoSpotify = (props) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 48 48"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+    fill="#000000"
+    {...props}
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth={0} />
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <g id="SVGRepo_iconCarrier">
+      <defs />
+      <g
+        id="Icons"
+        stroke="none"
+        strokeWidth={1}
+        fill="none"
+        fillRule="evenodd"
+      >
+        <g
+          id="Color-"
+          transform="translate(-200.000000, -460.000000)"
+          fill="#00DA5A"
+        >
+          <path
+            d="M238.16,481.36 C230.48,476.8 217.64,476.32 210.32,478.6 C209.12,478.96 207.92,478.24 207.56,477.16 C207.2,475.96 207.92,474.76 209,474.4 C217.52,471.88 231.56,472.36 240.44,477.64 C241.52,478.24 241.88,479.68 241.28,480.76 C240.68,481.6 239.24,481.96 238.16,481.36 M237.92,488.08 C237.32,488.92 236.24,489.28 235.4,488.68 C228.92,484.72 219.08,483.52 211.52,485.92 C210.56,486.16 209.48,485.68 209.24,484.72 C209,483.76 209.48,482.68 210.44,482.44 C219.2,479.8 230,481.12 237.44,485.68 C238.16,486.04 238.52,487.24 237.92,488.08 M235.04,494.68 C234.56,495.4 233.72,495.64 233,495.16 C227.36,491.68 220.28,490.96 211.88,492.88 C211.04,493.12 210.32,492.52 210.08,491.8 C209.84,490.96 210.44,490.24 211.16,490 C220.28,487.96 228.2,488.8 234.44,492.64 C235.28,493 235.4,493.96 235.04,494.68 M224,460 C210.8,460 200,470.8 200,484 C200,497.2 210.8,508 224,508 C237.2,508 248,497.2 248,484 C248,470.8 237.32,460 224,460"
+            id="Spotify"
+          />
+        </g>
+      </g>
+    </g>
+  </svg>
+);
+
+export const IconYoutube = (props) => {
+  return (
+    <svg viewBox="0 0 1024 1024" fill="red" height="1em" width="1em" {...props}>
+      <path d="M941.3 296.1a112.3 112.3 0 00-79.2-79.3C792.2 198 512 198 512 198s-280.2 0-350.1 18.7A112.12 112.12 0 0082.7 296C64 366 64 512 64 512s0 146 18.7 215.9c10.3 38.6 40.7 69 79.2 79.3C231.8 826 512 826 512 826s280.2 0 350.1-18.8c38.6-10.3 68.9-40.7 79.2-79.3C960 658 960 512 960 512s0-146-18.7-215.9zM423 646V378l232 133-232 135z" />
+    </svg>
+  );
+};
+
+export const IconGoogleCalendar = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Google Calendar"
+    role="img"
+    width="1em"
+    height="1em"
+    viewBox="0 0 512 512"
+    fill="#000000"
+    {...props}
+  >
+    <g id="SVGRepo_bgCarrier" strokeWidth={0} />
+    <g
+      id="SVGRepo_tracerCarrier"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <g id="SVGRepo_iconCarrier">
+      <rect width={512} height={512} rx="15%" fill="#ffffff" />
+      <path d="M100 340h74V174H340v-74H137Q100 100 100 135" fill="#4285f4" />
+      <path d="M338 100v76h74v-41q0-35-35-35" fill="#1967d2" />
+      <path d="M338 174h74V338h-74" fill="#fbbc04" />
+      <path d="M100 338v39q0 35 35 35h41v-74" fill="#188038" />
+      <path d="M174 338H338v74H174" fill="#34a853" />
+      <path d="M338 412v-74h74" fill="#ea4335" />
+      <path
+        d="M204 229a25 22 1 1 1 25 27h-9h9a25 22 1 1 1-25 27M270 231l27-19h4v-7V308"
+        stroke="#4285f4"
+        strokeWidth={15}
+        strokeLinejoin="bevel"
+        fill="none"
+      />
+    </g>
+  </svg>
+);
+
 //sidebar
 export function IconBxHome(props) {
   return (

@@ -14,9 +14,15 @@ const eslintConfig = [
   {
     rules: {
       "react-hooks/exhaustive-deps": "off",
-      "no-unused-vars": "warn",
-      "@typescript-eslint/no-unused-vars": "warn",
       "@typescript-eslint/no-explicit-any": "off", // Disable the 'any' rule globally
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   },
 ];

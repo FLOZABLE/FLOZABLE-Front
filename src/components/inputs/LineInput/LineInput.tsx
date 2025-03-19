@@ -2,34 +2,41 @@ import React, { useState } from "react";
 import styles from "./LineInput.module.css";
 
 interface LineInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  title?: string;
-  value: string; // Keep as required since you’re controlling it
-  setValue: (value: string) => void;
+  label?: string; // Renamed from 'title' to avoid conflict with HTML attribute
+  value: string;
+  onEnter: (_value: string) => void;
+  setValue: (_value: string) => void;
   icon?: React.ReactNode;
 }
 
 const LineInput: React.FC<LineInputProps> = ({
-  title,
+  label,
   value,
   setValue,
-  type = "text", // Default to "text" if not provided
+  type = "text",
   icon,
+  onEnter,
   ...inputProps
 }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
   return (
     <div className={`${styles.LineInput} ${isFocused ? styles.focused : ""}`}>
-      {icon ? <i className={styles.icon}>{icon}</i> : null}
+      {icon && <i className={styles.icon}>{icon}</i>}
       <input
         type={type}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        {...inputProps} // Spread all additional input props here
+        onKeyDown={(e) => {
+          if (e.key == "Enter") {
+            onEnter?.(value);
+          }
+        }}
+        {...inputProps} // Spread includes HTML 'title' if provided
       />
-      {title ? <div className={styles.title}>{title}</div> : ""}
+      {label && <div className={styles.title}>{label}</div>}
       <div
         className={`${styles.lineContainer} ${isFocused ? styles.focused : ""}`}
       >
