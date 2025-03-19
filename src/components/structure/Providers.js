@@ -21,12 +21,14 @@ import socket from "@/utils/sockets/socket";
 import mediaSocket from "@/utils/sockets/mediaSocket";
 import { useAccount } from "@/hooks/accountHooks";
 import { updateQueryData } from "@/utils/tools";
+import { useThemes, useThemesUser } from "@/hooks/themesHooks";
 
 //modals
 
 export const WorkersContext = createContext({});
 export const PlansContext = createContext({});
 export const CallOptionsContext = createContext({});
+export const ThemesContext = createContext({});
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -194,7 +196,9 @@ function AppProvider({ children }) {
         <LocalizationProvider dateAdapter={AdapterLuxon}>
           <ModalProviders>
             <PlansProvider>
-              <CallOptionsProvider>{children}</CallOptionsProvider>
+              <CallOptionsProvider>
+                <ThemesProvider>{children}</ThemesProvider>
+              </CallOptionsProvider>
             </PlansProvider>
           </ModalProviders>
         </LocalizationProvider>
@@ -278,5 +282,33 @@ function CallOptionsProvider({ children }) {
     >
       {children}
     </CallOptionsContext.Provider>
+  );
+}
+
+function ThemesProvider({ children }) {
+  const [themes, setThemes] = useState([]);
+  const [userThemes, setUserThemes] = useState([]);
+
+  const { themesData } = useThemes();
+  const { themesUserData } = useThemesUser();
+
+  useEffect(() => {
+    if (!themesData?.success) return;
+
+    setThemes(themesData.data.themes);
+  }, [themesData]);
+
+  useEffect(() => {
+    if (!themesUserData?.success) return;
+
+    setUserThemes(themesUserData.data.themes);
+  }, [themesUserData]);
+
+  return (
+    <ThemesContext.Provider
+      value={{ themes, setThemes, userThemes, setUserThemes }}
+    >
+      {children}
+    </ThemesContext.Provider>
   );
 }

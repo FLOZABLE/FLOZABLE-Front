@@ -99,3 +99,34 @@ export const COLOR_PALETTE_OPTIONS = [
 ];
 
 export const ACTIVE_GROUP_DEBOUNCE = 1000;
+
+export const THEMES_CATEGORIES = [
+  {
+    id: -1,
+    name: "Unsave",
+  },
+  {
+    id: 0,
+    name: "Cafe",
+  },
+  {
+    id: 1,
+    name: "Rain",
+  },
+  {
+    id: 2,
+    name: "Anime",
+  },
+  {
+    id: 3,
+    name: "Lofi",
+  },
+  {
+    id: 4,
+    name: "Nature",
+  },
+  {
+    id: 5,
+    name: "Others",
+  },
+];
