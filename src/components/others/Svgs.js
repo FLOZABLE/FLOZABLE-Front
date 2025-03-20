@@ -54,7 +54,7 @@ export const IconGoogle = (props) => (
   </svg>
 );
 
-export const LogoSpotify = (props) => (
+export const IconSpotify = (props) => (
   <svg
     width="1em"
     height="1em"

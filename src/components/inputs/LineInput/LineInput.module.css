@@ -6,6 +6,7 @@
   padding-top: 0.5rem;
   --default-color: var(--gray-3);
   --changed-color: #e91e63;
+  width: 100%;
 }
 
 .LineInput input {
@@ -50,15 +51,16 @@ input:focus ~ .lineContainer .line {
   left: 50%;
 }
 
-.title {
+.label {
   transition: 0.3s ease-in-out color;
   z-index: 1;
   position: absolute;
   top: 0rem;
   color: var(--default-color);
+  white-space: nowrap;
 }
 
-.LineInput.focused .title,
+.LineInput.focused .label,
 .LineInput.focused .icon {
   color: var(--changed-color);
 }

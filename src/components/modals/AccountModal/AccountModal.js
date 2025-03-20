@@ -97,7 +97,7 @@ export default function AccountModal() {
           </div>
           <div className={styles.input}>
             <LineInput
-              title={"Email"}
+              label={"Email"}
               type={"email"}
               value={signIn.email}
               setValue={(email) => setSignIn((prev) => ({ ...prev, email }))}
@@ -108,7 +108,7 @@ export default function AccountModal() {
           <div className={styles.input}>
             <LineInput
               type={isShowPassword ? "text" : "password"}
-              title={"Password"}
+              label={"Password"}
               value={signIn.password}
               setValue={(password) =>
                 setSignIn((prev) => ({ ...prev, password }))
@@ -168,7 +168,7 @@ export default function AccountModal() {
           <form action="" id="sdfsd">
             <div className={styles.input}>
               <LineInput
-                title={"Name"}
+                label={"Name"}
                 type={"name"}
                 value={signUp.name}
                 setValue={(name) => setSignUp((prev) => ({ ...prev, name }))}
@@ -178,7 +178,7 @@ export default function AccountModal() {
             </div>
             <div className={styles.input}>
               <LineInput
-                title={"Email"}
+                label={"Email"}
                 type={"email"}
                 value={signUp.email}
                 setValue={(email) => setSignUp((prev) => ({ ...prev, email }))}
@@ -189,7 +189,7 @@ export default function AccountModal() {
             <div className={styles.input}>
               <LineInput
                 type={isShowPassword ? "text" : "password"}
-                title={"Password"}
+                label={"Password"}
                 value={signUp.password}
                 setValue={(password) =>
                   setSignUp((prev) => ({ ...prev, password }))

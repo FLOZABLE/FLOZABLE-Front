@@ -10,6 +10,8 @@ import LineInput from "@/components/inputs/LineInput/LineInput";
 import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
 import SimpleToggleBtn from "@/components/buttons/SimpleToggleBtn/SimpleToggleBtn";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 function ExtensionSetting() {
   const { useExtensionSettingsData, useExtensionSettingsIsLoading } =
@@ -98,11 +100,12 @@ function ExtensionSetting() {
       <div>
         <div className={styles.inputContainer}>
           <LineInput
-            title={"Enter the website URL to manage access while studying."}
+            label={"Enter the website URL to manage access while studying."}
             value={url}
             setValue={setUrl}
             type={"text"}
             onEnter={(val) => onSubmitUrl(val)}
+            icon={<FontAwesomeIcon icon={faLink} />}
           />
           <div id={styles.submitBtn}>
             <BlobBtn

@@ -3,7 +3,7 @@ import styles from "./SpotifyAuthBtn.module.css";
 import { useSpotifyInfo } from "@/hooks/playlistHooks";
 import config from "@/utils/config";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
-import { LogoSpotify } from "@/components/others/Svgs";
+import { IconSpotify } from "@/components/others/Svgs";
 
 function SpotifyAuthBtn() {
   const { spotifyInfoIsLoading, spotifyInfo } = useSpotifyInfo();
@@ -20,8 +20,8 @@ function SpotifyAuthBtn() {
       ) : (
         <p>Login with Spotify</p>
       )}
-      <i className={styles.LogoSize}>
-        <LogoSpotify />
+      <i>
+        <IconSpotify />
       </i>
     </a>
   );

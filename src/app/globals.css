@@ -13,6 +13,7 @@
 :root {
   --shadow-1: rgba(149, 157, 165, 0.2) 0rem 0.5rem 1.5rem;
   --shadow-2: rgba(100, 100, 111, 0.2) 0rem 0.4375rem 1.8125rem 0rem;
+  --shadow-4: rgba(0, 0, 0, 0.35) 0rem 0.3125rem 0.9375rem;
   --shadow-7: rgba(99, 99, 99, 0.2) 0rem 0.125rem 0.5rem 0rem;
   --blue-1: #e6f4fe;
   --blue-2: #57b9ff;
@@ -43,7 +44,7 @@
 }
 
 html {
-  font-size: clamp(10px, 0.8vw, 16px);
+  font-size: clamp(0.625rem, 0.8vw, 1rem);
   scroll-behavior: smooth;
 }
 
@@ -167,12 +168,14 @@ input[type="search"]::-webkit-search-results-decoration {
   /* border: 0.1rem solid var(--gray-1); */
   padding: 2rem;
   background-color: #fff;
+  position: relative;
 }
 
 .box .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 2rem;
 }
 
 .box .header .button {

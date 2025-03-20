@@ -34,9 +34,9 @@ const LineInput: React.FC<LineInputProps> = ({
             onEnter?.(value);
           }
         }}
-        {...inputProps} // Spread includes HTML 'title' if provided
+        {...inputProps}
       />
-      {label && <div className={styles.title}>{label}</div>}
+      {label && <div className={styles.label}>{label}</div>}
       <div
         className={`${styles.lineContainer} ${isFocused ? styles.focused : ""}`}
       >

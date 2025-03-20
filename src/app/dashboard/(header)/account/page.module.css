@@ -1,23 +1,28 @@
-.Account {
-  margin: 1rem 3rem;
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .layer {
   display: flex;
-  width: 80%;
-  align-content: center;
-  justify-content: center;
-  margin-left: 11rem;
+  gap: 2rem;
 }
 
-.layer .boxContainer {
+.layer > div {
   flex: 1;
-  width: 90%;
 }
 
-.layer:nth-child(1) {
-  align-items: center;
+#welcome {
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+#welcome h2 {
+  font-size: 3rem;
 }
 
 .imgSelector {
@@ -59,145 +64,90 @@
   opacity: 0;
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 0.6;
-  }
-}
-
 .imgSelector .pImage:hover {
-  animation-name: fadeIn;
-  animation-duration: 0.4s;
-  animation-fill-mode: both;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0.6;
 }
 
 .imgSelector .uploadBtn {
   font-size: 2em;
 }
 
-.Account div#welcome {
-  font-size: 1.35rem;
-  margin-top: 1rem;
-}
-
-.boxContainer#profile .name {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.boxContainer#profile .emails {
-  display: flex;
-  margin-bottom: 2rem;
-}
-
-.boxContainer#profile .emails > * {
-  flex: 1;
-  margin-top: 0.5rem;
-}
-
-.boxContainer#profile .emails > :first-child {
-  margin-right: 1rem;
-}
-
-.boxContainer .buttons {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row-reverse;
-  margin-top: auto;
-}
-
-.chromeContainer {
+.layer form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.layer li {
+  list-style: none;
+}
+
+.layer h2 {
+  font-size: 2rem;
+}
+
+.passwordInput {
+  display: flex;
   align-items: center;
 }
 
-.buttons div#verifyBtn {
-  opacity: 1;
-  transition: 0.3s ease-in-out opacity;
+.buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
 }
 
-.buttons div#verifyBtn.hidden {
-  opacity: 0;
-}
-
-.AccountExplain {
-  font-size: 1.5rem;
-  margin-bottom: 0.7rem;
-}
-
-.Passwords {
+.layer#update > div {
   display: flex;
   flex-direction: column;
 }
 
-.Passwords > * {
+.header#centerHeader {
+  justify-content: center;
+  flex-direction: column;
+}
+
+.header a {
+  display: flex;
+  gap: 0.5rem;
+  text-decoration: underline;
+  align-items: center;
   margin-bottom: 0.5rem;
 }
 
-.Passwords > :nth-child(1) {
-  margin-top: 0.5rem;
-}
-
-.Passwords > :nth-child(2) {
-  margin-top: 0.5rem;
-}
-
-.passwordDescription {
-  color: var(--gray2);
-  font-size: 0.7rem;
-  font-weight: 400;
-  margin-top: 1rem;
-}
-
-.passwordDescription h3 {
-  font-weight: 500;
+.description {
+  font-size: 1.2rem;
 }
 
 .app {
   display: flex;
+  gap: 1rem;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-.Account#Youtube {
-  margin-left: 1rem;
-}
-.app#googleCalendar {
-  margin-left: 1rem;
 }
 
 .app .icon {
   width: 4rem;
   height: 4rem;
-  font-size: 2.7rem;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-right: 0.8rem;
+  align-items: center;
+  flex-shrink: 0;
 }
 
-.app .description p {
-  word-break: keep-all;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-  width: 90%;
+.app#googleCalendar .icon {
+  font-size: 3.5rem;
 }
 
-.app .authBtn {
-  margin-left: auto;
-  display: flex;
-  margin-bottom: 1rem;
+.app#youtube .icon {
+  font-size: 3.5rem;
 }
 
-.header a {
-  display: flex;
-  gap: 1rem;
-  text-decoration: underline;
+.app#spotify .icon {
+  font-size: 3rem;
+}
+
+.app .description {
+  flex: 1;
 }

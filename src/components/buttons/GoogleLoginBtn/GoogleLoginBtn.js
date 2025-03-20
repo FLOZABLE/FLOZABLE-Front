@@ -37,7 +37,9 @@ function GoogleLoginBtn({ scope, required }) {
       ) : (
         <p>Logged in as {accountGoogleData.name}</p>
       )}
-      <IconGoogle />
+      <i>
+        <IconGoogle />
+      </i>
     </div>
   );
 }
