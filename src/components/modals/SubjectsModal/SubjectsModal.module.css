@@ -1,0 +1,116 @@
+.SubjectsModal {
+  width: 30rem;
+  height: 30rem;
+  position: relative;
+  border-bottom-right-radius: 1.25rem;
+  border-bottom-left-radius: 1.25rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--gray-2);
+  color: #fff;
+}
+
+.header i {
+  font-size: 2rem;
+  width: 3rem;
+  cursor: pointer;
+}
+
+.contents {
+  position: relative;
+  flex: 1;
+  display: flex;
+  margin: 1rem;
+  overflow: hidden;
+}
+
+.SubjectsManager {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.editSubject {
+  position: absolute;
+  top: 0rem;
+  z-index: 2;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  left: calc(100% + 3rem);
+  transition: 0.3s ease-in-out left;
+}
+
+.editSubject.opened {
+  left: 0rem;
+}
+
+.editSubject .inputs {
+  flex: 1;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin: auto 1rem 0.5rem 1rem;
+}
+
+.share {
+  display: flex;
+  height: 3rem;
+}
+
+.share div#shared {
+  display: flex;
+}
+
+.share div#share {
+  display: flex;
+}
+
+/* .SubjectsModal {
+  width: 30rem;
+  height: 30rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom-right-radius: 1.25rem;
+  border-bottom-left-radius: 1.25rem;
+}
+
+.SubjectsManager {
+  width: 100%;
+}
+
+.editSubject {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  left: 0rem;
+  top: 0rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.editSubject .contents {
+  padding: 1rem;
+  flex: 1;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: auto;
+  margin-bottom: 1rem;
+} */

@@ -18,6 +18,7 @@ import "react-tooltip/dist/react-tooltip.css";
 import "react-vertical-timeline-component/style.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import ChatModal from "@/components/modals/ChatModal/ChatModal";
+import SubjectsModal from "@/components/modals/SubjectsModal/SubjectsModal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,6 +52,7 @@ export default function RootLayout({ children }) {
             <CreateGroupModal />
             <JoinGroupModal />
             <ChatModal />
+            <SubjectsModal />
             {/* <JoinGroupModal />
           <AddSubjectModal />
           <SubjectsModal />
