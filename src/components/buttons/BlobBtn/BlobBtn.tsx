@@ -2,7 +2,7 @@ import React, { CSSProperties, ReactNode } from "react";
 import styles from "./BlobBtn.module.css";
 
 interface BlobBtnProps extends React.HTMLProps<HTMLDivElement> {
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   color1?: string;
   color2?: string;
   children?: ReactNode;
@@ -20,8 +20,8 @@ const BlobBtn: React.FC<BlobBtnProps> = ({
   return (
     <div
       className={styles.BlobBtn}
-      onClick={() => {
-        onClick?.();
+      onClick={(e) => {
+        onClick?.(e);
       }}
       style={
         {

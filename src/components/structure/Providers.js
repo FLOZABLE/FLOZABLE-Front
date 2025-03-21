@@ -106,6 +106,13 @@ function AppProvider({ children }) {
     });
   }, []);
 
+  const updateProfileStatus = useCallback(async (userId, field, newData) => {
+    await queryClient.setQueryData(["useProfileStatus", userId], (oldData) => {
+      const test = updateQueryData(oldData, newData, field);
+      return test;
+    });
+  }, []);
+
   useEffect(() => {
     const onStudying = ({ userId, subject }) => {
       updateFriendsStatus((prev) => {
@@ -122,6 +129,8 @@ function AppProvider({ children }) {
 
         return newFriends;
       });
+
+      updateProfileStatus(userId, "active_subject", subject);
     };
 
     const onStopStudying = ({ userId, subject, duration }) => {
@@ -141,6 +150,8 @@ function AppProvider({ children }) {
 
         return newFriends;
       });
+
+      updateProfileStatus(userId, "active_subject", subject);
     };
 
     const onDeActiveGroup = ({ userId }) => {

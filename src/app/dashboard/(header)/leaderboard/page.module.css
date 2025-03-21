@@ -12,6 +12,7 @@
 
 .rankingsTrendChart {
   height: 40vh;
+  min-height: 30rem;
 }
 
 
