@@ -41,6 +41,7 @@
   --orange-4: #ff9d23;
   --white-1: #fafafa;
   --opacity-black: #000000c3;
+  --box-background-color: #fff;
 }
 
 html {
@@ -167,7 +168,7 @@ input[type="search"]::-webkit-search-results-decoration {
   border-radius: 0.7rem;
   /* border: 0.1rem solid var(--gray-1); */
   padding: 2rem;
-  background-color: #fff;
+  background-color: var(--box-background-color);
   position: relative;
 }
 

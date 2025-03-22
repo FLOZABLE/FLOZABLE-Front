@@ -17,11 +17,11 @@ function Friends({}) {
             </div>
           </div>
           <div className={styles.right}>
-            <div id={styles.friendRequestsViewer}>
-              <FriendRequestsViewer />
-            </div>
             <div id={styles.friendsActivityViewer}>
               <FriendsActivityViewer />
+            </div>
+            <div id={styles.friendRequestsViewer}>
+              <FriendRequestsViewer />
             </div>
           </div>
         </div>

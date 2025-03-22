@@ -1,6 +1,9 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import styles from "./YouTubePlayer.module.css";
-import ReactPlayer from "react-player";
+
+// Dynamically import ReactPlayer with SSR disabled
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 function YouTubePlayer({ height, width, videoId, volume }) {
   return (
@@ -8,11 +11,11 @@ function YouTubePlayer({ height, width, videoId, volume }) {
       {videoId ? (
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${videoId}`}
-          loop={true}
+          loop
           className={styles.video}
           volume={volume / 100}
-          controls={0}
-          playing={true}
+          controls={false}
+          playing
           config={{ youtube: { playerVars: {} } }}
         />
       ) : null}

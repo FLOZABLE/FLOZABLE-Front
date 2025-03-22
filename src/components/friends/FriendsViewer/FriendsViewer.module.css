@@ -2,7 +2,7 @@
   z-index: 0;
 }
 
-.FriendsViewer .sections {
+.sections {
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@
   overflow: auto;
 }
 
-.FriendsViewer .hoverText {
+.hoverText {
   bottom: -2rem;
   left: 50%;
   transform: translateX(-50%);
@@ -49,7 +49,7 @@
   flex-direction: column;
 }
 
-.FriendsViewer .buttons {
+.buttons {
   width: 4rem;
   display: flex;
   justify-content: center;
@@ -63,7 +63,7 @@
   margin-bottom: 2rem;
 }
 
-.FriendsViewer .header {
+.header {
   background-color: var(--gray-1);
   display: flex;
   justify-content: center;
@@ -73,7 +73,7 @@
   margin-top: 1rem;
 }
 
-.FriendsViewer .header h2 {
+.header h2 {
   font-weight: 600;
   font-size: 1.2rem;
 }

@@ -7,6 +7,6 @@
   width: 100%;
   display: grid;
   margin-bottom: 15rem;
-  --icon-color: var(--gray1);
+  --icon-color: var(--gray-2);
   --hover-icon-color: #fff;
 }

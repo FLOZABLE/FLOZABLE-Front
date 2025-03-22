@@ -1,0 +1,19 @@
+.AudioController {
+  color: #fff;
+  width: 20rem;
+}
+
+.AudioController .header {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.AudioController .controller {
+  display: flex;
+  padding: 1rem 0rem;
+}
+
+.AudioController .controller:not(:nth-last-child(1)) {
+  border-bottom: 0.1rem var(--gray-2) solid;
+}

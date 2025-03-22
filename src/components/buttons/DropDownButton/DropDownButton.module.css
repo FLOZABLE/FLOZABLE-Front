@@ -10,6 +10,7 @@
   align-items: center;
   height: 2em;
   max-width: 10em;
+  transition: 0.3s ease-in-out color, 0.3s ease-in-out background-color;
   /* overflow-x: hidden;
   overflow-y: auto; */
 }
@@ -17,6 +18,7 @@
 .DropDownButton.clicked,
 .DropDownButton:hover {
   background-color: var(--orange-1);
+  color: #000;
 }
 
 .DropDownButton i {

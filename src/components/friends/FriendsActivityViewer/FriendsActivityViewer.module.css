@@ -4,7 +4,7 @@
 
 .FriendsActivityViewer .header {
   justify-content: left;
-  border-bottom: 1px solid var(--gray0);
+  border-bottom: 1px solid var(--gray-1);
 }
 
 .FriendsActivityViewer div#searchFriendBtn {
@@ -35,7 +35,7 @@
 .FriendsActivityViewer .friend {
   display: flex;
   align-items: center;
-  border-bottom: 0.1rem solid var(--gray3);
+  border-bottom: 0.1rem solid var(--gray-4);
   padding: 0.25rem 0rem;
   position: relative;
 }
