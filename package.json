@@ -37,7 +37,7 @@
     "mediasoup-client": "^3.9.2",
     "mitt": "^3.0.1",
     "motion": "^12.4.10",
-    "next": "15.2.1",
+    "next": "15.2.3",
     "nextstepjs": "^2.0.0",
     "react": "^19.0.0",
     "react-calendar-heatmap": "^1.10.0",
