@@ -1,3 +1,8 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
 .top {
   display: flex;
   justify-content: space-between;
@@ -10,7 +15,12 @@
   gap: 2rem;
 }
 
-.contents .left {
+.left {
+  height: calc(
+    100vh - var(--header-height) - var(--header-offset) * 2 - var(--main-offset) *
+      2
+  );
+  display: flex;
 }
 
 .center {

@@ -18,44 +18,49 @@ export default function Dashboard() {
 
   return (
     <div className="page">
-      <main className={`main ${styles.page}`}>
-        <div className={styles.top}>
-          {accountData?.name ? (
-            <h1>Welcome Back, {accountData?.name}!</h1>
-          ) : (
-            <h1>Welcome!</h1>
-          )}
-          <DateSelectorBtn
-            viewDate={viewDate}
-            setViewDate={setViewDate}
-            viewer={viewer}
-          />
-        </div>
-        <div className={styles.contents}>
-          <div className={styles.left}>
-            <Analysis viewer={viewer} viewDate={viewDate} />
+      <main className={`main`}>
+        <div className={styles.container}>
+          <div className={styles.top}>
+            {accountData?.name ? (
+              <h1>Welcome Back, {accountData?.name}!</h1>
+            ) : (
+              <h1>Welcome!</h1>
+            )}
+            <DateSelectorBtn
+              viewDate={viewDate}
+              setViewDate={setViewDate}
+              viewer={viewer}
+            />
           </div>
-          <div className={styles.center}>
-            <div className={`${styles.box}`} id={styles.planTimeline}>
-              <PlansTimeline
-                setViewDate={setViewDate}
-                viewDate={viewDate}
-                viewer={viewer}
-                maxHeight="calc(80vh)"
-              />
+          <div className={styles.contents}>
+            <div className={styles.left}>
+              <Analysis viewer={viewer} viewDate={viewDate} />
             </div>
-            <div className={`${styles.box}`} id={styles.SubjectsPie}>
-              <SubjectsPie
-                viewDate={viewDate}
-                setViewDate={setViewDate}
-                viewer={viewer}
-                setViewer={setViewer}
-              />
+            <div className={styles.center}>
+              <div className={`${styles.box}`} id={styles.planTimeline}>
+                <PlansTimeline
+                  setViewDate={setViewDate}
+                  viewDate={viewDate}
+                  viewer={viewer}
+                  maxHeight="calc(80vh)"
+                />
+              </div>
+              <div className={`${styles.box}`} id={styles.subjectsPie}>
+                <SubjectsPie
+                  viewDate={viewDate}
+                  setViewDate={setViewDate}
+                  viewer={viewer}
+                  setViewer={setViewer}
+                />
+              </div>
             </div>
-          </div>
-          <div className={styles.right}>
-            <div className={`${styles.box}`} id={styles.FriendsActivityViewer}>
-              <FriendsViewer />
+            <div className={styles.right}>
+              <div
+                className={`${styles.box}`}
+                id={styles.FriendsActivityViewer}
+              >
+                <FriendsViewer />
+              </div>
             </div>
           </div>
         </div>

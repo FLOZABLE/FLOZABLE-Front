@@ -49,7 +49,7 @@
 }
 
 .SendBtn:hover i {
-  color: var(--blue2);
+  color: var(--orange-2);
 }
 
 .SendBtn i.submit {

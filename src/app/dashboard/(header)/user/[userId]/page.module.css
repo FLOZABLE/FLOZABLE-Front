@@ -23,6 +23,8 @@
   width: 20rem;
   height: 20rem;
   position: relative;
+  box-shadow: var(--shadow-1);
+  border-radius: 2rem;
 }
 
 .profileImage {

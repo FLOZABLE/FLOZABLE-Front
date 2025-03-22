@@ -1,9 +1,11 @@
 .FriendsActivityViewer {
-  z-index: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.FriendsActivityViewer .header {
-  justify-content: left;
+.header {
   border-bottom: 1px solid var(--gray-1);
 }
 
@@ -15,7 +17,7 @@
   margin-left: auto;
 }
 
-.FriendsActivityViewer .hoverText {
+.hoverText {
   bottom: -2rem;
   left: 50%;
   transform: translateX(-50%);
@@ -26,13 +28,14 @@
   opacity: 1;
 }
 
-.FriendsActivityViewer .friends {
+.friends {
   min-height: 5rem;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
 }
 
-.FriendsActivityViewer .friend {
+.friend {
   display: flex;
   align-items: center;
   border-bottom: 0.1rem solid var(--gray-4);
@@ -40,23 +43,23 @@
   position: relative;
 }
 
-.FriendsActivityViewer .friend .info {
+.friend .info {
   width: calc(100% - 4rem);
 }
 
-.FriendsActivityViewer .friend .activeInfo {
+.friend .activeInfo {
   margin-left: 3rem;
   font-size: 0.9rem;
   display: flex;
   flex-direction: column;
 }
 
-.FriendsActivityViewer .buttons {
+.buttons {
   width: 4rem;
   display: flex;
   justify-content: center;
 }
 
-.FriendsActivityViewer .friend:nth-last-child(1) {
+.friend:nth-last-child(1) {
   margin-bottom: 20rem;
 }

@@ -37,12 +37,7 @@ export default function Analysis({ viewDate, viewer }) {
             width={500}
             height={300}
             data={subjectsLine}
-            margin={{
-              top: 20,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
+            margin={{ left: -10 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="label" />

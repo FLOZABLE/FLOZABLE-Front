@@ -23,13 +23,14 @@
   height: 100%;
 }
 
-#friendRequestsViewer {
+#friendsActivityViewer {
   height: calc(50% - 1rem);
   display: flex;
   flex-direction: column;
 }
 
-#friendsActivityViewer {
+#friendRequestsViewer {
   height: calc(50% - 1rem);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }

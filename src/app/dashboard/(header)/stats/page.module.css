@@ -23,6 +23,11 @@
   min-height: 50rem;
 }
 
+.subjectsTimeline {
+  flex: 1;
+  display: flex;
+}
+
 .subjectsPie {
-  width: 50rem;
+  width: 30rem;
 }

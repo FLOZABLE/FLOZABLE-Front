@@ -32,7 +32,7 @@
   height: 90%;
   margin-top: 0.125rem;
   position: absolute;
-  background-color: var(--blue0);
+  background-color: var(--orange-1);
   border-radius: 3.125rem;
   top: 0em;
   transition: 0.3s ease-in-out left;

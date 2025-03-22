@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import styles from "./FriendsActivityViewer.module.css";
 import { useRouter } from "next/navigation";
 import { useFriendsStatus } from "@/hooks/friendsHooks";
@@ -21,8 +21,6 @@ function FriendsActivityViewer() {
 
   const { friendsStatus, friendsStatusIsLoading, friendsStatusError } =
     useFriendsStatus();
-
-  console.log("friends err", friendsStatusError);
 
   if (friendsStatusError) {
     return <RecommendedFriendsViewer />;

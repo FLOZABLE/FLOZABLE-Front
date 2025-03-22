@@ -72,7 +72,7 @@ export default function SubjectsTimeline({ viewDate }) {
         <h2>Study Timeline</h2>
       </div>
       {timeline.length ? (
-        <div className={`${styles.timeline} customScroll`}>
+        <div className={`${styles.timeline} contents customScroll`}>
           <VerticalTimeline>
             {timeline.slice(0, page * pageLength).map((data, i) => {
               return (

@@ -30,7 +30,7 @@
     var(--blue-2)
   );
   --modal-width: 18rem;
-  --sidebar-width: 18rem;
+  --sidebar-width: 15rem;
   --header-height: 4rem;
   --header-offset: 1rem;
   --subject-labels-color: var(--gray-3);

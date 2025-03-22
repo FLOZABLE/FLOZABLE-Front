@@ -8,6 +8,7 @@
   padding: 1rem;
   overflow: hidden;
   display: flex;
+  gap: 1rem;
   flex-direction: column;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

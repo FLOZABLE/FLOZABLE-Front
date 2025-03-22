@@ -71,7 +71,9 @@ export default function Stats() {
             <StudyHeatMap viewDate={viewDate} setViewDate={setViewDate} />
           </div>
           <div className={styles.layer} id={styles.timeline}>
-            <SubjectsTimeline />
+            <div className={styles.subjectsTimeline}>
+              <SubjectsTimeline viewDate={viewDate} />
+            </div>
             <div className={styles.subjectsPie}>
               <SubjectsPie
                 viewDate={viewDate}
