@@ -66,7 +66,7 @@ function AddSubjectModal({}) {
         subjectsTimerWorkerRef?.current?.postMessage({
           command: "stopSubjectTimer",
         });
-        socket.emit("stop", subjectId);
+        socket.emit("study:stop", subjectId);
       }
     }
   }, [isAddSubjectModal]);

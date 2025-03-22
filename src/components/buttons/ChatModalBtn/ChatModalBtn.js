@@ -12,6 +12,7 @@ export default function ChatModalBtn({ chatroomId }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    console.log("chatrooms", chatrooms);
     if (!chatroomId) {
       const count = chatrooms.reduce(
         (acc, chatroom) => acc + chatroom.unreads || 0,

@@ -71,12 +71,12 @@ function MyGroupsViewer({}) {
     //only in study page
     //if (!window.location.href.includes("study")) return;
 
-    socket.emit("changeGroup", group.group_id);
-    mediaSocket.emit("changeGroup", group.group_id);
+    socket.emit("group:change", group.group_id);
+    mediaSocket.emit("group:change", group.group_id);
 
     return () => {
-      socket.emit("changeGroup", null);
-      mediaSocket.emit("changeGroup", null);
+      socket.emit("group:change", null);
+      mediaSocket.emit("group:change", null);
     };
   }, [debouncedIndex, myGroups.length]);
 

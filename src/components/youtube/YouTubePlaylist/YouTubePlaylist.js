@@ -3,7 +3,7 @@ import styles from "./YouTubePlaylist.module.css";
 import {
   usePlaylistsYoutube,
   usePlaylistsYoutubeItems,
-} from "@/Hooks/playlistHooks";
+} from "@/hooks/playlistHooks";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";

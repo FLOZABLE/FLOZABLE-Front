@@ -67,7 +67,7 @@ function ChatModal({}) {
   }, []);
 
   const onSubmit = useCallback(() => {
-    socket.emit("chat/send", chatModal.chatroom_id, msgInput);
+    socket.emit("chat:send", chatModal.chatroom_id, msgInput);
     setMsgInput("");
     scrollToBottom("smooth");
   }, [msgInput, chatModal.chatroom_id]);
@@ -176,7 +176,7 @@ function ChatModal({}) {
 
         return newState;
       });
-      socket.emit("chat/read", chatModal.chatroom_id);
+      socket.emit("chat:read", chatModal.chatroom_id);
     }
 
     const messageAudio = new Audio("/audio/message.mp3");
@@ -184,48 +184,61 @@ function ChatModal({}) {
     const onChatMessage = ({ message }) => {
       console.log(message);
       scrollToBottom("smooth");
+
       if (message.user_id !== accountData?.user_id) {
-        //const messageAudio = new Audio("/audio/message.mp3");
         messageAudio.play();
       }
+
       updateChatrooms((prev) => {
         const newChatrooms = [...prev];
         const chatroomIndex = newChatrooms.findIndex(
           (chatroom) => chatroom.chatroom_id === message.chatroom_id
         );
-        console.log("chatroomindex", chatroomIndex, newChatrooms);
-        if (chatroomIndex === -1) return prev;
 
-        newChatrooms[chatroomIndex].lastMsg = message;
+        if (chatroomIndex === -1) return [...prev]; // Ensure new reference
+
+        // Create a new object instead of mutating
+        const updatedChatroom = {
+          ...newChatrooms[chatroomIndex],
+          lastMsg: message,
+          unreads:
+            chatModal.chatroom_id === message.chatroom_id
+              ? 0
+              : newChatrooms[chatroomIndex].unreads + 1,
+          lastRead:
+            chatModal.chatroom_id === message.chatroom_id
+              ? message.message_id
+              : newChatrooms[chatroomIndex].lastRead,
+        };
+
+        const updatedChatrooms = [
+          updatedChatroom,
+          ...newChatrooms.slice(0, chatroomIndex),
+          ...newChatrooms.slice(chatroomIndex + 1),
+        ];
 
         if (chatModal.chatroom_id === message.chatroom_id) {
           setMessages((prev) => [...prev, message]);
-          socket.emit("chat/read", chatModal.chatroom_id);
-          newChatrooms[chatroomIndex].unreads = 0;
-          newChatrooms[chatroomIndex].lastRead = message.message_id;
+          socket.emit("chat:read", chatModal.chatroom_id);
           setLastReadMessageId(message.message_id);
         } else {
-          newChatrooms[chatroomIndex].unreads += 1;
-          newChatrooms[chatroomIndex].lastMsg = message;
           toast.info(
             <div>
-              {newChatrooms[chatroomIndex].name}
+              {updatedChatroom.name}
               <br />
               &quot;{message.message}&quot;
             </div>
           );
         }
 
-        const element = newChatrooms.splice(chatroomIndex, 1)[0]; // Remove the element from fromIndex
-        newChatrooms.splice(0, 0, element);
-        return newChatrooms;
+        return updatedChatrooms; // Ensure new reference
       });
     };
 
-    socket.on("chat/message", onChatMessage);
+    socket.on("chat:message", onChatMessage);
 
     return () => {
-      socket.off("chat/message", onChatMessage);
+      socket.off("chat:message", onChatMessage);
     };
   }, [chatModal.chatroom_id, accountData]);
 

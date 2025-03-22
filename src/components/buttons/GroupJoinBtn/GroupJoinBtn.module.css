@@ -9,6 +9,10 @@
   cursor: pointer;
 }
 
+.GroupJoinBtn p {
+  white-space: nowrap;
+}
+
 .inner {
   display: flex;
   align-items: center;

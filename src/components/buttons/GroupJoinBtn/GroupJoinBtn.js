@@ -21,7 +21,7 @@ export default function GroupJoinBtn({ groupInfo }) {
             localStorage.removeItem("swiperGroupId");
           }}
         >
-          Join the session
+          <p>Join the session</p>
         </Link>
       ) : (
         <div

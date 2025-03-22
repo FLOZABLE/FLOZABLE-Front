@@ -16,15 +16,15 @@ function MemberEl({ memberInfo, device, recvTransport }) {
   useEffect(() => {
     const activeSubject = {
       name: "Offline",
-      start: memberInfo.activeSubject?.time,
-      total: null,
+      start: false,
+      total: memberInfo.study_time,
     };
     if (
       memberInfo.activeSubject &&
       memberInfo.activeSubject?.subject_id !== "0"
     ) {
+      activeSubject.start = memberInfo.activeSubject?.time;
       activeSubject.name = `Studying ${memberInfo.activeSubject.name}`;
-      activeSubject.total = memberInfo.study_time;
     }
     setActiveSubject(activeSubject);
   }, [memberInfo]);

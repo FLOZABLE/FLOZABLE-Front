@@ -22,6 +22,7 @@ import mediaSocket from "@/utils/sockets/mediaSocket";
 import { useAccount } from "@/hooks/accountHooks";
 import { updateQueryData } from "@/utils/tools";
 import { useThemes, useThemesUser } from "@/hooks/themesHooks";
+import { toast } from "react-toastify";
 
 //modals
 
@@ -113,6 +114,12 @@ function AppProvider({ children }) {
     });
   }, []);
 
+  const updateNotificationsData = useCallback(async (newData) => {
+    await queryClient.setQueryData(["useNotifications"], (oldData) => {
+      return updateQueryData(oldData, newData, "notifications");
+    });
+  }, []);
+
   useEffect(() => {
     const onStudying = ({ userId, subject }) => {
       updateFriendsStatus((prev) => {
@@ -154,23 +161,6 @@ function AppProvider({ children }) {
       updateProfileStatus(userId, "active_subject", subject);
     };
 
-    const onDeActiveGroup = ({ userId }) => {
-      updateFriendsStatus((prev) => {
-        const friendIndex = prev.findIndex(
-          (friend) => friend.user_id === userId
-        );
-        if (friendIndex === -1) return prev;
-
-        const newFriends = [...prev];
-        newFriends[friendIndex] = {
-          ...newFriends[friendIndex],
-          activeGroup: null,
-        };
-
-        return newFriends;
-      });
-    };
-
     const onActiveGroup = ({ userId, group }) => {
       updateFriendsStatus((prev) => {
         const friendIndex = prev.findIndex(
@@ -188,17 +178,52 @@ function AppProvider({ children }) {
       });
     };
 
+    const onDeActiveGroup = ({ userId }) => {
+      updateFriendsStatus((prev) => {
+        const friendIndex = prev.findIndex(
+          (friend) => friend.user_id === userId
+        );
+        if (friendIndex === -1) return prev;
+
+        const newFriends = [...prev];
+        newFriends[friendIndex] = {
+          ...newFriends[friendIndex],
+          activeGroup: null,
+        };
+
+        return newFriends;
+      });
+    };
+
+    const onNotification = (notification) => {
+      updateNotificationsData((prev) => {
+        const updatedNotifications = [...prev, notification];
+
+        return updatedNotifications;
+      });
+      toast.info(notification.message?.title);
+    };
+
     socket.on("study:start", onStudying);
     socket.on("study:stop", onStopStudying);
-    socket.on(`group:member:online`, onDeActiveGroup);
-    socket.on(`group:member:offline`, onActiveGroup);
+
+    socket.on(`group:member:online`, onActiveGroup);
+    socket.on(`group:member:offline`, onDeActiveGroup);
+
+    socket.on("notification", onNotification);
+
     return () => {
       socket.off("study:start", onStudying);
       socket.off("study:stop", onStopStudying);
-      socket.off(`group:member:online`, onDeActiveGroup);
-      socket.off(`group:member:offline`, onActiveGroup);
+
+      socket.off(`group:member:online`, onActiveGroup);
+      socket.off(`group:member:offline`, onDeActiveGroup);
+
+      socket.off("notification", onNotification);
     };
   }, []);
+
+  console.log("providers");
 
   return (
     <WorkersProvider>
