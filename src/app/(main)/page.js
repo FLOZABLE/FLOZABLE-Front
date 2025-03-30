@@ -18,7 +18,7 @@ import {
   faStar,
   faTrophy,
 } from "@fortawesome/free-solid-svg-icons";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useWindowSize } from "@/hooks/otherHooks";
 import GradientBtn from "@/components/buttons/GradientBtn/GradientBtn";
 import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
@@ -160,6 +160,22 @@ export default function Home() {
   const handleReviewNext = useCallback(() => {
     if (!reviewsRef.current) return;
     reviewsRef.current.swiper.slideNext();
+  }, []);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        console.log("Page is hidden");
+      } else {
+        console.log("Page is visible");
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   return (

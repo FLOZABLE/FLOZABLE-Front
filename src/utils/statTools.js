@@ -39,7 +39,7 @@ function updateTimeTrend(subjects, mode, sum) {
   const datumPoint = DateTime.fromSeconds(subjects[mode].created_at);
   subjects[mode].total.map((val, i) => {
     const date = datumPoint.plus({ [sum]: i });
-    const label = date.toFormat(viewer === "month" ? "yy/M" : "M/d");
+    const label = date.toFormat(mode === "month" ? "yy/M" : "M/d");
     data.push(val);
     labels.push(label);
   });
