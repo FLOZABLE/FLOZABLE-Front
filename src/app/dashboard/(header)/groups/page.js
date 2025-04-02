@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import styles from "./page.module.css";
 import { useNextStep } from "nextstepjs";
 import MyGroupsViewer from "@/components/groups/MyGroupsViewer/MyGroupsViewer";
@@ -8,12 +8,10 @@ import TagsGenerator from "@/components/inputs/TagsGenerator/TagsGenerator";
 import SearchBar from "@/components/inputs/SearchBar/SearchBar";
 import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
 import GroupsContainer from "@/components/groups/GroupsContainer/GroupsContainer";
-import { CreateGroupModalContext } from "@/components/structure/ModalProviders";
+import { useCreateGroupModal } from "@/components/structure/ModalProviders";
 
 function Groups() {
-  const { setCreateGroupModal, createGroupModal } = useContext(
-    CreateGroupModalContext
-  );
+  const { setCreateGroupModal, createGroupModal } = useCreateGroupModal();
 
   const { currentStep, setCurrentStep } = useNextStep();
 

@@ -4,10 +4,10 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { useGroups } from "@/hooks/groupsHook";
-import { JoinGroupModalContext } from "@/components/structure/ModalProviders";
+import { useJoinGroupModal } from "@/components/structure/ModalProviders";
 
 export default function GroupJoinBtn({ groupInfo }) {
-  const { setJoinGroupModal } = useContext(JoinGroupModalContext);
+  const { setJoinGroupModal } = useJoinGroupModal();
 
   const { myGroups } = useGroups();
 

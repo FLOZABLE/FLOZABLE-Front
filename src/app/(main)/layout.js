@@ -1,7 +1,7 @@
 "use client";
 
 import MainFooter from "@/components/structure/MainFooter/MainFooter";
-import MainHeader from "@/components/structure/MainHeader/MainHeader";
+import { MainHeader } from "@/components/structure/MainHeader";
 import { useEffect } from "react";
 
 export default function MainLayout({ children }) {

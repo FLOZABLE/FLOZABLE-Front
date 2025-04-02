@@ -3,10 +3,10 @@ import styles from "./ChatModalBtn.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { useChatRooms } from "@/hooks/chatHooks";
-import { ChatModalContext } from "@/components/structure/ModalProviders";
+import { useChatModal } from "@/components/structure/ModalProviders";
 
 export default function ChatModalBtn({ chatroomId }) {
-  const { setChatModal } = useContext(ChatModalContext);
+  const { setChatModal } = useChatModal();
   const { chatrooms } = useChatRooms();
 
   const [count, setCount] = useState(0);

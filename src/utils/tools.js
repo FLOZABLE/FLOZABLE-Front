@@ -1,5 +1,7 @@
+import clsx from "clsx";
 import ct from "countries-and-timezones";
 import { DateTime } from "luxon";
+import { twMerge } from "tailwind-merge";
 
 export function getCountryCode(timezone) {
   try {
@@ -318,3 +320,7 @@ export const calculateTimeToMidnight = () => {
   midnight.setHours(24, 0, 0, 0); // Sets to next midnight (12 AM)
   return midnight - now; // Time in milliseconds until midnight
 };
+
+export function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}

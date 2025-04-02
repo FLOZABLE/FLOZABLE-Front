@@ -4,11 +4,11 @@ import parse from "html-react-parser";
 import MovingCheckBox from "@/components/buttons/MovingCheckBox/MovingCheckBox";
 import { DEFAULT_PLAN } from "@/utils/constants";
 import { patchPlanStatus } from "@/apis/plansApi";
-import { PlanModalContext } from "@/components/structure/ModalProviders";
+import { usePlanModal } from "@/components/structure/ModalProviders";
 import { PlansContext } from "@/components/structure/Providers";
 
 export default function Plan({ plan }) {
-  const { setPlanModal } = useContext(PlanModalContext);
+  const { setPlanModal } = usePlanModal();
   const { plans, setPlans } = useContext(PlansContext);
 
   const togglePlan = useCallback(async () => {

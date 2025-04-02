@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import styles from "./AccountWall.module.css";
-import { AccountModalContext } from "@/components/structure/ModalProviders";
+import { useAccountModal } from "@/components/structure/ModalProviders";
 
 export default function AccountWall() {
-  const { setIsAccountModal } = useContext(AccountModalContext);
+  const { setIsAccountModal } = useAccountModal();
 
   return (
     <div

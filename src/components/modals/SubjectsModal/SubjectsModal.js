@@ -19,8 +19,8 @@ import {
 } from "@/apis/subjectsApi";
 import { useSubjects, useSubjectUsers } from "@/hooks/subjectsHooks";
 import {
-  SearchUsersModalContext,
-  SubjectsModalContext,
+  useSearchUsersModal,
+  useSubjectsModal,
 } from "@/components/structure/ModalProviders";
 import SubjectsManager from "@/components/subjects/SubjectsManager/SubjectsManager";
 import CustomInput from "@/components/inputs/CustomInput/CustomInput";
@@ -31,9 +31,8 @@ import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
 import { deleteSubject } from "@/utils/timelineSorter";
 
 export default function SubjectsModal() {
-  const { isSubjectsModal, setIsSubjectsModal } =
-    useContext(SubjectsModalContext);
-  const { setSearchUsersModal } = useContext(SearchUsersModalContext);
+  const { isSubjectsModal, setIsSubjectsModal } = useSubjectsModal();
+  const { setSearchUsersModal } = useSearchUsersModal();
 
   const { subjects, updateSubjects } = useSubjects();
 

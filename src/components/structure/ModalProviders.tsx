@@ -1,180 +1,135 @@
-import { createContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { usePathname } from "next/navigation";
 import { DEFAULT_PLAN } from "@/utils/constants";
 
-// Define the type for ModalProvider props generically
-interface ModalProviderProps<S> {
-  children: ReactNode;
-  context: React.Context<any>; // Temporarily any, refined later
-  initialState: S;
-  stateName: string;
-  setStateName: string;
-  resetOnPathChange?: boolean;
-}
-
-// Generic Modal Provider Component
-function ModalProvider<S>({
-  children,
-  context,
-  initialState,
-  stateName,
-  setStateName,
-  resetOnPathChange = true,
-}: ModalProviderProps<S>) {
-  const [state, setState] = useState<S>(initialState);
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (resetOnPathChange) {
-      setState(initialState);
-    }
-  }, [pathname, resetOnPathChange, initialState]);
-
-  const value = { [stateName]: state, [setStateName]: setState };
-  return <context.Provider value={value}>{children}</context.Provider>;
-}
-
-// Define a generic type for the context value
-type ModalContextValue<S> = {
-  [key: string]: S | (() => void);
+// Helper type for context value
+type ModalContextValue<State, StateName extends string> = {
+  [K in StateName | `set${Capitalize<StateName>}`]: K extends StateName
+    ? State
+    : (value: State | ((prev: State) => State)) => void;
 };
 
-// Helper function to create typed context and provider
-export function createModalProvider<S>(
-  initialState: S,
-  stateName: string,
-  defaultResetOnPathChange: boolean = true
-): {
-  Context: React.Context<ModalContextValue<S>>;
-  Provider: React.FC<{ children: ReactNode; resetOnPathChange?: boolean }>;
-} {
-  const setStateName = `set${
-    stateName.charAt(0).toUpperCase() + stateName.slice(1)
-  }`;
+// Generic modal provider creator
+export function createModalProvider<State, StateName extends string>(
+  initialState: State,
+  stateName: StateName,
+  defaultResetOnPathChange = true
+) {
+  type ContextValue = ModalContextValue<State, StateName>;
+  const setStateName = `set${stateName[0].toUpperCase()}${stateName.slice(
+    1
+  )}` as const;
 
-  const Context = createContext<ModalContextValue<S>>({
+  const Context = createContext<ContextValue>({
     [stateName]: initialState,
     [setStateName]: () => {},
-  });
+  } as ContextValue);
 
-  const Provider: React.FC<{
+  const Provider = ({
+    children,
+    resetOnPathChange = defaultResetOnPathChange,
+  }: {
     children: ReactNode;
     resetOnPathChange?: boolean;
-  }> = ({ children, resetOnPathChange = defaultResetOnPathChange }) => (
-    <ModalProvider
-      context={Context}
-      initialState={initialState}
-      stateName={stateName}
-      setStateName={setStateName}
-      resetOnPathChange={resetOnPathChange}
-    >
-      {children}
-    </ModalProvider>
-  );
+  }) => {
+    const [state, setState] = useState<State>(initialState);
+    const pathname = usePathname();
 
-  return { Context, Provider };
+    useEffect(() => {
+      if (resetOnPathChange) {
+        setState(initialState);
+      }
+    }, [pathname, resetOnPathChange, initialState]);
+
+    const value = useMemo(
+      () => ({
+        [stateName]: state,
+        [setStateName]: setState,
+      }),
+      [state]
+    ) as ContextValue;
+
+    return <Context.Provider value={value}>{children}</Context.Provider>;
+  };
+
+  const useModalContext = () => {
+    const context = useContext(Context);
+    if (!context) {
+      throw new Error(
+        `use${stateName}Context must be used within its provider`
+      );
+    }
+    return context;
+  };
+
+  // Export the custom hook for each modal
+  const useModal = () => {
+    const context = useModalContext();
+    return context;
+  };
+
+  return {
+    Context,
+    Provider,
+    useModal, // Export the hook here
+  };
 }
 
-// **AccountModal**
-export const { Context: AccountModalContext, Provider: AccountModalProvider } =
-  createModalProvider<boolean>(false, "isAccountModal");
-
-// **JoinGroupModal**
-type JoinGroupModalState = { open: boolean; group: string | null };
+// Define modal providers and hooks
 export const {
-  Context: JoinGroupModalContext,
-  Provider: JoinGroupModalProvider,
-} = createModalProvider<JoinGroupModalState>(
-  { open: false, group: null },
-  "joinGroupModal"
-);
-
-// **CreateGroupModal**
-export const {
-  Context: CreateGroupModalContext,
-  Provider: CreateGroupModalProvider,
-} = createModalProvider<boolean>(false, "createGroupModal");
-
-// **EditGroupModal**
-type EditGroupModalState = { opened: boolean; group_id: string | null };
-export const {
-  Context: EditGroupModalContext,
-  Provider: EditGroupModalProvider,
-} = createModalProvider<EditGroupModalState>(
-  { opened: false, group_id: null },
-  "editGroupModal"
-);
-
-// **SubjectsModal**
-type SubjectsModalState = { opened: boolean; subject_id: string | null };
-export const {
-  Context: SubjectsModalContext,
-  Provider: SubjectsModalProvider,
-} = createModalProvider<SubjectsModalState>(
-  { opened: false, subject_id: null },
-  "isSubjectsModal"
-);
-
-// **PlanModal**
-type PlanModalState = typeof DEFAULT_PLAN; // Replace with actual type if known
-export const { Context: PlanModalContext, Provider: PlanModalProvider } =
-  createModalProvider<PlanModalState>(DEFAULT_PLAN, "planModal");
-
-// **AddSubjectsModal**
-export const {
-  Context: AddSubjectsModalContext,
   Provider: AddSubjectsModalProvider,
-} = createModalProvider<boolean>(false, "isAddSubjectModal");
-
-// **ChatModal** (no reset on path change)
-type ChatModalState = {
-  chatroom_id: string | null;
-  name: string;
-  opened: boolean;
-  totalNewMsg: number;
-};
-export const { Context: ChatModalContext, Provider: ChatModalProvider } =
-  createModalProvider<ChatModalState>(
+  useModal: useAddSubjectsModal,
+} = createModalProvider(false, "isAddSubjectModal");
+export const { Provider: AccountModalProvider, useModal: useAccountModal } =
+  createModalProvider(false, "isAccountModal");
+export const { Provider: JoinGroupModalProvider, useModal: useJoinGroupModal } =
+  createModalProvider({ open: false, group: null }, "joinGroupModal");
+export const {
+  Provider: CreateGroupModalProvider,
+  useModal: useCreateGroupModal,
+} = createModalProvider(false, "createGroupModal");
+export const { Provider: EditGroupModalProvider, useModal: useEditGroupModal } =
+  createModalProvider({ opened: false, group_id: null }, "editGroupModal");
+export const { Provider: SubjectsModalProvider, useModal: useSubjectsModal } =
+  createModalProvider({ opened: false, subject_id: null }, "isSubjectsModal");
+export const { Provider: PlanModalProvider, useModal: usePlanModal } =
+  createModalProvider(DEFAULT_PLAN, "planModal");
+export const { Provider: ChatModalProvider, useModal: useChatModal } =
+  createModalProvider(
     { chatroom_id: null, name: "", opened: false, totalNewMsg: 0 },
     "chatModal",
     false
   );
-
-// **SearchUsersModal**
-type SearchUsersModalState = { opened: boolean; onClick: (() => void) | null };
 export const {
-  Context: SearchUsersModalContext,
   Provider: SearchUsersModalProvider,
-} = createModalProvider<SearchUsersModalState>(
-  { opened: false, onClick: null },
-  "searchUsersModal"
-);
+  useModal: useSearchUsersModal,
+} = createModalProvider({ opened: false, onClick: null }, "searchUsersModal");
+export const { Provider: WelcomeModalProvider, useModal: useWelcomeModal } =
+  createModalProvider(false, "isWelcomeModal", false);
 
-// **WelcomeModal** (no reset on path change)
-export const { Context: WelcomeModalContext, Provider: WelcomeModalProvider } =
-  createModalProvider<boolean>(false, "isWelcomeModal", false);
+const MODAL_PROVIDERS = [
+  AccountModalProvider,
+  JoinGroupModalProvider,
+  CreateGroupModalProvider,
+  EditGroupModalProvider,
+  SubjectsModalProvider,
+  PlanModalProvider,
+  AddSubjectsModalProvider,
+  ChatModalProvider,
+  SearchUsersModalProvider,
+  WelcomeModalProvider,
+];
 
-// Compose all providers
 export default function ModalProviders({ children }: { children: ReactNode }) {
-  return (
-    <AccountModalProvider>
-      <JoinGroupModalProvider>
-        <CreateGroupModalProvider>
-          <EditGroupModalProvider>
-            <SubjectsModalProvider>
-              <PlanModalProvider>
-                <AddSubjectsModalProvider>
-                  <ChatModalProvider>
-                    <SearchUsersModalProvider>
-                      <WelcomeModalProvider>{children}</WelcomeModalProvider>
-                    </SearchUsersModalProvider>
-                  </ChatModalProvider>
-                </AddSubjectsModalProvider>
-              </PlanModalProvider>
-            </SubjectsModalProvider>
-          </EditGroupModalProvider>
-        </CreateGroupModalProvider>
-      </JoinGroupModalProvider>
-    </AccountModalProvider>
+  return MODAL_PROVIDERS.reduce(
+    (acc, Provider) => <Provider>{acc}</Provider>,
+    children
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./FriendsViewer.module.css";
 import RecommendedFriendsViewer from "../RecommendedFriendsViewer/RecommendedFriendsViewer";
 import { useRouter } from "next/navigation";
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { postFriendsRequestReply } from "@/apis/friendsApi";
 import { ReceivedFriendRequestContainer } from "../FriendRequestsViewer/FriendRequestsViewer";
-import { SearchUsersModalContext } from "@/components/structure/ModalProviders";
+import { useSearchUsersModal } from "@/components/structure/ModalProviders";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
 import UserContainer from "@/components/users/UserContainer/UserContainer";
 import UserSubjectViewer from "@/components/users/UserSubjectViewer/UserSubjectViewer";
@@ -18,7 +18,7 @@ import ChatBtn from "@/components/buttons/ChatBtn/ChatBtn";
 import { useNotifications } from "@/hooks/notificationsHooks";
 
 function FriendsViewer() {
-  const { setSearchUsersModal } = useContext(SearchUsersModalContext);
+  const { setSearchUsersModal } = useSearchUsersModal();
 
   const router = useRouter();
 

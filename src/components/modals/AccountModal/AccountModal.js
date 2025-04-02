@@ -8,7 +8,7 @@ import {
   faUser,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
 import { postAuthSignin, postAuthSignup } from "@/apis/authApi";
@@ -17,7 +17,7 @@ import GoogleLoginBtn from "@/components/buttons/GoogleLoginBtn/GoogleLoginBtn";
 import ShowPasswordBtn from "@/components/buttons/ShowPasswordBtn/ShowPasswordBtn";
 import LineInput from "@/components/inputs/LineInput/LineInput";
 import { getTimezone } from "@/utils/tools";
-import { AccountModalContext } from "@/components/structure/ModalProviders";
+import { useAccountModal } from "@/components/structure/ModalProviders";
 
 export default function AccountModal() {
   const searchParams = useSearchParams();
@@ -25,7 +25,7 @@ export default function AccountModal() {
 
   const { accountRefetch } = useAccount();
 
-  const { isAccountModal, setIsAccountModal } = useContext(AccountModalContext);
+  const { isAccountModal, setIsAccountModal } = useAccountModal();
 
   const [isSignIn, setIsSignIn] = useState(true);
 

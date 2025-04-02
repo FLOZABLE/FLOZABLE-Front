@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useNextStep } from "nextstepjs";
 import { WorkersContext } from "@/components/structure/Providers";
-import { AddSubjectsModalContext } from "@/components/structure/ModalProviders";
+import { useAddSubjectsModal } from "@/components/structure/ModalProviders";
 import { useSubjects } from "@/hooks/subjectsHooks";
 import { useAccount } from "@/hooks/accountHooks";
 import socket from "@/utils/sockets/socket";
@@ -20,7 +20,7 @@ export default function SubjectTimer({}) {
   const { currentStep, setCurrentStep } = useNextStep();
 
   const { subjectsTimerWorkerRef } = useContext(WorkersContext);
-  const { setIsAddSubjectModal } = useContext(AddSubjectsModalContext);
+  const { setIsAddSubjectModal } = useAddSubjectsModal();
 
   const { accountData } = useAccount();
   const { subjects, updateSubjects, subjectsRefetch } = useSubjects();

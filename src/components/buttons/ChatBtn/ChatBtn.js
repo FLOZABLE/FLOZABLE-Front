@@ -3,13 +3,13 @@ import { faComments } from "@fortawesome/free-solid-svg-icons";
 import React, { useCallback, useContext } from "react";
 import BlobBtn from "../BlobBtn/BlobBtn";
 import styles from "./ChatBtn.module.css";
-import { ChatModalContext } from "@/components/structure/ModalProviders";
+import { ChatModalContext, useChatModal } from "@/components/structure/ModalProviders";
 import { postChatRequest } from "@/apis/chatApi";
 import { useChatRooms } from "@/hooks/chatHooks";
 import { useAccount } from "@/hooks/accountHooks";
 
 export default function ChatBtn({ targetInfo, padding }) {
-  const { setChatModal } = useContext(ChatModalContext);
+  const { setChatModal } = useChatModal();
 
   const { chatrooms } = useChatRooms();
   const { accountData } = useAccount();

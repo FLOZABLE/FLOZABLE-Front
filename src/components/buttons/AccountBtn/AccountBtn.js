@@ -7,10 +7,10 @@ import {
 import { useAccount } from "@/hooks/accountHooks";
 import { getAuthLogout } from "@/apis/authApi";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AccountModalContext } from "@/components/structure/ModalProviders";
+import { useAccountModal } from "@/components/structure/ModalProviders";
 
 export default function AccountBtn() {
-  const { setIsAccountModal } = useContext(AccountModalContext);
+  const { setIsAccountModal } = useAccountModal();
   const { accountData, clearAccountData } = useAccount();
 
   return (

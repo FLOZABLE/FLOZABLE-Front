@@ -6,7 +6,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useSubjects } from "@/hooks/subjectsHooks";
-import { AddSubjectsModalContext } from "@/components/structure/ModalProviders";
+import { useAddSubjectsModal } from "@/components/structure/ModalProviders";
 import ViewerSelectorBtn from "@/components/buttons/ViewerSelectorBtn/ViewerSelectorBtn";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
 import PieCustomTooltip from "../PieCustomTooltip";
@@ -14,7 +14,7 @@ import { updateTimeUsagePie } from "@/utils/statTools";
 
 function SubjectsPie({ viewDate, viewer, setViewer }) {
   const { subjects, subjectsIsLoading } = useSubjects();
-  const { setIsAddSubjectModal } = useContext(AddSubjectsModalContext);
+  const { setIsAddSubjectModal } = useAddSubjectsModal();
 
   const [subjectsPie, setSubjectsPie] = useState([]);
   const [totalTime, setTotalTime] = useState("0 Seconds");

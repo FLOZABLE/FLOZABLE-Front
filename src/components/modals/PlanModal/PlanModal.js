@@ -4,6 +4,9 @@ import {
   AddSubjectsModalContext,
   PlanModalContext,
   SearchUsersModalContext,
+  useAddSubjectsModal,
+  usePlanModal,
+  useSearchUsersModal,
 } from "@/components/structure/ModalProviders";
 import { PlansContext } from "@/components/structure/Providers";
 import styles from "./PlanModal.module.css";
@@ -46,9 +49,9 @@ export default function PlanModal() {
   const { subjects } = useSubjects();
   const { currentStep, setCurrentStep } = useNextStep();
 
-  const { planModal, setPlanModal } = useContext(PlanModalContext);
-  const { setIsAddSubjectModal } = useContext(AddSubjectsModalContext);
-  const { setSearchUsersModal } = useContext(SearchUsersModalContext);
+  const { planModal, setPlanModal } = usePlanModal();
+  const { setIsAddSubjectModal } = useAddSubjectsModal();
+  const { setSearchUsersModal } = useSearchUsersModal();
 
   const [debouncedTitle] = useDebounce(planModal.title, 2000);
   const [debouncedDescription] = useDebounce(planModal.description, 2000);
@@ -187,7 +190,7 @@ export default function PlanModal() {
     [plans, planModal, planModalss, subjects]
   );
 
-  console.log(plans)
+  console.log(plans);
 
   const submit = useCallback(async () => {
     try {

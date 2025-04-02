@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import SubjectLabels from "@/components/charts/SubjectLabels/SubjectLabels";
 import { useSubjects } from "@/hooks/subjectsHooks";
-import { PlanModalContext } from "@/components/structure/ModalProviders";
+import { usePlanModal } from "@/components/structure/ModalProviders";
 import { useNextStep } from "nextstepjs";
 import { PlansContext } from "@/components/structure/Providers";
 import { DEFAULT_PLAN } from "@/utils/constants";
@@ -26,7 +26,7 @@ export default function PlansTimeline({
   maxHeight = "50rem",
 }) {
   const { subjects } = useSubjects();
-  const { planModal, setPlanModal } = useContext(PlanModalContext);
+  const { planModal, setPlanModal } = usePlanModal();
   const { plans, setPlans, setPlansDate } = useContext(PlansContext);
 
   const { currentStep, setCurrentStep } = useNextStep();

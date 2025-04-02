@@ -20,7 +20,7 @@ import {
 import { useAccount } from "@/hooks/accountHooks";
 import { useSubjects } from "@/hooks/subjectsHooks";
 import NotificationsContainer from "@/components/notifications/NotificationsContainer/NotificationsContainer";
-import { AccountModalContext } from "../ModalProviders";
+import { useAccountModal } from "../ModalProviders";
 import ProfileImage from "@/components/users/ProfileImage/ProfileImage";
 import ChatModalBtn from "@/components/buttons/ChatModalBtn/ChatModalBtn";
 import {
@@ -42,7 +42,7 @@ function HeaderEl({ children, value, title }) {
   );
 }
 function Header({}) {
-  const { setIsAccountModal } = useContext(AccountModalContext);
+  const { setIsAccountModal } = useAccountModal();
 
   const { accountData } = useAccount();
   const { groupedSubjects } = useSubjects();

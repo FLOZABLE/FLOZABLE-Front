@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import styles from "./SubjectsManager.module.css";
 import { useSubjects } from "@/hooks/subjectsHooks";
-import { SubjectsModalContext } from "@/components/structure/ModalProviders";
+import { useSubjectsModal } from "@/components/structure/ModalProviders";
 import BlobBtn from "@/components/buttons/BlobBtn/BlobBtn";
 
 function SubjectsManager() {
   const { subjects } = useSubjects();
-  const { setIsSubjectsModal } = useContext(SubjectsModalContext);
+  const { setIsSubjectsModal } = useSubjectsModal();
 
   return (
     <div className={styles.SubjectsManager}>

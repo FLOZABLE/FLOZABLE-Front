@@ -2,12 +2,6 @@ import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import { Bounce, ToastContainer } from "react-toastify";
 import { AppContainer } from "@/components/structure/Providers";
-import AccountModal from "@/components/modals/AccountModal/AccountModal";
-import PlanModal from "@/components/modals/PlanModal/PlanModal";
-import AddSubjectModal from "@/components/modals/AddSubjectModal/AddSubjectModal";
-import CreateGroupModal from "@/components/modals/CreateGroupModal/CreateGroupModal";
-import SearchUsersModal from "@/components/modals/SearchUsersModal/SearchUsersModal";
-import JoinGroupModal from "@/components/modals/JoinGroupModal/JoinGroupModal";
 import { Suspense } from "react";
 
 import "swiper/css";
@@ -17,8 +11,7 @@ import "react-calendar-heatmap/dist/styles.css";
 import "react-tooltip/dist/react-tooltip.css";
 import "react-vertical-timeline-component/style.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import ChatModal from "@/components/modals/ChatModal/ChatModal";
-import SubjectsModal from "@/components/modals/SubjectsModal/SubjectsModal";
+import AccountModal from "@/components/modals/AccountModal/AccountModal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -43,16 +36,7 @@ export default function RootLayout({ children }) {
       <body className={`${inter.variable} ${roboto.variable}`}>
         <Suspense>
           <AppContainer>
-            {/* <PlanModal />
-          <ChatModal /> */}
             <AccountModal />
-            <PlanModal />
-            <AddSubjectModal />
-            <SearchUsersModal />
-            <CreateGroupModal />
-            <JoinGroupModal />
-            <ChatModal />
-            <SubjectsModal />
             {/* <JoinGroupModal />
           <AddSubjectModal />
           <SubjectsModal />

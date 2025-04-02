@@ -47,9 +47,9 @@ function Layout({ children }) {
   return (
     <>
       {children}
-      <Sidebar />
+      {/* <Sidebar />
       <Header />
-      <StudyBtn />
+      <StudyBtn /> */}
     </>
   );
 }

@@ -16,7 +16,6 @@ import {
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useWindowSize } from "@/hooks/otherHooks";
-import AccountBtn from "@/components/buttons/AccountBtn/AccountBtn";
 import TutorialBtn from "@/components/buttons/TutorialBtn/TutorialBtn";
 
 function SidebarEl({ pathname, href, children, tutorial, onClick }) {
@@ -115,7 +114,6 @@ function Sidebar({}) {
         <h3>Settings</h3>
       </SidebarEl>
       <div className={styles.buttons}>
-        <AccountBtn />
         <TutorialBtn />
       </div>
     </aside>

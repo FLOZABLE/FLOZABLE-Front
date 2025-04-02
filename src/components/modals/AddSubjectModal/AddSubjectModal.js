@@ -17,6 +17,8 @@ import { WorkersContext } from "@/components/structure/Providers";
 import socket from "@/utils/sockets/socket";
 import { putSubjectsSubject } from "@/apis/subjectsApi";
 import { sortNewSubject } from "@/utils/timelineSorter";
+import { ColorPicker } from "@/components/inputs/ColorPicker";
+import { Input } from "@/components/ui/input";
 
 function AddSubjectModal({}) {
   const { currentStep, setCurrentStep } = useNextStep();
@@ -101,46 +103,43 @@ function AddSubjectModal({}) {
   );
 
   return (
-    <div className={styles.AddSubjectModal}>
-      <DraggableModal
-        isOpen={isAddSubjectModal}
-        setIsOpen={setIsAddSubjectModal}
-        top="15rem"
-      >
-        <div className={styles.inner}>
-          <div className={styles.inputWrapper} data-tutorial={4}>
-            <CustomInput
-              input={subject.name}
-              handleInput={(e) =>
-                setSubject((prev) => ({ ...prev, name: e.target.value }))
-              }
-              placeHolder={"Subject Name"}
-              type={"text"}
-            >
-              <FontAwesomeIcon icon={faBook} />
-            </CustomInput>
-          </div>
-          <ColorPalette
-            setSelectedColor={(color) => {
+    <DraggableModal
+      isOpen={isAddSubjectModal}
+      setIsOpen={setIsAddSubjectModal}
+      top="0rem"
+    >
+      <div className="p-8 w-70 box-border">
+        <div className="mb-2.5" data-tutorial={4}>
+          <Input
+            value={subject.name}
+            placeholder="Subject Name"
+            type="text"
+            onChange={(e) =>
+              setSubject((prev) => ({ ...prev, name: e.target.value }))
+            }
+          />
+        </div>
+        <div className="mt-5 flex justify-center">
+          <ColorPicker
+            background={subject.color ?? ""}
+            setBackground={(color) => {
               setSubject((prev) => ({ ...prev, color }));
             }}
-            selectedColor={subject.color}
-            isSelectColor={isSelectColor}
-            setIsSelectColor={setIsSelectColor}
-            tutorial={5}
+            options={["solid"]}
           />
-          <div className={styles.submit} data-tutorial={6}>
-            <BlobBtn
-              onClick={() => {
-                onSubmit(subject);
-              }}
-            >
-              SAVE
-            </BlobBtn>
-          </div>
+          {/* <Button onClick={() => onSubmit(subject)}>SAVE</Button> */}
         </div>
-      </DraggableModal>
-    </div>
+        <div className="mt-5 flex justify-center" data-tutorial={6}>
+          <BlobBtn
+            onClick={() => {
+              onSubmit(subject);
+            }}
+          >
+            test
+          </BlobBtn>
+        </div>
+      </div>
+    </DraggableModal>
   );
 }
 
