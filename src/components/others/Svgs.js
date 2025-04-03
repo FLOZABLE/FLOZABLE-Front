@@ -1,7 +1,6 @@
-export const IconGoogle = (props) => (
+export const IconGoogle = ({ className, ...props }) => (
   <svg
-    width="1em"
-    height="1em"
+    className={className}
     viewBox="-0.313 0 30 30"
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"

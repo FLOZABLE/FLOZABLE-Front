@@ -11,7 +11,7 @@ import "react-calendar-heatmap/dist/styles.css";
 import "react-tooltip/dist/react-tooltip.css";
 import "react-vertical-timeline-component/style.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-import AccountModal from "@/components/modals/AccountModal/AccountModal";
+import AccountModal from "@/components/modals/AccountModal";
 
 const inter = Inter({
   subsets: ["latin"],
