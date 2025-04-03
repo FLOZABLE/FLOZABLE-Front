@@ -1,7 +1,7 @@
 import axios from "axios";
 import config from "./config";
-import { toast } from "react-toastify";
 import axiosRetry from "axios-retry";
+import { toast } from "sonner";
 
 // Axios Interceptor Instance
 const AxiosInstance = axios.create({
@@ -41,7 +41,7 @@ AxiosInstance.interceptors.response.use(
     const message = response?.data?.message;
     const type = response?.data?.status === 200 ? "success" : "error";
     if (message && type) {
-      toast(message, { type });
+      toast[type](message);
     }
     return response;
   },

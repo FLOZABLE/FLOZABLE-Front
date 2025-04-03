@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useAccountModal } from "../structure/ModalProviders";
 import {
   Credenza,
@@ -22,7 +22,6 @@ import {
   FormMessage,
 } from "../ui/form";
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
-import BlobBtn from "../buttons/BlobBtn/BlobBtn";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,6 +29,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
+import ShowPasswordBtn from "../buttons/ShowPasswordBtn";
 
 export const strictString = (type: string, maxLength = 20, minLength = 1) =>
   z
@@ -61,12 +61,11 @@ export const signUpFormSchema = z.object({
 });
 
 export default function AccountModal() {
-  const { isAccountModal, setIsAccountModal } = useAccountModal();
+  const { accountModal, setAccountModal } = useAccountModal();
   const { accountRefetch } = useAccount();
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [isSignIn, setIsSignIn] = useState(true);
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const signInForm = useForm<z.infer<typeof signInFormSchema>>({
@@ -97,10 +96,10 @@ export default function AccountModal() {
       console.log("resp", response);
 
       if (!response.success) return;
-      setIsAccountModal(false);
+      setAccountModal((prev) => ({ ...prev, opened: false }));
       accountRefetch();
     },
-    [accountRefetch, setIsAccountModal, searchParams, router]
+    [accountRefetch, setAccountModal, searchParams, router]
   );
 
   const onSignUp = useCallback(
@@ -113,7 +112,10 @@ export default function AccountModal() {
 
       if (!response.success) return;
       accountRefetch();
-      setIsSignIn(true);
+      setAccountModal((prev) => ({
+        ...prev,
+        isSignIn: true,
+      }));
 
       const newSearchParams = new URLSearchParams(searchParams);
       newSearchParams.set("welcome", "true");
@@ -121,21 +123,28 @@ export default function AccountModal() {
         scroll: false,
       });
     },
-    [accountRefetch, setIsAccountModal, searchParams, router]
+    [accountRefetch, setAccountModal, searchParams, router]
   );
 
   return (
-    <Credenza open={isAccountModal} onOpenChange={setIsAccountModal}>
+    <Credenza
+      open={accountModal.opened}
+      onOpenChange={(opened) => {
+        setAccountModal((prev) => ({ ...prev, opened }));
+      }}
+    >
       <CredenzaContent desktopClassName="!max-w-100">
         <CredenzaHeader className="justify-self-center justify-center items-center text-center">
           <Image src={"/logo.png"} width={100} height={100} alt="logo" />
           <CredenzaTitle className="text-2xl">
-            {isSignIn ? "Sign In" : "Sign Up"}
+            {accountModal.isSignIn ? "Sign In" : "Sign Up"}
           </CredenzaTitle>
-          <CredenzaDescription>Welcome Back</CredenzaDescription>
+          <CredenzaDescription>
+            {accountModal.isSignIn ? "Welcome Back" : "Create a new account"}
+          </CredenzaDescription>
         </CredenzaHeader>
         <CredenzaBody>
-          {isSignIn ? (
+          {accountModal.isSignIn ? (
             <>
               <Form {...signInForm}>
                 <form
@@ -162,7 +171,7 @@ export default function AccountModal() {
                     control={signInForm.control}
                     name="password"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="relative">
                         <FormControl>
                           <FloatingLabelInput
                             type={isShowPassword ? "text" : "password"}
@@ -171,6 +180,11 @@ export default function AccountModal() {
                             {...field}
                           />
                         </FormControl>
+                        <ShowPasswordBtn
+                          isShowPassword={isShowPassword}
+                          setIsShowPassword={setIsShowPassword}
+                          className="absolute right-0"
+                        />
                         <FormMessage />
                       </FormItem>
                     )}
@@ -219,7 +233,7 @@ export default function AccountModal() {
                   control={signUpForm.control}
                   name="password"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="relative">
                       <FormControl>
                         <FloatingLabelInput
                           type={isShowPassword ? "text" : "password"}
@@ -228,6 +242,11 @@ export default function AccountModal() {
                           {...field}
                         />
                       </FormControl>
+                      <ShowPasswordBtn
+                        isShowPassword={isShowPassword}
+                        setIsShowPassword={setIsShowPassword}
+                        className="absolute right-0"
+                      />
                       <FormMessage />
                     </FormItem>
                   )}
@@ -266,7 +285,7 @@ export default function AccountModal() {
               </form>
             </Form>
           )}
-          {isSignIn ? (
+          {accountModal.isSignIn ? (
             <div className="flex justify-center items-center mt-3">
               <p>{"Don't have an account?"}</p>
               <Button
@@ -274,7 +293,10 @@ export default function AccountModal() {
                 effect={"hoverUnderline"}
                 variant={"link"}
                 onClick={() => {
-                  setIsSignIn(false);
+                  setAccountModal((prev) => ({
+                    ...prev,
+                    isSignIn: false,
+                  }));
                 }}
               >
                 Sign up
@@ -287,7 +309,10 @@ export default function AccountModal() {
                 effect={"hoverUnderline"}
                 variant={"link"}
                 onClick={() => {
-                  setIsSignIn(true);
+                  setAccountModal((prev) => ({
+                    ...prev,
+                    isSignIn: true,
+                  }));
                 }}
               >
                 Sign in

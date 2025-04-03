@@ -88,7 +88,7 @@ export const {
   useModal: useAddSubjectsModal,
 } = createModalProvider(false, "isAddSubjectModal");
 export const { Provider: AccountModalProvider, useModal: useAccountModal } =
-  createModalProvider(false, "isAccountModal");
+  createModalProvider({ opened: false, isSignIn: true }, "accountModal");
 export const { Provider: JoinGroupModalProvider, useModal: useJoinGroupModal } =
   createModalProvider({ open: false, group: null }, "joinGroupModal");
 export const {

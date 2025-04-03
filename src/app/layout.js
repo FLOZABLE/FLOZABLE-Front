@@ -12,6 +12,7 @@ import "react-tooltip/dist/react-tooltip.css";
 import "react-vertical-timeline-component/style.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import AccountModal from "@/components/modals/AccountModal";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -45,7 +46,7 @@ export default function RootLayout({ children }) {
           <WelcomeModal /> */}
             {children}
           </AppContainer>
-          <ToastContainer
+          {/* <ToastContainer
             position="top-right"
             autoClose={5000}
             hideProgressBar={false}
@@ -58,7 +59,8 @@ export default function RootLayout({ children }) {
             theme="light"
             transition={Bounce}
             style={{ zIndex: 10000000 }}
-          />
+          /> */}
+          <Toaster richColors />
         </Suspense>
       </body>
     </html>

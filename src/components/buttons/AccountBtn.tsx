@@ -4,10 +4,8 @@ import { ArrowRightIcon } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default function AccountBtn() {
-  const { isAccountModal, setIsAccountModal } = useAccountModal();
+  const { setAccountModal } = useAccountModal();
   const { accountData, clearAccountData } = useAccount();
-
-  console.log("account", isAccountModal);
 
   return (
     <>
@@ -29,7 +27,11 @@ export default function AccountBtn() {
             icon={ArrowRightIcon}
             iconPlacement="right"
             onClick={() => {
-              setIsAccountModal(true);
+              setAccountModal((prev) => ({
+                ...prev,
+                opened: true,
+                isSignIn: true,
+              }));
             }}
           >
             Sign in
@@ -39,7 +41,11 @@ export default function AccountBtn() {
             icon={ArrowRightIcon}
             iconPlacement="right"
             onClick={() => {
-              setIsAccountModal(true);
+              setAccountModal((prev) => ({
+                ...prev,
+                opened: true,
+                isSignIn: false,
+              }));
             }}
           >
             Start for free

@@ -42,7 +42,7 @@ function HeaderEl({ children, value, title }) {
   );
 }
 function Header({}) {
-  const { setIsAccountModal } = useAccountModal();
+  const { setAccountModal } = useAccountModal();
 
   const { accountData } = useAccount();
   const { groupedSubjects } = useSubjects();
@@ -99,9 +99,9 @@ function Header({}) {
   useEffect(() => {
     console.log("account data", accountData);
     if (!accountData) {
-      setIsAccountModal(true);
+      setAccountModal((prev) => ({ ...prev, opened: true, isSignIn: true }));
     } else {
-      setIsAccountModal(false);
+      setAccountModal((prev) => ({ ...prev, opened: false, isSignIn: true }));
     }
   }, [accountData]);
 
