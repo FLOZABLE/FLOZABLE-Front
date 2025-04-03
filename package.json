@@ -52,7 +52,7 @@
     "mediasoup-client": "^3.9.2",
     "mitt": "^3.0.1",
     "motion": "^12.4.10",
-    "next": "15.2.3",
+    "next": "15.2.4",
     "next-themes": "^0.4.6",
     "nextstepjs": "^2.0.0",
     "react": "^19.0.0",
