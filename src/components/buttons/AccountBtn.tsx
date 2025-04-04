@@ -9,7 +9,7 @@ export default function AccountBtn() {
 
   return (
     <>
-      {!accountData ? (
+      {accountData ? (
         <Button
           effect={"expandIcon"}
           icon={ArrowRightIcon}
@@ -39,6 +39,7 @@ export default function AccountBtn() {
           <Button
             effect={"expandIcon"}
             icon={ArrowRightIcon}
+            variant={"outline"}
             iconPlacement="right"
             onClick={() => {
               setAccountModal((prev) => ({

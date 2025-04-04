@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/utils/tools";
 import AccountBtn from "../buttons/AccountBtn";
+import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -56,11 +57,11 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function MainHeader() {
   return (
-    <header className="fixed z-10 backdrop-blur-sm bg-theme-primary w-screen px-16 flex items-center justify-between shadow-md h-15">
+    <header className="fixed z-10 backdrop-blur-sm w-screen px-16 flex items-center justify-between h-15">
       <div>
         <h1 className="text-3xl font-bold">FLOZABLE</h1>
       </div>
-      <NavigationMenu>
+      <NavigationMenu className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <NavigationMenuList>
           <NavigationMenuItem>
             <Link href="/" legacyBehavior passHref>
@@ -134,8 +135,9 @@ export function MainHeader() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <div>
+      <div className="flex gap-2 justify-center">
         <AccountBtn />
+        <ThemeToggleBtn />
       </div>
     </header>
   );

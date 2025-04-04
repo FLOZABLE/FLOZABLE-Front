@@ -23,6 +23,7 @@ import { useAccount } from "@/hooks/accountHooks";
 import { updateQueryData } from "@/utils/tools";
 import { useThemes, useThemesUser } from "@/hooks/themesHooks";
 import { toast } from "react-toastify";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 //modals
 
@@ -57,10 +58,23 @@ export function AppContainer({ children }) {
   return (
     <QueryClientProvider client={queryClient}>
       <GoogleOAuthProvider clientId={config.google_client_id}>
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </AppProvider>
       </GoogleOAuthProvider>
     </QueryClientProvider>
   );
+}
+
+export function ThemeProvider({ children, ...props }) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
 
 const steps = [
