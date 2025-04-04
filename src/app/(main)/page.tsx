@@ -1,7 +1,17 @@
 "use client";
 
+import AboutSection from "@/components/sections/main/AboutSection";
+import FeaturesSection from "@/components/sections/main/FeaturesSection";
 import { HeroParallax } from "@/components/ui/hero-parallax";
-import { motion } from "motion/react"
+import {
+  Bot,
+  ChartNoAxesColumn,
+  Hourglass,
+  MessageSquare,
+  Trophy,
+  Users,
+} from "lucide-react";
+import { ReactNode } from "react";
 
 const reviews = [
   {
@@ -113,178 +123,84 @@ const products = [
   },
 ];
 
+interface BoxProps {
+  title: string;
+  description: string;
+  children: ReactNode;
+}
+
+function Box({ title, description, children }: BoxProps) {
+  return (
+    <div className="bg-blue-50 p-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-4">
+      <div className="w-16 h-16 rounded-full bg-blue-300 flex justify-center items-center text-white text-xl">
+        {children}
+      </div>
+      <h3 className="text-black font-semibold text-[1.1rem] mt-4 mb-2">
+        {title}
+      </h3>
+      <p className="text-sm text-gray-700">{description}</p>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main>
       <HeroParallax products={products} />
-      <section>
-        <p>dddd</p>
-      </section>
-      <section className="overflow-hidden pb-20 lg:pb-25 xl:pb-30">
-        <div className="mx-auto max-w-c-1235 px-4 md:px-8 xl:px-0">
-          <div className="flex items-center gap-8 lg:gap-32.5">
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  x: -20,
-                },
-
-                visible: {
-                  opacity: 1,
-                  x: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="animate_left relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2"
-            >
-            </motion.div>
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  x: 20,
-                },
-
-                visible: {
-                  opacity: 1,
-                  x: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 0.5, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="animate_right md:w-1/2"
-            >
-              <span className="font-medium uppercase text-black dark:text-white">
-                <span className="mb-4 mr-4 inline-flex rounded-full bg-meta px-4.5 py-1 text-metatitle uppercase text-white ">
-                  New
-                </span>{" "}
-                SaaS Boilerplate for Next.js
-              </span>
-              <h2 className="relative mb-6 text-3xl font-bold text-black dark:text-white xl:text-hero">
-                A Complete Solution for
-                <span className="relative inline-block before:absolute before:bottom-2.5 before:left-0 before:-z-1 before:h-3 before:w-full before:bg-titlebg dark:before:bg-titlebgdark">
-                  SaaS Startup
-                </span>
-              </h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                ultricies lacus non fermentum ultrices. Fusce consectetur le.
-              </p>
-
-              <div className="mt-7.5 flex items-center gap-5">
-                <div className="flex h-15 w-15 items-center justify-center rounded-[50%] border border-stroke dark:border-strokedark dark:bg-blacksection">
-                  <p className="text-metatitle2 font-semibold text-black dark:text-white">
-                    01
-                  </p>
-                </div>
-                <div className="w-3/4">
-                  <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    React 18, Next.js 13 and TypeScript
-                  </h3>
-                  <p>Ut ultricies lacus non fermentum ultrices.</p>
-                </div>
-              </div>
-              <div className="mt-7.5 flex items-center gap-5">
-                <div className="flex h-15 w-15 items-center justify-center rounded-[50%] border border-stroke dark:border-strokedark dark:bg-blacksection">
-                  <p className="text-metatitle2 font-semibold text-black dark:text-white">
-                    02
-                  </p>
-                </div>
-                <div className="w-3/4">
-                  <h3 className="mb-0.5 text-metatitle2 text-black dark:text-white">
-                    Fully Customizable
-                  </h3>
-                  <p>consectetur adipiscing elit fermentum ultricies.</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+      <AboutSection />
+      <FeaturesSection />
+      {/* <div className="relative py-16 px-10 md:px-20 lg:px-32" id="features">
+        <div className="absolute -top-20" id="feature" />
+        <div className="text-center mb-4">
+          <h2 className="text-3xl font-bold">App Features</h2>
+          <p className="text-blue-600 mt-1 text-lg font-medium">
+            Awesome Features
+          </p>
         </div>
-      </section>
-      {/* <!-- ===== About End ===== --> */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
+          <Box
+            title="Timer and Study Tracker"
+            description="Efficiently manage your time and track your study progress with our intuitive timer and study tracker features."
+          >
+            <Hourglass />
+          </Box>
 
-      {/* <!-- ===== About Two Start ===== --> */}
-      <section>
-        <div className="mx-auto max-w-c-1235 overflow-hidden px-4 md:px-8 2xl:px-0">
-          <div className="flex items-center gap-8 lg:gap-32.5">
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  x: -20,
-                },
+          <Box
+            title="Collaborative Study Groups"
+            description="Connect with like-minded individuals, form study groups, and share ideas to enhance your learning experience."
+          >
+            <Users />
+          </Box>
 
-                visible: {
-                  opacity: 1,
-                  x: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 1, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="animate_left md:w-1/2"
-            >
-              <h4 className="font-medium uppercase text-black dark:text-white">
-                Launch Your SaaS Fast
-              </h4>
-              <h2 className="relative mb-6 text-3xl font-bold text-black dark:text-white xl:text-hero">
-                Packed with All Essential {"   "}
-                <span className="relative inline-block before:absolute before:bottom-2.5 before:left-0 before:-z-1 before:h-3 before:w-full before:bg-titlebg2 dark:before:bg-titlebgdark">
-                  Integrations
-                </span>
-              </h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                ultricies lacus non fermentum ultrices. Fusce consectetur le.
-              </p>
-              <div>
-                <a
-                  href="#"
-                  className="group mt-7.5 inline-flex items-center gap-2.5 text-black hover:text-primary dark:text-white dark:hover:text-primary"
-                >
-                  <span className="duration-300 group-hover:pr-2">
-                    Know More
-                  </span>
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="currentColor"
-                  >
-                    <path d="M10.4767 6.16701L6.00668 1.69701L7.18501 0.518677L13.6667 7.00034L7.18501 13.482L6.00668 12.3037L10.4767 7.83368H0.333344V6.16701H10.4767Z" />
-                  </svg>
-                </a>
-              </div>
-            </motion.div>
-            <motion.div
-              variants={{
-                hidden: {
-                  opacity: 0,
-                  x: 20,
-                },
+          <Box
+            title="AI-Based Study Suggestions"
+            description="Receive personalized study suggestions tailored to your interests and goals, powered by our advanced AI model."
+          >
+            <Bot />
+          </Box>
 
-                visible: {
-                  opacity: 1,
-                  x: 0,
-                },
-              }}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 1, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="animate_right relative mx-auto hidden aspect-[588/526.5] md:block md:w-1/2"
-            >
-            </motion.div>
-          </div>
+          <Box
+            title="Active Community"
+            description="Engage with a vibrant community of learners, exchange knowledge, and receive support to stay motivated and inspired."
+          >
+            <MessageSquare />
+          </Box>
+
+          <Box
+            title="Study Analytics"
+            description="Gain insights into your study habits with detailed statistics and trends to improve your productivity."
+          >
+            <ChartNoAxesColumn />
+          </Box>
+
+          <Box
+            title="Competitive Leaderboard"
+            description="Challenge yourself and others by competing on the leaderboard, fostering a sense of achievement and accountability."
+          >
+            <Trophy />
+          </Box>
         </div>
-      </section>
+      </div> */}
     </main>
   );
 }

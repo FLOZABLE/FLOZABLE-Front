@@ -1,6 +1,4 @@
 import StudyBtn from "@/components/buttons/StudyBtn/StudyBtn";
-import Header from "@/components/structure/Header/Header";
-import Sidebar from "@/components/structure/Sidebar/Sidebar";
 
 export const metadata = {
   title: "Dashboard - FLOZABLE",

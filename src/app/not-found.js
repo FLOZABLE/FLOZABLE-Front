@@ -1,7 +1,5 @@
 import Link from "next/link";
 import styles from "./NotFound.module.css";
-import Header from "@/components/structure/Header/Header";
-import Sidebar from "@/components/structure/Sidebar/Sidebar";
 
 export const metadata = {
   title: "Dashboard - FLOZABLE",
@@ -47,14 +45,14 @@ export const metadata = {
 export default function NotFound() {
   return (
     <div className={styles.NotFound}>
-      <Header />
+      {/* <Header />
       <Sidebar />
       <div className={styles.fixedBox}>
         <p className={styles.text}>Page not found</p>
         <Link href={"/dashboard"}>
           <p className={styles.link}>return to dashbaord</p>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }
