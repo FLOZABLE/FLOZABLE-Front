@@ -6,42 +6,21 @@ import { FlipWords } from "@/components/ui/flip-words";
 import { Button } from "@/components/ui/button";
 import { IconApple, IconGoogle } from "@/components/others/Svgs";
 import AppTrial from "@/components/others/AppTrial";
+import { fadeIn } from "@/components/animations/variants";
 
 const words = ["Focus", "Learning", "Productivity"];
 
 export default function AboutSection() {
   return (
     <section className="section-container">
-      <motion.div
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1.2 }}
-        viewport={{ once: true }}
-      >
-        <motion.h2
-          className="heading-sm"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          About App
-        </motion.h2>
+      <motion.div {...fadeIn({ once: true })}>
+        <h2 className="heading-sm">About App</h2>
 
-        <motion.h1
-          className="heading-lg"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
+        <h1 className="heading-lg">
           #1 App for Empowering Your <FlipWords words={words} />
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          className="leading-relaxed"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
+        <p className="leading-relaxed">
           Flozable is the #1 app that empowers you to regain control of your
           time and boost productivity. With innovative features and an
           interactive community, Flozable is your ultimate tool for studying,
@@ -65,14 +44,9 @@ export default function AboutSection() {
           Join the millions of users who have unlocked their full potential with
           Flozable. Start today and become #1 in maximizing your focus and
           productivity.
-        </motion.p>
+        </p>
 
-        <motion.div
-          className="flex flex-wrap gap-3 mt-6"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
+        <div className="flex flex-wrap gap-3 mt-6">
           <Button
             effect="expandIcon"
             icon={ArrowRightIcon}
@@ -101,15 +75,10 @@ export default function AboutSection() {
               <p>Download on the Google Play</p>
             </div>
           </Button>
-        </motion.div>
+        </div>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.5, duration: 1 }}
-        viewport={{ once: true }}
-      >
+      <motion.div {...fadeIn({ direction: "right", once: true })}>
         <AppTrial />
       </motion.div>
     </section>

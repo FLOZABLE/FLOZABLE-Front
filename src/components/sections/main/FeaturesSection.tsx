@@ -8,6 +8,7 @@ import {
   Trophy,
   Users,
 } from "lucide-react";
+import { fadeIn } from "@/components/animations/variants";
 
 interface BoxProps {
   title: string;
@@ -27,32 +28,18 @@ function Box({ title, description, children }: BoxProps) {
   );
 }
 
+//hella minor performance opt
+const featuresFadeIn = fadeIn({ once: true });
+
 export default function FeaturesSection() {
   return (
     <section className="section-container">
-      <motion.div
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1.2 }}
-        viewport={{ once: true }}
-      >
+      <motion.div {...featuresFadeIn}>
         <div className="text-center">
-          <motion.h2
-            className="heading-sm self-center"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            App Features
-          </motion.h2>
-          <motion.h1
-            className="heading-lg"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
+          <h2 className="heading-sm">App Features</h2>
+          <h1 className="heading-lg">
             Powerful Features to Boost Your Focus and Productivity
-          </motion.h1>
+          </h1>
         </div>
         <div className="absolute -top-20" id="feature" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
@@ -62,7 +49,6 @@ export default function FeaturesSection() {
           >
             <Hourglass />
           </Box>
-
           <Box
             title="Collaborative Study Groups"
             description="Connect with like-minded individuals, form study groups, and share ideas to enhance your learning experience."
