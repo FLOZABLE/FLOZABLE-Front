@@ -64,23 +64,23 @@ export function MainHeader() {
       <NavigationMenu className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <NavigationMenuList>
           <NavigationMenuItem>
-            <Link href="/" legacyBehavior passHref>
+            <Link href="/#about" legacyBehavior passHref>
               <NavigationMenuLink className={cn(navigationMenuTriggerStyle())}>
                 About
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/" legacyBehavior passHref>
+            <Link href="/#features" legacyBehavior passHref>
               <NavigationMenuLink className={cn(navigationMenuTriggerStyle())}>
-                Feature
+                Features
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/" legacyBehavior passHref>
+            <Link href="/#reviews" legacyBehavior passHref>
               <NavigationMenuLink className={cn(navigationMenuTriggerStyle())}>
-                Review
+                Reviews
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>

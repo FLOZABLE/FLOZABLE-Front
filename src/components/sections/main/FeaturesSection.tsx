@@ -41,7 +41,7 @@ export default function FeaturesSection() {
             Powerful Features to Boost Your Focus and Productivity
           </h1>
         </div>
-        <div className="absolute -top-20" id="feature" />
+        <div className="absolute -top-20" id="features" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-8">
           <Box
             title="Timer and Study Tracker"

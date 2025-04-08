@@ -7,12 +7,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { useCallback, useRef } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/components/animations/variants";
+import AvatarWrapper from "@/components/ui/avatar";
 
 const reviews = [
   {
@@ -87,7 +88,7 @@ const reviews = [
   },
 ];
 
-export default function ReviewSection() {
+export default function ReviewsSection() {
   const reviewsRef = useRef<SwiperRef>(null);
 
   const handleReviewPrev = useCallback(() => {
@@ -121,6 +122,8 @@ export default function ReviewSection() {
         <div className="text-center">
           <h1 className="heading-lg">What Our Clients Say!</h1>
         </div>
+
+        <div className="absolute -top-20" id="reviews" />
         <Swiper
           loop={true}
           pagination={{
@@ -154,14 +157,20 @@ export default function ReviewSection() {
               <SwiperSlide key={i} className="mb-1 !h-auto">
                 <Card className="h-full">
                   <CardHeader>
+                    <AvatarWrapper
+                      src={`/img/main/testimonial-${i + 1}.jpg`}
+                      name={review.name}
+                    />
                     <CardTitle>{review.name}</CardTitle>
                     <CardDescription>{review.description}</CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="h-full">
                     <p>{review.review}</p>
                   </CardContent>
                   <CardFooter>
-                    <p>Card Footer</p>
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <Star key={i} fill="#FDDA0D" strokeWidth={0} />
+                    ))}
                   </CardFooter>
                 </Card>
               </SwiperSlide>

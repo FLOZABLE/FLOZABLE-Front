@@ -326,6 +326,10 @@ input[type="search"]::-webkit-search-results-decoration {
   body {
     font-family: var(--font-roboto);
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @theme {

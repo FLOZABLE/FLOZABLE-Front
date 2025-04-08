@@ -20,6 +20,8 @@ export default function AboutSection() {
           #1 App for Empowering Your <FlipWords words={words} />
         </h1>
 
+        <div className="absolute -top-20" id="about" />
+
         <p className="leading-relaxed">
           Flozable is the #1 app that empowers you to regain control of your
           time and boost productivity. With innovative features and an
