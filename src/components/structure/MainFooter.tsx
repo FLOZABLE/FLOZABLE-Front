@@ -87,6 +87,9 @@ const MainFooter = ({}) => {
             <li className="hover:text-primary">
               <Link href="/privacy"> Privacy Policy</Link>
             </li>
+            <li className="hover:text-primary">
+              <Link href="/cookies"> Cookies</Link>
+            </li>
           </ul>
         </div>
       </footer>

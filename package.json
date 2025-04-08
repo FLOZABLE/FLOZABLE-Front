@@ -20,7 +20,6 @@
     "@fullcalendar/timegrid": "^6.1.15",
     "@fullcalendar/timeline": "^6.1.15",
     "@hookform/resolvers": "^5.0.1",
-    "@mui/material": "^6.4.7",
     "@mui/x-date-pickers": "^7.27.3",
     "@number-flow/react": "^0.5.8",
     "@radix-ui/react-avatar": "^1.1.3",
