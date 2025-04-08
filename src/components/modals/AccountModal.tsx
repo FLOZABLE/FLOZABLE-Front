@@ -194,7 +194,6 @@ export default function AccountModal() {
                     effect={"expandIcon"}
                     icon={ArrowRightIcon}
                     iconPlacement="right"
-                    onClick={() => {}}
                     className="w-full"
                   >
                     Login
@@ -272,7 +271,6 @@ export default function AccountModal() {
                   effect={"expandIcon"}
                   icon={ArrowRightIcon}
                   iconPlacement="right"
-                  onClick={() => {}}
                   className="w-full"
                 >
                   Sign up
