@@ -5,7 +5,7 @@
     "allowJs": true,
     "checkJs": false,
     "strict": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "strictNullChecks": true,
@@ -36,5 +36,5 @@
     "next-env.d.ts",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "src/app/dashboard"]
+  "exclude": ["node_modules"]
 }

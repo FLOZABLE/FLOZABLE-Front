@@ -322,13 +322,12 @@ input[type="search"]::-webkit-search-results-decoration {
   }
   body {
     @apply bg-background text-foreground;
-  }
-  body {
     font-family: var(--font-roboto);
+
   }
 
   html {
-    scroll-behavior: smooth;
+    @apply scroll-smooth;
   }
 }
 

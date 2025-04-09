@@ -4,6 +4,7 @@ import * as React from "react";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 
 import { cn } from "@/utils/tools";
+import config from "@/utils/config";
 
 function Avatar({
   className,
@@ -51,19 +52,22 @@ function AvatarFallback({
 }
 
 interface AvatarWrapperProps extends React.ComponentProps<typeof Avatar> {
-  src?: string;
+  userId?: string;
   name: string;
 }
 
 export default function AvatarWrapper({
-  src,
+  userId,
   name,
   className,
   ...props
 }: AvatarWrapperProps) {
   return (
     <Avatar data-slot="avatar" className={className} {...props}>
-      <AvatarImage src={src} alt={name} />
+      <AvatarImage
+        src={`${config.static_server}/img/profile-images/${userId}.jpeg`}
+        alt={name}
+      />
       <AvatarFallback>{name.charAt(0).toUpperCase()}</AvatarFallback>
     </Avatar>
   );
