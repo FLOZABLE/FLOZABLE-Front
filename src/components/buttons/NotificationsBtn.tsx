@@ -1,11 +1,10 @@
-import { Bell } from "lucide-react";
+import { Bell, Dot } from "lucide-react";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useNotifications } from "@/hooks/notificationsHooks";
@@ -56,13 +55,21 @@ export default function NotificationsBtn() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="aspect-square h-10 w-10" variant="outline">
+        <Button className="aspect-square h-10 w-10 relative" variant="outline">
           <Bell />
+          {notifications.length ? (
+            <Dot
+              color="var(--color-destructive)"
+              strokeWidth={14}
+              className="absolute right-[-7] top-[-7] fill-"
+            />
+          ) : null}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+      <DropdownMenuContent side="bottom" align="end" className="p-0">
+        <DropdownMenuLabel className="sticky top-0 z-10 bg-background border-b-2 p-3">
+          Notifications
+        </DropdownMenuLabel>
         {notifications.map((notification, i) => {
           const { userinfo, notification_id, type, message } = notification;
 

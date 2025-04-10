@@ -245,22 +245,20 @@ export function getDates(date, mode, length) {
 }
 
 export function getDatesDisplay({
-  date1,
-  date2,
-  mode,
+  date,
+  viewer,
   formats = { day: "LLLL d", week: "LLLL d", month: "kkkk LLLL" },
 }) {
-  const dateTime = DateTime.fromJSDate(date1);
-  if (!date2) {
+  const dateTime = DateTime.fromJSDate(date);
+  if (viewer !== "week") {
     //show single dates
-    return dateTime.toFormat(formats[mode]);
+    return dateTime.toFormat(formats[viewer]);
   }
 
-  const endDateTime = DateTime.fromJSDate(date2);
+  const from = dateTime.startOf(viewer).toFormat(formats[viewer]);
+  const end = dateTime.endOf(viewer).toFormat(formats[viewer]);
 
-  return `${dateTime.toFormat(formats[mode])} - ${endDateTime.toFormat(
-    formats[mode]
-  )}`;
+  return `${from} - ${end}`;
 }
 
 export function exitFullscreen() {

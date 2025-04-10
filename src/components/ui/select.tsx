@@ -190,7 +190,7 @@ const SelectorWrapper = <T,>({
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
-        <ScrollArea className="h-[15rem]">
+        <ScrollArea className="max-h-[15rem]">
           {options.map((option) => (
             <SelectItem key={String(option.value)} value={String(option.value)}>
               {option.label}

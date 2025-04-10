@@ -21,7 +21,7 @@ export default function NotificationContainer({
 }: NotificationContainerProps) {
   return (
     <div
-      className="my-3 flex gap-2 cursor-pointer hover:bg-accent p-2 rounded-lg transition"
+      className="flex gap-2 cursor-pointer hover:bg-accent p-2 rounded-lg transition"
       onClick={onClick}
     >
       {coverImg === "profile" ? (
