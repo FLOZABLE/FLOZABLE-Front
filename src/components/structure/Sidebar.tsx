@@ -50,7 +50,7 @@ export default function SidebarWrapper() {
 
   return (
     <Sidebar open={open} setOpen={setOpen}>
-      <SidebarBody className="justify-between gap-10">
+      <SidebarBody className="justify-between gap-10 relative">
         <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
           <Logo />
           <div className="mt-8 flex flex-col gap-2">
@@ -59,7 +59,9 @@ export default function SidebarWrapper() {
             ))}
           </div>
         </div>
-        <ThemeToggleBtn />
+        <div className="absolute bottom-10 left-2">
+          <ThemeToggleBtn />
+        </div>
       </SidebarBody>
     </Sidebar>
   );

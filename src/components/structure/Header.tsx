@@ -44,10 +44,10 @@ export default function Header() {
   const { accountData } = useAccount();
   const { groupedSubjects } = useSubjects();
 
-  const [studyTime, setStudyTime] = useState("0 minutes"); // string
+  const [studyTime, setStudyTime] = useState("0 minutes");
   const [websiteTime, setWebsiteTime] = useState("0 minutes");
   const [focusTime, setFocusTime] = useState("0 seconds");
-  const [streak, setStreak] = useState("0 day"); //days of consecutive study
+  const [streak, setStreak] = useState("0 days");
   const { useExtensionSettingsData } = useExtensionSettings();
 
   const { extensionUsageData } = useExtensionUsage(

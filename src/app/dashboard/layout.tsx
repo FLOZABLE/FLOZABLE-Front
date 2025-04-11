@@ -10,11 +10,11 @@ export default function RootLayout({
   return (
     <div
       className={cn(
-        "mx-auto flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 md:flex-row dark:border-neutral-700 dark:bg-neutral-800"
+        "mx-auto min-h-[100vh] flex w-full flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 md:flex-row dark:border-neutral-700 dark:bg-neutral-800"
       )}
     >
       <SidebarWrapper />
-      <div className="relative w-full">
+      <div className="relative w-full min-h-[100vh]">
         <Header />
         {children}
       </div>

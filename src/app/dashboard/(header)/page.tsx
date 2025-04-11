@@ -1,6 +1,8 @@
 "use client";
 
 import { DatePicker } from "@/components/buttons/DatePicker";
+import StudyTrendChart from "@/components/charts/StudyTrendChart";
+import FriendsViewer from "@/components/friends/FriendsViewer";
 import SelectorWrapper from "@/components/ui/select";
 import { DateTimeUnit } from "luxon";
 import { useState } from "react";
@@ -31,6 +33,8 @@ export default function Dashboard() {
           />
         </div>
       </div>
+      <FriendsViewer />
+      {/* <StudyTrendChart  /> */}
     </main>
   );
 }
