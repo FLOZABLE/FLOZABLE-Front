@@ -15,13 +15,13 @@ function useThemes() {
 }
 
 function useThemesUser() {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const queryResult = useQuery({
     queryKey: [`getThemesUser`],
     queryFn: getThemesUser,
     staleTime: 1000 * 60 * 10,
-    enabled: !!accountData,
+    enabled: !!account,
   });
 
   const { data: themesUserData } = queryResult;

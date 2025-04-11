@@ -5,6 +5,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { ApiResponse } from "@/types/response";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import { GroupedSubjects } from "@/types/subject";
 
 function getCountryCode(timezone: string): string | false {
   try {
@@ -119,15 +120,14 @@ const focusCalculator = (grouped: Array<[number, number]>): number => {
   return focus;
 };
 
-function streakCalculator(groupedSubjects: {
-  day: { total: Array<{ data?: number }> };
-}): number {
+function streakCalculator(groupedSubjects: GroupedSubjects) {
   const reversedDaily = groupedSubjects.day.total.toReversed();
 
   let streak = 0;
   reversedDaily.find((day) => {
     if (day.data) {
       streak += 1;
+      return false;
     } else {
       return true;
     }
@@ -235,6 +235,7 @@ function unsubscribeFromPush(): void {
         return subscription.unsubscribe();
       } else {
         console.log("No subscription found");
+        return false;
       }
     })
     .then(() => {

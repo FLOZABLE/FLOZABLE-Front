@@ -27,7 +27,7 @@ import ChatRoom from "@/components/chats/ChatRoom/ChatRoom";
 import MyChatContainer from "@/components/chats/MyChatContainer/MyChatContainer";
 
 function ChatModal({}) {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
   const { chatModal, setChatModal } = useContext(ChatModalContext);
 
   const [messages, setMessages] = useState([]);
@@ -185,7 +185,7 @@ function ChatModal({}) {
       console.log(message);
       scrollToBottom("smooth");
 
-      if (message.user_id !== accountData?.user_id) {
+      if (message.user_id !== account?.user_id) {
         messageAudio.play();
       }
 
@@ -240,7 +240,7 @@ function ChatModal({}) {
     return () => {
       socket.off("chat:message", onChatMessage);
     };
-  }, [chatModal.chatroom_id, accountData]);
+  }, [chatModal.chatroom_id, account]);
 
   useEffect(() => {
     if (!lastReadMessageId) return;
@@ -354,7 +354,7 @@ function ChatModal({}) {
               lastReadMessageId &&
               messages[index - 1]?.message_id === lastReadMessageId;
 
-            if (user_id === accountData.user_id) {
+            if (user_id === account.user_id) {
               return (
                 <div
                   ref={(el) => {

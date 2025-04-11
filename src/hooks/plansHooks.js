@@ -6,13 +6,13 @@ import { useCallback } from "react";
 import { updateQueryData } from "@/utils/tools";
 
 function usePlans() {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const queryResult = useQuery({
     queryKey: [`usePlans`],
     queryFn: getPlans,
     staleTime: 1000 * 60 * 10,
-    enabled: !!accountData,
+    enabled: !!account,
     select: (response) => {
       if (!response?.data?.plans) {
         return [];
@@ -43,7 +43,7 @@ function usePlans() {
 }
 
 function usePlansGoogle(date) {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const dateTime = DateTime.fromJSDate(date)
     .startOf("day")
@@ -54,7 +54,7 @@ function usePlansGoogle(date) {
     queryKey: [`usePlansGoogle`, dateTime],
     queryFn: () => getPlansGoogle(dateTime),
     staleTime: 1000 * 60 * 10,
-    enabled: !!accountData && !!dateTime,
+    enabled: !!account && !!dateTime,
     select: (response) => {
       if (!response?.data?.plans) {
         return [];

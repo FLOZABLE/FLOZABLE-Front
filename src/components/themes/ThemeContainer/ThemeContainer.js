@@ -12,28 +12,28 @@ import LikeBtn from "@/components/buttons/LikeBtn/LikeBtn";
 import config from "@/utils/config";
 
 function ThemeContainer({ theme, isSearched, setIsThemePreview }) {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const [likes, setLikes] = useState([]);
 
   const onLike = useCallback(async () => {
     try {
-      if (!accountData?.user_id) return;
+      if (!account?.user_id) return;
 
-      const like = !likes.includes(accountData?.user_id);
+      const like = !likes.includes(account?.user_id);
       const themeId = theme.theme_id;
       const response = await postThemeLike({ themeId, like });
       if (!response.success) return;
 
       if (like) {
-        setLikes([...new Set([...likes, accountData.user_id])]);
+        setLikes([...new Set([...likes, account.user_id])]);
       } else {
-        setLikes(likes.filter((like) => like !== accountData.user_id));
+        setLikes(likes.filter((like) => like !== account.user_id));
       }
     } catch (err) {
       console.log(err);
     }
-  }, [likes, theme, accountData]);
+  }, [likes, theme, account]);
 
   useEffect(() => {
     if (!theme) return;
@@ -92,7 +92,7 @@ function ThemeContainer({ theme, isSearched, setIsThemePreview }) {
           </div>
           <div>
             <LikeBtn
-              liked={likes.includes(accountData?.user_id)}
+              liked={likes.includes(account?.user_id)}
               onClick={onLike}
             />
           </div>

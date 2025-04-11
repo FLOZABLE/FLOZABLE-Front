@@ -12,7 +12,7 @@ export default function ChatBtn({ targetInfo, padding }) {
   const { setChatModal } = useChatModal();
 
   const { chatrooms } = useChatRooms();
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const chatRequest = useCallback(async () => {
     const response = await postChatRequest(targetInfo.user_id);
@@ -44,7 +44,7 @@ export default function ChatBtn({ targetInfo, padding }) {
             const chatroom = chatrooms.find(
               (chatroom) =>
                 chatroom.members.sort().join() ===
-                [accountData.user_id, targetInfo?.user_id].sort().join()
+                [account.user_id, targetInfo?.user_id].sort().join()
             );
 
             if (chatroom) {

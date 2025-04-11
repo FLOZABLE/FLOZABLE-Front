@@ -3,13 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
 
 function useExtensionSettings() {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const queryResult = useQuery({
     queryKey: [`getExtensionSettings`],
     queryFn: getExtensionSettings,
     staleTime: 1000 * 60,
-    enabled: !!accountData,
+    enabled: !!account,
   });
 
   const {
@@ -25,13 +25,13 @@ function useExtensionSettings() {
 }
 
 function useExtensionUsage(date, mode) {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const queryResult = useQuery({
     queryKey: [`extensionUsage`, date, mode],
     queryFn: () => getExtensionUsage(date, mode),
     staleTime: 1000 * 5,
-    enabled: !!accountData,
+    enabled: !!account,
     refetchOnWindowFocus: true,
   });
 

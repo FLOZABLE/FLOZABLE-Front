@@ -25,7 +25,7 @@ function GroupContainer({
   rankings,
   style = {},
 }) {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
   const { updateGroupsData } = useGroups();
 
   const [members, setMembers] = useState([]);
@@ -33,9 +33,9 @@ function GroupContainer({
   const [totalTime, setTotalTime] = useState("0 h");
 
   const onLike = useCallback(async () => {
-    if (!accountData?.user_id) return;
+    if (!account?.user_id) return;
 
-    const like = !likes.includes(accountData?.user_id);
+    const like = !likes.includes(account?.user_id);
     const groupId = groupInfo.group_id;
     const response = await postGroupLike({ groupId, like });
     if (!response.success) return;
@@ -48,21 +48,21 @@ function GroupContainer({
       if (groupIndex === -1) return prev;
 
       if (like) {
-        newGroups[groupIndex].likes.push(accountData.user_id);
+        newGroups[groupIndex].likes.push(account.user_id);
       } else {
         newGroups[groupIndex].likesfilter(
-          (like) => like !== accountData.user_id
+          (like) => like !== account.user_id
         );
       }
       return newGroups;
     });
 
     if (like) {
-      setLikes([...new Set([...likes, accountData.user_id])]);
+      setLikes([...new Set([...likes, account.user_id])]);
     } else {
-      setLikes(likes.filter((like) => like !== accountData.user_id));
+      setLikes(likes.filter((like) => like !== account.user_id));
     }
-  }, [likes, groupInfo, accountData]);
+  }, [likes, groupInfo, account]);
 
   useEffect(() => {
     if (!groupInfo) return;
@@ -148,7 +148,7 @@ function GroupContainer({
         />
         <GroupJoinBtn groupInfo={groupInfo} />
         <LikeBtn
-          liked={likes.includes(accountData?.user_id)}
+          liked={likes.includes(account?.user_id)}
           onClick={onLike}
         />
       </div>

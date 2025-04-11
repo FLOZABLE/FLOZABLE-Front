@@ -1,3 +1,5 @@
+import { ApiResponse } from "./response";
+
 export type TimeRange = [number, number]; // [start, duration]
 
 export interface TimelineEntry {
@@ -31,7 +33,11 @@ export interface Subject {
   month: TimePeriodData;
 }
 
-export interface GroupedSubject {
+export interface Subjects {
+  [index: number]: Subject;
+}
+
+export interface GroupedSubjects {
   day: TimePeriodData;
   week: TimePeriodData;
   month: TimePeriodData;
@@ -42,3 +48,9 @@ export interface ActiveSubject {
   time: number;
   name: string;
 }
+
+// get /subjects
+export type SubjectsResponse = ApiResponse<{
+  subjects: Subjects;
+  grouped_subjects: GroupedSubjects;
+}>;

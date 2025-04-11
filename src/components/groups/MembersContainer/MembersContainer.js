@@ -8,14 +8,14 @@ import MemberEl from "../MemberEl/MemberEl";
 //window.localStorage.setItem('debug', 'mediasoup-client:WARN* mediasoup-client:ERROR*');
 
 function MembersContainer({ members, recvTransport, device, videoStream }) {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
-  if (!accountData) return <CircularLoading />;
+  if (!account) return <CircularLoading />;
 
   return (
     <div className={styles.MembersContainer}>
       {members.map((member, i) => {
-        if (accountData.user_id === member.user_id) {
+        if (account.user_id === member.user_id) {
           return <MyEl key={i} userInfo={member} videoStream={videoStream} />;
         } else {
           return (

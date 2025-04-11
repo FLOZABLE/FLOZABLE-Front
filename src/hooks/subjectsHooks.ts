@@ -1,0 +1,108 @@
+import {
+  DefinedUseQueryResult,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { useAccount } from "./accountHooks";
+import { useCallback } from "react";
+import { calculateTimeToMidnight, updateQueryData } from "@/utils/tools";
+import { getSubjects } from "@/apis/subjectsApi";
+import { GroupedSubjects, Subjects, SubjectsResponse } from "@/types/subject";
+
+interface SubjectsSelectResult {
+  subjects: Subjects;
+  grouped_subjects: GroupedSubjects;
+}
+
+const defaultGroupedSubjects: GroupedSubjects = {
+  day: { timeline: [], total: [], focus: [] },
+  week: { timeline: [], total: [], focus: [] },
+  month: { timeline: [], total: [], focus: [] },
+};
+
+export function useSubjects() {
+  const queryClient = useQueryClient();
+
+  const { account } = useAccount();
+
+  const queryResult = useQuery<SubjectsResponse, Error, SubjectsSelectResult>({
+    queryKey: ["useSubjects"],
+    queryFn: getSubjects,
+    staleTime: 1000 * 60 * 10,
+    enabled: !!account,
+    select: (response) => ({
+      subjects: response.data?.subjects ?? [],
+      grouped_subjects:
+        response.data?.grouped_subjects ?? defaultGroupedSubjects,
+    }),
+    placeholderData: () => ({
+      data: {
+        subjects: [],
+        grouped_subjects: defaultGroupedSubjects,
+      },
+      status: 200,
+      success: true,
+    }),
+    refetchIntervalInBackground: true,
+    refetchInterval: calculateTimeToMidnight,
+  }) as DefinedUseQueryResult<SubjectsSelectResult, Error>;
+
+  const {
+    data: subjectsData,
+    refetch: subjectsRefetch,
+    isLoading: subjectsIsLoading,
+  } = queryResult;
+
+  const subjects = subjectsData.subjects;
+  const groupedSubjects = subjectsData.grouped_subjects;
+
+  console.log(subjects[0].color,groupedSubjects.day.focus[1])
+
+  const updateSubjects = useCallback(async (newData: Subjects) => {
+    await queryClient.setQueryData(
+      ["useSubjects"],
+      (oldData: SubjectsResponse | undefined) => {
+        return updateQueryData(oldData, newData, "subjects");
+      }
+    );
+  }, []);
+
+  return {
+    subjects,
+    groupedSubjects,
+    subjectsData,
+    subjectsRefetch,
+    subjectsIsLoading,
+    updateSubjects,
+    ...queryResult,
+  };
+}
+
+/* function useSubjectUsers(subjectId) {
+  const queryClient = useQueryClient();
+
+  const queryResult = useQuery({
+    queryKey: [`useSubjectUsers`, subjectId],
+    queryFn: () => getSubjectUsers(subjectId),
+    staleTime: 1000 * 60 * 10,
+    enabled: !!false,
+  });
+
+  const clearSubjectUsers = () => {
+    queryClient.resetQueries({ queryKey: ["useSubjectUsers", subjectId] });
+  };
+
+  const {
+    data: subjectUsersData,
+    refetch: subjectUsersRefetch,
+    isLoading: subjectUsersIsLoading,
+  } = queryResult;
+
+  return {
+    subjectUsersData,
+    subjectUsersRefetch,
+    subjectUsersIsLoading,
+    clearSubjectUsers,
+    ...queryResult,
+  };
+} */

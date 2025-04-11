@@ -5,7 +5,7 @@ import { updateQueryData } from "@/utils/tools";
 import { useAccount } from "./accountHooks";
 
 function useNotifications() {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const queryClient = useQueryClient();
 
@@ -15,7 +15,7 @@ function useNotifications() {
     staleTime: 1000 * 60 * 60,
     select: (response) => response?.data?.notifications || [],
     placeholderData: [],
-    enabled: !!accountData,
+    enabled: !!account,
   });
 
   const { data: notifications } = queryResult;

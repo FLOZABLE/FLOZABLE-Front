@@ -21,7 +21,7 @@ function JoinGroupModal() {
     JoinGroupModalContext
   );
   const { updateGroupsData, groups } = useGroups();
-  const { accountData, updateUserInfo } = useAccount();
+  const { account, updateUserInfo } = useAccount();
 
   const router = useRouter();
 
@@ -54,7 +54,7 @@ function JoinGroupModal() {
         );
         if (groupIndex === -1) return prev;
 
-        newGroups[groupIndex].members.push(accountData.user_id);
+        newGroups[groupIndex].members.push(account.user_id);
         return newGroups;
       });
 
@@ -70,7 +70,7 @@ function JoinGroupModal() {
     } catch (err) {
       console.log(err);
     }
-  }, [password, joinGroupModal, accountData]);
+  }, [password, joinGroupModal, account]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);

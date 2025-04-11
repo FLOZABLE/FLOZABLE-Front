@@ -22,7 +22,7 @@ export default function SubjectTimer({}) {
   const { subjectsTimerWorkerRef } = useContext(WorkersContext);
   const { setIsAddSubjectModal } = useAddSubjectsModal();
 
-  const { accountData } = useAccount();
+  const { account } = useAccount();
   const { subjects, updateSubjects, subjectsRefetch } = useSubjects();
 
   const [subjectOptions, setSubjectOptions] = useState([]);
@@ -96,7 +96,7 @@ export default function SubjectTimer({}) {
     const onStudying = ({ userId, subject }) => {
       console.log(userId, subject);
       if (
-        userId !== accountData?.user_id ||
+        userId !== account?.user_id ||
         !subject ||
         subject.subject_id === "0"
       )
@@ -111,7 +111,7 @@ export default function SubjectTimer({}) {
     };
     const onStopStudying = ({ userId, duration, stopped_subject }) => {
       console.log("stop");
-      if (userId !== accountData?.user_id) return;
+      if (userId !== account?.user_id) return;
       if (!stopped_subject || stopped_subject.subject_id === "0") {
         subjectsTimerWorkerRef?.current?.postMessage({
           command: "stopSubjectTimer",
@@ -185,7 +185,7 @@ export default function SubjectTimer({}) {
       socket.off("study:start", onStudying);
       socket.off("study:stop", onStopStudying);
     };
-  }, [accountData, selectedSubject, updateSubjects]);
+  }, [account, selectedSubject, updateSubjects]);
 
   useEffect(() => {
     const onMessage = (e) => {

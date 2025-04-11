@@ -1,6 +1,6 @@
 import { Friend } from "./friend";
 import { ApiResponse } from "./response";
-import { ActiveSubject, GroupedSubject, Subject } from "./subject";
+import { ActiveSubject, GroupedSubjects, Subjects } from "./subject";
 
 export interface Account {
   user_id: string;
@@ -44,8 +44,8 @@ export type AccountPatchResponse = ApiResponse<{ verified: boolean }>;
 export type AccountProfileResponse = ApiResponse<{
   userinfo: Account;
   friends: Friend[];
-  subjects: Subject[];
-  grouped_subjects: GroupedSubject[];
+  subjects: Subjects;
+  grouped_subjects: GroupedSubjects;
 }>;
 
 // get /account/profile/status

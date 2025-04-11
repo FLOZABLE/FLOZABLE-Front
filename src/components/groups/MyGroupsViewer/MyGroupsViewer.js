@@ -16,7 +16,7 @@ import { useDebounce } from "use-debounce";
 
 function MyGroupsViewer({}) {
   const { myGroups, updateGroupsData } = useGroups();
-  const { accountData, updateUserInfo } = useAccount();
+  const { account, updateUserInfo } = useAccount();
 
   const [activeIndex, setActiveIndex] = useState(-1);
 
@@ -47,7 +47,7 @@ function MyGroupsViewer({}) {
         if (groupIndex === -1) return prev;
 
         newGroups[groupIndex].members.filter(
-          (member) => member !== accountData.user_id
+          (member) => member !== account.user_id
         );
         return newGroups;
       });
@@ -57,7 +57,7 @@ function MyGroupsViewer({}) {
         "my_groups"
       );
     },
-    [accountData]
+    [account]
   );
 
   useEffect(() => {
@@ -162,7 +162,7 @@ function MyGroupsViewer({}) {
                 group={group}
                 isActive={debouncedIndex === i}
                 leaveGroup={leaveGroup}
-                isAdmin={group.leader === accountData?.user_id}
+                isAdmin={group.leader === account?.user_id}
               />
             </SwiperSlide>
           );

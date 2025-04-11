@@ -44,7 +44,7 @@ function HeaderEl({ children, value, title }) {
 function Header({}) {
   const { setAccountModal } = useAccountModal();
 
-  const { accountData } = useAccount();
+  const { account } = useAccount();
   const { groupedSubjects } = useSubjects();
 
   const [totalStudied, setTotalStudied] = useState("0 minutes"); // string
@@ -97,13 +97,13 @@ function Header({}) {
   }, [extensionUsageData]);
 
   useEffect(() => {
-    console.log("account data", accountData);
-    if (!accountData) {
+    console.log("account data", account);
+    if (!account) {
       setAccountModal((prev) => ({ ...prev, opened: true, isSignIn: true }));
     } else {
       setAccountModal((prev) => ({ ...prev, opened: false, isSignIn: true }));
     }
-  }, [accountData]);
+  }, [account]);
 
   return (
     <header className={styles.Header}>
@@ -132,7 +132,7 @@ function Header({}) {
           </i>
         </HeaderEl>
       </div>
-      {accountData ? (
+      {account ? (
         <div className={styles.right}>
           {useExtensionSettingsData?.data?.settings?.length ? null : (
             <button
@@ -164,12 +164,12 @@ function Header({}) {
           </div>
           <Link href={"/dashboard/account"} className={styles.userInfo}>
             <div>
-              <p className={styles.name}>{accountData.name}</p>
+              <p className={styles.name}>{account.name}</p>
               <p className={styles.email}>&quot;</p>
             </div>
             <div className={styles.ProfileImage}>
               <ProfileImage
-                userId={accountData.user_id}
+                userId={account.user_id}
                 width="100%"
                 height="100%"
               />

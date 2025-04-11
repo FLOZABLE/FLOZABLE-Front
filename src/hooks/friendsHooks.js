@@ -13,13 +13,13 @@ import { updateQueryData } from "@/utils/tools";
 function useFriends() {
   const queryClient = useQueryClient();
 
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const queryResult = useQuery({
     queryKey: [`useFriends`],
     queryFn: () => getFriends(),
     staleTime: 1000 * 10,
-    enabled: !!accountData,
+    enabled: !!account,
     select: (response) => response?.data?.friends || [],
     placeholderData: [],
   });
@@ -61,13 +61,13 @@ function useFriendsSearch(searchQuery) {
 }
 
 function useFriendsTrends() {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const queryResult = useQuery({
     queryKey: [`getFriendsTrends`],
     queryFn: () => getFriendsTrends(),
     staleTime: 1000 * 60,
-    enabled: !!accountData,
+    enabled: !!account,
     select: (response) => response?.data?.trends || [],
     placeholderData: [],
   });
@@ -112,13 +112,13 @@ function useFriendsRecommended() {
 
 function useFriendsStatus() {
   const queryClient = useQueryClient();
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const queryResult = useQuery({
     queryKey: [`useFriendsStatus`],
     queryFn: getFriendsStatus,
     staleTime: 60 * 30,
-    enabled: !!accountData,
+    enabled: !!account,
     select: (response) => response?.data?.friends ?? [],
     placeholderData: [],
   });
@@ -139,7 +139,7 @@ function useFriendsStatus() {
   return {
     ...queryResult,
     friendsStatus,
-    friendsStatusError: accountData ? friendsStatusError : true,
+    friendsStatusError: account ? friendsStatusError : true,
     friendsStatusIsLoading,
     updateFriendsStatus,
     friendsStatusRefetch,

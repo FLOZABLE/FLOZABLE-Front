@@ -100,10 +100,10 @@ function AppProvider({ children }) {
 
   console.log("rerender");
 
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   useEffect(() => {
-    if (!accountData) {
+    if (!account) {
       socket.disconnect();
       mediaSocket.disconnect();
       return;
@@ -113,7 +113,7 @@ function AppProvider({ children }) {
       socket.connect();
       mediaSocket.connect();
     }, 100);
-  }, [accountData?.user_id]);
+  }, [account?.user_id]);
 
   const updateFriendsStatus = useCallback(async (newData) => {
     await queryClient.setQueryData(["useFriendsStatus"], (oldData) => {

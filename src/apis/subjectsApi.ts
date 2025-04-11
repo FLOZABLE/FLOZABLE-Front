@@ -1,14 +1,19 @@
+import { SubjectsResponse } from "@/types/subject";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 
-async function getSubjects() {
+export async function getSubjects(): Promise<SubjectsResponse> {
   const timezone = getTimezone();
   return requestHandler(
     AxiosInstance.get(`/subjects`, { params: { timezone } })
   );
 }
 
-async function putSubjectsSubject({ name, color }) {
+type PutSubjectParams = {
+  name: string;
+  color: string;
+};
+export async function putSubject({ name, color }: PutSubjectParams) {
   return requestHandler(
     AxiosInstance.put(`/subjects/subject`, {
       name,
@@ -17,7 +22,16 @@ async function putSubjectsSubject({ name, color }) {
   );
 }
 
-async function patchSubjectsSubject({ subjectId, name, color }) {
+type PatchSubjectParams = {
+  subjectId: string;
+  name: string;
+  color: string;
+};
+export async function patchSubject({
+  subjectId,
+  name,
+  color,
+}: PatchSubjectParams) {
   return requestHandler(
     AxiosInstance.patch(`/subjects/subject`, {
       subject_id: subjectId,
@@ -27,7 +41,7 @@ async function patchSubjectsSubject({ subjectId, name, color }) {
   );
 }
 
-async function deleteSubjectsSubject(subjectId) {
+export async function deleteSubjectsSubject(subjectId: string) {
   return requestHandler(
     AxiosInstance.delete(`/subjects/subject`, {
       data: { subject_id: subjectId },
@@ -35,7 +49,7 @@ async function deleteSubjectsSubject(subjectId) {
   );
 }
 
-async function getSubjectUsers(subjectId) {
+export async function getSubjectUsers(subjectId: string) {
   return requestHandler(
     AxiosInstance.get(`/subjects/subject/users`, {
       params: { subject_id: subjectId },
@@ -43,7 +57,14 @@ async function getSubjectUsers(subjectId) {
   );
 }
 
-async function postSubjectShare({ subjectId, users }) {
+type PostSubjectShareParams = {
+  subjectId: string;
+  users: string[];
+};
+export async function postSubjectShare({
+  subjectId,
+  users,
+}: PostSubjectShareParams) {
   return requestHandler(
     AxiosInstance.post(`/subjects/subject/share`, {
       subject_id: subjectId,
@@ -52,20 +73,17 @@ async function postSubjectShare({ subjectId, users }) {
   );
 }
 
-async function deleteSubjectShare({ subjectId, targetId }) {
+type DeleteSubjectShareParams = {
+  subjectId: string;
+  targetId: string;
+};
+export async function deleteSubjectShare({
+  subjectId,
+  targetId,
+}: DeleteSubjectShareParams) {
   return requestHandler(
     AxiosInstance.delete(`/subjects/subject/share`, {
       data: { subject_id: subjectId, target_id: targetId },
     })
   );
 }
-
-export {
-  getSubjects,
-  putSubjectsSubject,
-  patchSubjectsSubject,
-  deleteSubjectsSubject,
-  getSubjectUsers,
-  postSubjectShare,
-  deleteSubjectShare,
-};

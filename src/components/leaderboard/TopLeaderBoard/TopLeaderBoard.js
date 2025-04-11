@@ -11,7 +11,7 @@ import UserContainer from "@/components/users/UserContainer/UserContainer";
 function RankingContainer({ title, viewDate, viewer, isOnlyFriends }) {
   const { rankingsData, rankingsIsLoading } = useRankings(viewer, viewDate);
 
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const router = useRouter();
 
@@ -21,12 +21,12 @@ function RankingContainer({ title, viewDate, viewer, isOnlyFriends }) {
 
   let slicedRanking = [];
 
-  if (accountData && isOnlyFriends) {
+  if (account && isOnlyFriends) {
     slicedRanking = rankingsData.data.rankings
       .filter(
         (ranking) =>
-          accountData.friends.includes(ranking.user_id) ||
-          ranking.user_id === accountData.user_id
+          account.friends.includes(ranking.user_id) ||
+          ranking.user_id === account.user_id
       )
       .slice(0, 3);
   } else {

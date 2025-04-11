@@ -41,7 +41,7 @@ function InfoBox({ icon, name, value }: InfoBoxProps) {
 }
 
 export default function Header() {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
   const { groupedSubjects } = useSubjects();
 
   const [studyTime, setStudyTime] = useState("0 minutes");
@@ -56,7 +56,7 @@ export default function Header() {
   );
 
   useEffect(() => {
-    if (!groupedSubjects.day) return;
+    if (!groupedSubjects?.day) return;
 
     //Solve day
     const todayTotal = todayTotalCalculator(groupedSubjects);
@@ -90,6 +90,9 @@ export default function Header() {
     });
     setWebsiteTime(formattedWebsiteUsage);
   }, [extensionUsageData]);
+
+  console.log("account", account)
+  
   return (
     <header className="backdrop-blur-sm sticky top-0 left-0 w-full h-12 px-10 flex flex-row justify-between items-center">
       <div className="flex gap-3 items-center">
@@ -117,8 +120,8 @@ export default function Header() {
         <NotificationsBtn />
         <ThemeToggleBtn />
         <AvatarWrapper
-          name={accountData?.name || ""}
-          userId={accountData?.user_id}
+          name={account?.name || ""}
+          userId={account?.user_id}
         />
       </div>
     </header>

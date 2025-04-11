@@ -5,11 +5,11 @@ import { Button } from "../ui/button";
 
 export default function AccountBtn() {
   const { setAccountModal } = useAccountModal();
-  const { accountData, clearAccountData } = useAccount();
+  const { account, clearAccountData } = useAccount();
 
   return (
     <>
-      {accountData ? (
+      {account ? (
         <Button
           effect={"expandIcon"}
           icon={ArrowRightIcon}

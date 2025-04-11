@@ -19,7 +19,7 @@ import { SUBJECTS_PIE_COLORS } from "@/utils/constants";
 import CircularLoading from "../loadings/CircularLoading/CircularLoading";
 
 function FriendsTrendChart() {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const { friendsTrendData, friendsTrendsIsLoading } = useFriendsTrends();
 
@@ -27,7 +27,7 @@ function FriendsTrendChart() {
     return <CircularLoading />;
   }
 
-  if (!accountData) {
+  if (!account) {
     return <AccountWall />;
   }
 

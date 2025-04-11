@@ -9,7 +9,7 @@ import UserContainer from "@/components/users/UserContainer/UserContainer";
 const PAGE_LENGTH = 30;
 
 export default function Leaderboard({ viewer, viewDate, isOnlyFriends }) {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
 
   const { rankingsData, rankingsIsLoading } = useRankings(viewer, viewDate);
 
@@ -36,19 +36,19 @@ export default function Leaderboard({ viewer, viewDate, isOnlyFriends }) {
   useEffect(() => {
     if (!rankingsData?.success) return;
 
-    if (!isOnlyFriends || !accountData) {
+    if (!isOnlyFriends || !account) {
       setRankings(rankingsData.data.rankings);
     } else {
       setRankings(
         rankingsData.data.rankings.filter(
           (ranking) =>
-            accountData.friends.includes(ranking.user_id) ||
-            ranking.user_id === accountData.user_id
+            account.friends.includes(ranking.user_id) ||
+            ranking.user_id === account.user_id
         )
       );
     }
     setPage(1);
-  }, [rankingsData, isOnlyFriends, accountData]);
+  }, [rankingsData, isOnlyFriends, account]);
 
   return (
     <div className={`box ${styles.Leaderboard}`}>

@@ -9,14 +9,14 @@ import { updateQueryData } from "@/utils/tools";
 import { useAccount } from "./accountHooks";
 
 function useChatRooms() {
-  const { accountData } = useAccount();
+  const { account } = useAccount();
   const queryClient = useQueryClient();
 
   const queryResult = useQuery({
     queryKey: [`useChatRooms`],
     queryFn: getChatRooms,
     staleTime: 1000 * 5,
-    enabled: !!accountData,
+    enabled: !!account,
     select: (response) => response?.data?.chatrooms || [],
     placeholderData: [],
   });
