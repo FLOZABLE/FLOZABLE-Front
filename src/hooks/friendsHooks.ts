@@ -9,6 +9,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
 import { useCallback } from "react";
 import { updateQueryData } from "@/utils/tools";
+import {
+  Friend,
+  FriendsResponse,
+  FriendsStatusResponse,
+  FriendStatus,
+} from "@/types/friend";
 
 function useFriends() {
   const queryClient = useQueryClient();
@@ -16,26 +22,32 @@ function useFriends() {
   const { account } = useAccount();
 
   const queryResult = useQuery({
-    queryKey: [`useFriends`],
-    queryFn: () => getFriends(),
+    queryKey: [`friends`],
+    queryFn: getFriends,
     staleTime: 1000 * 10,
     enabled: !!account,
     select: (response) => response?.data?.friends || [],
-    placeholderData: [],
   });
 
   const { data: friendsData } = queryResult;
 
-  const updateFriendsData = useCallback(async (newData) => {
-    await queryClient.setQueryData(["useFriends"], (oldData) => {
-      return updateQueryData(oldData, newData, "friends");
-    });
-  }, []);
+  const updateFriendsData = useCallback(
+    async (newData: Friend[] | ((oldValue: Friend[]) => Friend[])) => {
+      await queryClient.setQueryData(
+        ["friends"],
+        (oldData: FriendsResponse | undefined) => {
+          if (!oldData) return oldData;
+          return updateQueryData(oldData, newData, "friends");
+        }
+      );
+    },
+    [queryClient]
+  );
 
   return { friendsData, updateFriendsData, ...queryResult };
 }
 
-function useFriendsSearch(searchQuery) {
+function useFriendsSearch(searchQuery: string) {
   const queryResult = useQuery({
     queryKey: [`getFriendsSearch`, searchQuery],
     queryFn: () => getFriendsSearch(searchQuery),
@@ -43,7 +55,6 @@ function useFriendsSearch(searchQuery) {
     retryDelay: 1000 * 3,
     enabled: searchQuery?.length >= 2,
     select: (response) => response?.data?.users || [],
-    placeholderData: [],
   });
 
   const {
@@ -69,7 +80,6 @@ function useFriendsTrends() {
     staleTime: 1000 * 60,
     enabled: !!account,
     select: (response) => response?.data?.trends || [],
-    placeholderData: [],
   });
 
   const {
@@ -92,8 +102,7 @@ function useFriendsRecommended() {
   const queryResult = useQuery({
     queryKey: [`friendsRecommended`],
     queryFn: getFriendsRecommended,
-    select: (response) => response?.data?.users ?? [],
-    placeholderData: [],
+    select: (response) => response?.data?.users,
   });
 
   const {
@@ -115,12 +124,11 @@ function useFriendsStatus() {
   const { account } = useAccount();
 
   const queryResult = useQuery({
-    queryKey: [`useFriendsStatus`],
+    queryKey: [`friendsStatus`],
     queryFn: getFriendsStatus,
-    staleTime: 60 * 30,
+    staleTime: 60 * 30 * 1000,
     enabled: !!account,
     select: (response) => response?.data?.friends ?? [],
-    placeholderData: [],
   });
 
   const {
@@ -130,11 +138,20 @@ function useFriendsStatus() {
     refetch: friendsStatusRefetch,
   } = queryResult;
 
-  const updateFriendsStatus = useCallback(async (newData) => {
-    await queryClient.setQueryData(["useFriendsStatus"], (oldData) => {
-      return updateQueryData(oldData, newData, "friends");
-    });
-  }, []);
+  const updateFriendsStatus = useCallback(
+    async (
+      newData: FriendStatus[] | ((oldValue: FriendStatus[]) => FriendStatus[])
+    ) => {
+      await queryClient.setQueryData(
+        ["friendsStatus"],
+        (oldData: FriendsStatusResponse | undefined) => {
+          if (!oldData) return oldData;
+          return updateQueryData(oldData, newData, "friends");
+        }
+      );
+    },
+    [queryClient]
+  );
 
   return {
     ...queryResult,

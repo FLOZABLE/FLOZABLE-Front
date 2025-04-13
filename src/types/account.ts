@@ -15,6 +15,7 @@ export interface Account {
 export interface Userinfo {
   user_id: string;
   name: string;
+  created_at: number;
   timezone?: string;
   groups?: string[];
   friends?: string[];

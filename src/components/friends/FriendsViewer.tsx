@@ -8,10 +8,10 @@ import {
   CardTitle,
 } from "../ui/card";
 import UserContainer from "../users/UserContainer";
+import UserSubjectViewer from "../users/UserSubjectViewer";
 
-export default function FriendsViewer() {
-  const { friendsStatus, friendsStatusIsLoading, friendsStatusError } =
-    useFriendsStatus();
+export default function FriendsViewer({}) {
+  const { friendsStatus } = useFriendsStatus();
 
   return (
     <Card>
@@ -20,10 +20,11 @@ export default function FriendsViewer() {
         <CardDescription>See what your friends are doing</CardDescription>
       </CardHeader>
       <CardContent>
-        {friendsStatus.map((friend, i) => {
+        {friendsStatus?.map((friend, i) => {
           return (
             <div key={i}>
               <UserContainer userinfo={friend} />
+              <UserSubjectViewer userInfo={friend} />
             </div>
           );
         })}

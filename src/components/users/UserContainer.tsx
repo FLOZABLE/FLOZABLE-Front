@@ -19,12 +19,7 @@ export default function UserContainer({
   maxNameWidth = "9rem",
 }: UserContainerProps) {
   return (
-    <div
-      className={cn(
-        "flex items-center justify-between p-2 rounded-xl shadow-sm bg-white dark:bg-zinc-900",
-        className
-      )}
-    >
+    <div className={cn("flex items-center justify-between p-2", className)}>
       <div className="flex items-center gap-2 cursor-pointer" onClick={onClick}>
         <AvatarWrapper name={userinfo.name} userId={userinfo.user_id} />
         <div

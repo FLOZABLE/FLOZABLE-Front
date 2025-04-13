@@ -1,21 +1,30 @@
+import {
+  FriendsRecommendedResponse,
+  FriendsResponse,
+  FriendsSearchResponse,
+  FriendsStatusResponse,
+  FriendsTrendResponse,
+} from "@/types/friend";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 
-async function getFriends() {
+async function getFriends(): Promise<FriendsResponse> {
   return requestHandler(AxiosInstance.get(`/friends`));
 }
 
-async function deleteFriend(friendId) {
+async function deleteFriend(friendId: string) {
   return requestHandler(
     AxiosInstance.delete(`/friends/friend`, { data: { friend_id: friendId } })
   );
 }
 
-async function getFriendsRecommended() {
+async function getFriendsRecommended(): Promise<FriendsRecommendedResponse> {
   return requestHandler(AxiosInstance.get(`/friends/recommended`));
 }
 
-async function getFriendsSearch(searchQuery) {
+async function getFriendsSearch(
+  searchQuery: string
+): Promise<FriendsSearchResponse> {
   return requestHandler(
     AxiosInstance.get(`/friends/search`, {
       params: {
@@ -25,7 +34,7 @@ async function getFriendsSearch(searchQuery) {
   );
 }
 
-async function getFriendsTrends() {
+async function getFriendsTrends(): Promise<FriendsTrendResponse> {
   const timezone = getTimezone();
   return requestHandler(
     AxiosInstance.get(`/friends/trends`, {
@@ -36,7 +45,7 @@ async function getFriendsTrends() {
   );
 }
 
-async function getFriendsStatus() {
+async function getFriendsStatus(): Promise<FriendsStatusResponse> {
   const timezone = getTimezone();
 
   const response = await AxiosInstance.get(`/friends/status`, {
@@ -45,7 +54,7 @@ async function getFriendsStatus() {
   return response.data;
 }
 
-async function postFriendsRequest({ targetId }) {
+async function postFriendsRequest(targetId: string) {
   return requestHandler(
     AxiosInstance.post(`/friends/request`, {
       target_id: targetId,
@@ -53,7 +62,10 @@ async function postFriendsRequest({ targetId }) {
   );
 }
 
-async function postFriendsRequestReply({ notificationId, accepted }) {
+async function postFriendsRequestReply(
+  notificationId: string,
+  accepted: boolean
+) {
   return requestHandler(
     AxiosInstance.post(`/friends/request/reply`, {
       notification_id: notificationId,
@@ -62,7 +74,7 @@ async function postFriendsRequestReply({ notificationId, accepted }) {
   );
 }
 
-async function deleteFriendRequest(notificationId) {
+async function deleteFriendRequest(notificationId: string) {
   return requestHandler(
     AxiosInstance.delete(`/friends/request`, {
       data: {
