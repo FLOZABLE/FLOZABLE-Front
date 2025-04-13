@@ -51,11 +51,11 @@ function Header({}) {
   const [appUsage, setAppUsage] = useState("0 minutes");
   const [longestSession, setLongestSession] = useState("0 seconds");
   const [studyStreak, setStudyStreak] = useState("0 day"); //days of consecutive study
-  const { useExtensionSettingsData } = useExtensionSettings();
+  const { extensionSettings } = useExtensionSettings();
 
   const router = useRouter();
 
-  const { extensionUsageData } = useExtensionUsage(
+  const { extensionUsage } = useExtensionUsage(
     new Date(new Date().setHours(0, 0, 0, 0)),
     "day"
   );
@@ -84,9 +84,9 @@ function Header({}) {
   }, [groupedSubjects]);
 
   useEffect(() => {
-    if (!extensionUsageData?.success || !extensionUsageData.data.usage.length)
+    if (!extensionUsage?.success || !extensionUsage.data.usage.length)
       return;
-    const totalWebsiteUsage = extensionUsageData.data.usage.reduce((a, b) => {
+    const totalWebsiteUsage = extensionUsage.data.usage.reduce((a, b) => {
       return a + b.duration;
     }, 0);
     const formattedWebsiteUsage = secondConverter({
@@ -94,7 +94,7 @@ function Header({}) {
       options: ["seconds", "minutes", "hours"],
     });
     setAppUsage(formattedWebsiteUsage);
-  }, [extensionUsageData]);
+  }, [extensionUsage]);
 
   useEffect(() => {
     console.log("account data", account);
@@ -134,7 +134,7 @@ function Header({}) {
       </div>
       {account ? (
         <div className={styles.right}>
-          {useExtensionSettingsData?.data?.settings?.length ? null : (
+          {extensionSettings?.data?.settings?.length ? null : (
             <button
               id={styles.tryExtensionBtn}
               onClick={() => {

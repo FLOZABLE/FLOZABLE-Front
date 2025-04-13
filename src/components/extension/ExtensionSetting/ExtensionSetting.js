@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 
 function ExtensionSetting() {
-  const { useExtensionSettingsData, useExtensionSettingsIsLoading } =
+  const { extensionSettings, extensionSettingsIsLoading } =
     useExtensionSettings();
 
   const [url, setUrl] = useState("");
@@ -26,10 +26,10 @@ function ExtensionSetting() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!useExtensionSettingsData?.success) return;
+    if (!extensionSettings?.success) return;
 
-    setSettings(useExtensionSettingsData.data.settings);
-  }, [useExtensionSettingsData]);
+    setSettings(extensionSettings.data.settings);
+  }, [extensionSettings]);
 
   useEffect(() => {
     const newSearchParams = new URLSearchParams(searchParams);
@@ -127,9 +127,9 @@ function ExtensionSetting() {
           <div>Timer when studying</div>
         </div>
         <ul ref={extensionRef}>
-          {useExtensionSettingsIsLoading ? (
+          {extensionSettingsIsLoading ? (
             <CircularLoading />
-          ) : !useExtensionSettingsData?.success ? null : (
+          ) : !extensionSettings?.success ? null : (
             settings.map((setting, i) => {
               const { website, timer, study_timer, block, study_block } =
                 setting;

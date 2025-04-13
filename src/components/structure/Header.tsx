@@ -1,6 +1,12 @@
 "use client";
 
-import { BookOpen, Brain, Flame, Hourglass } from "lucide-react";
+import {
+  ArrowRightIcon,
+  BookOpen,
+  Brain,
+  Flame,
+  Hourglass,
+} from "lucide-react";
 import NotificationsBtn from "../buttons/NotificationsBtn";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import AvatarWrapper from "../ui/avatar";
@@ -19,6 +25,9 @@ import {
 } from "@/utils/tools";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type InfoBoxProps = {
   icon: ReactNode;
@@ -41,6 +50,8 @@ function InfoBox({ icon, name, value }: InfoBoxProps) {
 }
 
 export default function Header() {
+  const router = useRouter();
+
   const { account } = useAccount();
   const { groupedSubjects } = useSubjects();
 
@@ -48,9 +59,10 @@ export default function Header() {
   const [websiteTime, setWebsiteTime] = useState("0 minutes");
   const [focusTime, setFocusTime] = useState("0 seconds");
   const [streak, setStreak] = useState("0 days");
-  const { useExtensionSettingsData } = useExtensionSettings();
+  const { extensionSettings, extensionSettingsIsLoading } =
+    useExtensionSettings();
 
-  const { extensionUsageData } = useExtensionUsage(
+  const { extensionUsage } = useExtensionUsage(
     new Date(new Date().setHours(0, 0, 0, 0)),
     "day"
   );
@@ -79,9 +91,9 @@ export default function Header() {
   }, [groupedSubjects]);
 
   useEffect(() => {
-    if (!extensionUsageData?.success || !extensionUsageData.data.usage.length)
-      return;
-    const totalWebsiteUsage = extensionUsageData.data.usage.reduce((a, b) => {
+    if (!extensionUsage) return;
+
+    const totalWebsiteUsage = extensionUsage.reduce((a, b) => {
       return a + b.duration;
     }, 0);
     const formattedWebsiteUsage = secondConverter({
@@ -89,10 +101,10 @@ export default function Header() {
       options: ["seconds", "minutes", "hours"],
     });
     setWebsiteTime(formattedWebsiteUsage);
-  }, [extensionUsageData]);
+  }, [extensionUsage]);
 
-  console.log("account", account)
-  
+  console.log("account", account);
+
   return (
     <header className="backdrop-blur-sm sticky top-0 left-0 w-full h-12 px-10 flex flex-row justify-between items-center">
       <div className="flex gap-3 items-center">
@@ -117,12 +129,30 @@ export default function Header() {
         />
       </div>
       <div className="flex gap-3 items-center">
+        {!extensionSettings?.length && !extensionSettingsIsLoading && (
+          <Button
+            effect={"expandIcon"}
+            icon={ArrowRightIcon}
+            iconPlacement="right"
+            onClick={() => {
+              router.push("/dashboard/account?website=youtube.com");
+              window.open(
+                "https://chromewebstore.google.com/detail/flozable-tab-monitor/cmbdaanokelibhphiidlikongdoandlj",
+                "_blank"
+              );
+              setTimeout(() => {
+                toast.info(
+                  "Manage the websites you want to block or track usage from this page!"
+                );
+              }, 500);
+            }}
+          >
+            Try our Chrome extension to block distractions!
+          </Button>
+        )}
         <NotificationsBtn />
         <ThemeToggleBtn />
-        <AvatarWrapper
-          name={account?.name || ""}
-          userId={account?.user_id}
-        />
+        <AvatarWrapper name={account?.name || ""} userId={account?.user_id} />
       </div>
     </header>
   );

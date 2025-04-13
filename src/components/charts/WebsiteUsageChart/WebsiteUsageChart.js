@@ -14,15 +14,15 @@ export default function WebsiteUsageChart({}) {
   const [totalDuration, setTotalDuration] = useState("0 seconds");
   const [totalVisits, setTotalVisits] = useState("0 times");
 
-  const { extensionUsageData, extensionUsageIsLoading } = useExtensionUsage(
+  const { extensionUsage, extensionUsageIsLoading } = useExtensionUsage(
     new Date(new Date().setHours(0, 0, 0, 0)),
     "day"
   );
 
   useEffect(() => {
-    if (!extensionUsageData?.success) return;
+    if (!extensionUsage?.success) return;
 
-    const usage = extensionUsageData.data.usage.map((website, i) => ({
+    const usage = extensionUsage.data.usage.map((website, i) => ({
       ...website,
       name: website.website,
       fill: SUBJECTS_PIE_COLORS[i % SUBJECTS_PIE_COLORS.length],
@@ -56,7 +56,7 @@ export default function WebsiteUsageChart({}) {
       return a + b.visits;
     }, 0);
     setTotalVisits(totalVisits + " times");
-  }, [extensionUsageData]);
+  }, [extensionUsage]);
 
   if (extensionUsageIsLoading) {
     return <CircularLoading />;

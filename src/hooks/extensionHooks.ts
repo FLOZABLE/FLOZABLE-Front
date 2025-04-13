@@ -10,21 +10,20 @@ function useExtensionSettings() {
     queryFn: getExtensionSettings,
     staleTime: 1000 * 60,
     enabled: !!account,
+    select: (response) => response?.data?.settings,
   });
 
-  const {
-    data: useExtensionSettingsData,
-    isLoading: useExtensionSettingsIsLoading,
-  } = queryResult;
+  const { data: extensionSettings, isLoading: extensionSettingsIsLoading } =
+    queryResult;
 
   return {
-    useExtensionSettingsData,
-    useExtensionSettingsIsLoading,
+    extensionSettings,
+    extensionSettingsIsLoading,
     ...queryResult,
   };
 }
 
-function useExtensionUsage(date, mode) {
+function useExtensionUsage(date: Date, mode: string) {
   const { account } = useAccount();
 
   const queryResult = useQuery({
@@ -33,12 +32,13 @@ function useExtensionUsage(date, mode) {
     staleTime: 1000 * 5,
     enabled: !!account,
     refetchOnWindowFocus: true,
+    select: (response) => response?.data?.usage,
   });
 
-  const { data: extensionUsageData, isLoading: extensionUsageIsLoading } =
+  const { data: extensionUsage, isLoading: extensionUsageIsLoading } =
     queryResult;
 
-  return { extensionUsageData, extensionUsageIsLoading, ...queryResult };
+  return { extensionUsage, extensionUsageIsLoading, ...queryResult };
 }
 
 export { useExtensionSettings, useExtensionUsage };

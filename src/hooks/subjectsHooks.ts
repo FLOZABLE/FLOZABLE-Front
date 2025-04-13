@@ -1,18 +1,9 @@
-import {
-  DefinedUseQueryResult,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
 import { useCallback } from "react";
 import { calculateTimeToMidnight, updateQueryData } from "@/utils/tools";
 import { getSubjects } from "@/apis/subjectsApi";
 import { GroupedSubjects, Subjects, SubjectsResponse } from "@/types/subject";
-
-interface SubjectsSelectResult {
-  subjects: Subjects;
-  grouped_subjects: GroupedSubjects;
-}
 
 const defaultGroupedSubjects: GroupedSubjects = {
   day: { timeline: [], total: [], focus: [] },
@@ -25,7 +16,7 @@ export function useSubjects() {
 
   const { account } = useAccount();
 
-  const queryResult = useQuery<SubjectsResponse, Error, SubjectsSelectResult>({
+  const queryResult = useQuery({
     queryKey: ["useSubjects"],
     queryFn: getSubjects,
     staleTime: 1000 * 60 * 10,
@@ -45,7 +36,7 @@ export function useSubjects() {
     }),
     refetchIntervalInBackground: true,
     refetchInterval: calculateTimeToMidnight,
-  }) as DefinedUseQueryResult<SubjectsSelectResult, Error>;
+  });
 
   const {
     data: subjectsData,
@@ -53,10 +44,8 @@ export function useSubjects() {
     isLoading: subjectsIsLoading,
   } = queryResult;
 
-  const subjects = subjectsData.subjects;
-  const groupedSubjects = subjectsData.grouped_subjects;
-
-  console.log(subjects[0].color,groupedSubjects.day.focus[1])
+  const subjects = subjectsData?.subjects;
+  const groupedSubjects = subjectsData?.grouped_subjects;
 
   const updateSubjects = useCallback(async (newData: Subjects) => {
     await queryClient.setQueryData(

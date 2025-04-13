@@ -1,16 +1,29 @@
+import {
+  ExtensionSettingsResponse,
+  ExtensionUsageResponse,
+} from "./../types/website";
 import AxiosInstance from "@/utils/axiosInstance";
-import { requestHandler } from "@/utils/tools";
+import { getTimezone, requestHandler } from "@/utils/tools";
 import { DateTime } from "luxon";
 
-async function getExtensionSettings() {
+async function getExtensionSettings(): Promise<ExtensionSettingsResponse> {
   return requestHandler(AxiosInstance.get(`/extension/settings`));
 }
 
-async function putExtensionSetting(url) {
+async function putExtensionSetting(url: string) {
   return requestHandler(AxiosInstance.put(`/extension/setting`, { url }));
 }
 
-async function patchExtensionSetting({ website, mode, value }) {
+type PatchExtensionSettingParams = {
+  website: string;
+  mode: string;
+  value: string;
+};
+async function patchExtensionSetting({
+  website,
+  mode,
+  value,
+}: PatchExtensionSettingParams) {
   return requestHandler(
     AxiosInstance.patch(`/extension/setting`, {
       website,
@@ -20,7 +33,10 @@ async function patchExtensionSetting({ website, mode, value }) {
   );
 }
 
-async function getExtensionUsage(date, mode) {
+async function getExtensionUsage(
+  date: Date,
+  mode: string
+): Promise<ExtensionUsageResponse> {
   const timezone = getTimezone();
 
   return requestHandler(
