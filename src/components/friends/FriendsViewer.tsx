@@ -9,12 +9,16 @@ import {
 } from "../ui/card";
 import UserContainer from "../users/UserContainer";
 import UserSubjectViewer from "../users/UserSubjectViewer";
+import ChatBtn from "../buttons/ChatBtn";
 
-export default function FriendsViewer({}) {
+export default function FriendsViewer({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   const { friendsStatus } = useFriendsStatus();
 
   return (
-    <Card>
+    <Card className={className} {...props}>
       <CardHeader>
         <CardTitle>Friends</CardTitle>
         <CardDescription>See what your friends are doing</CardDescription>
@@ -23,7 +27,9 @@ export default function FriendsViewer({}) {
         {friendsStatus?.map((friend, i) => {
           return (
             <div key={i}>
-              <UserContainer userinfo={friend} />
+              <UserContainer userinfo={friend}>
+                <ChatBtn />
+              </UserContainer>
               <UserSubjectViewer userInfo={friend} />
             </div>
           );

@@ -1,8 +1,17 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { WorkersContext } from "../structure/Providers";
+import { toTimer } from "@/utils/tools";
 
-export default function MemberTimer() {
-  const { membersTimerWorkerRef } = useContext(WorkersContext);
+interface MemberTimerProps {
+  initialSec?: number;
+  start: number;
+}
+
+export default function MemberTimer({
+  initialSec = 0,
+  start,
+}: MemberTimerProps) {
+  const { membersTimerWorker } = useContext(WorkersContext);
 
   const [timer, setTimer] = useState({
     value: 0,
@@ -13,7 +22,7 @@ export default function MemberTimer() {
     const disp = toTimer(initialSec);
     setTimer({ value: initialSec, disp });
 
-    const onMessage = (e) => {
+    const onMessage = (e: MessageEvent) => {
       if (!start || e.data.command !== "update-timer") return;
 
       const now = Math.round(Date.now() / 1000);
@@ -22,23 +31,14 @@ export default function MemberTimer() {
       setTimer({ value, disp });
     };
 
-    if (!membersTimerWorkerRef?.current) {
-      membersTimerWorkerRef.current.removeEventListener("message", onMessage);
-      return;
-    }
-
     if (start) {
-      membersTimerWorkerRef.current.addEventListener("message", onMessage);
+      membersTimerWorker?.addEventListener("message", onMessage);
     }
 
     return () => {
-      membersTimerWorkerRef.current.removeEventListener("message", onMessage);
+      membersTimerWorker?.removeEventListener("message", onMessage);
     };
   }, [start, initialSec]);
 
-  return (
-    <div className={styles.MemberTimer}>
-      <p className={styles.hour}>{timer.disp}</p>
-    </div>
-  );
+  return <div>{timer.disp}</div>;
 }

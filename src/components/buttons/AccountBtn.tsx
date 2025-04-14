@@ -2,6 +2,7 @@ import { useAccountModal } from "../structure/ModalProviders";
 import { useAccount } from "@/hooks/accountHooks";
 import { ArrowRightIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import { getAuthLogout } from "@/apis/authApi";
 
 export default function AccountBtn() {
   const { setAccountModal } = useAccountModal();
@@ -14,8 +15,14 @@ export default function AccountBtn() {
           effect={"expandIcon"}
           icon={ArrowRightIcon}
           iconPlacement="right"
-          onClick={() => {
-            clearAccountData();
+          onClick={async () => {
+            const response = await getAuthLogout();
+            if (response.success) {
+              clearAccountData();
+              setTimeout(() => {
+                window.location.reload();
+              }, 500);
+            }
           }}
         >
           Logout

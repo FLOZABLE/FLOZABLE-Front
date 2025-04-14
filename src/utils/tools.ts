@@ -4,7 +4,7 @@ import * as ct from "countries-and-timezones";
 import { AxiosError, AxiosResponse } from "axios";
 import { ApiResponse } from "@/types/response";
 import { twMerge } from "tailwind-merge";
-import clsx from "clsx";
+import clsx, { ClassValue } from "clsx";
 import { GroupedSubjects } from "@/types/subject";
 import { ViewerType } from "@/types/others";
 
@@ -423,10 +423,8 @@ const calculateTimeToMidnight = (): number => {
   return midnight.getTime() - now.getTime(); // Time in milliseconds until midnight
 };
 
-type ClassValue = string | null | undefined | ClassValue[];
-
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return twMerge(clsx(...inputs));
 }
 
 export {

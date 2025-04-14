@@ -1,4 +1,5 @@
 import { Userinfo } from "./account";
+import { ActiveGroup } from "./group";
 import { ApiResponse } from "./response";
 import { ActiveSubject } from "./subject";
 
@@ -13,6 +14,7 @@ export interface FriendStatus
   extends Pick<Userinfo, "user_id" | "name" | "timezone" | "created_at"> {
   study_time: number;
   active_subject?: ActiveSubject;
+  active_group?: ActiveGroup;
 }
 
 export interface FriendTrend {

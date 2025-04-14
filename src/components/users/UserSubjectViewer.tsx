@@ -1,5 +1,6 @@
 import { FriendStatus } from "@/types/friend";
 import { useEffect, useState } from "react";
+import MemberTimer from "../groups/MemberTimer";
 
 interface FriendsViewerProps {
   userInfo: FriendStatus;
@@ -38,9 +39,11 @@ export default function UserSubjectViewer({ userInfo }: FriendsViewerProps) {
   }, [userInfo?.active_subject]);
 
   return (
-    <div >
+    <div className="bg-accent p-2 rounded-md flex gap-2">
       <p>{activeSubject.name}</p>
-      {/* {activeSubject.start ? <MemberTimer start={activeSubject.start} /> : null} */}
+      {activeSubject.start ? (
+        <MemberTimer start={activeSubject.start} />
+      ) : null}
     </div>
   );
 }

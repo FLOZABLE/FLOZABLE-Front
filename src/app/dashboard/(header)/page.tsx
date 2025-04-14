@@ -1,6 +1,7 @@
 "use client";
 
 import { DatePicker } from "@/components/buttons/DatePicker";
+import StudyTrendChart from "@/components/charts/StudyTrendChart";
 import FriendsViewer from "@/components/friends/FriendsViewer";
 import SelectorWrapper from "@/components/ui/select";
 import { ViewerType } from "@/types/others";
@@ -11,7 +12,7 @@ export default function Dashboard() {
   const [viewer, setViewer] = useState<ViewerType>("day");
   return (
     <main className="p-5">
-      <div className="flex justify-between w-full items-center">
+      <div className="flex justify-between w-full items-center mb-5">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <div className="flex gap-3">
           <DatePicker
@@ -32,8 +33,10 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      <FriendsViewer />
-      {/* <StudyTrendChart  /> */}
+      <div className="flex gap-5">
+        <FriendsViewer />
+        <StudyTrendChart viewDate={viewDate} viewer={viewer} />
+      </div>
     </main>
   );
 }

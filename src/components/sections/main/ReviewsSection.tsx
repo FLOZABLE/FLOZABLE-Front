@@ -13,7 +13,7 @@ import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/components/animations/variants";
-import AvatarWrapper from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const reviews = [
   {
@@ -153,14 +153,20 @@ export default function ReviewsSection() {
           }}
         >
           {reviews.map((review, i) => {
+            const name = `testimonial-${i + 1}.jpg`;
             return (
               <SwiperSlide key={i} className="mb-1 !h-auto">
                 <Card className="h-full">
                   <CardHeader>
-                    <AvatarWrapper
-                      src={`/img/main/testimonial-${i + 1}.jpg`}
-                      name={review.name}
-                    />
+                    <Avatar data-slot="avatar">
+                      <AvatarImage
+                        src={`/img/main/testimonial-${i + 1}.jpg`}
+                        alt={"testomonial"}
+                      />
+                      <AvatarFallback>
+                        {name.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
                     <CardTitle>{review.name}</CardTitle>
                     <CardDescription>{review.description}</CardDescription>
                   </CardHeader>

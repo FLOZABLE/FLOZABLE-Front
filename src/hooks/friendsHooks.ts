@@ -9,12 +9,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
 import { useCallback } from "react";
 import { updateQueryData } from "@/utils/tools";
-import {
-  Friend,
-  FriendsResponse,
-  FriendsStatusResponse,
-  FriendStatus,
-} from "@/types/friend";
+import { Friend, FriendsResponse } from "@/types/friend";
 
 function useFriends() {
   const queryClient = useQueryClient();
@@ -120,7 +115,6 @@ function useFriendsRecommended() {
 }
 
 function useFriendsStatus() {
-  const queryClient = useQueryClient();
   const { account } = useAccount();
 
   const queryResult = useQuery({
@@ -138,27 +132,11 @@ function useFriendsStatus() {
     refetch: friendsStatusRefetch,
   } = queryResult;
 
-  const updateFriendsStatus = useCallback(
-    async (
-      newData: FriendStatus[] | ((oldValue: FriendStatus[]) => FriendStatus[])
-    ) => {
-      await queryClient.setQueryData(
-        ["friendsStatus"],
-        (oldData: FriendsStatusResponse | undefined) => {
-          if (!oldData) return oldData;
-          return updateQueryData(oldData, newData, "friends");
-        }
-      );
-    },
-    [queryClient]
-  );
-
   return {
     ...queryResult,
     friendsStatus,
     friendsStatusError: account ? friendsStatusError : true,
     friendsStatusIsLoading,
-    updateFriendsStatus,
     friendsStatusRefetch,
   };
 }

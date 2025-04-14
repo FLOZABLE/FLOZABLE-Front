@@ -103,8 +103,6 @@ export default function Header() {
     setWebsiteTime(formattedWebsiteUsage);
   }, [extensionUsage]);
 
-  console.log("account", account);
-
   return (
     <header className="backdrop-blur-sm sticky top-0 left-0 w-full h-12 px-10 flex flex-row justify-between items-center">
       <div className="flex gap-3 items-center">

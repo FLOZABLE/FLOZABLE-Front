@@ -9,6 +9,7 @@ import {
   createContext,
   ReactNode,
   useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -22,6 +23,10 @@ import { updateQueryData } from "@/utils/tools";
 import { useThemes, useThemesUser } from "@/hooks/themesHooks";
 import { toast } from "react-toastify";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { useUpdater } from "@/hooks/otherHooks";
+import { FriendStatus } from "@/types/friend";
+import { ActiveSubject } from "@/types/subject";
+import { ActiveGroup } from "@/types/group";
 
 interface AppProviderProps {
   children: ReactNode;
@@ -31,8 +36,6 @@ interface AppContainerProps {
   children: ReactNode;
 }
 
-export const WorkersContext = createContext({});
-export const PlansContext = createContext({});
 export const CallOptionsContext = createContext({});
 export const ThemesContext = createContext({});
 
@@ -117,11 +120,10 @@ function AppProvider({ children }: AppProviderProps) {
     }, 100);
   }, [account?.user_id]);
 
-  const updateFriendsStatus = useCallback(async (newData: any) => {
-    await queryClient.setQueryData(["useFriendsStatus"], (oldData: any) => {
-      return updateQueryData(oldData, newData, "friends");
-    });
-  }, []);
+  const updateFriendsStatus = useUpdater<
+    { friends: FriendStatus[] },
+    "friends"
+  >(["friendsStatus"], "friends");
 
   const updateProfileStatus = useCallback(
     async (userId: string, field: string, newData: any) => {
@@ -147,13 +149,14 @@ function AppProvider({ children }: AppProviderProps) {
       subject,
     }: {
       userId: string;
-      subject: string;
+      subject: ActiveSubject;
     }) => {
-      updateFriendsStatus((prev: any[]) => {
+      updateFriendsStatus((prev) => {
+        console.log("prev", prev);
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
         const copy = [...prev];
-        copy[index] = { ...copy[index], activeSubject: subject };
+        copy[index] = { ...copy[index], active_subject: subject };
         return copy;
       });
       updateProfileStatus(userId, "active_subject", subject);
@@ -165,16 +168,16 @@ function AppProvider({ children }: AppProviderProps) {
       duration,
     }: {
       userId: string;
-      subject: string;
+      subject: ActiveSubject;
       duration: number;
     }) => {
-      updateFriendsStatus((prev: any[]) => {
+      updateFriendsStatus((prev) => {
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
         const copy = [...prev];
         copy[index] = {
           ...copy[index],
-          activeSubject: subject,
+          active_subject: subject,
           study_time: (copy[index].study_time || 0) + duration,
         };
         return copy;
@@ -187,23 +190,23 @@ function AppProvider({ children }: AppProviderProps) {
       group,
     }: {
       userId: string;
-      group: any;
+      group: ActiveGroup;
     }) => {
-      updateFriendsStatus((prev: any[]) => {
+      updateFriendsStatus((prev) => {
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
         const copy = [...prev];
-        copy[index] = { ...copy[index], activeGroup: group };
+        copy[index] = { ...copy[index], active_group: group };
         return copy;
       });
     };
 
     const onDeActiveGroup = ({ userId }: { userId: string }) => {
-      updateFriendsStatus((prev: any[]) => {
+      updateFriendsStatus((prev) => {
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
         const copy = [...prev];
-        copy[index] = { ...copy[index], activeGroup: null };
+        copy[index] = { ...copy[index], active_group: undefined };
         return copy;
       });
     };
@@ -249,42 +252,79 @@ interface WorkersProviderProps {
   children: ReactNode;
 }
 
-function WorkersProvider({ children }: WorkersProviderProps) {
+interface WorkersContextType {
+  membersTimerWorker: Worker | null;
+  createWorker: (name: string, script: string) => void;
+  terminateWorker: (name: string) => void;
+  getWorker: (name: string) => Worker | null;
+}
+
+interface WorkersProviderProps {
+  children: React.ReactNode;
+}
+
+export const WorkersContext = createContext<WorkersContextType>({
+  membersTimerWorker: null,
+  createWorker: () => {},
+  terminateWorker: () => {},
+  getWorker: () => null,
+});
+
+export function WorkersProvider({ children }: WorkersProviderProps) {
   const membersTimerWorkerRef = useRef<Worker | null>(null);
-  const subjectsTimerWorkerRef = useRef<Worker | null>(null);
 
+  // Initialize the shared membersTimer worker
   useEffect(() => {
-    membersTimerWorkerRef.current = new Worker(
-      new URL("@/utils/workers/timerWorker.js", import.meta.url)
-    );
-    subjectsTimerWorkerRef.current = new Worker(
-      new URL("@/utils/workers/subjectTimerWorker.js", import.meta.url)
-    );
-
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/service-worker.js")
-        .then((registration) => {
-          console.log("scope is: ", registration.scope);
-        });
+    if (!membersTimerWorkerRef.current) {
+      membersTimerWorkerRef.current = new Worker(
+        new URL("@/utils/workers/timerWorker.js", import.meta.url)
+      );
     }
 
     return () => {
+      // Cleanup worker when app unmounts
       membersTimerWorkerRef.current?.terminate();
-      subjectsTimerWorkerRef.current?.terminate();
+      membersTimerWorkerRef.current = null;
     };
   }, []);
 
+  const createWorker = (name: string) => {
+    // You can add logic here for dynamically creating other workers
+    console.warn(`Only membersTimer worker is shared in this context.`, name);
+  };
+
+  const terminateWorker = (name: string) => {
+    if (name === "membersTimer" && membersTimerWorkerRef.current) {
+      membersTimerWorkerRef.current.terminate();
+      membersTimerWorkerRef.current = null;
+    }
+  };
+
+  const getWorker = (name: string) => {
+    if (name === "membersTimer") {
+      return membersTimerWorkerRef.current;
+    }
+    return null;
+  };
+
   return (
     <WorkersContext.Provider
-      value={{ membersTimerWorkerRef, subjectsTimerWorkerRef }}
+      value={{
+        membersTimerWorker: membersTimerWorkerRef.current,
+        createWorker,
+        terminateWorker,
+        getWorker,
+      }}
     >
       {children}
     </WorkersContext.Provider>
   );
 }
 
-export default WorkersProvider;
+// Hook to use Workers Context
+export function useWorkers() {
+  return useContext(WorkersContext);
+}
 
 function CallOptionsProvider({ children }: { children: ReactNode }) {
   const [isCam, setIsCam] = useState(false);
