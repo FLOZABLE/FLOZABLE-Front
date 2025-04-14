@@ -1,22 +1,16 @@
 import AvatarWrapper from "../ui/avatar";
-import { Userinfo } from "@/types/account";
+import { Notification } from "@/types/notification";
 import Image from "next/image";
 
 interface NotificationContainerProps {
   children?: React.ReactNode;
-  userInfo: Userinfo;
-  title: string;
-  contents: string;
-  coverImg: string;
+  notification: Notification;
   onClick?: () => void;
 }
 
 export default function NotificationContainer({
   children,
-  userInfo,
-  title,
-  contents,
-  coverImg,
+  notification,
   onClick,
 }: NotificationContainerProps) {
   return (
@@ -24,11 +18,15 @@ export default function NotificationContainer({
       className="flex gap-2 cursor-pointer hover:bg-accent p-2 rounded-lg transition"
       onClick={onClick}
     >
-      {coverImg === "profile" ? (
-        <AvatarWrapper name={userInfo.user_id} userId={userInfo.user_id} />
+      {!notification.cover_image ? null : notification.cover_image ===
+        "profile" ? (
+        <AvatarWrapper
+          name={notification.userinfo.name}
+          userId={notification.userinfo.user_id}
+        />
       ) : (
         <Image
-          src={coverImg}
+          src={notification.cover_image}
           alt="cover image"
           width={40}
           height={40}
@@ -36,8 +34,8 @@ export default function NotificationContainer({
         />
       )}
       <div>
-        <h2 className="text-md font-semibold">{title}</h2>
-        <p className="text-sm text-muted-foreground">{contents}</p>
+        <h2 className="text-md font-semibold">{notification.title}</h2>
+        <p className="text-sm text-muted-foreground">{notification.contents}</p>
         <div className="flex gap-2 mt-1">{children}</div>
       </div>
     </div>

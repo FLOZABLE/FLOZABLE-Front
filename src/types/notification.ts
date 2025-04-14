@@ -1,10 +1,5 @@
 import { Userinfo } from "./account";
-
-export interface NotificationMessage {
-  title: string;
-  contents: string;
-  cover_image?: string;
-}
+import { ApiResponse } from "./response";
 
 export interface NotificationExtraInfo {
   title?: string;
@@ -20,12 +15,19 @@ export type NotificationType =
   | "plan_shared"
   | "chat_request";
 
-export interface NotificationItem {
+export interface Notification {
   notification_id: string;
   type: NotificationType;
   from_user_id: string;
   sent_at: string;
   extra_info?: NotificationExtraInfo | null;
-  message: NotificationMessage;
   userinfo: Userinfo;
+  title: string;
+  contents: string;
+  cover_image?: string;
 }
+
+// get /notifications
+export type NotificationsResponse = ApiResponse<{
+  notifications: Notification[];
+}>;

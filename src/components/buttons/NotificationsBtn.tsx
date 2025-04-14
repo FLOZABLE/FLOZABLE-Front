@@ -15,6 +15,7 @@ import { postFriendsRequestReply } from "@/apis/friendsApi";
 import { deleteNotification } from "@/apis/notificationsApi";
 import { postChatRequestReply } from "@/apis/chatApi";
 import { useRouter } from "next/navigation";
+import { Notification } from "@/types/notification";
 
 export default function NotificationsBtn() {
   const router = useRouter();
@@ -23,33 +24,114 @@ export default function NotificationsBtn() {
   const { friendsStatusRefetch } = useFriendsStatus();
   const { friendsTrendRefetch } = useFriendsTrends();
 
-  const friendRequestReply = useCallback(async (notificationId, accepted) => {
-    const response = await postFriendsRequestReply({
-      notificationId,
-      accepted,
-    });
+  const friendRequestReply = useCallback(
+    async (notificationId: string, accepted: boolean) => {
+      const response = await postFriendsRequestReply(notificationId, accepted);
 
-    filterNotification(notificationId);
+      filterNotification(notificationId);
 
-    if (!response.success) return;
+      if (!response.success) return;
 
-    friendsStatusRefetch();
-    friendsTrendRefetch();
-  }, []);
+      friendsStatusRefetch();
+      friendsTrendRefetch();
+    },
+    []
+  );
 
-  const onDeleteNotification = useCallback((notificationId) => {
+  const onDeleteNotification = useCallback((notificationId: string) => {
     filterNotification(notificationId);
 
     deleteNotification(notificationId);
   }, []);
 
-  const chatRequestReply = useCallback(async (notificationId, accepted) => {
-    filterNotification(notificationId);
+  const chatRequestReply = useCallback(
+    async (notificationId: string, accepted: boolean) => {
+      filterNotification(notificationId);
 
-    postChatRequestReply({
-      accepted,
-      notificationId,
-    });
+      postChatRequestReply({
+        accepted,
+        notificationId,
+      });
+    },
+    []
+  );
+
+  const getNotificationProps = useCallback((notification: Notification) => {
+    const { type, notification_id } = notification;
+
+    switch (type) {
+      case "friend_request":
+        return {
+          buttons: [
+            <Button
+              key="accept"
+              variant="outline"
+              onClick={(e) => {
+                e.stopPropagation();
+                friendRequestReply(notification_id, true);
+              }}
+            >
+              Accept
+            </Button>,
+            <Button
+              key="decline"
+              variant="destructive"
+              onClick={(e) => {
+                e.stopPropagation();
+                friendRequestReply(notification_id, false);
+              }}
+            >
+              Decline
+            </Button>,
+          ],
+          onClick: () =>
+            router.push(`/dashboard/user/${notification.userinfo.user_id}`),
+        };
+      case "friend_request_accepted":
+        return {
+          buttons: [
+            <Button
+              key="got-it"
+              variant="outline"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDeleteNotification(notification.notification_id);
+              }}
+            >
+              Got it
+            </Button>,
+          ],
+          onClick: () =>
+            router.push(`/dashboard/user/${notification.userinfo.user_id}`),
+        };
+      case "chat_request":
+        return {
+          buttons: [
+            <Button
+              key="accept"
+              variant="outline"
+              onClick={(e) => {
+                e.stopPropagation();
+                chatRequestReply(notification_id, true);
+              }}
+            >
+              Accept
+            </Button>,
+            <Button
+              key="decline"
+              variant="destructive"
+              onClick={(e) => {
+                e.stopPropagation();
+                chatRequestReply(notification_id, false);
+              }}
+            >
+              Decline
+            </Button>,
+          ],
+        };
+      default:
+        return { buttons: [] };
+    }
   }, []);
 
   return (
@@ -57,7 +139,7 @@ export default function NotificationsBtn() {
       <DropdownMenuTrigger asChild>
         <Button className="aspect-square h-10 w-10 relative" variant="outline">
           <Bell />
-          {notifications.length ? (
+          {notifications?.length ? (
             <Dot
               color="var(--color-destructive)"
               strokeWidth={14}
@@ -70,94 +152,13 @@ export default function NotificationsBtn() {
         <DropdownMenuLabel className="sticky top-0 z-10 bg-background border-b-2 p-3">
           Notifications
         </DropdownMenuLabel>
-        {notifications.map((notification, i) => {
-          const { userinfo, notification_id, type, message } = notification;
-
-          const getNotificationProps = () => {
-            switch (type) {
-              case "friend_request":
-                return {
-                  buttons: [
-                    <Button
-                      key="accept"
-                      variant="outline"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        friendRequestReply(notification_id, true);
-                      }}
-                    >
-                      Accept
-                    </Button>,
-                    <Button
-                      key="decline"
-                      variant="destructive"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        friendRequestReply(notification_id, false);
-                      }}
-                    >
-                      Decline
-                    </Button>,
-                  ],
-                  onClick: () =>
-                    router.push(`/dashboard/user/${userinfo.user_id}`),
-                };
-              case "friend_request_accepted":
-                return {
-                  buttons: [
-                    <Button
-                      key="got-it"
-                      variant="outline"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onDeleteNotification(notification.notification_id);
-                      }}
-                    >
-                      Got it
-                    </Button>,
-                  ],
-                  onClick: () =>
-                    router.push(`/dashboard/user/${userinfo.user_id}`),
-                };
-              case "chat_request":
-                return {
-                  buttons: [
-                    <Button
-                      key="accept"
-                      variant="outline"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        chatRequestReply(notification_id, true);
-                      }}
-                    >
-                      Accept
-                    </Button>,
-                    <Button
-                      key="decline"
-                      variant="destructive"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        chatRequestReply(notification_id, false);
-                      }}
-                    >
-                      Decline
-                    </Button>,
-                  ],
-                };
-              default:
-                return { buttons: [] };
-            }
-          };
-
-          const { buttons, onClick } = getNotificationProps();
+        {notifications?.map((notification, i) => {
+          const { buttons, onClick } = getNotificationProps(notification);
 
           return (
             <DropdownMenuItem key={i}>
               <NotificationContainer
-                userInfo={userinfo}
-                title={message.title}
-                contents={message.contents}
-                coverImg={message.cover_image}
+                notification={notification}
                 onClick={onClick}
               >
                 {buttons}

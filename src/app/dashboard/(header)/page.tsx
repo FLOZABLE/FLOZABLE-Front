@@ -1,15 +1,14 @@
 "use client";
 
 import { DatePicker } from "@/components/buttons/DatePicker";
-import StudyTrendChart from "@/components/charts/StudyTrendChart";
 import FriendsViewer from "@/components/friends/FriendsViewer";
 import SelectorWrapper from "@/components/ui/select";
-import { DateTimeUnit } from "luxon";
+import { ViewerType } from "@/types/others";
 import { useState } from "react";
 
 export default function Dashboard() {
   const [viewDate, setViewDate] = useState<Date>(new Date());
-  const [viewer, setViewer] = useState<DateTimeUnit>("day");
+  const [viewer, setViewer] = useState<ViewerType>("day");
   return (
     <main className="p-5">
       <div className="flex justify-between w-full items-center">
@@ -22,7 +21,7 @@ export default function Dashboard() {
           />
           <SelectorWrapper
             value={viewer}
-            onChange={(viewer: DateTimeUnit) => {
+            onChange={(viewer: ViewerType) => {
               setViewer(viewer);
             }}
             options={[

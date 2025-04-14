@@ -1,3 +1,5 @@
+import { ApiResponse } from "@/types/response";
+import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
@@ -6,7 +8,7 @@ interface WindowSize {
   height: number;
 }
 
-function useWindowSize(): WindowSize {
+export function useWindowSize(): WindowSize {
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: 0,
     height: 0,
@@ -28,7 +30,7 @@ function useWindowSize(): WindowSize {
   return windowSize;
 }
 
-function useModalState<T>(
+export function useModalState<T>(
   initialState: T,
   resetOnPathChange: boolean = true
 ): [T, Dispatch<SetStateAction<T>>] {
@@ -44,7 +46,7 @@ function useModalState<T>(
   return [state, setState];
 }
 
-function useMediaQuery(query: string): boolean {
+export function useMediaQuery(query: string): boolean {
   const [value, setValue] = useState<boolean>(false);
 
   useEffect(() => {
@@ -62,4 +64,31 @@ function useMediaQuery(query: string): boolean {
   return value;
 }
 
-export { useWindowSize, useModalState, useMediaQuery };
+export function useUpdater<TData extends object, TKey extends keyof TData>(
+  queryKey: unknown[],
+  nestedField: TKey
+) {
+  const queryClient = useQueryClient();
+
+  return async (
+    newData: TData[TKey] | ((oldValue: TData[TKey]) => TData[TKey])
+  ) => {
+    await queryClient.setQueryData<ApiResponse<TData>>(queryKey, (oldData) => {
+      if (!oldData?.data) return oldData;
+
+      const prev = oldData.data[nestedField];
+      const updatedValue =
+        typeof newData === "function"
+          ? (newData as (prev: TData[TKey]) => TData[TKey])(prev)
+          : newData;
+
+      return {
+        ...oldData,
+        data: {
+          ...oldData.data,
+          [nestedField]: updatedValue,
+        },
+      };
+    });
+  };
+}

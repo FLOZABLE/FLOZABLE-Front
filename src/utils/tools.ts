@@ -6,6 +6,7 @@ import { ApiResponse } from "@/types/response";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 import { GroupedSubjects } from "@/types/subject";
+import { ViewerType } from "@/types/others";
 
 function getCountryCode(timezone: string): string | false {
   try {
@@ -270,7 +271,7 @@ function getDatesDisplay({
   formats = { day: "LLLL d", week: "LLLL d", month: "kkkk LLLL" },
 }: {
   date: Date;
-  viewer: "day" | "week" | "month";
+  viewer: ViewerType;
   formats?: { day: string; week: string; month: string };
 }): string {
   const dateTime = DateTime.fromJSDate(date);

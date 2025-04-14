@@ -18,12 +18,13 @@ import {
 } from "@/components/ui/select";
 import { cn, getDatesDisplay } from "@/utils/tools";
 import { useEffect, useState } from "react";
-import { DateTime, DateTimeUnit } from "luxon";
+import { DateTime } from "luxon";
+import { ViewerType } from "@/types/others";
 
 type DatePickerProps = {
   viewDate: Date;
   setViewDate: (date: Date) => void;
-  viewer: DateTimeUnit;
+  viewer: ViewerType;
 };
 
 export function DatePicker({ viewDate, setViewDate, viewer }: DatePickerProps) {
@@ -92,7 +93,7 @@ export function DatePicker({ viewDate, setViewDate, viewer }: DatePickerProps) {
           variant={"outline"}
           className={cn(
             "justify-start text-left font-normal",
-            !viewDate && "text-muted-foreground"
+            !viewDate ? "text-muted-foreground" : ""
           )}
         >
           <CalendarIcon />
