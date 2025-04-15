@@ -235,13 +235,11 @@ function ChartTooltipContent({
                         {itemConfig?.label || item.name}
                       </span>
                     </div>
-                    {item.value && (
-                      <span className="text-foreground font-mono font-medium tabular-nums">
-                        {valueFormatter
-                          ? valueFormatter(item.value)
-                          : item.value.toLocaleString()}
-                      </span>
-                    )}
+                    <span className="text-foreground font-mono font-medium tabular-nums">
+                      {valueFormatter
+                        ? valueFormatter(item.value ?? 0)
+                        : (item.value ?? 0).toLocaleString()}
+                    </span>
                   </div>
                 </>
               )}

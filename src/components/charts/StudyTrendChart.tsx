@@ -1,6 +1,5 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
 import {
   Bar,
   BarChart,
@@ -14,7 +13,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -26,9 +24,10 @@ import {
 } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
 import { useSubjects } from "@/hooks/subjectsHooks";
-import { DateTime } from "luxon";
 import { ViewerType } from "@/types/others";
 import { getDates, getDatesDisplay, secondConverter } from "@/utils/tools";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 interface StudyTrendData {
   label: string;
@@ -50,6 +49,8 @@ export default function StudyTrendChart({
   viewDate,
   viewer,
 }: StudyTrendChartProps) {
+  const router = useRouter();
+
   const { groupedSubjects } = useSubjects();
 
   const [data, setData] = useState<StudyTrendData[]>([]);
@@ -88,7 +89,19 @@ export default function StudyTrendChart({
     <Card className="flex-1/2">
       <CardHeader>
         <CardTitle>Total study time trend</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription className="relative">
+          {description}
+          <Button
+            onClick={() => {
+              router.push("/dashboard/subjects");
+            }}
+            effect={"hoverUnderline"}
+            variant={"link"}
+            className="absolute right-0"
+          >
+            View by subjects
+          </Button>
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -140,14 +153,14 @@ export default function StudyTrendChart({
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
+      {/* <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
           Showing total visitors for the last 6 months
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }

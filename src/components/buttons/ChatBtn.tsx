@@ -1,12 +1,10 @@
 import { MessageCircle } from "lucide-react";
 import { Button } from "../ui/button";
 
-export default function ChatBtn() {
+export default function ChatBtn({ className }: React.ComponentProps<"div">) {
   return (
-    <div>
-      <Button effect={"shineHover"} onClick={() => {}}>
-        <MessageCircle />
-      </Button>
-    </div>
+    <Button effect={"shineHover"} onClick={() => {}} className={className}>
+      <MessageCircle />
+    </Button>
   );
 }

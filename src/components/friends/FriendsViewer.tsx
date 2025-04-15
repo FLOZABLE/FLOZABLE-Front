@@ -27,8 +27,8 @@ export default function FriendsViewer({
         {friendsStatus?.map((friend, i) => {
           return (
             <div key={i}>
-              <UserContainer userinfo={friend}>
-                <ChatBtn />
+              <UserContainer userinfo={friend} >
+                <ChatBtn className="ml-10"/>
               </UserContainer>
               <UserSubjectViewer userInfo={friend} />
             </div>

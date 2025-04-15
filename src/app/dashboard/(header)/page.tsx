@@ -3,6 +3,8 @@
 import { DatePicker } from "@/components/buttons/DatePicker";
 import StudyTrendChart from "@/components/charts/StudyTrendChart";
 import FriendsViewer from "@/components/friends/FriendsViewer";
+import TopLeaderboard from "@/components/leaderboard/TopLeaderboard";
+import Welcome from "@/components/others/Welcome";
 import SelectorWrapper from "@/components/ui/select";
 import { ViewerType } from "@/types/others";
 import { useState } from "react";
@@ -33,9 +35,15 @@ export default function Dashboard() {
           />
         </div>
       </div>
-      <div className="flex gap-5">
-        <FriendsViewer />
-        <StudyTrendChart viewDate={viewDate} viewer={viewer} />
+      <div className="flex gap-5 flex-col">
+        <div className="flex gap-5">
+          <Welcome />
+          <TopLeaderboard viewer={viewer} viewDate={viewDate} />
+        </div>
+        <div className="flex gap-5">
+          <FriendsViewer />
+          <StudyTrendChart viewDate={viewDate} viewer={viewer} />
+        </div>
       </div>
     </main>
   );

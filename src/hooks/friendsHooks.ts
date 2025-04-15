@@ -21,7 +21,7 @@ function useFriends() {
     queryFn: getFriends,
     staleTime: 1000 * 10,
     enabled: !!account,
-    select: (response) => response?.data?.friends || [],
+    select: (response) => response?.data?.friends,
   });
 
   const { data: friendsData } = queryResult;
