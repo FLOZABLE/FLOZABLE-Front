@@ -12,6 +12,7 @@ import "react-calendar-heatmap/dist/styles.css";
 import "react-tooltip/dist/react-tooltip.css";
 import "react-vertical-timeline-component/style.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import PlanModal from "@/components/modals/PlanModal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -77,6 +78,7 @@ export default function RootLayout({
         <Suspense>
           <AppContainer>
             <AccountModal />
+            <PlanModal />
             {children}
           </AppContainer>
           <Toaster richColors />

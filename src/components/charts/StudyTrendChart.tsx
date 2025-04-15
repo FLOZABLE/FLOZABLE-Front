@@ -22,7 +22,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { useEffect, useState } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 import { useSubjects } from "@/hooks/subjectsHooks";
 import { ViewerType } from "@/types/others";
 import { getDates, getDatesDisplay, secondConverter } from "@/utils/tools";
@@ -41,13 +41,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-interface StudyTrendChartProps {
+interface StudyTrendChartProps extends ComponentProps<"div"> {
   viewDate: Date;
   viewer: ViewerType;
 }
 export default function StudyTrendChart({
   viewDate,
   viewer,
+  ...props
 }: StudyTrendChartProps) {
   const router = useRouter();
 
@@ -86,10 +87,10 @@ export default function StudyTrendChart({
   }, [groupedSubjects, viewDate, viewer]);
 
   return (
-    <Card className="flex-1/2">
+    <Card {...props}>
       <CardHeader>
         <CardTitle>Total study time trend</CardTitle>
-        <CardDescription className="relative">
+        <CardDescription className="flex items-center">
           {description}
           <Button
             onClick={() => {
@@ -97,7 +98,7 @@ export default function StudyTrendChart({
             }}
             effect={"hoverUnderline"}
             variant={"link"}
-            className="absolute right-0"
+            className="ml-auto"
           >
             View by subjects
           </Button>

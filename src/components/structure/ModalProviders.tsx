@@ -7,7 +7,6 @@ import {
   type ReactNode,
 } from "react";
 import { usePathname } from "next/navigation";
-import { DEFAULT_PLAN } from "@/utils/constants";
 
 // Helper type for context value
 type ModalContextValue<State, StateName extends string> = {
@@ -99,8 +98,16 @@ export const { Provider: EditGroupModalProvider, useModal: useEditGroupModal } =
   createModalProvider({ opened: false, group_id: null }, "editGroupModal");
 export const { Provider: SubjectsModalProvider, useModal: useSubjectsModal } =
   createModalProvider({ opened: false, subject_id: null }, "isSubjectsModal");
+type PlanModalState = {
+  opened: boolean;
+  plan_id: string | null;
+};
+
 export const { Provider: PlanModalProvider, useModal: usePlanModal } =
-  createModalProvider(DEFAULT_PLAN, "planModal");
+  createModalProvider<PlanModalState, "planModal">(
+    { opened: false, plan_id: null },
+    "planModal"
+  );
 export const { Provider: ChatModalProvider, useModal: useChatModal } =
   createModalProvider(
     { chatroom_id: null, name: "", opened: false, totalNewMsg: 0 },

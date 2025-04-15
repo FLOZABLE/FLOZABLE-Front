@@ -101,7 +101,7 @@ export function DatePicker({ viewDate, setViewDate, viewer }: DatePickerProps) {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        align="start"
+        align="end"
         className="flex w-auto flex-col space-y-2 p-2"
       >
         <Select

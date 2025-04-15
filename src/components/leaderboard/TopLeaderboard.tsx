@@ -82,7 +82,7 @@ function RankingContainer({
   );
 }
 
-interface TopLeaderboardProps {
+interface TopLeaderboardProps extends React.ComponentProps<"div"> {
   viewer: ViewerType;
   viewDate: Date;
 }
@@ -90,6 +90,7 @@ interface TopLeaderboardProps {
 export default function TopLeaderboard({
   viewer,
   viewDate,
+  className,
 }: TopLeaderboardProps) {
   const [isOnlyFriends, setIsOnlyFriends] = useState(false);
   const [title, setTitle] = useState("");
@@ -113,9 +114,9 @@ export default function TopLeaderboard({
   }, [viewer, viewDate]);
 
   return (
-    <Card className="flex-1/2">
+    <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-3xl flex items-center">
+        <CardTitle className="flex items-center">
           Leadeboard
           <Button
             effect={"expandIcon"}
