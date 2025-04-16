@@ -13,6 +13,8 @@ import "react-tooltip/dist/react-tooltip.css";
 import "react-vertical-timeline-component/style.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import PlanModal from "@/components/modals/PlanModal";
+//import "@schedule-x/theme-default/dist/index.css";
+import '@schedule-x/theme-shadcn/dist/index.css'
 
 const inter = Inter({
   subsets: ["latin"],
