@@ -1,25 +1,31 @@
-type GoogleEvent = gapi.client.calendar.Event;
+import { ApiResponse } from "./response";
 
-export interface Plan {
-  id: GoogleEvent["id"];
-  summary: GoogleEvent["summary"];
-  description?: GoogleEvent["description"];
-  location?: GoogleEvent["location"];
-  start: GoogleEvent["start"];
-  end: GoogleEvent["end"];
-  status?: GoogleEvent["status"];
-  htmlLink?: GoogleEvent["htmlLink"];
-  hangoutLink?: GoogleEvent["hangoutLink"];
-  recurrence?: GoogleEvent["recurrence"];
-  attendees?: GoogleEvent["attendees"];
-  organizer?: GoogleEvent["organizer"];
-  created?: GoogleEvent["created"];
-  updated?: GoogleEvent["updated"];
-  colorId?: GoogleEvent["colorId"];
+export interface CalendarPlan {
+  id: string;
+  summary: string;
+  background_color: string;
+  foreground_color: string;
+  events: EventPlan[];
 }
 
-export type EventDateTime = {
-  date?: string;
-  dateTime?: string;
-  timeZone?: string;
-};
+export interface EventOption {
+  disableDND?: boolean;
+  disableResize?: boolean;
+  additionalClasses?: string[];
+}
+
+export interface EventPlan {
+  id: string;
+  title: string;
+  description: string;
+  html_link?: string | null;
+  start: string; // ISO format
+  end: string; // ISO format
+  all_day: boolean;
+  background_color: string;
+  text_color: string;
+  _options: EventOption;
+}
+
+// GET /plans
+export type PlansResponse = ApiResponse<{ plans: CalendarPlan[] }>;

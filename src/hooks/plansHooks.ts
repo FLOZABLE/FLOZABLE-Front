@@ -1,31 +1,25 @@
-import { getPlans, getPlansGoogle, getPlansPlanUsers } from "@/apis/plansApi";
+import { getPlans } from "@/apis/plansApi";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
 import { DateTime } from "luxon";
 import { useCallback } from "react";
 import { updateQueryData } from "@/utils/tools";
 
-function usePlans() {
+export function usePlans(date: Date) {
   const { account } = useAccount();
 
-  const queryResult = useQuery({
-    queryKey: [`usePlans`],
-    queryFn: getPlans,
-    staleTime: 1000 * 60 * 10,
-    enabled: !!account,
-    select: (response) => {
-      if (!response?.data?.plans) {
-        return [];
-      }
+  const dateTime = DateTime.fromJSDate(date)
+    .startOf("day")
+    .startOf("month")
+    .toISODate()
+    ?.toString();
 
-      const plans = [...response.data.plans].map((plan) => {
-        plan.start = new Date(plan.start);
-        plan.end = new Date(plan.end);
-        return plan;
-      });
-      return plans;
-    },
-    placeholderData: [],
+  const queryResult = useQuery({
+    queryKey: [`plans`, dateTime],
+    queryFn: () => getPlans(dateTime || ""),
+    staleTime: 1000 * 60 * 10,
+    enabled: !!account && !!dateTime,
+    select: (response) => response.data?.plans || [],
   });
 
   const {
@@ -41,7 +35,7 @@ function usePlans() {
     ...queryResult,
   };
 }
-
+/* 
 function usePlansGoogle(date) {
   const { account } = useAccount();
 
@@ -119,3 +113,4 @@ function usePlanUsers({ plan_id, isEditable, type }) {
 }
 
 export { usePlans, usePlansGoogle, usePlanUsers };
+ */

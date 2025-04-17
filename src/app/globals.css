@@ -215,4 +215,8 @@
   .paragraph {
     @apply mb-4 leading-relaxed text-gray-700 dark:text-gray-300;
   }
+
+  .sx__time-grid-event-title {
+    @apply truncate
+  }
 }

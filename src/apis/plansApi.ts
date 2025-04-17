@@ -1,11 +1,12 @@
+import { PlansResponse } from "@/types/plan";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 import { DateTime } from "luxon";
 
-async function getPlans() {
-  return requestHandler(AxiosInstance.get(`/plans`));
+export async function getPlans(date: string): Promise<PlansResponse> {
+  return requestHandler(AxiosInstance.get(`/plans`, { params: { date } }));
 }
-
+/* 
 async function getPlansGoogle(date) {
   return requestHandler(
     AxiosInstance.get(`/plans/google`, { params: { date } })
@@ -111,3 +112,4 @@ export {
   deletePlanShare,
   getPlansPlanUsers,
 };
+ */

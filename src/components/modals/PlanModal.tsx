@@ -13,7 +13,6 @@ import { Plan } from "@/types/plan";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { deletePlan } from "@/apis/plansApi";
 import {
   Form,
   FormControl,
@@ -61,12 +60,12 @@ export default function PlanModal() {
     [planModal, setPlanModal]
   );
 
-  const handleDelete = useCallback(async () => {
+  /* const handleDelete = useCallback(async () => {
     if (planModal.plan_id !== "new") {
       await deletePlan(planModal.plan_id);
       setPlanModal((prev) => ({ ...prev, opened: false }));
     }
-  }, [planModal.plan_id, setPlanModal]);
+  }, [planModal.plan_id, setPlanModal]); */
 
   return (
     <Credenza

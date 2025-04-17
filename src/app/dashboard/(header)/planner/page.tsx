@@ -13,11 +13,39 @@ import { useEffect, useState } from "react";
 import { createEventModalPlugin } from "@schedule-x/event-modal";
 import { createResizePlugin } from "@schedule-x/resize";
 import { createDragAndDropPlugin } from "@schedule-x/drag-and-drop";
+import { usePlans } from "@/hooks/plansHooks";
+import GoogleLoginBtn from "@/components/buttons/GoogleLoginBtn";
+import { EventPlan } from "@/types/plan";
+import { DateTime } from "luxon";
 
 const eventModal = createEventModalPlugin();
 
 export default function Planner() {
   const eventsService = useState(() => createEventsServicePlugin())[0];
+
+  const [viewDate, setViewDate] = useState(
+    new Date(new Date().setHours(0, 0, 0, 0))
+  );
+  const { plansData } = usePlans(viewDate);
+
+  const [plans, setPlans] = useState<EventPlan[]>([]);
+
+  useEffect(() => {
+    if (!plansData) return;
+
+    const plans = plansData
+      .flatMap((calendar) => calendar.events)
+      .map((plan) => {
+        plan.start = DateTime.fromISO(plan.start).toFormat("yyyy-MM-dd HH:mm");
+        plan.end = DateTime.fromISO(plan.end).toFormat("yyyy-MM-dd HH:mm");
+        console.log(`!bg-[${plan.background_color}]`, "!bg-[#9a9cff]");
+        plan._options = {
+          additionalClasses: [`!bg-[${plan.background_color}]`],
+        };
+        return plan;
+      });
+    setPlans(plans);
+  }, [plansData]);
 
   const calendar = useNextCalendarApp({
     views: [
@@ -26,14 +54,7 @@ export default function Planner() {
       createViewMonthGrid(),
       createViewMonthAgenda(),
     ],
-    events: [
-      {
-        id: "1",
-        title: "Event 1",
-        start: "2025-04-15 17:15",
-        end: "2025-04-15 20:15",
-      },
-    ],
+    events: plans,
     plugins: [
       eventsService,
       eventModal,
@@ -55,9 +76,19 @@ export default function Planner() {
     theme: "shadcn",
   });
 
+  useEffect(() => {
+    calendar?.events.set(plans);
+    console.log("events passed to calendar", calendar?.events.getAll(), plans);
+  }, [calendar, plans]);
+
   return (
     <div>
       <ScheduleXCalendar calendarApp={calendar} />
+      <div className="bg-red-100 color-red"></div>
+      <GoogleLoginBtn
+        scope={"email profile https://www.googleapis.com/auth/calendar"}
+        required="calendar"
+      />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
-import { House, NotebookPen } from "lucide-react";
+import { Calendar, House, NotebookPen } from "lucide-react";
 import { getAuthLogout } from "@/apis/authApi";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import { useAccount } from "@/hooks/accountHooks";
@@ -21,10 +21,10 @@ export default function SidebarWrapper() {
       ),
     },
     {
-      label: "Journals",
-      href: "/dashboard",
+      label: "Planner",
+      href: "/dashboard/planner",
       icon: (
-        <NotebookPen className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <Calendar className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
