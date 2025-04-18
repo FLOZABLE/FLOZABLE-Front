@@ -11,7 +11,9 @@ import { ViewerType } from "@/types/others";
 import { useState } from "react";
 
 export default function Dashboard() {
-  const [viewDate, setViewDate] = useState<Date>(new Date());
+  const [viewDate, setViewDate] = useState<Date>(
+    new Date(new Date().setHours(0, 0, 0, 0))
+  );
   const [viewer, setViewer] = useState<ViewerType>("day");
   return (
     <main className="p-5">
@@ -38,13 +40,21 @@ export default function Dashboard() {
       </div>
       <div className="flex gap-5 flex-col">
         <div className="flex gap-5">
-          <Welcome className="flex-1/3"/>
+          <Welcome className="flex-1/3" />
           <Planstimeline className="flex-1/3" />
-          <TopLeaderboard viewer={viewer} viewDate={viewDate} className="flex-1/3"/>
+          <TopLeaderboard
+            viewer={viewer}
+            viewDate={viewDate}
+            className="flex-1/3"
+          />
         </div>
         <div className="flex gap-5">
           <FriendsViewer />
-          <StudyTrendChart viewDate={viewDate} viewer={viewer} className="w-full" />
+          <StudyTrendChart
+            viewDate={viewDate}
+            viewer={viewer}
+            className="w-full"
+          />
         </div>
       </div>
     </main>

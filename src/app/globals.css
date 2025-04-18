@@ -216,7 +216,17 @@
     @apply mb-4 leading-relaxed text-gray-700 dark:text-gray-300;
   }
 
-  .sx__time-grid-event-title {
-    @apply truncate
+  .fc-day-today {
+    @apply !bg-accent;
   }
+
+  /* .fc-scrollgrid {
+    @apply border-0
+  }
+  .fc-theme-standard {
+    @apply !border-0
+  } */
+  /* .fc-scrollgrid {
+    @apply rounded-xl overflow-hidden border-2;
+  } */
 }
