@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { createEventModalPlugin } from "@schedule-x/event-modal";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePlans } from "@/hooks/plansHooks";
 import { EventPlan } from "@/types/plan";
 import { DateTime } from "luxon";
@@ -16,7 +15,8 @@ import { Button } from "@/components/ui/button";
 import { CalendarPlus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import newStyled from "@emotion/styled";
-
+import { EventDropArg, EventInput } from "@fullcalendar/core";
+import { patchPlan } from "@/apis/plansApi";
 
 const StyleWrapper = newStyled.div`
 .fc-col-header {
@@ -33,6 +33,23 @@ const StyleWrapper = newStyled.div`
 
 .fc-scrollgrid {
   border-radius: 16px !important;
+  font-weight: 500
+}
+
+.fc-scrollgrid tr:nth-child(1) .fc-timegrid-slot-label-frame  {
+  display: none;
+}
+
+.fc-timegrid-slot-label {
+  position: relative;
+  border: 0px;
+}
+
+.fc-timegrid-slot-label-frame {
+  position: absolute;
+  top: 0px;
+  right: 3px;
+  transform: translateY(-50%);
 }
 `;
 
@@ -45,7 +62,7 @@ export default function Planner() {
 
   const calendarRef = useRef<FullCalendar>(null);
 
-  const [plans, setPlans] = useState<EventPlan[]>([]);
+  const [plans, setPlans] = useState<EventInput[]>([]);
 
   useEffect(() => {
     if (!plansData) return;
@@ -53,13 +70,12 @@ export default function Planner() {
     const plans = plansData
       .flatMap((calendar) => calendar.events)
       .map((plan) => {
-        plan.start = DateTime.fromISO(plan.start).toFormat("yyyy-MM-dd HH:mm");
-        plan.end = DateTime.fromISO(plan.end).toFormat("yyyy-MM-dd HH:mm");
-        console.log(`!bg-[${plan.background_color}]`, "!bg-[#9a9cff]");
-        plan._options = {
-          additionalClasses: [`!bg-[${plan.background_color}]`],
+        console.log(plan.start, plan.end);
+        return {
+          ...plan,
+          backgroundColor: plan.background_color,
+          borderColor: plan.background_color,
         };
-        return plan;
       });
     setPlans(plans);
   }, [plansData]);
@@ -79,6 +95,30 @@ export default function Planner() {
     const calendarApi = calendarRef.current?.getApi();
     calendarApi?.gotoDate(viewDate);
   }, [viewDate]);
+
+  const onEventDrop = useCallback((info: EventDropArg) => {
+    const event = info.event;
+    const { id, title } = event;
+    const { description, all_day, background_color, calendar_id, editable } =
+      event.extendedProps;
+    const start = DateTime.fromJSDate(event.start || new Date()).toISO() ?? "";
+    const end =
+      DateTime.fromJSDate(event.end || event.start || new Date()).toISO() ??
+      start;
+
+    const eventPlan: EventPlan = {
+      id,
+      title,
+      description,
+      start,
+      end,
+      all_day,
+      background_color,
+      calendar_id,
+      editable,
+    };
+    patchPlan(eventPlan);
+  }, []);
 
   return (
     <main className="p-5">
@@ -165,6 +205,7 @@ export default function Planner() {
                   : "dayGridMonth"
               }
               editable={true}
+              eventDrop={onEventDrop}
             />
           </StyleWrapper>
         </div>

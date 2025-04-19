@@ -1,10 +1,15 @@
-import { PlansResponse } from "@/types/plan";
+import { EventPlan, PlansResponse } from "@/types/plan";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
-import { DateTime } from "luxon";
 
 export async function getPlans(date: string): Promise<PlansResponse> {
   return requestHandler(AxiosInstance.get(`/plans`, { params: { date } }));
+}
+
+export async function patchPlan(plan: EventPlan) {
+  const timezone = getTimezone();
+
+  return requestHandler(AxiosInstance.patch(`/plans/plan`, { plan, timezone }));
 }
 /* 
 async function getPlansGoogle(date) {

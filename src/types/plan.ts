@@ -23,8 +23,8 @@ export interface EventPlan {
   end: string; // ISO format
   all_day: boolean;
   background_color: string;
-  text_color: string;
-  _options: EventOption;
+  calendar_id: string;
+  editable: boolean;
 }
 
 // GET /plans
