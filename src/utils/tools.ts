@@ -427,6 +427,31 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(...inputs));
 }
 
+export const formatPlanDateRange = (
+  startISO: string | undefined,
+  endISO: string | undefined
+): string => {
+  if (!startISO || !endISO) return "";
+
+  const start = DateTime.fromISO(startISO);
+  const end = DateTime.fromISO(endISO);
+
+  const sameDay = start.hasSame(end, "day");
+
+  if (!sameDay) {
+    // Optional: handle multi-day events if needed
+    return `${start.toFormat("EEE, MMM d h:mm a")} - ${end.toFormat(
+      "EEE, MMM d h:mm a"
+    )}`;
+  }
+
+  const weekdayDate = start.toFormat("EEEE, MMMM d");
+  const startTime = start.toFormat("h:mm");
+  const endTime = end.toFormat("h:mm a");
+
+  return `${weekdayDate} ${startTime} - ${endTime}`;
+};
+
 export {
   getCountryCode,
   toTimer,

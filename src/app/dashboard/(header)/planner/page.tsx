@@ -26,7 +26,6 @@ import {
 import { patchPlan } from "@/apis/plansApi";
 import PlanViewer from "@/components/plans/PlanViewer";
 import { useWindowSize } from "@/hooks/otherHooks";
-import { useDebounce } from "use-debounce";
 
 const StyleWrapper = newStyled.div`
 .fc-col-header {
@@ -67,6 +66,13 @@ const StyleWrapper = newStyled.div`
 }
 `;
 
+const planViewerWidth = 400;
+
+interface Position {
+  top: number;
+  left: number;
+}
+
 export default function Planner() {
   const [viewDate, setViewDate] = useState(
     new Date(new Date().setHours(0, 0, 0, 0))
@@ -82,7 +88,7 @@ export default function Planner() {
 
   const planRef = useRef<HTMLElement | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<EventPlan | null>(null);
-  const [planViewerPos, setPlanViewerPos] = useState({
+  const [planViewerPos, setPlanViewerPos] = useState<Position>({
     top: 0,
     left: 0,
   });
@@ -152,8 +158,10 @@ export default function Planner() {
   const locatePlanViewer = useCallback(() => {
     const element = planRef.current?.getBoundingClientRect();
     if (!element) return;
-    const top = element.y;
-    const left = element.x - 300;
+
+    //min top set to 100
+    const top = element.y > 100 ? element.y : 200;
+    const left = element.x - planViewerWidth - 10;
     setPlanViewerPos({ top, left });
   }, [windowSize]);
 
@@ -193,9 +201,9 @@ export default function Planner() {
             </Button>
             <Button
               onClick={() => {
-                const dateTime = DateTime.fromJSDate(viewDate)
-                  .startOf(viewer)
-                  .minus({ [viewer]: 1 });
+                const dateTime = DateTime.fromJSDate(viewDate).minus({
+                  [viewer]: 1,
+                });
                 setViewDate(dateTime.toJSDate());
               }}
             >
@@ -203,9 +211,9 @@ export default function Planner() {
             </Button>
             <Button
               onClick={() => {
-                const dateTime = DateTime.fromJSDate(viewDate)
-                  .startOf(viewer)
-                  .plus({ [viewer]: 1 });
+                const dateTime = DateTime.fromJSDate(viewDate).plus({
+                  [viewer]: 1,
+                });
                 setViewDate(dateTime.toJSDate());
               }}
             >
@@ -245,6 +253,7 @@ export default function Planner() {
                   ? "timeGridWeek"
                   : "dayGridMonth"
               }
+              eventClassNames={"event"}
               editable={true}
               eventDrop={onEventDrop}
               eventResize={onEventResize}
@@ -256,6 +265,8 @@ export default function Planner() {
               setOpen={setIsPlanViewer}
               position={planViewerPos}
               plan={selectedPlan}
+              width={planViewerWidth}
+              viewDate={viewDate}
             />
           </StyleWrapper>
         </div>

@@ -11,6 +11,17 @@ export async function patchPlan(plan: EventPlan) {
 
   return requestHandler(AxiosInstance.patch(`/plans/plan`, { plan, timezone }));
 }
+
+export async function deletePlan(calendarId: string, planId: string) {
+  return requestHandler(
+    AxiosInstance.delete(`/plans/plan`, {
+      data: {
+        calendar_id: calendarId,
+        plan_id: planId,
+      },
+    })
+  );
+}
 /* 
 async function getPlansGoogle(date) {
   return requestHandler(

@@ -4,6 +4,8 @@ import { useAccount } from "./accountHooks";
 import { DateTime } from "luxon";
 import { useCallback } from "react";
 import { updateQueryData } from "@/utils/tools";
+import { useUpdater } from "./otherHooks";
+import { CalendarPlan, EventPlan } from "@/types/plan";
 
 export function usePlans(date: Date) {
   const { account } = useAccount();
@@ -28,10 +30,16 @@ export function usePlans(date: Date) {
     refetch: plansRefetch,
   } = queryResult;
 
+  const updatePlans = useUpdater<{ plans: CalendarPlan[] }, "plans">(
+    ["plans", dateTime],
+    "plans"
+  );
+
   return {
     plansData,
     plansIsLoading,
     plansRefetch,
+    updatePlans,
     ...queryResult,
   };
 }

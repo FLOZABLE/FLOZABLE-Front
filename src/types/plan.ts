@@ -30,8 +30,8 @@ export interface EventPlan {
 }
 
 export const convertToEventPlan = (event: EventApi): EventPlan => {
-  const { id, title } = event;
-  const { description, all_day, background_color, calendar_id, editable } =
+  const { id, title, startEditable } = event;
+  const { description, all_day, background_color, calendar_id } =
     event.extendedProps;
 
   const start = DateTime.fromJSDate(event.start || new Date()).toISO() ?? "";
@@ -48,7 +48,7 @@ export const convertToEventPlan = (event: EventApi): EventPlan => {
     all_day,
     background_color,
     calendar_id,
-    editable,
+    editable: startEditable,
   };
 };
 
