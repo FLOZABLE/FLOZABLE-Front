@@ -7,7 +7,9 @@ import { DateTime } from "luxon";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
+import interactionPlugin, {
+  EventResizeDoneArg,
+} from "@fullcalendar/interaction";
 import { ViewerType } from "@/types/others";
 import { DatePicker } from "@/components/buttons/DatePicker";
 import SelectorWrapper from "@/components/ui/select";
@@ -15,8 +17,14 @@ import { Button } from "@/components/ui/button";
 import { CalendarPlus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import newStyled from "@emotion/styled";
-import { EventDropArg, EventInput } from "@fullcalendar/core";
+import {
+  EventApi,
+  EventClickArg,
+  EventDropArg,
+  EventInput,
+} from "@fullcalendar/core";
 import { patchPlan } from "@/apis/plansApi";
+import PlanViewer from "@/components/plans/PlanViewer";
 
 const StyleWrapper = newStyled.div`
 .fc-col-header {
@@ -36,7 +44,7 @@ const StyleWrapper = newStyled.div`
   font-weight: 500
 }
 
-.fc-scrollgrid tr:nth-child(1) .fc-timegrid-slot-label-frame  {
+.fc-scrollgrid tr:nth-of-type(1) .fc-timegrid-slot-label-frame  {
   display: none;
 }
 
@@ -51,6 +59,10 @@ const StyleWrapper = newStyled.div`
   right: 3px;
   transform: translateY(-50%);
 }
+
+.fc-event-title.fc-sticky {
+  white-space:nowrap;
+}
 `;
 
 export default function Planner() {
@@ -63,6 +75,13 @@ export default function Planner() {
   const calendarRef = useRef<FullCalendar>(null);
 
   const [plans, setPlans] = useState<EventInput[]>([]);
+
+  const [planViewerPos, setPlanViewerPos] = useState({
+    top: 0,
+    left: 0,
+  });
+
+  const [isPlanViewer, setIsPlanViewer] = useState(false);
 
   useEffect(() => {
     if (!plansData) return;
@@ -96,11 +115,11 @@ export default function Planner() {
     calendarApi?.gotoDate(viewDate);
   }, [viewDate]);
 
-  const onEventDrop = useCallback((info: EventDropArg) => {
-    const event = info.event;
+  const handleEventUpdate = useCallback((event: EventApi) => {
     const { id, title } = event;
     const { description, all_day, background_color, calendar_id, editable } =
       event.extendedProps;
+
     const start = DateTime.fromJSDate(event.start || new Date()).toISO() ?? "";
     const end =
       DateTime.fromJSDate(event.end || event.start || new Date()).toISO() ??
@@ -117,7 +136,29 @@ export default function Planner() {
       calendar_id,
       editable,
     };
+
     patchPlan(eventPlan);
+  }, []);
+
+  const onEventDrop = useCallback(
+    (info: EventDropArg) => {
+      handleEventUpdate(info.event);
+    },
+    [handleEventUpdate]
+  );
+
+  const onEventResize = useCallback(
+    (info: EventResizeDoneArg) => {
+      handleEventUpdate(info.event);
+    },
+    [handleEventUpdate]
+  );
+
+  const onEventClick = useCallback((info: EventClickArg) => {
+    const top = info.el.getBoundingClientRect().y;
+    const left = info.el.getBoundingClientRect().x;
+    setPlanViewerPos({ top, left });
+    setIsPlanViewer(true);
   }, []);
 
   return (
@@ -206,6 +247,14 @@ export default function Planner() {
               }
               editable={true}
               eventDrop={onEventDrop}
+              eventResize={onEventResize}
+              eventClick={onEventClick}
+              nowIndicator
+            />
+            <PlanViewer
+              open={isPlanViewer}
+              setOpen={setIsPlanViewer}
+              position={planViewerPos}
             />
           </StyleWrapper>
         </div>

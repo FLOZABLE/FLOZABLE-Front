@@ -220,13 +220,7 @@
     @apply !bg-accent;
   }
 
-  /* .fc-scrollgrid {
-    @apply border-0
+  .fc-event-title.fc-sticky {
+    @apply truncate;
   }
-  .fc-theme-standard {
-    @apply !border-0
-  } */
-  /* .fc-scrollgrid {
-    @apply rounded-xl overflow-hidden border-2;
-  } */
 }
