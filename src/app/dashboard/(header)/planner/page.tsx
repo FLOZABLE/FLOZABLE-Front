@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePlans } from "@/hooks/plansHooks";
-import { EventPlan } from "@/types/plan";
+import { convertToEventPlan, EventPlan } from "@/types/plan";
 import { DateTime } from "luxon";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -25,6 +25,8 @@ import {
 } from "@fullcalendar/core";
 import { patchPlan } from "@/apis/plansApi";
 import PlanViewer from "@/components/plans/PlanViewer";
+import { useWindowSize } from "@/hooks/otherHooks";
+import { useDebounce } from "use-debounce";
 
 const StyleWrapper = newStyled.div`
 .fc-col-header {
@@ -76,6 +78,10 @@ export default function Planner() {
 
   const [plans, setPlans] = useState<EventInput[]>([]);
 
+  const windowSize = useWindowSize();
+
+  const planRef = useRef<HTMLElement | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<EventPlan | null>(null);
   const [planViewerPos, setPlanViewerPos] = useState({
     top: 0,
     left: 0,
@@ -89,7 +95,6 @@ export default function Planner() {
     const plans = plansData
       .flatMap((calendar) => calendar.events)
       .map((plan) => {
-        console.log(plan.start, plan.end);
         return {
           ...plan,
           backgroundColor: plan.background_color,
@@ -116,27 +121,7 @@ export default function Planner() {
   }, [viewDate]);
 
   const handleEventUpdate = useCallback((event: EventApi) => {
-    const { id, title } = event;
-    const { description, all_day, background_color, calendar_id, editable } =
-      event.extendedProps;
-
-    const start = DateTime.fromJSDate(event.start || new Date()).toISO() ?? "";
-    const end =
-      DateTime.fromJSDate(event.end || event.start || new Date()).toISO() ??
-      start;
-
-    const eventPlan: EventPlan = {
-      id,
-      title,
-      description,
-      start,
-      end,
-      all_day,
-      background_color,
-      calendar_id,
-      editable,
-    };
-
+    const eventPlan = convertToEventPlan(event);
     patchPlan(eventPlan);
   }, []);
 
@@ -155,11 +140,26 @@ export default function Planner() {
   );
 
   const onEventClick = useCallback((info: EventClickArg) => {
-    const top = info.el.getBoundingClientRect().y;
-    const left = info.el.getBoundingClientRect().x;
-    setPlanViewerPos({ top, left });
+    planRef.current = info.el;
+
+    const eventPlan = convertToEventPlan(info.event);
+    setSelectedPlan(eventPlan);
+
     setIsPlanViewer(true);
+    locatePlanViewer();
   }, []);
+
+  const locatePlanViewer = useCallback(() => {
+    const element = planRef.current?.getBoundingClientRect();
+    if (!element) return;
+    const top = element.y;
+    const left = element.x - 300;
+    setPlanViewerPos({ top, left });
+  }, [windowSize]);
+
+  useEffect(() => {
+    locatePlanViewer();
+  }, [windowSize, viewer]);
 
   return (
     <main className="p-5">
@@ -255,6 +255,7 @@ export default function Planner() {
               open={isPlanViewer}
               setOpen={setIsPlanViewer}
               position={planViewerPos}
+              plan={selectedPlan}
             />
           </StyleWrapper>
         </div>
