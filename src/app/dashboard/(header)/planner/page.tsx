@@ -8,6 +8,7 @@ import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin, {
+  DateClickArg,
   EventResizeDoneArg,
 } from "@fullcalendar/interaction";
 import { ViewerType } from "@/types/others";
@@ -18,6 +19,7 @@ import { CalendarPlus, ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import newStyled from "@emotion/styled";
 import {
+  DateSelectArg,
   EventApi,
   EventClickArg,
   EventDropArg,
@@ -26,6 +28,7 @@ import {
 import { patchPlan } from "@/apis/plansApi";
 import PlanViewer from "@/components/plans/PlanViewer";
 import { useWindowSize } from "@/hooks/otherHooks";
+import { usePlanModal } from "@/components/structure/ModalProviders";
 
 const StyleWrapper = newStyled.div`
 .fc-col-header {
@@ -80,6 +83,8 @@ export default function Planner() {
   const [viewer, setViewer] = useState<ViewerType>("day");
   const { plansData } = usePlans(viewDate);
 
+  const { setPlanModal } = usePlanModal();
+
   const calendarRef = useRef<FullCalendar>(null);
 
   const [plans, setPlans] = useState<EventInput[]>([]);
@@ -94,6 +99,20 @@ export default function Planner() {
   });
 
   const [isPlanViewer, setIsPlanViewer] = useState(false);
+
+  useEffect(() => {
+    const calendarApi = calendarRef.current?.getApi();
+    if (!calendarApi) return;
+    setPlanModal((prev) => ({ ...prev, calendarApi }));
+
+    return () => {
+      setPlanModal((prev) => ({ ...prev, calendarApi: null }));
+    };
+  }, [calendarRef]);
+
+  useEffect(() => {
+    setPlanModal((prev) => ({ ...prev, viewDate }));
+  }, [viewDate]);
 
   useEffect(() => {
     if (!plansData) return;
@@ -153,6 +172,19 @@ export default function Planner() {
 
     setIsPlanViewer(true);
     locatePlanViewer();
+  }, []);
+
+  const onDateClick = useCallback((info: DateClickArg) => {
+    console.log(info.date);
+    /* const newPlan: EventPlan = {id: "new", description: "", start};
+    setPlans((prev) => [...prev, {id: "new",}]); */
+  }, []);
+
+  const onDateSelect = useCallback((info: DateSelectArg) => {
+    console.log(info.start, info.end);
+    setPlanModal((prev) => ({ ...prev, opened: true, plan_id: "new" }));
+    /* const newPlan: EventPlan = {id: "new", description: "", start};
+    setPlans((prev) => [...prev, {id: "new",}]); */
   }, []);
 
   const locatePlanViewer = useCallback(() => {
@@ -258,7 +290,13 @@ export default function Planner() {
               eventDrop={onEventDrop}
               eventResize={onEventResize}
               eventClick={onEventClick}
+              dateClick={onDateClick}
+              select={onDateSelect}
               nowIndicator
+              selectable={true}
+              selectMirror={true}
+              unselectAuto={false}
+              dayMaxEvents={true}
             />
             <PlanViewer
               open={isPlanViewer}

@@ -29,6 +29,19 @@ export interface EventPlan {
   editable: boolean;
 }
 
+export const defaultPlan: EventPlan = {
+  id: "",
+  title: "",
+  description: "",
+  html_link: null,
+  start: DateTime.now().toISO() ?? "",
+  end: DateTime.now().toISO() ?? "",
+  all_day: false,
+  background_color: "#000000",
+  calendar_id: "",
+  editable: true,
+};
+
 export const convertToEventPlan = (event: EventApi): EventPlan => {
   const { id, title, startEditable } = event;
   const { description, all_day, background_color, calendar_id } =

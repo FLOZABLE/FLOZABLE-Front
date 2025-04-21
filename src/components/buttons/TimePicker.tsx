@@ -20,17 +20,18 @@ const TimePicker: React.FC<TimePickerProps> = ({ date, setDate }) => {
         const minute = (i % 4) * 15;
 
         const value = DateTime.fromJSDate(date)
-          .set({ hour, minute })
+          .set({ hour, minute, second: 0, millisecond: 0 })
           .toJSDate();
-        const label = `${hour.toString().padStart(2, "0")}:${minute
-          .toString()
-          .padStart(2, "0")}`;
+
+        const label = DateTime.fromJSDate(date)
+          .set({ hour, minute })
+          .toFormat("h:mm a"); // 12-hour format with AM/PM
+
         return { label, value };
       })}
-    ></SelectorWrapper>
+    />
   );
 };
-
 /* 
     <Select
       defaultValue={date}

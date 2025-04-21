@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import { usePathname } from "next/navigation";
+import { CalendarApi } from "@fullcalendar/core";
 
 // Helper type for context value
 type ModalContextValue<State, StateName extends string> = {
@@ -98,14 +99,22 @@ export const { Provider: EditGroupModalProvider, useModal: useEditGroupModal } =
   createModalProvider({ opened: false, group_id: null }, "editGroupModal");
 export const { Provider: SubjectsModalProvider, useModal: useSubjectsModal } =
   createModalProvider({ opened: false, subject_id: null }, "isSubjectsModal");
+
 type PlanModalState = {
   opened: boolean;
   plan_id: string | null;
+  calendarApi?: CalendarApi | null;
+  viewDate: Date;
 };
 
 export const { Provider: PlanModalProvider, useModal: usePlanModal } =
   createModalProvider<PlanModalState, "planModal">(
-    { opened: false, plan_id: null },
+    {
+      opened: false,
+      plan_id: null,
+      calendarApi: null,
+      viewDate: new Date(new Date().setHours(0, 0, 0, 0)),
+    },
     "planModal"
   );
 export const { Provider: ChatModalProvider, useModal: useChatModal } =

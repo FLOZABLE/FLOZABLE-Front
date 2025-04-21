@@ -27,6 +27,7 @@ import { useUpdater } from "@/hooks/otherHooks";
 import { FriendStatus } from "@/types/friend";
 import { ActiveSubject } from "@/types/subject";
 import { ActiveGroup } from "@/types/group";
+//import { ViewerType } from "@/types/others";
 
 interface AppProviderProps {
   children: ReactNode;
@@ -38,6 +39,8 @@ interface AppContainerProps {
 
 export const CallOptionsContext = createContext({});
 export const ThemesContext = createContext({});
+/* export const ViewDateContext = createContext({});
+export const ViewerContext = createContext({}); */
 
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
@@ -72,6 +75,9 @@ export function AppContainer({ children }: AppContainerProps) {
             enableSystem
             disableTransitionOnChange
           >
+            {/* <ViewerProvider>
+              <ViewDateProvider>{children}</ViewDateProvider>
+            </ViewerProvider> */}
             {children}
           </ThemeProvider>
         </AppProvider>
@@ -367,3 +373,34 @@ function ThemesProvider({ children }: { children: ReactNode }) {
     </ThemesContext.Provider>
   );
 }
+
+/* function ViewerProvider({ children }: { children: ReactNode }) {
+  const [viewer, setViewer] = useState<ViewerType>("day");
+
+  return (
+    <ViewerContext.Provider value={{ viewer, setViewer }}>
+      {children}
+    </ViewerContext.Provider>
+  );
+}
+
+export function useViewer() {
+  return useContext(ViewerContext);
+}
+
+function ViewDateProvider({ children }: { children: ReactNode }) {
+  const [viewDate, setViewDate] = useState(
+    new Date(new Date().setHours(0, 0, 0, 0))
+  );
+
+  return (
+    <ViewDateContext.Provider value={{ viewDate, setViewDate }}>
+      {children}
+    </ViewDateContext.Provider>
+  );
+}
+
+export function useViewDate() {
+  return useContext(ViewDateContext);
+}
+ */

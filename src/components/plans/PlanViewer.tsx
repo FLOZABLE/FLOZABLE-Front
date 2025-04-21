@@ -25,6 +25,7 @@ import {
 } from "../ui/alert-dialog";
 import { deletePlan } from "@/apis/plansApi";
 import { usePlans } from "@/hooks/plansHooks";
+import { usePlanModal } from "../structure/ModalProviders";
 
 interface Position {
   top: number;
@@ -49,6 +50,8 @@ export default function PlanViewer({
   viewDate,
 }: PlanViewerProps) {
   const windowSize = useWindowSize();
+
+  const { setPlanModal } = usePlanModal();
 
   const { plansData, updatePlans } = usePlans(viewDate);
 
