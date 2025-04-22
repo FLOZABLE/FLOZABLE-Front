@@ -138,6 +138,7 @@ export default function PlanModal() {
               onSubmit={form.handleSubmit(handleSave)}
               className="space-y-6"
             >
+              {/* Title */}
               <FormField
                 control={form.control}
                 name="title"
@@ -154,38 +155,115 @@ export default function PlanModal() {
                   </FormItem>
                 )}
               />
+
+              {/* Date + Time Pickers */}
+              <div className="flex gap-5">
+                {/* Date Picker for Start */}
+                <DatePicker
+                  viewDate={new Date(plan.start)}
+                  setViewDate={(newDate) => {
+                    const newStartDate = DateTime.fromJSDate(newDate);
+                    const oldStart = DateTime.fromISO(plan.start);
+                    const oldEnd = DateTime.fromISO(plan.end);
+
+                    const newStart = newStartDate.set({
+                      hour: oldStart.hour,
+                      minute: oldStart.minute,
+                      second: oldStart.second,
+                      millisecond: oldStart.millisecond,
+                    });
+
+                    const duration = oldEnd.diff(oldStart);
+                    const newEnd = newStart.plus(duration);
+
+                    setPlan((prev) => ({
+                      ...prev,
+                      start: newStart.toISO() || "",
+                      end: newEnd.toISO() || "",
+                    }));
+                  }}
+                  align="start"
+                  viewer={viewer}
+                />
+
+                {/* Start Time Picker */}
+                <FormField
+                  control={form.control}
+                  name="start"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TimePicker
+                          date={new Date(plan.start)}
+                          setDate={(newStartDate) => {
+                            const iso = newStartDate.toISOString();
+
+                            setPlan((prev) => {
+                              const prevStart = new Date(prev.start);
+                              const prevEnd = new Date(prev.end);
+
+                              const durationMs =
+                                prevEnd.getTime() - prevStart.getTime();
+                              const newEnd = new Date(
+                                newStartDate.getTime() + durationMs
+                              );
+
+                              return {
+                                ...prev,
+                                start: iso,
+                                end: newEnd.toISOString(),
+                              };
+                            });
+
+                            field.onChange(iso);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* End Time Picker */}
+                <FormField
+                  control={form.control}
+                  name="end"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TimePicker
+                          date={new Date(plan.end)}
+                          setDate={(date) => {
+                            const newEnd = new Date(date);
+                            const start = new Date(plan.start);
+
+                            if (newEnd <= start) {
+                              newEnd.setDate(newEnd.getDate() + 1);
+                            }
+
+                            const iso = newEnd.toISOString();
+                            field.onChange(iso);
+                            setPlan((prev) => ({ ...prev, end: iso }));
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Description Editor */}
               <FormField
                 control={form.control}
                 name="description"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Editor />
-                      {/* <FloatingLabelInput
-                        placeholder="Description"
-                        label="Description"
-                        {...field}
-                      /> */}
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Start Time */}
-              <FormField
-                control={form.control}
-                name="start"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <TimePicker
-                        date={new Date(plan.start)}
-                        setDate={(date) => {
-                          const iso = date.toISOString();
-                          field.onChange(iso);
-                          setPlan((prev) => ({ ...prev, start: iso }));
-                        }}
+                      <Editor
+                        value={field.value}
+                        onHtmlChange={(text) => field.onChange(text)}
+                        contentEditorClassName="max-h-[200]"
                       />
                     </FormControl>
                     <FormMessage />
@@ -193,27 +271,7 @@ export default function PlanModal() {
                 )}
               />
 
-              {/* End Time */}
-              <FormField
-                control={form.control}
-                name="end"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <TimePicker
-                        date={new Date(plan.end)}
-                        setDate={(date) => {
-                          const iso = date.toISOString();
-                          field.onChange(iso);
-                          setPlan((prev) => ({ ...prev, end: iso }));
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
+              {/* Submit Button */}
               <div className="flex flex-col gap-2">
                 <Button
                   type="submit"

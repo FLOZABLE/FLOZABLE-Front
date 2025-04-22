@@ -20,14 +20,20 @@ import { cn, getDatesDisplay } from "@/utils/tools";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 import { ViewerType } from "@/types/others";
+import * as PopoverPrimitive from "@radix-ui/react-popover"
 
-type DatePickerProps = {
+interface DatePickerProps extends  React.ComponentProps<typeof PopoverPrimitive.Content>  {
   viewDate: Date;
   setViewDate: (date: Date) => void;
   viewer: ViewerType;
 };
 
-export function DatePicker({ viewDate, setViewDate, viewer }: DatePickerProps) {
+export function DatePicker({
+  viewDate,
+  setViewDate,
+  viewer,
+  ...props
+}: DatePickerProps) {
   const [disp, setDisp] = useState("");
   const [options, setOptions] = useState<{ label: string; value: Date }[]>([]);
 
@@ -102,7 +108,11 @@ export function DatePicker({ viewDate, setViewDate, viewer }: DatePickerProps) {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="flex w-auto flex-col space-y-2 p-2"
+        {...props}
+        className={cn(
+          "z-50 pointer-events-auto flex w-auto flex-col space-y-2 p-2", 
+          props.className
+        )}
       >
         <Select
           onValueChange={(value) => {
