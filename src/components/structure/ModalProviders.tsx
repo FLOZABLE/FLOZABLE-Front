@@ -105,6 +105,10 @@ type PlanModalState = {
   plan_id: string | null;
   calendarApi?: CalendarApi | null;
   viewDate: Date;
+  calendarSelect?: {
+    start: Date;
+    end: Date;
+  } | null;
 };
 
 export const { Provider: PlanModalProvider, useModal: usePlanModal } =

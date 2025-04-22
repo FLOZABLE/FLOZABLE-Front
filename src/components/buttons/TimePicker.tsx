@@ -1,63 +1,62 @@
 "use client";
 
-import SelectorWrapper from "../ui/select";
+import { useEffect, useMemo } from "react";
 import { DateTime } from "luxon";
+import SelectorWrapper from "../ui/select";
 
 interface TimePickerProps extends React.HTMLProps<HTMLDivElement> {
   date: Date;
   setDate: (date: Date) => void;
 }
 
+const roundToNearest15 = (dt: DateTime): DateTime =>
+  dt
+    .set({ second: 0, millisecond: 0 })
+    .plus({ minutes: 7.5 })
+    .set({
+      minute: Math.floor(dt.minute / 15) * 15,
+      second: 0,
+      millisecond: 0,
+    });
+
 const TimePicker: React.FC<TimePickerProps> = ({ date, setDate }) => {
+  const baseDate = useMemo(() => DateTime.fromJSDate(date), [date]);
+  const rounded = useMemo(() => roundToNearest15(baseDate), [baseDate]);
+
+  useEffect(() => {
+    if (baseDate.toISO() !== rounded.toISO()) {
+      setDate(rounded.toJSDate());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [baseDate, rounded]);
+
+  const options = useMemo(
+    () =>
+      Array.from({ length: 96 }).map((_, i) => {
+        const option = baseDate.startOf("day").plus({ minutes: i * 15 });
+        return {
+          label: option.toFormat("h:mm a"),
+          value: option.toISO() ?? "", // never undefined
+        };
+      }),
+    [baseDate]
+  );
+
+  const selectedISO = useMemo(() => {
+    const roundedDate = roundToNearest15(DateTime.fromJSDate(date));
+    return roundedDate.toISO();
+  }, [date]);
+
   return (
     <SelectorWrapper
-      value={date}
-      onChange={(date) => {
-        setDate(date);
+      value={selectedISO ?? ""}
+      onChange={(val: string) => {
+        const dt = DateTime.fromISO(val);
+        if (dt.isValid) setDate(dt.toJSDate());
       }}
-      options={Array.from({ length: 96 }).map((_, i) => {
-        const hour = Math.floor(i / 4);
-        const minute = (i % 4) * 15;
-
-        const value = DateTime.fromJSDate(date)
-          .set({ hour, minute, second: 0, millisecond: 0 })
-          .toJSDate();
-
-        const label = DateTime.fromJSDate(date)
-          .set({ hour, minute })
-          .toFormat("h:mm a"); // 12-hour format with AM/PM
-
-        return { label, value };
-      })}
+      options={options}
     />
   );
 };
-/* 
-    <Select
-      defaultValue={date}
-      onChange={(date) => {
-        setDate(new Date(date));
-      }}
-    >
-      <SelectTrigger className="font-normal focus:ring-0 w-[120px] focus:ring-offset-0">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <ScrollArea className="h-[15rem]">
-          {Array.from({ length: 96 }).map((_, i) => {
-            const hour = Math.floor(i / 4)
-              .toString()
-              .padStart(2, "0");
-            const minute = ((i % 4) * 15).toString().padStart(2, "0");
-            return (
-              <SelectItem key={i} value={`${hour}:${minute}`}>
-                {hour}:{minute}
-              </SelectItem>
-            );
-          })}
-        </ScrollArea>
-      </SelectContent>
-    </Select>
-*/
 
 export default TimePicker;

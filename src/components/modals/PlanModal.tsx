@@ -28,6 +28,8 @@ import { DatePicker } from "../buttons/DatePicker";
 import { ViewerType } from "@/types/others";
 import { usePlans } from "@/hooks/plansHooks";
 import { EventInput } from "@fullcalendar/core";
+import { DateTime } from "luxon";
+import Editor from "../editor/Editor";
 
 const planSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -84,7 +86,6 @@ export default function PlanModal() {
 
   useEffect(() => {
     if (!planModal.opened) return;
-    console.log(planModal);
 
     const plan =
       planModal.plan_id === "new"
@@ -102,7 +103,23 @@ export default function PlanModal() {
     });
   }, [planModal.opened, planModal.plan_id, form, plans]);
 
-  console.log(plan)
+  useEffect(() => {
+    if (!planModal.calendarSelect) return;
+
+    const start =
+      DateTime.fromJSDate(planModal.calendarSelect.start).toISO() || "";
+    const end = DateTime.fromJSDate(planModal.calendarSelect.end).toISO() || "";
+    setPlan((prev) => ({
+      ...prev,
+      start,
+      end,
+    }));
+  }, [planModal.calendarSelect]);
+
+  useEffect(() => {
+    if (!planModal.calendarApi || !planModal.opened) return;
+    planModal.calendarApi.select({ start: plan.start, end: plan.end });
+  }, [plan.start, plan.end, planModal.calendarApi]);
 
   return (
     <Credenza
@@ -143,11 +160,12 @@ export default function PlanModal() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <FloatingLabelInput
+                      <Editor />
+                      {/* <FloatingLabelInput
                         placeholder="Description"
                         label="Description"
                         {...field}
-                      />
+                      /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -162,7 +180,7 @@ export default function PlanModal() {
                   <FormItem>
                     <FormControl>
                       <TimePicker
-                        date={new Date(field.value || plan.start)}
+                        date={new Date(plan.start)}
                         setDate={(date) => {
                           const iso = date.toISOString();
                           field.onChange(iso);
@@ -183,7 +201,7 @@ export default function PlanModal() {
                   <FormItem>
                     <FormControl>
                       <TimePicker
-                        date={new Date(field.value || plan.end)}
+                        date={new Date(plan.end)}
                         setDate={(date) => {
                           const iso = date.toISOString();
                           field.onChange(iso);

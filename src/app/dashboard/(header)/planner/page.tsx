@@ -29,6 +29,7 @@ import { patchPlan } from "@/apis/plansApi";
 import PlanViewer from "@/components/plans/PlanViewer";
 import { useWindowSize } from "@/hooks/otherHooks";
 import { usePlanModal } from "@/components/structure/ModalProviders";
+import { useDebouncedCallback } from "use-debounce";
 
 const StyleWrapper = newStyled.div`
 .fc-col-header {
@@ -103,12 +104,16 @@ export default function Planner() {
   useEffect(() => {
     const calendarApi = calendarRef.current?.getApi();
     if (!calendarApi) return;
-    setPlanModal((prev) => ({ ...prev, calendarApi }));
+
+    //prevent overwrite of setplanmodal viewdate
+    setTimeout(() => {
+      setPlanModal((prev) => ({ ...prev, calendarApi }));
+    }, 100);
 
     return () => {
       setPlanModal((prev) => ({ ...prev, calendarApi: null }));
     };
-  }, [calendarRef]);
+  }, []);
 
   useEffect(() => {
     setPlanModal((prev) => ({ ...prev, viewDate }));
@@ -182,10 +187,20 @@ export default function Planner() {
 
   const onDateSelect = useCallback((info: DateSelectArg) => {
     console.log(info.start, info.end);
-    setPlanModal((prev) => ({ ...prev, opened: true, plan_id: "new" }));
+    setPlanModal((prev) => ({
+      ...prev,
+      opened: true,
+      plan_id: "new",
+      calendarSelect: {
+        start: info.start,
+        end: info.end,
+      },
+    }));
     /* const newPlan: EventPlan = {id: "new", description: "", start};
     setPlans((prev) => [...prev, {id: "new",}]); */
   }, []);
+
+  const debouncedDateSelect = useDebouncedCallback(onDateSelect, 500);
 
   const locatePlanViewer = useCallback(() => {
     const element = planRef.current?.getBoundingClientRect();
