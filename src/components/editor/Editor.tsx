@@ -2,12 +2,7 @@
 
 import { HTMLProps, useEffect, useState } from "react";
 
-import {
-  $getRoot,
-  ParagraphNode,
-  SerializedEditorState,
-  TextNode,
-} from "lexical";
+import { $getRoot, ParagraphNode, TextNode } from "lexical";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListNode, ListItemNode } from "@lexical/list";
 
@@ -61,11 +56,11 @@ const editorConfig: InitialConfigType = {
 };
 
 interface EditorProps {
-  value?: SerializedEditorState;
+  value?: string;
   onHtmlChange?: (html: string) => void;
   onTextChange?: (text: string) => void;
   contentEditorClassName?: HTMLProps<HTMLElement>["className"];
-};
+}
 
 export default function Editor({
   value,
@@ -79,13 +74,12 @@ export default function Editor({
         initialConfig={{
           ...editorConfig,
           editorState: (editor) => {
-            if (typeof value === "string") {
-              const parser = new DOMParser();
-              const dom = parser.parseFromString(value, "text/html");
-              const nodes = $generateNodesFromDOM(editor, dom);
-              $getRoot().clear();
-              $getRoot().append(...nodes);
-            }
+            if (!value) return;
+            const parser = new DOMParser();
+            const dom = parser.parseFromString(value, "text/html");
+            const nodes = $generateNodesFromDOM(editor, dom);
+            $getRoot().clear();
+            $getRoot().append(...nodes);
           },
         }}
       >

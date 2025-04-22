@@ -200,7 +200,7 @@ export default function Planner() {
     setPlans((prev) => [...prev, {id: "new",}]); */
   }, []);
 
-  const debouncedDateSelect = useDebouncedCallback(onDateSelect, 500);
+  const debouncedDateSelect = useDebouncedCallback(onDateSelect, 100);
 
   const locatePlanViewer = useCallback(() => {
     const element = planRef.current?.getBoundingClientRect();
@@ -306,7 +306,7 @@ export default function Planner() {
               eventResize={onEventResize}
               eventClick={onEventClick}
               dateClick={onDateClick}
-              select={onDateSelect}
+              select={debouncedDateSelect}
               nowIndicator
               selectable={true}
               selectMirror={true}

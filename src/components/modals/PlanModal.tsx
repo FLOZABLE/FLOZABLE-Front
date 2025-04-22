@@ -27,9 +27,9 @@ import TimePicker from "../buttons/TimePicker";
 import { DatePicker } from "../buttons/DatePicker";
 import { ViewerType } from "@/types/others";
 import { usePlans } from "@/hooks/plansHooks";
-import { EventInput } from "@fullcalendar/core";
 import { DateTime } from "luxon";
 import Editor from "../editor/Editor";
+import { patchPlan, putPlan } from "@/apis/plansApi";
 
 const planSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -44,7 +44,7 @@ export default function PlanModal() {
   const { planModal, setPlanModal } = usePlanModal();
   const [plan, setPlan] = useState<EventPlan>(defaultPlan);
 
-  const { plansData } = usePlans(planModal.viewDate);
+  const { plansData, updatePlans } = usePlans(planModal.viewDate);
 
   const [viewDate, setViewDate] = useState(new Date());
   const [viewer, _setViewer] = useState<ViewerType>("day");
@@ -63,10 +63,36 @@ export default function PlanModal() {
 
   const handleSave = useCallback(
     async (values: PlanFormValues) => {
-      console.log("Saving plan", values);
+      if (planModal.plan_id === "new") {
+        const response = await putPlan(plan);
+        if (!response.success) return;
+
+        const newPlan = response.data?.plan;
+        if (!newPlan) return;
+
+        planModal.calendarApi?.unselect();
+
+        updatePlans((prev) =>
+          prev.map((calendar) => {
+            // If it's the matching calendar, update its events
+            if (calendar.id === newPlan.calendar_id) {
+              return {
+                ...calendar,
+                events: [
+                  ...calendar.events.filter((event) => event.id !== newPlan.id),
+                  newPlan,
+                ],
+              };
+            }
+
+            // Otherwise, leave it as is
+            return calendar;
+          })
+        );
+      }
       // convert values back to EventPlan and handle save
     },
-    [planModal, setPlanModal]
+    [planModal, setPlanModal, plan]
   );
 
   useEffect(() => {

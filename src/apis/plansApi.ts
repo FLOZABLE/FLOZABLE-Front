@@ -1,15 +1,17 @@
-import { EventPlan, PlansResponse } from "@/types/plan";
+import { EventPlan, PlansResponse, PutPlanResponse } from "@/types/plan";
 import AxiosInstance from "@/utils/axiosInstance";
-import { getTimezone, requestHandler } from "@/utils/tools";
+import { requestHandler } from "@/utils/tools";
 
 export async function getPlans(date: string): Promise<PlansResponse> {
   return requestHandler(AxiosInstance.get(`/plans`, { params: { date } }));
 }
 
 export async function patchPlan(plan: EventPlan) {
-  const timezone = getTimezone();
+  return requestHandler(AxiosInstance.patch(`/plans/plan`, { plan }));
+}
 
-  return requestHandler(AxiosInstance.patch(`/plans/plan`, { plan, timezone }));
+export async function putPlan(plan: EventPlan): Promise<PutPlanResponse> {
+  return requestHandler(AxiosInstance.put(`/plans/plan`, { plan }));
 }
 
 export async function deletePlan(calendarId: string, planId: string) {
