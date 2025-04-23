@@ -29,7 +29,7 @@ import { ViewerType } from "@/types/others";
 import { usePlans } from "@/hooks/plansHooks";
 import { DateTime } from "luxon";
 import Editor from "../editor/Editor";
-import { patchPlan, putPlan } from "@/apis/plansApi";
+import { putPlan } from "@/apis/plansApi";
 
 const planSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -42,11 +42,9 @@ type PlanFormValues = z.infer<typeof planSchema>;
 
 export default function PlanModal() {
   const { planModal, setPlanModal } = usePlanModal();
-  const [plan, setPlan] = useState<EventPlan>(defaultPlan);
 
   const { plansData, updatePlans } = usePlans(planModal.viewDate);
 
-  const [viewDate, setViewDate] = useState(new Date());
   const [viewer, _setViewer] = useState<ViewerType>("day");
 
   const [plans, setPlans] = useState<EventPlan[]>([]);
@@ -61,10 +59,14 @@ export default function PlanModal() {
     },
   });
 
+  const start = form.watch("start");
+  const end = form.watch("end");
+
   const handleSave = useCallback(
     async (values: PlanFormValues) => {
+      console.log("Saving plan", values);
       if (planModal.plan_id === "new") {
-        const response = await putPlan(plan);
+        const response = await putPlan(values);
         if (!response.success) return;
 
         const newPlan = response.data?.plan;
@@ -74,7 +76,18 @@ export default function PlanModal() {
 
         updatePlans((prev) =>
           prev.map((calendar) => {
-            // If it's the matching calendar, update its events
+            if (calendar.id === newPlan.calendar_id) {
+              return {
+                ...calendar,
+                events: [...calendar.events, newPlan],
+              };
+            }
+            return calendar;
+          })
+        );
+      } else {
+        /* updatePlans((prev) =>
+          prev.map((calendar) => {
             if (calendar.id === newPlan.calendar_id) {
               return {
                 ...calendar,
@@ -84,15 +97,14 @@ export default function PlanModal() {
                 ],
               };
             }
-
-            // Otherwise, leave it as is
             return calendar;
           })
-        );
+        ); */
       }
-      // convert values back to EventPlan and handle save
+
+      setPlanModal((prev) => ({ ...prev, opened: false }));
     },
-    [planModal, setPlanModal, plan]
+    [planModal, setPlanModal, updatePlans]
   );
 
   useEffect(() => {
@@ -119,13 +131,12 @@ export default function PlanModal() {
         : plans?.find((plan) => plan.id === planModal.plan_id);
 
     if (!plan) return;
-    setPlan(plan);
 
     form.reset({
-      title: plan.title,
-      description: plan.description,
-      start: plan.start,
-      end: plan.end,
+      title: plan.title || "",
+      description: plan.description || "",
+      start: plan.start || "",
+      end: plan.end || "",
     });
   }, [planModal.opened, planModal.plan_id, form, plans]);
 
@@ -135,17 +146,17 @@ export default function PlanModal() {
     const start =
       DateTime.fromJSDate(planModal.calendarSelect.start).toISO() || "";
     const end = DateTime.fromJSDate(planModal.calendarSelect.end).toISO() || "";
-    setPlan((prev) => ({
-      ...prev,
-      start,
-      end,
-    }));
+
+    form.setValue("start", start);
+    form.setValue("end", end);
   }, [planModal.calendarSelect]);
 
   useEffect(() => {
     if (!planModal.calendarApi || !planModal.opened) return;
-    planModal.calendarApi.select({ start: plan.start, end: plan.end });
-  }, [plan.start, plan.end, planModal.calendarApi]);
+    if (!start || !end) return;
+
+    planModal.calendarApi.select({ start, end });
+  }, [start, end, planModal.calendarApi, planModal.opened]);
 
   return (
     <Credenza
@@ -186,11 +197,11 @@ export default function PlanModal() {
               <div className="flex gap-5">
                 {/* Date Picker for Start */}
                 <DatePicker
-                  viewDate={new Date(plan.start)}
+                  viewDate={new Date(form.getValues("start"))}
                   setViewDate={(newDate) => {
                     const newStartDate = DateTime.fromJSDate(newDate);
-                    const oldStart = DateTime.fromISO(plan.start);
-                    const oldEnd = DateTime.fromISO(plan.end);
+                    const oldStart = DateTime.fromISO(form.getValues("start"));
+                    const oldEnd = DateTime.fromISO(form.getValues("end"));
 
                     const newStart = newStartDate.set({
                       hour: oldStart.hour,
@@ -202,11 +213,8 @@ export default function PlanModal() {
                     const duration = oldEnd.diff(oldStart);
                     const newEnd = newStart.plus(duration);
 
-                    setPlan((prev) => ({
-                      ...prev,
-                      start: newStart.toISO() || "",
-                      end: newEnd.toISO() || "",
-                    }));
+                    form.setValue("start", newStart.toISO() || "");
+                    form.setValue("end", newEnd.toISO() || "");
                   }}
                   align="start"
                   viewer={viewer}
@@ -220,27 +228,20 @@ export default function PlanModal() {
                     <FormItem>
                       <FormControl>
                         <TimePicker
-                          date={new Date(plan.start)}
+                          date={new Date(form.getValues("start"))}
                           setDate={(newStartDate) => {
+                            const prevStart = new Date(form.getValues("start"));
+                            const prevEnd = new Date(form.getValues("end"));
+
+                            const durationMs =
+                              prevEnd.getTime() - prevStart.getTime();
+                            const newEnd = new Date(
+                              newStartDate.getTime() + durationMs
+                            );
                             const iso = newStartDate.toISOString();
 
-                            setPlan((prev) => {
-                              const prevStart = new Date(prev.start);
-                              const prevEnd = new Date(prev.end);
-
-                              const durationMs =
-                                prevEnd.getTime() - prevStart.getTime();
-                              const newEnd = new Date(
-                                newStartDate.getTime() + durationMs
-                              );
-
-                              return {
-                                ...prev,
-                                start: iso,
-                                end: newEnd.toISOString(),
-                              };
-                            });
-
+                            form.setValue("start", iso);
+                            form.setValue("end", newEnd.toISOString());
                             field.onChange(iso);
                           }}
                         />
@@ -258,18 +259,18 @@ export default function PlanModal() {
                     <FormItem>
                       <FormControl>
                         <TimePicker
-                          date={new Date(plan.end)}
+                          date={new Date(form.getValues("end"))}
                           setDate={(date) => {
                             const newEnd = new Date(date);
-                            const start = new Date(plan.start);
+                            const start = new Date(form.getValues("start"));
 
                             if (newEnd <= start) {
                               newEnd.setDate(newEnd.getDate() + 1);
                             }
 
                             const iso = newEnd.toISOString();
+                            form.setValue("end", iso);
                             field.onChange(iso);
-                            setPlan((prev) => ({ ...prev, end: iso }));
                           }}
                         />
                       </FormControl>

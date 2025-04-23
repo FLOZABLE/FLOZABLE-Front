@@ -1,4 +1,4 @@
-import { EventPlan, PlansResponse, PutPlanResponse } from "@/types/plan";
+import { EventPlan, NewEventPlan, PlansResponse, PutPlanResponse } from "@/types/plan";
 import AxiosInstance from "@/utils/axiosInstance";
 import { requestHandler } from "@/utils/tools";
 
@@ -10,7 +10,7 @@ export async function patchPlan(plan: EventPlan) {
   return requestHandler(AxiosInstance.patch(`/plans/plan`, { plan }));
 }
 
-export async function putPlan(plan: EventPlan): Promise<PutPlanResponse> {
+export async function putPlan(plan: NewEventPlan): Promise<PutPlanResponse> {
   return requestHandler(AxiosInstance.put(`/plans/plan`, { plan }));
 }
 

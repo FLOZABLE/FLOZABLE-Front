@@ -29,6 +29,13 @@ export interface EventPlan {
   editable: boolean;
 }
 
+export interface NewEventPlan {
+  title: string;
+  description?: string;
+  start: string; // ISO format
+  end: string; // ISO format
+}
+
 export const defaultPlan: EventPlan = {
   id: "",
   title: "",
