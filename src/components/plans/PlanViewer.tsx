@@ -134,7 +134,16 @@ export default function PlanViewer({
         <CardTitle className="flex gap-2 ml-auto">
           {plan?.editable && (
             <>
-              <Button variant={"ghost"}>
+              <Button
+                variant={"ghost"}
+                onClick={() => {
+                  setPlanModal((prev) => ({
+                    ...prev,
+                    opened: true,
+                    plan_id: plan.id,
+                  }));
+                }}
+              >
                 <Pencil />
               </Button>
               <AlertDialog>

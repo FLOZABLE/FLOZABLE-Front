@@ -29,7 +29,7 @@ import { ViewerType } from "@/types/others";
 import { usePlans } from "@/hooks/plansHooks";
 import { DateTime } from "luxon";
 import Editor from "../editor/Editor";
-import { putPlan } from "@/apis/plansApi";
+import { patchPlan, putPlan } from "@/apis/plansApi";
 
 const planSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -64,7 +64,6 @@ export default function PlanModal() {
 
   const handleSave = useCallback(
     async (values: PlanFormValues) => {
-      console.log("Saving plan", values);
       if (planModal.plan_id === "new") {
         const response = await putPlan(values);
         if (!response.success) return;
@@ -86,7 +85,19 @@ export default function PlanModal() {
           })
         );
       } else {
-        /* updatePlans((prev) =>
+        const plan = plans.find((plan) => plan.id === planModal.plan_id);
+        if (!plan) return;
+
+        plan.title = values.title || "";
+        plan.start = values.start;
+        plan.end = values.end;
+        plan.description = values.description || "";
+
+        const response = await patchPlan(plan);
+        const newPlan = response.data?.plan;
+        if (!response.success || !newPlan) return;
+
+        updatePlans((prev) =>
           prev.map((calendar) => {
             if (calendar.id === newPlan.calendar_id) {
               return {
@@ -99,12 +110,12 @@ export default function PlanModal() {
             }
             return calendar;
           })
-        ); */
+        );
       }
 
       setPlanModal((prev) => ({ ...prev, opened: false }));
     },
-    [planModal, setPlanModal, updatePlans]
+    [planModal, setPlanModal, updatePlans, plans]
   );
 
   useEffect(() => {
@@ -152,7 +163,12 @@ export default function PlanModal() {
   }, [planModal.calendarSelect]);
 
   useEffect(() => {
-    if (!planModal.calendarApi || !planModal.opened) return;
+    if (
+      !planModal.calendarApi ||
+      !planModal.opened ||
+      planModal.plan_id !== "new"
+    )
+      return;
     if (!start || !end) return;
 
     planModal.calendarApi.select({ start, end });

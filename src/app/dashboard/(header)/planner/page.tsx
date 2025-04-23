@@ -82,7 +82,7 @@ export default function Planner() {
     new Date(new Date().setHours(0, 0, 0, 0))
   );
   const [viewer, setViewer] = useState<ViewerType>("day");
-  const { plansData } = usePlans(viewDate);
+  const { plansData, updatePlans } = usePlans(viewDate);
 
   const { setPlanModal } = usePlanModal();
 
@@ -150,9 +150,27 @@ export default function Planner() {
     calendarApi?.gotoDate(viewDate);
   }, [viewDate]);
 
-  const handleEventUpdate = useCallback((event: EventApi) => {
+  const handleEventUpdate = useCallback(async (event: EventApi) => {
     const eventPlan = convertToEventPlan(event);
-    patchPlan(eventPlan);
+    const response = await patchPlan(eventPlan);
+    const plan = response.data?.plan;
+
+    if (!response.success || !plan) return;
+
+    updatePlans((prev) =>
+      prev.map((calendar) => {
+        if (calendar.id === plan.calendar_id) {
+          return {
+            ...calendar,
+            events: [
+              ...calendar.events.filter((event) => event.id !== plan.id),
+              plan,
+            ],
+          };
+        }
+        return calendar;
+      })
+    );
   }, []);
 
   const onEventDrop = useCallback(

@@ -20,13 +20,13 @@ export interface EventPlan {
   id: string;
   title: string;
   description: string;
-  html_link?: string | null;
   start: string; // ISO format
   end: string; // ISO format
   all_day: boolean;
   background_color: string;
   calendar_id: string;
   editable: boolean;
+  html_link?: string | null;
 }
 
 export interface NewEventPlan {
@@ -77,3 +77,6 @@ export type PlansResponse = ApiResponse<{ plans: CalendarPlan[] }>;
 
 // PUT /plans/plan
 export type PutPlanResponse = ApiResponse<{ plan: EventPlan }>;
+
+// PATCH /plans/plan
+export type PatchPlanResponse = ApiResponse<{ plan: EventPlan }>;
