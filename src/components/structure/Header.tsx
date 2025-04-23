@@ -104,7 +104,7 @@ export default function Header() {
   }, [extensionUsage]);
 
   return (
-    <header className="backdrop-blur-sm sticky top-0 left-0 w-full h-12 px-10 flex flex-row justify-between items-center">
+    <header className="backdrop-blur-sm sticky top-0 left-0 w-full h-12 px-10 flex flex-row justify-between items-center z-20">
       <div className="flex gap-3 items-center">
         <InfoBox
           icon={<BookOpen size={30} />}

@@ -16,7 +16,6 @@ import { DatePicker } from "@/components/buttons/DatePicker";
 import SelectorWrapper from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { CalendarPlus, ChevronLeft, ChevronRight } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import newStyled from "@emotion/styled";
 import {
   DateSelectArg,
@@ -30,8 +29,13 @@ import PlanViewer from "@/components/plans/PlanViewer";
 import { useWindowSize } from "@/hooks/otherHooks";
 import { usePlanModal } from "@/components/structure/ModalProviders";
 import { useDebouncedCallback } from "use-debounce";
+import UpcomingPlansViewer from "@/components/plans/UpcomingPlansViewer";
 
 const StyleWrapper = newStyled.div`
+.fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
+  height: 100%;
+}
+
 .fc-col-header {
   border-radius: 16px !important;
 }
@@ -100,6 +104,8 @@ export default function Planner() {
   });
 
   const [isPlanViewer, setIsPlanViewer] = useState(false);
+
+  const eventElsRef = useRef<Record<string, HTMLElement>>({});
 
   useEffect(() => {
     const calendarApi = calendarRef.current?.getApi();
@@ -214,8 +220,6 @@ export default function Planner() {
         end: info.end,
       },
     }));
-    /* const newPlan: EventPlan = {id: "new", description: "", start};
-    setPlans((prev) => [...prev, {id: "new",}]); */
   }, []);
 
   const debouncedDateSelect = useDebouncedCallback(onDateSelect, 100);
@@ -226,9 +230,33 @@ export default function Planner() {
 
     //min top set to 100
     const top = element.y > 100 ? element.y : 200;
-    const left = element.x - planViewerWidth - 10;
+    const left =
+      element.x < windowSize.width / 2
+        ? element.x + element.width
+        : element.x - planViewerWidth - 10;
     setPlanViewerPos({ top, left });
   }, [windowSize]);
+
+  const onUpcomingPlanClick = useCallback((plan: EventInput) => {
+    const api = calendarRef.current?.getApi();
+    if (!api || !plan.id) return;
+
+    const event = api.getEventById(plan.id);
+    if (!event) return;
+
+    const el = eventElsRef.current[plan.id];
+    el.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    planRef.current = el;
+
+    const eventPlan = convertToEventPlan(event);
+    setSelectedPlan(eventPlan);
+
+    setIsPlanViewer(true);
+
+    setTimeout(() => {
+      locatePlanViewer();
+    }, 500);
+  }, []);
 
   useEffect(() => {
     locatePlanViewer();
@@ -241,19 +269,31 @@ export default function Planner() {
       </div> */}
       <div className="flex h-screen gap-5">
         <div className="w-68 flex flex-col gap-5">
-          <Button className="w-full">
+          <Button
+            className="w-full"
+            onClick={() => {
+              const start = DateTime.now();
+              const end = start.plus({ minute: 30 });
+              setPlanModal((prev) => ({
+                ...prev,
+                plan_id: "new",
+                opened: true,
+                calendarSelect: {
+                  start: start.toJSDate(),
+                  end: end.toJSDate(),
+                },
+              }));
+            }}
+          >
             <CalendarPlus />
             Add Event
           </Button>
-          <div className="flex gap-5">
-            <p>Upcoming Events</p>
-            <Badge variant={"outline"}>
-              <p>15 Events</p>
-            </Badge>
-          </div>
-          <div className="rounded-md border-2">
-            <p>dd</p>
-          </div>
+          <UpcomingPlansViewer
+            plans={plans}
+            viewer={viewer}
+            viewDate={viewDate}
+            onPlanClick={onUpcomingPlanClick}
+          />
         </div>
         <div className="flex-1/2">
           <div className="flex gap-3">
@@ -330,6 +370,10 @@ export default function Planner() {
               selectMirror={true}
               unselectAuto={false}
               dayMaxEvents={true}
+              expandRows={true}
+              eventDidMount={({ event, el }) => {
+                eventElsRef.current[event.id] = el;
+              }}
             />
             <PlanViewer
               open={isPlanViewer}

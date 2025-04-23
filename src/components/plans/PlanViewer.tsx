@@ -53,7 +53,7 @@ export default function PlanViewer({
 
   const { setPlanModal } = usePlanModal();
 
-  const { plansData, updatePlans } = usePlans(viewDate);
+  const { updatePlans } = usePlans(viewDate);
 
   const planViewerRef = useRef<HTMLDivElement | null>(null);
 
@@ -62,8 +62,6 @@ export default function PlanViewer({
   useEffect(() => {
     const element = planViewerRef.current?.getBoundingClientRect();
     if (!element) return;
-
-    console.log(position.top);
 
     if (windowSize.height / 2 < position.top) {
       //plan is too low
@@ -106,8 +104,6 @@ export default function PlanViewer({
 
     const response = await deletePlan(plan.calendar_id, plan.id);
     if (!response.success) return;
-
-    console.log(plan.id);
 
     updatePlans((prev) =>
       prev.map((calendar) => {

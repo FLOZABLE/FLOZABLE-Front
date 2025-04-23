@@ -177,7 +177,12 @@ export default function PlanModal() {
   return (
     <Credenza
       open={planModal.opened}
-      onOpenChange={(opened) => setPlanModal((prev) => ({ ...prev, opened }))}
+      onOpenChange={(opened) => {
+        if (!opened) {
+          planModal.calendarApi?.unselect();
+        }
+        setPlanModal((prev) => ({ ...prev, opened }));
+      }}
     >
       <CredenzaContent>
         <CredenzaHeader>
