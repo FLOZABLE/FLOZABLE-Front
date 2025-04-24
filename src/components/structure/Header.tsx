@@ -40,7 +40,7 @@ function InfoBox({ icon, name, value }: InfoBoxProps) {
     <div className="flex gap-2 items-center">
       {icon}
       <div className="">
-        <p className="text-sm">{name}</p>
+        <p className="text-sm whitespace-nowrap">{name}</p>
         <Badge>
           <p>{value}</p>
         </Badge>

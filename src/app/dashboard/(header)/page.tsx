@@ -39,9 +39,13 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="flex gap-5 flex-col">
-        <div className="flex gap-5">
+        <div className="flex gap-5 max-h-80">
           <Welcome className="flex-1/3" />
-          <Planstimeline className="flex-1/3" />
+          <Planstimeline
+            viewer={viewer}
+            viewDate={viewDate}
+            className="flex-1/3"
+          />
           <TopLeaderboard
             viewer={viewer}
             viewDate={viewDate}

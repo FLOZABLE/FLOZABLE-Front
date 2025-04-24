@@ -1,3 +1,7 @@
+import { Userinfo } from "./account";
+import { ApiResponse } from "./response";
+import { ActiveSubject } from "./subject";
+
 export interface Group {
   group_id: string;
   name: string;
@@ -16,3 +20,19 @@ export interface Group {
 export interface ActiveGroup extends Group {
   time: number;
 }
+
+export interface GroupMember extends Pick<Userinfo, "user_id" | "name"> {
+  study_time: number;
+  active_subject?: ActiveSubject;
+}
+
+// get /groups
+export type GroupsResponse = ApiResponse<{
+  groups: Group[];
+  my_groups: Group[];
+}>;
+
+// get /groups/group/members
+export type GroupMembersResponse = ApiResponse<{
+  members: GroupMember[];
+}>;

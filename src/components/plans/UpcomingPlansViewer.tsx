@@ -74,10 +74,16 @@ export default function UpcomingPlansViewer({
       rangeEnd = dt.endOf("month");
     }
 
-    return plans.filter((plan) => {
-      const planStart = DateTime.fromISO(plan.start?.toString() || "");
-      return planStart >= rangeStart && planStart <= rangeEnd;
-    });
+    return plans
+      .filter((plan) => {
+        const planStart = DateTime.fromISO(plan.start?.toString() || "");
+        return planStart >= rangeStart && planStart <= rangeEnd;
+      })
+      .sort((a, b) => {
+        const aStart = DateTime.fromISO(a.start?.toString() || "").toMillis();
+        const bStart = DateTime.fromISO(b.start?.toString() || "").toMillis();
+        return aStart - bStart;
+      });
   }, [plans, viewer, viewDate]);
 
   return (

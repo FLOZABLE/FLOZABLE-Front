@@ -17,7 +17,7 @@ export function useSubjects() {
   const { account } = useAccount();
 
   const queryResult = useQuery({
-    queryKey: ["useSubjects"],
+    queryKey: ["subjects"],
     queryFn: getSubjects,
     staleTime: 1000 * 60 * 10,
     enabled: !!account,
@@ -49,7 +49,7 @@ export function useSubjects() {
 
   const updateSubjects = useCallback(async (newData: Subjects) => {
     await queryClient.setQueryData(
-      ["useSubjects"],
+      ["subjects"],
       (oldData: SubjectsResponse | undefined) => {
         return updateQueryData(oldData, newData, "subjects");
       }

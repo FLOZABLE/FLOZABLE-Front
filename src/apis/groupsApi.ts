@@ -1,10 +1,26 @@
+import { GroupMembersResponse, GroupsResponse } from "@/types/group";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 
-async function getGroups() {
+export async function getGroups(): Promise<GroupsResponse> {
   return requestHandler(AxiosInstance.get(`/groups`));
 }
 
+export async function getGroupMembers(
+  groupId: string
+): Promise<GroupMembersResponse> {
+  const timezone = getTimezone();
+
+  return requestHandler(
+    AxiosInstance.get(`/groups/group/members`, {
+      params: {
+        group_id: groupId,
+        timezone,
+      },
+    })
+  );
+}
+/* 
 async function getGroupMembers(groupId) {
   const timezone = getTimezone();
 
@@ -70,3 +86,4 @@ export {
   postGroupLeave,
   postGroupLike,
 };
+ */

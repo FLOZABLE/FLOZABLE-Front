@@ -148,7 +148,7 @@ export default function NotificationsBtn() {
           ) : null}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side="bottom" align="end" className="p-0">
+      <DropdownMenuContent side="bottom" align="end" className="p-0 max-h-[70vh]">
         <DropdownMenuLabel className="sticky top-0 z-10 bg-background border-b-2 p-3">
           Notifications
         </DropdownMenuLabel>

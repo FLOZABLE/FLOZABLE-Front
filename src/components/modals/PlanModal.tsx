@@ -196,7 +196,6 @@ export default function PlanModal() {
               onSubmit={form.handleSubmit(handleSave)}
               className="space-y-6"
             >
-              {/* Title */}
               <FormField
                 control={form.control}
                 name="title"
