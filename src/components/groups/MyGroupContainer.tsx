@@ -11,10 +11,11 @@ import { BookOpen, UserRound } from "lucide-react";
 import { useGroupMembers } from "@/hooks/groupsHook";
 import MemberContainer from "./MemberContainer";
 import Skeleton from "react-loading-skeleton";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { OnStopStudying, OnStudying } from "@/types/socket";
 import socket from "@/utils/sockets/socket";
 import { useCallOptions } from "../structure/Providers";
+import { secondConverter } from "@/utils/tools";
 
 interface MyGroupContainerProps {
   group: Group;
@@ -26,11 +27,22 @@ export default function MyGroupContainer({
   group,
   isActive,
 }: MyGroupContainerProps) {
-  const { isCam } = useCallOptions();
+  const { isCam, isMic } = useCallOptions();
   const { groupMembersData, groupMembersIsLoading, updateGroupMembers } =
     useGroupMembers(group.group_id, isActive);
 
-  console.log(groupMembersData);
+  const [totalTime, setTotalTime] = useState("0 h");
+
+  useEffect(() => {
+    if (!groupMembersData?.length) return;
+    const totalTime = groupMembersData.reduce(
+      (partialTime, a) => partialTime + a.study_time,
+      0
+    );
+    const membersAvg = Math.floor(totalTime / groupMembersData.length);
+    const formattedValue = secondConverter({ sec: membersAvg });
+    setTotalTime(formattedValue);
+  }, [groupMembersData]);
 
   useEffect(() => {
     const onStudying = ({ userId, subject }: OnStudying) => {
@@ -88,18 +100,18 @@ export default function MyGroupContainer({
       <CardHeader>
         <CardTitle>{group.name}</CardTitle>
         <CardDescription>
-          <Badge variant={"outline"}>
-            {groupMembersIsLoading
-              ? group.members.length
-              : groupMembersData?.length}
-            <UserRound />
-          </Badge>
-          <Badge variant={"outline"}>
-            {groupMembersIsLoading
-              ? group.members.length
-              : groupMembersData?.length}
-            <BookOpen />
-          </Badge>
+          <div className="flex gap-2">
+            <Badge variant={"outline"}>
+              {groupMembersIsLoading
+                ? group.members.length
+                : groupMembersData?.length}
+              <UserRound />
+            </Badge>
+            <Badge variant={"outline"}>
+              {totalTime}
+              <BookOpen />
+            </Badge>
+          </div>
         </CardDescription>
       </CardHeader>
       <CardContent>
