@@ -25,20 +25,15 @@ import { toast } from "react-toastify";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { useUpdater } from "@/hooks/otherHooks";
 import { FriendStatus } from "@/types/friend";
-import { ActiveSubject } from "@/types/subject";
-import { ActiveGroup } from "@/types/group";
+import {
+  OnActiveGroup,
+  OnDeActiveGroup,
+  OnStopStudying,
+  OnStudying,
+} from "@/types/socket";
+import { CallOptionsContextType, WorkersContextType } from "@/types/context";
 //import { ViewerType } from "@/types/others";
 
-interface AppProviderProps {
-  children: ReactNode;
-}
-
-interface AppContainerProps {
-  children: ReactNode;
-}
-
-export const CallOptionsContext = createContext({});
-export const ThemesContext = createContext({});
 /* export const ViewDateContext = createContext({});
 export const ViewerContext = createContext({}); */
 
@@ -63,6 +58,10 @@ const queryClient: QueryClient = new QueryClient({
     },
   },
 });
+
+interface AppContainerProps {
+  children: ReactNode;
+}
 
 export function AppContainer({ children }: AppContainerProps) {
   return (
@@ -110,6 +109,10 @@ const steps: Tour[] = [
   },
 ];
 
+interface AppProviderProps {
+  children: ReactNode;
+}
+
 function AppProvider({ children }: AppProviderProps) {
   const { account } = useAccount();
 
@@ -150,13 +153,7 @@ function AppProvider({ children }: AppProviderProps) {
   }, []);
 
   useEffect(() => {
-    const onStudying = ({
-      userId,
-      subject,
-    }: {
-      userId: string;
-      subject: ActiveSubject;
-    }) => {
+    const onStudying = ({ userId, subject }: OnStudying) => {
       updateFriendsStatus((prev) => {
         console.log("prev", prev);
         const index = prev.findIndex((f) => f.user_id === userId);
@@ -168,15 +165,7 @@ function AppProvider({ children }: AppProviderProps) {
       updateProfileStatus(userId, "active_subject", subject);
     };
 
-    const onStopStudying = ({
-      userId,
-      subject,
-      duration,
-    }: {
-      userId: string;
-      subject: ActiveSubject;
-      duration: number;
-    }) => {
+    const onStopStudying = ({ userId, subject, duration }: OnStopStudying) => {
       updateFriendsStatus((prev) => {
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
@@ -191,13 +180,7 @@ function AppProvider({ children }: AppProviderProps) {
       updateProfileStatus(userId, "active_subject", subject);
     };
 
-    const onActiveGroup = ({
-      userId,
-      group,
-    }: {
-      userId: string;
-      group: ActiveGroup;
-    }) => {
+    const onActiveGroup = ({ userId, group }: OnActiveGroup) => {
       updateFriendsStatus((prev) => {
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
@@ -207,7 +190,7 @@ function AppProvider({ children }: AppProviderProps) {
       });
     };
 
-    const onDeActiveGroup = ({ userId }: { userId: string }) => {
+    const onDeActiveGroup = ({ userId }: OnDeActiveGroup) => {
       updateFriendsStatus((prev) => {
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
@@ -254,27 +237,16 @@ function AppProvider({ children }: AppProviderProps) {
   );
 }
 
-interface WorkersProviderProps {
-  children: ReactNode;
-}
-
-interface WorkersContextType {
-  membersTimerWorker: Worker | null;
-  createWorker: (name: string, script: string) => void;
-  terminateWorker: (name: string) => void;
-  getWorker: (name: string) => Worker | null;
-}
-
-interface WorkersProviderProps {
-  children: React.ReactNode;
-}
-
 export const WorkersContext = createContext<WorkersContextType>({
   membersTimerWorker: null,
   createWorker: () => {},
   terminateWorker: () => {},
   getWorker: () => null,
 });
+
+interface WorkersProviderProps {
+  children: ReactNode;
+}
 
 export function WorkersProvider({ children }: WorkersProviderProps) {
   const membersTimerWorkerRef = useRef<Worker | null>(null);
@@ -327,10 +299,18 @@ export function WorkersProvider({ children }: WorkersProviderProps) {
   );
 }
 
-// Hook to use Workers Context
 export function useWorkers() {
   return useContext(WorkersContext);
 }
+
+export const CallOptionsContext = createContext<CallOptionsContextType>({
+  isCam: false,
+  setIsCam: () => {},
+  isMic: false,
+  setIsMic: () => {},
+  isHeadphone: false,
+  setIsHeadphone: () => {},
+});
 
 function CallOptionsProvider({ children }: { children: ReactNode }) {
   const [isCam, setIsCam] = useState(false);
@@ -345,6 +325,12 @@ function CallOptionsProvider({ children }: { children: ReactNode }) {
     </CallOptionsContext.Provider>
   );
 }
+
+export function useCallOptions() {
+  return useContext(CallOptionsContext);
+}
+
+export const ThemesContext = createContext({});
 
 function ThemesProvider({ children }: { children: ReactNode }) {
   const [themes, setThemes] = useState<any[]>([]);

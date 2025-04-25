@@ -65,14 +65,17 @@ export function useMediaQuery(query: string): boolean {
 }
 
 export function useUpdater<TData extends object, TKey extends keyof TData>(
-  queryKey: unknown[],
+  baseQueryKey: unknown[],
   nestedField: TKey
 ) {
   const queryClient = useQueryClient();
 
   return async (
-    newData: TData[TKey] | ((oldValue: TData[TKey]) => TData[TKey])
+    newData: TData[TKey] | ((oldValue: TData[TKey]) => TData[TKey]),
+    dynamicKey?: unknown // optional if needed
   ) => {
+    const queryKey = dynamicKey ? [...baseQueryKey, dynamicKey] : baseQueryKey;
+
     await queryClient.setQueryData<ApiResponse<TData>>(queryKey, (oldData) => {
       if (!oldData?.data) return oldData;
 

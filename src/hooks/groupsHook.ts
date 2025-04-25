@@ -1,7 +1,7 @@
 import { getGroupMembers, getGroups } from "@/apis/groupsApi";
 import { useQuery } from "@tanstack/react-query";
 import { useUpdater } from "./otherHooks";
-import { Group } from "@/types/group";
+import { Group, GroupMember } from "@/types/group";
 
 export function useGroups() {
   const queryResult = useQuery({
@@ -66,9 +66,15 @@ export function useGroupMembers(groupId: string, isActive: boolean) {
   const { data: groupMembersData, isLoading: groupMembersIsLoading } =
     queryResult;
 
+  const updateGroupMembers = useUpdater<{ members: GroupMember[] }, "members">(
+    ["groupMembers", groupId],
+    "members"
+  );
+
   return {
     groupMembersData,
     groupMembersIsLoading,
+    updateGroupMembers,
     ...queryResult,
   };
 }
