@@ -5,6 +5,7 @@ import { IconRestPerson, IconStudyPerson } from "../others/Svgs";
 import MemberCamDisplay from "./MemberCamDisplay";
 import { Device } from "mediasoup-client";
 import { Transport } from "mediasoup-client/lib/Transport";
+import { useRouter } from "next/navigation";
 
 interface SubjectTimer {
   start: number | null;
@@ -23,6 +24,8 @@ export default function MemberContainer({
   device,
   recvTransport,
 }: MemberContainerProps) {
+  const router = useRouter();
+
   const [subjectTimer, setSubjectTimer] = useState<SubjectTimer>({
     start: null,
     name: "",
@@ -43,7 +46,12 @@ export default function MemberContainer({
   }, [member]);
 
   return (
-    <div className="bg-muted h-32 !rounded-xl relative p-3">
+    <div
+      className="bg-muted h-32 !rounded-xl relative p-3"
+      onClick={() => {
+        router.push(`/dashboard/user/${member.user_id}`);
+      }}
+    >
       <p className="truncate">{member.name}</p>
       <AvatarWrapper
         className="absolute bottom-[-0.5rem] left-[-0.5rem]"

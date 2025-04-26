@@ -9,16 +9,17 @@ import { useAccount } from "@/hooks/accountHooks";
 
 export default function MyGroupsViewer() {
   const { myGroups } = useGroups();
-  const { account, updateUserInfo } = useAccount();
+  const { account } = useAccount();
 
   const [activeIndex, setActiveIndex] = useState(-1);
 
   const [debouncedIndex] = useDebounce(activeIndex, ACTIVE_GROUP_DEBOUNCE);
 
   return (
-    <div className="h-screen overflow-hidden">
+    <div>
       {myGroups?.length ? (
         <Swiper
+          className="h-[80vh] overflow-hidden"
           slidesPerView={1}
           loop={true}
           pagination={{
@@ -34,7 +35,7 @@ export default function MyGroupsViewer() {
         >
           {myGroups.map((group, i) => {
             return (
-              <SwiperSlide key={i}>
+              <SwiperSlide key={i} className="h-screen">
                 <MyGroupContainer
                   group={group}
                   isActive={debouncedIndex === i}

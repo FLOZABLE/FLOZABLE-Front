@@ -7,7 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import { usePathname } from "next/navigation";
-import { CalendarApi } from "@fullcalendar/core";
+import { JoinGroupModalState, PlanModalState } from "@/types/modal";
 
 // Helper type for context value
 type ModalContextValue<State, StateName extends string> = {
@@ -87,29 +87,26 @@ export const {
   Provider: AddSubjectsModalProvider,
   useModal: useAddSubjectsModal,
 } = createModalProvider(false, "isAddSubjectModal");
+
 export const { Provider: AccountModalProvider, useModal: useAccountModal } =
   createModalProvider({ opened: false, isSignIn: true }, "accountModal");
+
 export const { Provider: JoinGroupModalProvider, useModal: useJoinGroupModal } =
-  createModalProvider({ open: false, group: null }, "joinGroupModal");
+  createModalProvider<JoinGroupModalState, "joinGroupModal">(
+    { opened: false, group_id: null },
+    "joinGroupModal"
+  );
+
 export const {
   Provider: CreateGroupModalProvider,
   useModal: useCreateGroupModal,
 } = createModalProvider(false, "createGroupModal");
+
 export const { Provider: EditGroupModalProvider, useModal: useEditGroupModal } =
   createModalProvider({ opened: false, group_id: null }, "editGroupModal");
+
 export const { Provider: SubjectsModalProvider, useModal: useSubjectsModal } =
   createModalProvider({ opened: false, subject_id: null }, "isSubjectsModal");
-
-type PlanModalState = {
-  opened: boolean;
-  plan_id: string | null;
-  calendarApi?: CalendarApi | null;
-  viewDate: Date;
-  calendarSelect?: {
-    start: Date;
-    end: Date;
-  } | null;
-};
 
 export const { Provider: PlanModalProvider, useModal: usePlanModal } =
   createModalProvider<PlanModalState, "planModal">(

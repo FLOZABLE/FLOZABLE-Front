@@ -391,25 +391,25 @@ export default function MyGroupContainer({
   }, [producerTransport, audioStream]);
 
   return (
-    <Card className="p-9">
+    <Card className="p-9 h-fu">
       <CardHeader>
         <CardTitle>{group.name}</CardTitle>
         <CardDescription>
           <div className="flex gap-2">
             <Badge variant={"outline"}>
+              <UserRound />
               {groupMembersIsLoading
                 ? group.members.length
                 : groupMembersData?.length}
-              <UserRound />
             </Badge>
             <Badge variant={"outline"}>
-              {totalTime}
               <BookOpen />
+              {totalTime}
             </Badge>
           </div>
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-auto">
         <div className="grid grid-cols-[repeat(auto-fill,_15rem)] gap-4 justify-center">
           {isActive && !groupMembersIsLoading
             ? groupMembersData?.map((member, i) => {

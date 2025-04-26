@@ -14,7 +14,8 @@ import "react-vertical-timeline-component/style.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import PlanModal from "@/components/modals/PlanModal";
 //import "@schedule-x/theme-default/dist/index.css";
-import '@schedule-x/theme-shadcn/dist/index.css'
+import "@schedule-x/theme-shadcn/dist/index.css";
+import JoinGroupModal from "@/components/modals/JoinGroupModal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -81,6 +82,7 @@ export default function RootLayout({
           <AppContainer>
             <AccountModal />
             <PlanModal />
+            <JoinGroupModal />
             {children}
           </AppContainer>
           <Toaster richColors />
