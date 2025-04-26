@@ -3,14 +3,15 @@ import { useCallOptions } from "../structure/Providers";
 import mediaSocket from "@/utils/sockets/mediaSocket";
 import { GroupMember } from "@/types/group";
 import { Device } from "mediasoup-client";
-import { DtlsParameters, Transport } from "mediasoup-client/lib/Transport";
+import { Transport } from "mediasoup-client/lib/Transport";
 import { ServerConsumeResponse } from "@/types/mediaSoup";
 import { MediaKind } from "mediasoup-client/lib/RtpParameters";
+import { Mic, MicOff, Video, VideoOff } from "lucide-react";
 
 interface MemberCamDisplayProps {
   member: GroupMember;
-  device: Device;
-  recvTransport: Transport;
+  device: Device | null;
+  recvTransport: Transport | null;
 }
 export default function MemberCamDisplay({
   member,
@@ -26,6 +27,7 @@ export default function MemberCamDisplay({
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const connectRecvTransport = async (kind: MediaKind) => {
+    if (!device || !recvTransport) return;
     console.log("new producer");
     // for consumer, we need to tell the server first
     // to create a consumer based on the rtpCapabilities and consume
@@ -124,9 +126,17 @@ export default function MemberCamDisplay({
   }, [isHeadphone]);
 
   return (
-    <div>
+    <div className="absolute w-full h-full left-0 top-0">
       <video muted={true} ref={videoRef} autoPlay playsInline />
       <audio ref={audioRef} />
+      <div className="flex absolute gap-2 top-2 right-2">
+        {isVideo ? (
+          <Video className="size-4" />
+        ) : (
+          <VideoOff className="size-4" />
+        )}
+        {isAudio ? <Mic className="size-4" /> : <MicOff className="size-4" />}
+      </div>
     </div>
   );
 }

@@ -2,10 +2,9 @@ import { GroupMember } from "@/types/group";
 import AvatarWrapper from "../ui/avatar";
 import { useEffect, useState } from "react";
 import { IconRestPerson, IconStudyPerson } from "../others/Svgs";
-
-interface MemberContainerProps {
-  member: GroupMember;
-}
+import MemberCamDisplay from "./MemberCamDisplay";
+import { Device } from "mediasoup-client";
+import { Transport } from "mediasoup-client/lib/Transport";
 
 interface SubjectTimer {
   start: number | null;
@@ -13,14 +12,22 @@ interface SubjectTimer {
   total: number;
 }
 
-export default function MemberContainer({ member }: MemberContainerProps) {
+interface MemberContainerProps {
+  member: GroupMember;
+  device: Device | null;
+  recvTransport: Transport | null;
+}
+
+export default function MemberContainer({
+  member,
+  device,
+  recvTransport,
+}: MemberContainerProps) {
   const [subjectTimer, setSubjectTimer] = useState<SubjectTimer>({
     start: null,
     name: "",
     total: 0,
   });
-
-  console.log(member.active_subject);
 
   useEffect(() => {
     const timer: SubjectTimer = {
@@ -42,6 +49,11 @@ export default function MemberContainer({ member }: MemberContainerProps) {
         className="absolute bottom-[-0.5rem] left-[-0.5rem]"
         name={member.name}
         id={member.user_id}
+      />
+      <MemberCamDisplay
+        member={member}
+        device={device}
+        recvTransport={recvTransport}
       />
       {subjectTimer.start ? (
         <IconStudyPerson className="size-12 absolute-center" />
