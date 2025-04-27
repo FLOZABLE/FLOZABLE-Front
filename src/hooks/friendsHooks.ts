@@ -1,17 +1,8 @@
-import {
-  getFriends,
-  getFriendsRecommended,
-  getFriendsSearch,
-  getFriendsStatus,
-  getFriendsTrends,
-} from "@/apis/friendsApi";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getFriendsStatus, getFriendsTrends } from "@/apis/friendsApi";
+import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
-import { useCallback } from "react";
-import { updateQueryData } from "@/utils/tools";
-import { Friend, FriendsResponse } from "@/types/friend";
 
-function useFriends() {
+/* function useFriends() {
   const queryClient = useQueryClient();
 
   const { account } = useAccount();
@@ -66,11 +57,32 @@ function useFriendsSearch(searchQuery: string) {
   };
 }
 
-function useFriendsTrends() {
+function useFriendsRecommended() {
+  const queryResult = useQuery({
+    queryKey: [`friendsRecommended`],
+    queryFn: getFriendsRecommended,
+    select: (response) => response?.data?.users,
+  });
+
+  const {
+    data: friendsRecommendedData,
+    isLoading: friendsRecommendedIsLoading,
+    refetch: friendsRecommendedRefetch,
+  } = queryResult;
+
+  return {
+    friendsRecommendedData,
+    friendsRecommendedIsLoading,
+    friendsRecommendedRefetch,
+    ...queryResult,
+  };
+} */
+
+export function useFriendsTrends() {
   const { account } = useAccount();
 
   const queryResult = useQuery({
-    queryKey: [`getFriendsTrends`],
+    queryKey: [`friendsTrends`],
     queryFn: () => getFriendsTrends(),
     staleTime: 1000 * 60,
     enabled: !!account,
@@ -93,28 +105,7 @@ function useFriendsTrends() {
   };
 }
 
-function useFriendsRecommended() {
-  const queryResult = useQuery({
-    queryKey: [`friendsRecommended`],
-    queryFn: getFriendsRecommended,
-    select: (response) => response?.data?.users,
-  });
-
-  const {
-    data: friendsRecommendedData,
-    isLoading: friendsRecommendedIsLoading,
-    refetch: friendsRecommendedRefetch,
-  } = queryResult;
-
-  return {
-    friendsRecommendedData,
-    friendsRecommendedIsLoading,
-    friendsRecommendedRefetch,
-    ...queryResult,
-  };
-}
-
-function useFriendsStatus() {
+export function useFriendsStatus() {
   const { account } = useAccount();
 
   const queryResult = useQuery({
@@ -140,11 +131,3 @@ function useFriendsStatus() {
     friendsStatusRefetch,
   };
 }
-
-export {
-  useFriends,
-  useFriendsSearch,
-  useFriendsTrends,
-  useFriendsRecommended,
-  useFriendsStatus,
-};

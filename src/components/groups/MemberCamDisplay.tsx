@@ -129,7 +129,7 @@ export default function MemberCamDisplay({
     <div className="absolute w-full h-full left-0 top-0 pointer-events-none">
       <video muted={true} ref={videoRef} autoPlay playsInline />
       <audio ref={audioRef} />
-      <div className="flex absolute gap-2 top-2 right-2">
+      <div className="flex absolute gap-2 bottom-2 right-2">
         {isVideo ? (
           <Video className="size-4" />
         ) : (

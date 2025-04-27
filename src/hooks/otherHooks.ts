@@ -1,6 +1,6 @@
 import { ApiResponse } from "@/types/response";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 interface WindowSize {
@@ -94,4 +94,26 @@ export function useUpdater<TData extends object, TKey extends keyof TData>(
       };
     });
   };
+}
+
+export function useRemoveSearchParams() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const removeParams = (paramsToRemove: string[] | string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    const keys = Array.isArray(paramsToRemove)
+      ? paramsToRemove
+      : [paramsToRemove];
+    keys.forEach((key) => {
+      params.delete(key);
+    });
+
+    const queryString = params.toString();
+    router.push(queryString ? `${pathname}?${queryString}` : pathname);
+  };
+
+  return removeParams;
 }

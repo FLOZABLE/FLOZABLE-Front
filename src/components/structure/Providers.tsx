@@ -23,8 +23,6 @@ import { updateQueryData } from "@/utils/tools";
 import { useThemes, useThemesUser } from "@/hooks/themesHooks";
 import { toast } from "react-toastify";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { useUpdater } from "@/hooks/otherHooks";
-import { FriendStatus } from "@/types/friend";
 import {
   OnActiveGroup,
   OnDeActiveGroup,
@@ -32,6 +30,7 @@ import {
   OnStudying,
 } from "@/types/socket";
 import { CallOptionsContextType, WorkersContextType } from "@/types/context";
+import { useFriendsStatusUpdater } from "@/hooks/updaters/friendsUpdaters";
 //import { ViewerType } from "@/types/others";
 
 /* export const ViewDateContext = createContext({});
@@ -129,12 +128,9 @@ function AppProvider({ children }: AppProviderProps) {
     }, 100);
   }, [account?.user_id]);
 
-  const updateFriendsStatus = useUpdater<
-    { friends: FriendStatus[] },
-    "friends"
-  >(["friendsStatus"], "friends");
+  const updateFriendsStatus = useFriendsStatusUpdater();
 
-  const updateProfileStatus = useCallback(
+  /* const updateProfileStatus = useCallback(
     async (userId: string, field: string, newData: any) => {
       await queryClient.setQueryData(
         ["useProfileStatus", userId],
@@ -144,7 +140,7 @@ function AppProvider({ children }: AppProviderProps) {
       );
     },
     []
-  );
+  ); */
 
   const updateNotificationsData = useCallback(async (newData: any) => {
     await queryClient.setQueryData(["useNotifications"], (oldData: any) => {
@@ -155,14 +151,13 @@ function AppProvider({ children }: AppProviderProps) {
   useEffect(() => {
     const onStudying = ({ userId, subject }: OnStudying) => {
       updateFriendsStatus((prev) => {
-        console.log("prev", prev);
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
         const copy = [...prev];
         copy[index] = { ...copy[index], active_subject: subject };
         return copy;
       });
-      updateProfileStatus(userId, "active_subject", subject);
+      //updateProfileStatus(userId, "active_subject", subject);
     };
 
     const onStopStudying = ({ userId, subject, duration }: OnStopStudying) => {
@@ -177,7 +172,7 @@ function AppProvider({ children }: AppProviderProps) {
         };
         return copy;
       });
-      updateProfileStatus(userId, "active_subject", subject);
+      //updateProfileStatus(userId, "active_subject", subject);
     };
 
     const onActiveGroup = ({ userId, group }: OnActiveGroup) => {

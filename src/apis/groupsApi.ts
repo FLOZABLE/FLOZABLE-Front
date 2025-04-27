@@ -20,6 +20,24 @@ export async function getGroupMembers(
     })
   );
 }
+
+export async function postGroupLike(groupId: string, like: boolean) {
+  return requestHandler(
+    AxiosInstance.post(`/groups/group/like`, {
+      group_id: groupId,
+      like,
+    })
+  );
+}
+
+export async function postGroupJoin(groupId: string, password: string) {
+  return requestHandler(
+    AxiosInstance.post(`/groups/group/join`, {
+      group_id: groupId,
+      password,
+    })
+  );
+}
 /* 
 async function getGroupMembers(groupId) {
   const timezone = getTimezone();

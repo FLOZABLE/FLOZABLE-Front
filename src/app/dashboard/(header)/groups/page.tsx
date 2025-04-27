@@ -21,11 +21,7 @@ export default function Groups() {
         <CardContent>
           <div className="grid grid-cols-[repeat(auto-fill,_20rem)] gap-4 justify-center">
             {groups?.map((group, i) => (
-              <GroupContainer
-                key={i}
-                group={group}
-                rankings={rankingsData || []}
-              />
+              <GroupContainer key={i} group={group} rankings={rankingsData} />
             ))}
           </div>
         </CardContent>

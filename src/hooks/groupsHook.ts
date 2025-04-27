@@ -1,7 +1,5 @@
 import { getGroupMembers, getGroups } from "@/apis/groupsApi";
 import { useQuery } from "@tanstack/react-query";
-import { useUpdater } from "./otherHooks";
-import { Group, GroupMember } from "@/types/group";
 
 export function useGroups() {
   const queryResult = useQuery({
@@ -31,18 +29,12 @@ export function useGroups() {
   const groups = groupsData?.groups;
   const myGroups = groupsData?.my_groups;
 
-  const updateGroupsData = useUpdater<
-    { groups: Group[]; my_groups: Group[] },
-    "groups"
-  >(["groups"], "groups");
-
   return {
     groupsData,
     groups,
     myGroups,
     groupsIsLoading,
     groupsRefetch,
-    updateGroupsData,
     ...queryResult,
   };
 }
@@ -66,15 +58,9 @@ export function useGroupMembers(groupId: string, isActive: boolean) {
   const { data: groupMembersData, isLoading: groupMembersIsLoading } =
     queryResult;
 
-  const updateGroupMembers = useUpdater<{ members: GroupMember[] }, "members">(
-    ["groupMembers", groupId],
-    "members"
-  );
-
   return {
     groupMembersData,
     groupMembersIsLoading,
-    updateGroupMembers,
     ...queryResult,
   };
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useGroups } from "@/hooks/groupsHook";
 import { useJoinGroupModal } from "../structure/ModalProviders";
 import {
   Credenza,
@@ -7,11 +8,103 @@ import {
   CredenzaHeader,
   CredenzaContent,
   CredenzaTitle,
-  CredenzaDescription,
 } from "../ui/credenza";
+import GroupContainer from "../groups/GroupContainer";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Group } from "@/types/group";
+import { useRankings } from "@/hooks/rankingsHooks";
+import { Button } from "../ui/button";
+import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { useSearchParams } from "next/navigation";
+import { useRemoveSearchParams } from "@/hooks/otherHooks";
+import { postGroupJoin } from "@/apis/groupsApi";
+import {
+  useGroupsUpdater,
+  useMyGroupsUpdater,
+} from "@/hooks/updaters/groupsUpdaters";
+import { useAccount } from "@/hooks/accountHooks";
+
+const FormSchema = z.object({
+  password: z.string().min(1, {
+    message: "Password is missing.",
+  }),
+});
 
 export default function JoinGroupModal() {
+  const searchParams = useSearchParams();
+  const groupId = searchParams.get("group");
+
+  const removeSearchParams = useRemoveSearchParams();
+
   const { joinGroupModal, setJoinGroupModal } = useJoinGroupModal();
+  const updateGroups = useGroupsUpdater();
+  const updateMyGroups = useMyGroupsUpdater();
+
+  const { account } = useAccount();
+
+  const { groups } = useGroups();
+  const { rankingsData } = useRankings(
+    "day",
+    new Date(new Date().setHours(0, 0, 0, 0))
+  );
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      password: "",
+    },
+  });
+
+  const group: Group | null = useMemo(() => {
+    const group = groups?.find(
+      (group) => group.group_id === joinGroupModal.group_id
+    );
+    return group ? group : null;
+  }, [groups, joinGroupModal.group_id]);
+
+  const onSubmit = useCallback(
+    async (data: z.infer<typeof FormSchema>) => {
+      if (!group?.group_id || !account) return;
+      const response = await postGroupJoin(group?.group_id, data.password);
+      if (!response.success) return;
+
+      await updateGroups((prev) => {
+        const newGroups = [...prev];
+        const groupIndex = newGroups.findIndex(
+          (group) => group.group_id === joinGroupModal.group_id
+        );
+        if (groupIndex === -1) return prev;
+
+        newGroups[groupIndex].members.push(account.user_id);
+        return newGroups;
+      });
+    },
+    [account]
+  );
+
+  useEffect(() => {
+    if (!groupId) return;
+    setTimeout(() => {
+      setJoinGroupModal((prev) => ({
+        ...prev,
+        group_id: groupId,
+        opened: true,
+      }));
+    }, 500);
+    removeSearchParams("group");
+  }, [groupId]);
+
   return (
     <Credenza
       open={joinGroupModal.opened}
@@ -21,11 +114,44 @@ export default function JoinGroupModal() {
     >
       <CredenzaContent desktopClassName="!max-w-100">
         <CredenzaHeader className="justify-self-center justify-center items-center text-center">
-          <CredenzaTitle className="text-2xl">Join Group</CredenzaTitle>
-          <CredenzaDescription>sdf</CredenzaDescription>
+          <CredenzaTitle className="text-2xl">Join this group?</CredenzaTitle>
         </CredenzaHeader>
         <CredenzaBody>
-          <p></p>
+          <div className="flex flex-col gap-4">
+            {group && (
+              <GroupContainer
+                group={group}
+                rankings={rankingsData}
+                isJoinButton={false}
+              />
+            )}
+            {!group?.visibility && (
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-6 flex justify-center flex-col"
+                >
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <FloatingLabelInput
+                            placeholder="Password"
+                            {...field}
+                            label="Password"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit">Join</Button>
+                </form>
+              </Form>
+            )}
+          </div>
         </CredenzaBody>
       </CredenzaContent>
     </Credenza>

@@ -16,13 +16,24 @@ import { deleteNotification } from "@/apis/notificationsApi";
 import { postChatRequestReply } from "@/apis/chatApi";
 import { useRouter } from "next/navigation";
 import { Notification } from "@/types/notification";
+import { useNotificationsUpdater } from "@/hooks/updaters/notificationsUpdaters";
 
 export default function NotificationsBtn() {
   const router = useRouter();
 
-  const { notifications, filterNotification } = useNotifications();
+  const { notifications } = useNotifications();
   const { friendsStatusRefetch } = useFriendsStatus();
   const { friendsTrendRefetch } = useFriendsTrends();
+
+  const updateNotifications = useNotificationsUpdater();
+
+  const filterNotification = useCallback((notificationId: string) => {
+    updateNotifications((prev) => {
+      return prev.filter(
+        (notification) => notification.notification_id !== notificationId
+      );
+    });
+  }, []);
 
   const friendRequestReply = useCallback(
     async (notificationId: string, accepted: boolean) => {
@@ -148,7 +159,11 @@ export default function NotificationsBtn() {
           ) : null}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side="bottom" align="end" className="p-0 max-h-[70vh]">
+      <DropdownMenuContent
+        side="bottom"
+        align="end"
+        className="p-0 max-h-[70vh]"
+      >
         <DropdownMenuLabel className="sticky top-0 z-10 bg-background border-b-2 p-3">
           Notifications
         </DropdownMenuLabel>

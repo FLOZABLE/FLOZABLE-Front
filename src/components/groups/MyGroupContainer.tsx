@@ -25,6 +25,7 @@ import { Device } from "mediasoup-client";
 import mediaSocket from "@/utils/sockets/mediaSocket";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 import { ServerCreateTransportResponse } from "@/types/mediaSoup";
+import { useGroupMembersUpdater } from "@/hooks/updaters/groupsUpdaters";
 
 const videoParams = {
   encodings: [
@@ -63,8 +64,10 @@ export default function MyGroupContainer({
   isActive,
 }: MyGroupContainerProps) {
   const { isCam, isMic } = useCallOptions();
-  const { groupMembersData, groupMembersIsLoading, updateGroupMembers } =
-    useGroupMembers(group.group_id, isActive);
+  const { groupMembersData, groupMembersIsLoading } = useGroupMembers(
+    group.group_id,
+    isActive
+  );
 
   const [totalTime, setTotalTime] = useState("0 h");
 
@@ -77,6 +80,8 @@ export default function MyGroupContainer({
   const [producerTransport, setProducerTransport] = useState<Transport | null>(
     null
   );
+
+  const updateGroupMembers = useGroupMembersUpdater(group.group_id);
 
   useEffect(() => {
     if (!groupMembersData?.length) return;
@@ -391,7 +396,7 @@ export default function MyGroupContainer({
   }, [producerTransport, audioStream]);
 
   return (
-    <Card className="p-9 h-fu">
+    <Card className="p-9 h-full">
       <CardHeader>
         <CardTitle>{group.name}</CardTitle>
         <CardDescription>

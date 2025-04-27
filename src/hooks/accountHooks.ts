@@ -1,9 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAccount, getAccountGoogle } from "@/apis/accountApi";
 import { useCallback } from "react";
-import { Account, AccountGoogleResponse, GoogleAccount } from "@/types/account";
-import { updateQueryData } from "@/utils/tools";
-import { useUpdater } from "./otherHooks";
 
 export function useAccount() {
   const queryClient = useQueryClient();
@@ -27,18 +24,12 @@ export function useAccount() {
     queryClient.removeQueries({ queryKey: ["account"] });
   }, [queryClient]);
 
-  const updateUserInfo = useUpdater<{ userinfo: Account }, "userinfo">(
-    ["account"],
-    "userinfo"
-  );
-
   return {
     account,
     accountRefetch,
     accountError,
     accountIsLoading,
     clearAccountData,
-    updateUserInfo,
   };
 }
 
@@ -65,27 +56,11 @@ export function useAccountGoogle() {
     queryClient.removeQueries({ queryKey: ["useAccountGoogle"] });
   }, [queryClient]);
 
-  const updateGoogleInfo = useCallback(
-    async (
-      newData: GoogleAccount | ((oldValue: GoogleAccount) => GoogleAccount)
-    ) => {
-      await queryClient.setQueryData<AccountGoogleResponse>(
-        ["useAccountGoogle"],
-        (oldData: AccountGoogleResponse | undefined) => {
-          if (!oldData) return oldData;
-          return updateQueryData(oldData, newData, "google_info");
-        }
-      );
-    },
-    [queryClient]
-  );
-
   return {
     accountGoogleData,
     accountGoogleRefetch,
     accountGoogleError,
     accountGoogleIsLoading,
     clearAccountGoogleData,
-    updateGoogleInfo,
   };
 }

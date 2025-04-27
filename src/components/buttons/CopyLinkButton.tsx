@@ -3,6 +3,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Button } from "../ui/button";
 import { Check, Link } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import config from "@/utils/config";
 
 interface CopyLinkButtonProps {
   link: string;
@@ -11,7 +12,7 @@ interface CopyLinkButtonProps {
 const CopyLinkButton: React.FC<CopyLinkButtonProps> = ({ link }) => {
   const [copied, setCopied] = useState(false);
   const handleClick = async () => {
-    copyToClipboard(link);
+    copyToClipboard(link.startsWith("/") ? config.next_server + link : link);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
