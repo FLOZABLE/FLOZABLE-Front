@@ -30,7 +30,10 @@ export async function postGroupLike(groupId: string, like: boolean) {
   );
 }
 
-export async function postGroupJoin(groupId: string, password: string) {
+export async function postGroupJoin(
+  groupId: string,
+  password: string | undefined
+) {
   return requestHandler(
     AxiosInstance.post(`/groups/group/join`, {
       group_id: groupId,

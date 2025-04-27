@@ -1,9 +1,9 @@
 import { Group } from "@/types/group";
 import { Ranking } from "@/types/ranking";
-import { secondConverter } from "@/utils/tools";
+import { cn, secondConverter } from "@/utils/tools";
 import parser from "html-react-parser";
 import { Goal, Heart, Hourglass, Lock, UserRound } from "lucide-react";
-import { useCallback, useMemo } from "react";
+import { HTMLProps, useCallback, useMemo } from "react";
 import { Badge } from "../ui/badge";
 import { useAccount } from "@/hooks/accountHooks";
 import { Button } from "../ui/button";
@@ -14,7 +14,7 @@ import { postGroupLike } from "@/apis/groupsApi";
 import LikeButton from "../buttons/LikeButton/LikeButton";
 import { useGroupsUpdater } from "@/hooks/updaters/groupsUpdaters";
 
-interface GroupContainerProps {
+interface GroupContainerProps extends HTMLProps<HTMLDivElement> {
   group: Group;
   rankings: Ranking[] | undefined;
   isJoinButton?: boolean;
@@ -24,6 +24,8 @@ export default function GroupContainer({
   group,
   rankings,
   isJoinButton = true,
+  className,
+  ...props
 }: GroupContainerProps) {
   const router = useRouter();
 
@@ -72,7 +74,10 @@ export default function GroupContainer({
   }, [group, account]);
 
   return (
-    <div className="rounded-xl border-2 p-5 flex flex-col gap-2">
+    <div
+      className={cn("rounded-xl border-2 p-5 flex flex-col gap-2", className)}
+      {...props}
+    >
       <h3 className="font-semibold truncate">{group.name}</h3>
       <div className="mb-5">{parser(group.description)}</div>
       <div className="flex gap-1 mt-auto">

@@ -93,7 +93,7 @@ export const { Provider: AccountModalProvider, useModal: useAccountModal } =
 
 export const { Provider: JoinGroupModalProvider, useModal: useJoinGroupModal } =
   createModalProvider<JoinGroupModalState, "joinGroupModal">(
-    { opened: false, group_id: null },
+    { opened: false, group_id: null, myGroupsSwiper: null },
     "joinGroupModal"
   );
 

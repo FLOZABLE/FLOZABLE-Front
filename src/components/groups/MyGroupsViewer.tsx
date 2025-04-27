@@ -1,25 +1,46 @@
 import { useGroups } from "@/hooks/groupsHook";
 import { Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import MyGroupContainer from "./MyGroupContainer";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 import { useAccount } from "@/hooks/accountHooks";
+import { useJoinGroupModal } from "../structure/ModalProviders";
 
 export default function MyGroupsViewer() {
+  const myGroupsRef = useRef<SwiperRef>(null);
+
   const { myGroups } = useGroups();
   const { account } = useAccount();
+  const { setJoinGroupModal } = useJoinGroupModal();
 
   const [activeIndex, setActiveIndex] = useState(-1);
 
   const [debouncedIndex] = useDebounce(activeIndex, ACTIVE_GROUP_DEBOUNCE);
+
+  useEffect(() => {
+    if (!myGroupsRef.current?.swiper) return;
+
+    setJoinGroupModal((prev) => ({
+      ...prev,
+      myGroupsSwiper: myGroupsRef.current && myGroupsRef.current.swiper,
+    }));
+
+    return () => {
+      setJoinGroupModal((prev) => ({
+        ...prev,
+        myGroupsSwiper: null,
+      }));
+    };
+  }, [!!myGroups?.length]);
 
   return (
     <div>
       {myGroups?.length ? (
         <Swiper
           className="h-[80vh] overflow-hidden"
+          id="myGroupsViewer"
           slidesPerView={1}
           loop={true}
           pagination={{
@@ -32,6 +53,7 @@ export default function MyGroupsViewer() {
             const { realIndex } = swiperCore;
             setActiveIndex(realIndex);
           }}
+          ref={myGroupsRef}
         >
           {myGroups.map((group, i) => {
             return (

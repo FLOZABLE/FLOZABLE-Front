@@ -1,8 +1,10 @@
 import { CalendarApi } from "@fullcalendar/core";
+import { Swiper } from "swiper/types";
 
 export type JoinGroupModalState = {
   opened: boolean;
   group_id: null | string;
+  myGroupsSwiper: null | Swiper
 };
 
 export type PlanModalState = {

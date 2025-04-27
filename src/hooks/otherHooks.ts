@@ -76,6 +76,8 @@ export function useUpdater<TData extends object, TKey extends keyof TData>(
   ) => {
     const queryKey = dynamicKey ? [...baseQueryKey, dynamicKey] : baseQueryKey;
 
+    let updatedFieldValue: TData[TKey] | undefined;
+
     await queryClient.setQueryData<ApiResponse<TData>>(queryKey, (oldData) => {
       if (!oldData?.data) return oldData;
 
@@ -85,6 +87,8 @@ export function useUpdater<TData extends object, TKey extends keyof TData>(
           ? (newData as (prev: TData[TKey]) => TData[TKey])(prev)
           : newData;
 
+      updatedFieldValue = updatedValue;
+
       return {
         ...oldData,
         data: {
@@ -93,6 +97,8 @@ export function useUpdater<TData extends object, TKey extends keyof TData>(
         },
       };
     });
+
+    return updatedFieldValue;
   };
 }
 

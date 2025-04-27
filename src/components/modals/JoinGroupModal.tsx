@@ -10,7 +10,7 @@ import {
   CredenzaTitle,
 } from "../ui/credenza";
 import GroupContainer from "../groups/GroupContainer";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { Group } from "@/types/group";
 import { useRankings } from "@/hooks/rankingsHooks";
 import { Button } from "../ui/button";
@@ -25,7 +25,6 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { Input } from "../ui/input";
 import { useSearchParams } from "next/navigation";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { postGroupJoin } from "@/apis/groupsApi";
@@ -35,11 +34,12 @@ import {
 } from "@/hooks/updaters/groupsUpdaters";
 import { useAccount } from "@/hooks/accountHooks";
 
-const FormSchema = z.object({
-  password: z.string().min(1, {
-    message: "Password is missing.",
-  }),
-});
+const FormSchema = (visibility: boolean) =>
+  z.object({
+    password: visibility
+      ? z.string().optional()
+      : z.string().min(1, { message: "Password is missing." }),
+  });
 
 export default function JoinGroupModal() {
   const searchParams = useSearchParams();
@@ -59,13 +59,6 @@ export default function JoinGroupModal() {
     new Date(new Date().setHours(0, 0, 0, 0))
   );
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      password: "",
-    },
-  });
-
   const group: Group | null = useMemo(() => {
     const group = groups?.find(
       (group) => group.group_id === joinGroupModal.group_id
@@ -73,24 +66,62 @@ export default function JoinGroupModal() {
     return group ? group : null;
   }, [groups, joinGroupModal.group_id]);
 
+  const form = useForm<z.infer<ReturnType<typeof FormSchema>>>({
+    resolver: zodResolver(FormSchema(group?.visibility ?? true)),
+    defaultValues: {
+      password: "",
+    },
+  });
+
   const onSubmit = useCallback(
-    async (data: z.infer<typeof FormSchema>) => {
+    async (data: z.infer<ReturnType<typeof FormSchema>>) => {
       if (!group?.group_id || !account) return;
       const response = await postGroupJoin(group?.group_id, data.password);
       if (!response.success) return;
 
-      await updateGroups((prev) => {
+      setJoinGroupModal((prev) => ({ ...prev, opened: false }));
+
+      form.reset();
+
+      updateGroups((prev) => {
         const newGroups = [...prev];
         const groupIndex = newGroups.findIndex(
           (group) => group.group_id === joinGroupModal.group_id
         );
         if (groupIndex === -1) return prev;
 
-        newGroups[groupIndex].members.push(account.user_id);
+        newGroups[groupIndex] = {
+          ...newGroups[groupIndex],
+          members: [...newGroups[groupIndex].members, account.user_id],
+        };
         return newGroups;
       });
+
+      const updatedMyGroups = await updateMyGroups((prev) => {
+        const newGroup = { ...group };
+        newGroup.members = [...newGroup.members, account.user_id];
+        const newGroups = [...prev, newGroup];
+        return newGroups;
+      });
+
+      //slide to my groups viewer & index of group
+      const groupIndex = updatedMyGroups?.findIndex(
+        (myGroup) => myGroup.group_id === group.group_id
+      );
+      if (groupIndex === -1 || !groupIndex) return;
+
+      setTimeout(() => {
+        joinGroupModal.myGroupsSwiper?.slideTo(groupIndex);
+      }, 500);
+
+      const myGroupsViewer = document.querySelector("#myGroupsViewer");
+      myGroupsViewer?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
     },
-    [account]
+    [account, group, joinGroupModal]
   );
 
   useEffect(() => {
@@ -116,8 +147,8 @@ export default function JoinGroupModal() {
         <CredenzaHeader className="justify-self-center justify-center items-center text-center">
           <CredenzaTitle className="text-2xl">Join this group?</CredenzaTitle>
         </CredenzaHeader>
-        <CredenzaBody>
-          <div className="flex flex-col gap-4">
+        <CredenzaBody className="overflow-hidden">
+          <div className="flex flex-col gap-4 px-1">
             {group && (
               <GroupContainer
                 group={group}
@@ -125,12 +156,12 @@ export default function JoinGroupModal() {
                 isJoinButton={false}
               />
             )}
-            {!group?.visibility && (
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6 flex justify-center flex-col"
-                >
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-6 flex justify-center flex-col"
+              >
+                {!group?.visibility && (
                   <FormField
                     control={form.control}
                     name="password"
@@ -147,10 +178,10 @@ export default function JoinGroupModal() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Join</Button>
-                </form>
-              </Form>
-            )}
+                )}
+                <Button type="submit">Join</Button>
+              </form>
+            </Form>
           </div>
         </CredenzaBody>
       </CredenzaContent>
