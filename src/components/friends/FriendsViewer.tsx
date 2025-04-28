@@ -9,7 +9,7 @@ import {
 } from "../ui/card";
 import UserContainer from "../users/UserContainer";
 import UserSubjectViewer from "../users/UserSubjectViewer";
-import ChatBtn from "../buttons/ChatBtn";
+import ChatButton from "../buttons/ChatButton";
 
 export default function FriendsViewer({
   className,
@@ -27,8 +27,8 @@ export default function FriendsViewer({
         {friendsStatus?.map((friend, i) => {
           return (
             <div key={i}>
-              <UserContainer userinfo={friend} >
-                <ChatBtn className="ml-10"/>
+              <UserContainer userinfo={friend}>
+                <ChatButton className="ml-10" />
               </UserContainer>
               <UserSubjectViewer userInfo={friend} />
             </div>

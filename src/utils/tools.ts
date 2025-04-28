@@ -45,10 +45,6 @@ function getTimezone(): string {
   return timezone;
 }
 
-/**
- * @param {*} sec
- * @returns
- */
 const secondConverter = ({
   sec,
   options = ["s", "m", "h"],
@@ -121,7 +117,9 @@ const focusCalculator = (grouped: Array<[number, number]>): number => {
   return focus;
 };
 
-function streakCalculator(groupedSubjects: GroupedSubjects) {
+function streakCalculator(groupedSubjects: GroupedSubjects | null) {
+  if (!groupedSubjects?.day?.total) return 0;
+  
   const reversedDaily = groupedSubjects.day.total.toReversed();
 
   let streak = 0;

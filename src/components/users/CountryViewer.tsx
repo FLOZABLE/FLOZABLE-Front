@@ -1,16 +1,20 @@
 // components/CountryViewer.tsx
-import { JSX, useEffect, useState } from "react";
+import { ComponentProps, JSX, useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobe } from "@fortawesome/free-solid-svg-icons";
-import { getCountryCode } from "@/utils/tools";
+import { cn, getCountryCode } from "@/utils/tools";
 import { Badge } from "../ui/badge";
 
-interface CountryViewerProps {
+interface CountryViewerProps extends ComponentProps<"div"> {
   timezone?: string;
 }
 
-export default function CountryViewer({ timezone }: CountryViewerProps) {
+export default function CountryViewer({
+  timezone,
+  className,
+  ...props
+}: CountryViewerProps) {
   const [flag, setFlag] = useState<JSX.Element | null>(null);
 
   useEffect(() => {
@@ -32,7 +36,10 @@ export default function CountryViewer({ timezone }: CountryViewerProps) {
   }, [timezone]);
 
   return (
-    <div className="flex items-center space-x-2 group relative">
+    <div
+      className={cn("flex items-center space-x-2 group relative", className)}
+      {...props}
+    >
       <div className="transition-transform duration-300 group-hover:-translate-y-1">
         {flag}
       </div>

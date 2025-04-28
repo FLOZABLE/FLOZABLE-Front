@@ -1,15 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { WorkersContext } from "../structure/Providers";
 import { toTimer } from "@/utils/tools";
+import { Badge, BadgeProps } from "../ui/badge";
 
-interface MemberTimerProps {
+interface MemberTimerProps extends BadgeProps {
   initialSec?: number;
-  start: number;
+  start: number | null;
 }
 
 export default function MemberTimer({
   initialSec = 0,
   start,
+  ...props
 }: MemberTimerProps) {
   const { membersTimerWorker } = useContext(WorkersContext);
 
@@ -40,5 +42,5 @@ export default function MemberTimer({
     };
   }, [start, initialSec]);
 
-  return <div>{timer.disp}</div>;
+  return <Badge {...props}>{timer.disp}</Badge>;
 }

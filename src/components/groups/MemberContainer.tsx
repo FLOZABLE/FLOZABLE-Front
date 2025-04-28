@@ -6,6 +6,7 @@ import MemberCamDisplay from "./MemberCamDisplay";
 import { Device } from "mediasoup-client";
 import { Transport } from "mediasoup-client/lib/Transport";
 import { useRouter } from "next/navigation";
+import MemberTimer from "./MemberTimer";
 
 interface SubjectTimer {
   start: number | null;
@@ -68,6 +69,11 @@ export default function MemberContainer({
       ) : (
         <IconRestPerson className="size-12 absolute-center" />
       )}
+      <MemberTimer
+        initialSec={subjectTimer.total}
+        start={subjectTimer.start}
+        className="absolute-center translate-y-8"
+      />
     </div>
   );
 }

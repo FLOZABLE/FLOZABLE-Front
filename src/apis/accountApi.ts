@@ -9,11 +9,11 @@ import { SuccessResponse } from "@/types/response";
 import AxiosInstance from "@/utils/axiosInstance";
 import { requestHandler } from "@/utils/tools";
 
-async function getAccount(): Promise<AccountResponse> {
+export async function getAccount(): Promise<AccountResponse> {
   return requestHandler(AxiosInstance.get(`/account`));
 }
 
-async function getAccountProfile(
+export async function getAccountProfile(
   userId: string
 ): Promise<AccountProfileResponse> {
   return requestHandler(
@@ -22,7 +22,7 @@ async function getAccountProfile(
     })
   );
 }
-async function getAccountProfileStatus(
+export async function getAccountProfileStatus(
   userId: string
 ): Promise<AccountProfileStatusResponse> {
   return requestHandler(
@@ -32,7 +32,7 @@ async function getAccountProfileStatus(
   );
 }
 
-async function getAccountGoogle(): Promise<AccountGoogleResponse> {
+export async function getAccountGoogle(): Promise<AccountGoogleResponse> {
   return requestHandler(AxiosInstance.get(`/account/google`));
 }
 
@@ -40,7 +40,7 @@ type PatchAccountInfoParams = {
   name: string;
   email: string;
 };
-async function patchAccountInfo({
+export async function patchAccountInfo({
   name,
   email,
 }: PatchAccountInfoParams): Promise<AccountPatchResponse> {
@@ -52,7 +52,9 @@ async function patchAccountInfo({
   );
 }
 
-async function patchAccountImage(formData: FormData): Promise<SuccessResponse> {
+export async function patchAccountImage(
+  formData: FormData
+): Promise<SuccessResponse> {
   return requestHandler(
     AxiosInstance.patch(`/account/image`, formData, {
       headers: {
@@ -65,7 +67,7 @@ async function patchAccountImage(formData: FormData): Promise<SuccessResponse> {
 type PatchAccountPasswordParams = {
   password: string;
 };
-async function patchAccountPassword({
+export async function patchAccountPassword({
   password,
 }: PatchAccountPasswordParams): Promise<SuccessResponse> {
   return requestHandler(
@@ -74,13 +76,3 @@ async function patchAccountPassword({
     })
   );
 }
-
-export {
-  getAccount,
-  getAccountProfile,
-  getAccountProfileStatus,
-  getAccountGoogle,
-  patchAccountInfo,
-  patchAccountImage,
-  patchAccountPassword,
-};

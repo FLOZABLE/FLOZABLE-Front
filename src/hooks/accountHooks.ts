@@ -1,5 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getAccount, getAccountGoogle } from "@/apis/accountApi";
+import {
+  getAccount,
+  getAccountGoogle,
+  getAccountProfile,
+} from "@/apis/accountApi";
 import { useCallback } from "react";
 
 export function useAccount() {
@@ -38,7 +42,7 @@ export function useAccountGoogle() {
   const { account } = useAccount();
 
   const queryResult = useQuery({
-    queryKey: ["useAccountGoogle"],
+    queryKey: ["accountGoogle"],
     queryFn: getAccountGoogle,
     staleTime: 1000 * 60 * 10, // 10 minutes
     enabled: !!account,
@@ -53,7 +57,7 @@ export function useAccountGoogle() {
   } = queryResult;
 
   const clearAccountGoogleData = useCallback(() => {
-    queryClient.removeQueries({ queryKey: ["useAccountGoogle"] });
+    queryClient.removeQueries({ queryKey: ["accountGoogle"] });
   }, [queryClient]);
 
   return {
@@ -62,5 +66,28 @@ export function useAccountGoogle() {
     accountGoogleError,
     accountGoogleIsLoading,
     clearAccountGoogleData,
+  };
+}
+
+export function useAccountProfile(userId: string) {
+  const queryResult = useQuery({
+    queryKey: [`accountProfile`, userId],
+    queryFn: () => getAccountProfile(userId),
+    staleTime: 1000 * 60 * 10,
+    enabled: !!userId,
+    select: (response) => response?.data,
+  });
+
+  const {
+    data: accountProfile,
+    isLoading: accountProfileIsLoading,
+    error: accountProfileError,
+  } = queryResult;
+
+  return {
+    accountProfile,
+    accountProfileIsLoading,
+    accountProfileError,
+    ...queryResult,
   };
 }

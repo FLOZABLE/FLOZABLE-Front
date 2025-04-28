@@ -7,6 +7,7 @@ import { Transport } from "mediasoup-client/lib/Transport";
 import { ServerConsumeResponse } from "@/types/mediaSoup";
 import { MediaKind } from "mediasoup-client/lib/RtpParameters";
 import { Mic, MicOff, Video, VideoOff } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 interface MemberCamDisplayProps {
   member: GroupMember;
@@ -130,12 +131,14 @@ export default function MemberCamDisplay({
       <video muted={true} ref={videoRef} autoPlay playsInline />
       <audio ref={audioRef} />
       <div className="flex absolute gap-2 bottom-2 right-2">
-        {isVideo ? (
-          <Video className="size-4" />
-        ) : (
-          <VideoOff className="size-4" />
-        )}
-        {isAudio ? <Mic className="size-4" /> : <MicOff className="size-4" />}
+        <Badge variant="outline">
+          {isVideo ? (
+            <Video className="size-4" />
+          ) : (
+            <VideoOff className="size-4" />
+          )}
+          {isAudio ? <Mic className="size-4" /> : <MicOff className="size-4" />}
+        </Badge>
       </div>
     </div>
   );

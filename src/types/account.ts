@@ -1,6 +1,6 @@
 import { Friend } from "./friend";
 import { ApiResponse } from "./response";
-import { ActiveSubject, GroupedSubjects, Subjects } from "./subject";
+import { ActiveSubject, GroupedSubjects, Subject } from "./subject";
 
 export interface Account {
   user_id: string;
@@ -16,9 +16,7 @@ export interface Userinfo {
   user_id: string;
   name: string;
   created_at: number;
-  timezone?: string;
-  groups?: string[];
-  friends?: string[];
+  timezone: string;
 }
 
 export interface GoogleAccount {
@@ -43,9 +41,9 @@ export type AccountPatchResponse = ApiResponse<{ verified: boolean }>;
 
 // get /account/profile
 export type AccountProfileResponse = ApiResponse<{
-  userinfo: Account;
+  userinfo: Userinfo;
   friends: Friend[];
-  subjects: Subjects;
+  subjects: Subject[];
   grouped_subjects: GroupedSubjects;
 }>;
 
