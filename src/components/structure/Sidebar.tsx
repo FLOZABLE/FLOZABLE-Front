@@ -4,7 +4,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
-import { Calendar, House, UserRound } from "lucide-react";
+import { Calendar, ChartBar, House, UserRound } from "lucide-react";
 import { getAuthLogout } from "@/apis/authApi";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import { useAccount } from "@/hooks/accountHooks";
@@ -18,6 +18,13 @@ export default function SidebarWrapper() {
       href: "/dashboard",
       icon: (
         <House className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Stats",
+      href: "/dashboard/stats",
+      icon: (
+        <ChartBar className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {

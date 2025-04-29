@@ -3,7 +3,7 @@ import { useAccount } from "./accountHooks";
 import { useCallback } from "react";
 import { calculateTimeToMidnight, updateQueryData } from "@/utils/tools";
 import { getSubjects } from "@/apis/subjectsApi";
-import { GroupedSubjects, Subjects, SubjectsResponse } from "@/types/subject";
+import { GroupedSubjects, Subject, SubjectsResponse } from "@/types/subject";
 
 const defaultGroupedSubjects: GroupedSubjects = {
   day: { timeline: [], total: [], focus: [] },
@@ -47,7 +47,7 @@ export function useSubjects() {
   const subjects = subjectsData?.subjects;
   const groupedSubjects = subjectsData?.grouped_subjects;
 
-  const updateSubjects = useCallback(async (newData: Subjects) => {
+  const updateSubjects = useCallback(async (newData: Subject[]) => {
     await queryClient.setQueryData(
       ["subjects"],
       (oldData: SubjectsResponse | undefined) => {

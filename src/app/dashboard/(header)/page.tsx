@@ -7,6 +7,7 @@ import TopLeaderboard from "@/components/leaderboard/TopLeaderboard";
 import Welcome from "@/components/others/Welcome";
 import Planstimeline from "@/components/plans/Planstimeline";
 import SelectorWrapper from "@/components/ui/select";
+import { useSubjects } from "@/hooks/subjectsHooks";
 import { ViewerType } from "@/types/others";
 import { useState } from "react";
 
@@ -15,6 +16,9 @@ export default function Dashboard() {
     new Date(new Date().setHours(0, 0, 0, 0))
   );
   const [viewer, setViewer] = useState<ViewerType>("day");
+
+  const { groupedSubjects } = useSubjects();
+
   return (
     <main className="p-5">
       <div className="flex justify-between w-full items-center mb-5">
@@ -57,7 +61,8 @@ export default function Dashboard() {
           <StudyTrendChart
             viewDate={viewDate}
             viewer={viewer}
-            className="w-full"
+            groupedSubjects={groupedSubjects}
+            className="h-[50vh] w-full"
           />
         </div>
       </div>

@@ -23,11 +23,11 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ComponentProps, useEffect, useState } from "react";
-import { useSubjects } from "@/hooks/subjectsHooks";
 import { ViewerType } from "@/types/others";
-import { getDates, getDatesDisplay, secondConverter } from "@/utils/tools";
+import { cn, getDates, getDatesDisplay, secondConverter } from "@/utils/tools";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { GroupedSubjects } from "@/types/subject";
 
 interface StudyTrendData {
   label: string;
@@ -44,15 +44,18 @@ const chartConfig = {
 interface StudyTrendChartProps extends ComponentProps<"div"> {
   viewDate: Date;
   viewer: ViewerType;
+  groupedSubjects: GroupedSubjects | undefined;
+  isMine?: boolean;
 }
 export default function StudyTrendChart({
   viewDate,
   viewer,
+  groupedSubjects,
+  isMine = true,
+  className,
   ...props
 }: StudyTrendChartProps) {
   const router = useRouter();
-
-  const { groupedSubjects } = useSubjects();
 
   const [data, setData] = useState<StudyTrendData[]>([]);
   const [description, setDescription] = useState("");
@@ -87,24 +90,26 @@ export default function StudyTrendChart({
   }, [groupedSubjects, viewDate, viewer]);
 
   return (
-    <Card {...props}>
+    <Card className={cn("", className)} {...props}>
       <CardHeader>
         <CardTitle>Total study time trend</CardTitle>
         <CardDescription className="flex items-center">
           {description}
-          <Button
-            onClick={() => {
-              router.push("/dashboard/subjects");
-            }}
-            effect={"hoverUnderline"}
-            variant={"link"}
-            className="ml-auto"
-          >
-            View by subjects
-          </Button>
+          {isMine && (
+            <Button
+              onClick={() => {
+                router.push("/dashboard/stats");
+              }}
+              effect={"hoverUnderline"}
+              variant={"link"}
+              className="ml-auto"
+            >
+              View by subjects
+            </Button>
+          )}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-hidden">
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer

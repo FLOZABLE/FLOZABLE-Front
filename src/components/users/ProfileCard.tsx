@@ -8,7 +8,7 @@ import {
 } from "../ui/card";
 import AvatarWrapper from "../ui/avatar";
 import { GroupedSubjects, Subject } from "@/types/subject";
-import { ReactNode, useMemo } from "react";
+import { ComponentProps, ReactNode, useMemo } from "react";
 import { DateTime, DurationUnit } from "luxon";
 import FriendRequestButton from "../buttons/FriendRequestButton";
 import ChatButton from "../buttons/ChatButton";
@@ -27,7 +27,7 @@ type InfoBoxProps = {
   value: string;
 };
 
-function InfoBox({ icon, name, value }: InfoBoxProps) {
+function InfoBox({ icon, value }: InfoBoxProps) {
   return (
     <Badge variant={"outline"}>
       {icon}
@@ -36,7 +36,7 @@ function InfoBox({ icon, name, value }: InfoBoxProps) {
   );
 }
 
-interface ProfileCardProps {
+interface ProfileCardProps extends ComponentProps<"div"> {
   userInfo: Userinfo;
   subjects: Subject[];
   groupedSubjects: GroupedSubjects;
@@ -44,8 +44,8 @@ interface ProfileCardProps {
 
 export default function ProfileCard({
   userInfo,
-  subjects,
   groupedSubjects,
+  ...props
 }: ProfileCardProps) {
   const joinedAt = useMemo(() => {
     const diff = DateTime.now().diff(DateTime.fromSeconds(userInfo.created_at));
@@ -82,17 +82,15 @@ export default function ProfileCard({
   }, [groupedSubjects]);
 
   return (
-    <Card className="w-68">
+    <Card {...props}>
       <CardHeader className="flex flex-col items-center justify-center overflow-hidden">
         <AvatarWrapper
           className="size-30"
           userId={userInfo.user_id}
           name={userInfo.name}
         />
-        <CardTitle className="flex gap-1 w-full">
-          <p className="truncate">
-            {userInfo.name}ffffffffffffffffffddddddddddddddddd
-          </p>
+        <CardTitle className="flex gap-1 w-full justify-center">
+          <p className="truncate">{userInfo.name}</p>
           <CountryViewer timezone={userInfo.timezone} className="shrink-0" />
         </CardTitle>
         <CardDescription>{joinedAt}</CardDescription>

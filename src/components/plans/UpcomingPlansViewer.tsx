@@ -67,8 +67,10 @@ export default function UpcomingPlansViewer({
       rangeStart = dt.startOf("day");
       rangeEnd = dt.endOf("day");
     } else if (viewer === "week") {
-      rangeStart = dt.startOf("week");
-      rangeEnd = dt.endOf("week");
+      const weekday = dt.weekday; // 1 = Monday, 7 = Sunday
+      const startOfWeek = dt.minus({ days: weekday % 7 }); // back to Sunday
+      rangeStart = startOfWeek.startOf("day");
+      rangeEnd = startOfWeek.plus({ days: 6 }).endOf("day"); // Saturday end
     } else {
       rangeStart = dt.startOf("month");
       rangeEnd = dt.endOf("month");

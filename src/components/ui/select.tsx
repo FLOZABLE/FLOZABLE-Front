@@ -186,7 +186,7 @@ const SelectorWrapper = <T,>({
 }: SelectorProps<T>) => {
   return (
     <Select onValueChange={(val) => onChange(val as T)} value={String(value)}>
-      <SelectTrigger>
+      <SelectTrigger className="bg-background">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

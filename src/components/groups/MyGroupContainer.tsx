@@ -414,7 +414,7 @@ export default function MyGroupContainer({
           </div>
         </CardDescription>
       </CardHeader>
-      <CardContent className="overflow-auto">
+      <CardContent className="overflow-auto h-full">
         <div className="grid grid-cols-[repeat(auto-fill,_15rem)] gap-4 justify-center">
           {isActive && !groupMembersIsLoading
             ? groupMembersData?.map((member, i) => {

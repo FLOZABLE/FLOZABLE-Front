@@ -25,16 +25,13 @@ export interface TimePeriodData {
 
 export interface Subject {
   subject_id: string;
+  name: string;
   color: string;
   created_at: number;
   timeline: TimeRange[];
   day: TimePeriodData;
   week: TimePeriodData;
   month: TimePeriodData;
-}
-
-export interface Subjects {
-  [index: number]: Subject;
 }
 
 export interface GroupedSubjects {
@@ -51,6 +48,6 @@ export interface ActiveSubject {
 
 // get /subjects
 export type SubjectsResponse = ApiResponse<{
-  subjects: Subjects;
+  subjects: Subject[];
   grouped_subjects: GroupedSubjects;
 }>;
