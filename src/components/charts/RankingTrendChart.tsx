@@ -1,12 +1,13 @@
 "use client";
 
-import * as React from "react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { TrendingUp } from "lucide-react";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -16,75 +17,75 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { ComponentProps, useMemo } from "react";
+import { ViewerType } from "@/types/others";
+import { useRankingsUser } from "@/hooks/rankingsHooks";
+import { DateTime } from "luxon";
+import { cn, getDatesDisplay } from "@/utils/tools";
 const chartData = [
-  { date: "2024-04-01", desktop: 222, mobile: 150 },
-  { date: "2024-04-02", desktop: 97, mobile: 180 },
-  { date: "2024-04-03", desktop: 167, mobile: 120 },
-  { date: "2024-04-04", desktop: 242, mobile: 260 },
-  { date: "2024-04-05", desktop: 373, mobile: 290 },
+  { month: "January", desktop: 186, mobile: 80 },
+  { month: "February", desktop: 305, mobile: 200 },
+  { month: "March", desktop: 237, mobile: 120 },
+  { month: "April", desktop: 73, mobile: 190 },
+  { month: "May", desktop: 209, mobile: 130 },
+  { month: "June", desktop: 214, mobile: 140 },
 ];
 
+type ChartDatum = {
+  label: string;
+  [key: string]: number | string;
+};
+
 const chartConfig = {
-  views: {
-    label: "Page Views",
-  },
-  desktop: {
-    label: "Desktop",
+  data: {
+    label: "Ranking",
     color: "hsl(var(--chart-1))",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
-export default function RankingTrendChart() {
-  const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("desktop");
+interface RankingTrendChartProps extends ComponentProps<"div"> {
+  viewDate: Date;
+  viewer: ViewerType;
+  userId: string | undefined;
+}
 
-  const total = React.useMemo(
-    () => ({
-      desktop: chartData.reduce((acc, curr) => acc + curr.desktop, 0),
-      mobile: chartData.reduce((acc, curr) => acc + curr.mobile, 0),
-    }),
-    []
-  );
+export default function RankingTrendChart({
+  viewDate,
+  viewer,
+  userId,
+  className,
+  ...props
+}: RankingTrendChartProps) {
+  const { rankingsUserData } = useRankingsUser(userId || "", viewer, viewDate);
+
+  const data = useMemo(() => {
+    if (!rankingsUserData) return [];
+    return rankingsUserData.map((ranking) => {
+      const label = getDatesDisplay({
+        date: DateTime.fromISO(ranking.date).toJSDate(),
+        viewer,
+      });
+      return {
+        label,
+        data: ranking.ranking,
+      };
+    });
+  }, [viewDate, viewer, rankingsUserData]);
 
   return (
-    <Card className="h-[40vh]">
-      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Bar Chart - Interactive</CardTitle>
-          <CardDescription>
-            Showing total visitors for the last 3 months
-          </CardDescription>
-        </div>
-        <div className="flex">
-          {["desktop", "mobile"].map((key) => {
-            const chart = key as keyof typeof chartConfig;
-            return (
-              <button
-                key={chart}
-                data-active={activeChart === chart}
-                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
-                onClick={() => setActiveChart(chart)}
-              >
-                <span className="text-xs text-muted-foreground">
-                  {chartConfig[chart].label}
-                </span>
-                <span className="text-lg font-bold leading-none sm:text-3xl">
-                  {total[key as keyof typeof total].toLocaleString()}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+    <Card className={cn("", className)} {...props}>
+      <CardHeader>
+        <CardTitle>Ranking Trend</CardTitle>
+        <CardDescription>
+          See how your rank has changed over time. Stay motivated as you climb
+          the leaderboard and compare your progress with others.
+        </CardDescription>
       </CardHeader>
-      <CardContent className="px-2 sm:p-6 overflow-hidden">
+      <CardContent className="overflow-hidden">
         <ChartContainer config={chartConfig}>
-          <BarChart
+          <LineChart
             accessibilityLayer
-            data={chartData}
+            data={data}
             margin={{
               left: 12,
               right: 12,
@@ -92,38 +93,43 @@ export default function RankingTrendChart() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="date"
+              dataKey="label"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              minTickGap={32}
-              tickFormatter={(value) => {
-                const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                });
-              }}
             />
+            <YAxis reversed={true} />
             <ChartTooltip
+              cursor={false}
               content={
                 <ChartTooltipContent
-                  className="w-[150px]"
-                  nameKey="views"
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    });
-                  }}
+                  valueFormatter={(ranking) => ` ${ranking} place`}
                 />
               }
             />
-            <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} />
-          </BarChart>
+            <Line
+              dataKey="data"
+              type="natural"
+              stroke="var(--color-data)"
+              strokeWidth={2}
+              dot={{
+                fill: "var(--color-data)",
+              }}
+              activeDot={{
+                r: 6,
+              }}
+            />
+          </LineChart>
         </ChartContainer>
       </CardContent>
+      <CardFooter className="flex-col items-start gap-2 text-sm">
+        {/* <div className="flex gap-2 font-medium leading-none">
+          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+        </div> */}
+        <div className="leading-none text-muted-foreground">
+          Showing ranking trend for the last 7 {viewer}s
+        </div>
+      </CardFooter>
     </Card>
   );
 }

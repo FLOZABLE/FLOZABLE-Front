@@ -266,7 +266,7 @@ function getDates(date: Date, mode: DateTimeUnit, length: number): DateTime[] {
 function getDatesDisplay({
   date,
   viewer,
-  formats = { day: "LLLL d", week: "LLLL d", month: "kkkk LLLL" },
+  formats = { day: "LLLL d", week: "LLL d", month: "kkkk LLLL" },
 }: {
   date: Date;
   viewer: ViewerType;

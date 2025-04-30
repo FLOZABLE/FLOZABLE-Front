@@ -2,7 +2,7 @@
 
 import { HTMLProps, useEffect, useState } from "react";
 
-import { $getRoot, ParagraphNode, TextNode } from "lexical";
+import { $getRoot, $isElementNode, ParagraphNode, TextNode } from "lexical";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListNode, ListItemNode } from "@lexical/list";
 
@@ -75,11 +75,23 @@ export default function Editor({
           ...editorConfig,
           editorState: (editor) => {
             if (!value) return;
+
             const parser = new DOMParser();
             const dom = parser.parseFromString(value, "text/html");
-            const nodes = $generateNodesFromDOM(editor, dom);
-            $getRoot().clear();
-            $getRoot().append(...nodes);
+
+            editor.update(() => {
+              const nodes = $generateNodesFromDOM(editor, dom);
+              console.log(nodes, "gd");
+
+              const root = $getRoot();
+              root.clear();
+
+              for (const node of nodes) {
+                if ($isElementNode(node)) {
+                  root.append(node);
+                }
+              }
+            });
           },
         }}
       >

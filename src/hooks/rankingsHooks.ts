@@ -26,6 +26,7 @@ function useRankingsUser(userId: string, viewer: ViewerType, viewDate: Date) {
     queryFn: () => getRankingsUser(userId, viewer, viewDate),
     staleTime: 1000 * 60,
     enabled: !!userId && !!viewer && !!viewDate,
+    select: (response) => response?.data?.rankings || [],
   });
 
   const { data: rankingsUserData, isLoading: rankingsUserIsLoading } =
