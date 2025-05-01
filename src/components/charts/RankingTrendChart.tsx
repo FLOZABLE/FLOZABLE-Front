@@ -1,6 +1,5 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 import {
@@ -22,19 +21,6 @@ import { ViewerType } from "@/types/others";
 import { useRankingsUser } from "@/hooks/rankingsHooks";
 import { DateTime } from "luxon";
 import { cn, getDatesDisplay } from "@/utils/tools";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
-
-type ChartDatum = {
-  label: string;
-  [key: string]: number | string;
-};
 
 const chartConfig = {
   data: {

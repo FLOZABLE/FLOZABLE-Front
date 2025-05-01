@@ -3,14 +3,13 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { useRankings } from "@/hooks/rankingsHooks";
 import UserContainer from "../users/UserContainer";
 import { useAccount } from "@/hooks/accountHooks";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getDatesDisplay, secondConverter } from "@/utils/tools";
@@ -92,7 +91,10 @@ export default function TopLeaderboard({
   viewDate,
   className,
 }: TopLeaderboardProps) {
-  const [isOnlyFriends, setIsOnlyFriends] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [isOnlyFriends, _setIsOnlyFriends] = useState(false);
   const [title, setTitle] = useState("");
 
   useEffect(() => {
@@ -110,22 +112,26 @@ export default function TopLeaderboard({
       label = getDatesDisplay({ date: viewDate, viewer });
     }
     setTitle(`${label}`);
-    console.log(label, "label");
   }, [viewer, viewDate]);
 
   return (
     <Card className={className}>
       <CardHeader>
         <CardTitle className="flex items-center">
-          Leadeboard
-          <Button
-            effect={"expandIcon"}
-            iconPlacement="right"
-            icon={ArrowRight}
-            className="ml-auto"
-          >
-            View All
-          </Button>
+          Top Leadeboard
+          {pathname !== "/dashboard/leaderboard" && (
+            <Button
+              effect={"expandIcon"}
+              iconPlacement="right"
+              icon={ArrowRight}
+              className="ml-auto"
+              onClick={() => {
+                router.push("/dashboard/leaderboard");
+              }}
+            >
+              View All
+            </Button>
+          )}
         </CardTitle>
         <CardDescription>{title}</CardDescription>
       </CardHeader>

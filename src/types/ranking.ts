@@ -3,7 +3,7 @@ import { ApiResponse } from "./response";
 
 export interface Ranking
   extends Pick<Userinfo, "user_id" | "name" | "timezone" | "created_at"> {
-  rank: number;
+  ranking: number;
   study_time: number;
   date: string;
 }
