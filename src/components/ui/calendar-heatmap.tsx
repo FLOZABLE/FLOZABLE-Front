@@ -104,6 +104,7 @@ function CalendarHeatmap({
 
   return (
     <Calendar
+    numberOfMonths={5}
       modifiers={modifiers}
       modifiersClassNames={modifiersClassNames}
       showOutsideDays={showOutsideDays}

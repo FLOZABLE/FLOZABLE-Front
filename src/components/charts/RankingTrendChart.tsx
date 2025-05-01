@@ -103,7 +103,7 @@ export default function RankingTrendChart({
               cursor={false}
               content={
                 <ChartTooltipContent
-                  valueFormatter={(ranking) => ` ${ranking} place`}
+                  valueFormatter={(ranking) => ` ${ranking}`}
                 />
               }
             />
@@ -126,7 +126,7 @@ export default function RankingTrendChart({
         {/* <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div> */}
-        <div className="leading-none text-muted-foreground">
+        <div className="text-muted-foreground">
           Showing ranking trend for the last 7 {viewer}s
         </div>
       </CardFooter>

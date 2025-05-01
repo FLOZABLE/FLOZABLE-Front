@@ -18,7 +18,7 @@ export default function Stats() {
   );
   const [viewer, setViewer] = useState<ViewerType>("day");
 
-  const { subjects } = useSubjects();
+  const { subjects, groupedSubjects } = useSubjects();
 
   return (
     <main className="p-5">
@@ -58,7 +58,7 @@ export default function Stats() {
           className="h-[30rem]"
         />
 
-        <StudyHeatMap />
+        <StudyHeatMap viewDate={viewDate} groupedSubjects={groupedSubjects} />
       </div>
     </main>
   );
