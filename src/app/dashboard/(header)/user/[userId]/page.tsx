@@ -26,12 +26,14 @@ export default function UserPage({ params }: UserPageProps) {
         <h1 className="text-2xl font-semibold">User</h1>
       </div>
       <div className="flex gap-5">
-        <ProfileCard
-          userInfo={accountProfile.userinfo}
-          subjects={accountProfile.subjects}
-          groupedSubjects={accountProfile.grouped_subjects}
-          className="w-96 shrink-0 "
-        />
+        <div>
+          <ProfileCard
+            userInfo={accountProfile.userinfo}
+            subjects={accountProfile.subjects}
+            groupedSubjects={accountProfile.grouped_subjects}
+            className="w-96 shrink-0 "
+          />
+        </div>
         <StudyTrendChart
           viewDate={viewDate}
           viewer={viewer}

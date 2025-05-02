@@ -7,7 +7,11 @@ import {
   type ReactNode,
 } from "react";
 import { usePathname } from "next/navigation";
-import { JoinGroupModalState, PlanModalState } from "@/types/modal";
+import {
+  ChatModalState,
+  JoinGroupModalState,
+  PlanModalState,
+} from "@/types/modal";
 
 // Helper type for context value
 type ModalContextValue<State, StateName extends string> = {
@@ -119,7 +123,7 @@ export const { Provider: PlanModalProvider, useModal: usePlanModal } =
     "planModal"
   );
 export const { Provider: ChatModalProvider, useModal: useChatModal } =
-  createModalProvider(
+  createModalProvider<ChatModalState, "chatModal">(
     { chatroom_id: null, name: "", opened: false, totalNewMsg: 0 },
     "chatModal",
     false

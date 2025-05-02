@@ -1,11 +1,21 @@
+import {
+  ChatMembersResponse,
+  ChatMessagesResponse,
+  ChatRoomsResponse,
+  PostChatRequestResponse,
+} from "@/types/chat";
 import AxiosInstance from "@/utils/axiosInstance";
 import { requestHandler } from "@/utils/tools";
 
-async function getChatRooms() {
+export async function getChatRooms(): Promise<ChatRoomsResponse> {
   return requestHandler(AxiosInstance.get(`/chat/rooms`));
 }
 
-async function getChatMessages({ chatroomId, pageParam, length }) {
+export async function getChatMessages(
+  chatroomId: string,
+  pageParam: number,
+  length: number
+): Promise<ChatMessagesResponse> {
   return requestHandler(
     AxiosInstance.get(`/chat/messages`, {
       params: {
@@ -17,7 +27,9 @@ async function getChatMessages({ chatroomId, pageParam, length }) {
   );
 }
 
-async function getChatMembers(chatroomId) {
+export async function getChatMembers(
+  chatroomId: string
+): Promise<ChatMembersResponse> {
   return requestHandler(
     AxiosInstance.get(`/chat/members`, {
       params: {
@@ -27,7 +39,9 @@ async function getChatMembers(chatroomId) {
   );
 }
 
-async function postChatRequest(targetId) {
+export async function postChatRequest(
+  targetId: string
+): Promise<PostChatRequestResponse> {
   return requestHandler(
     AxiosInstance.post(`/chat/request`, {
       target_id: targetId,
@@ -35,7 +49,10 @@ async function postChatRequest(targetId) {
   );
 }
 
-async function postChatRequestReply({ accepted, notificationId }) {
+export async function postChatRequestReply(
+  notificationId: string,
+  accepted: boolean
+) {
   return requestHandler(
     AxiosInstance.post(`/chat/request/reply`, {
       notification_id: notificationId,
@@ -43,11 +60,3 @@ async function postChatRequestReply({ accepted, notificationId }) {
     })
   );
 }
-
-export {
-  getChatRooms,
-  getChatMembers,
-  getChatMessages,
-  postChatRequest,
-  postChatRequestReply,
-};

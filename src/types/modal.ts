@@ -4,7 +4,7 @@ import { Swiper } from "swiper/types";
 export type JoinGroupModalState = {
   opened: boolean;
   group_id: null | string;
-  myGroupsSwiper: null | Swiper
+  myGroupsSwiper: null | Swiper;
 };
 
 export type PlanModalState = {
@@ -16,4 +16,11 @@ export type PlanModalState = {
     start: Date;
     end: Date;
   } | null;
+};
+
+export type ChatModalState = {
+  chatroom_id: string | null;
+  name: string;
+  opened: boolean;
+  totalNewMsg: number;
 };

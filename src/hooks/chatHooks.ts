@@ -1,38 +1,24 @@
 import { getChatMembers, getChatMessages, getChatRooms } from "@/apis/chatApi";
-import {
-  useInfiniteQuery,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { useCallback } from "react";
-import { updateQueryData } from "@/utils/tools";
+import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
 
-function useChatRooms() {
+export function useChatRooms() {
   const { account } = useAccount();
-  const queryClient = useQueryClient();
 
   const queryResult = useQuery({
-    queryKey: [`useChatRooms`],
+    queryKey: [`chatRooms`],
     queryFn: getChatRooms,
-    staleTime: 1000 * 5,
+    staleTime: 1000 * 60,
     enabled: !!account,
     select: (response) => response?.data?.chatrooms || [],
-    placeholderData: [],
   });
 
   const { data: chatrooms, refetch: chatroomsRefetch } = queryResult;
 
-  const updateChatrooms = useCallback(async (newData) => {
-    await queryClient.setQueryData(["useChatRooms"], (oldData) => {
-      return updateQueryData(oldData, newData, "chatrooms");
-    });
-  }, []);
-
-  return { chatrooms, chatroomsRefetch, updateChatrooms, ...queryResult };
+  return { chatrooms, chatroomsRefetch, ...queryResult };
 }
 
-function useChatMessages({ chatroomId, length, lastMsgId }) {
+/* function useChatMessages({ chatroomId, length, lastMsgId }: {}) {
   const queryResult = useInfiniteQuery({
     queryKey: [`useChatMessages`, chatroomId, length, lastMsgId],
     queryFn: ({ pageParam }) =>
@@ -52,13 +38,6 @@ function useChatMessages({ chatroomId, length, lastMsgId }) {
 
   const { data: chatMessagesData, refetch: chatMessagesRefetch } = queryResult;
 
-  /* // Refetch when lastMsgId changes
-  useEffect(() => {
-    if (lastMsgId) {
-      chatMessagesRefetch();
-    }
-  }, [lastMsgId]); */
-
   return { chatMessagesData, chatMessagesRefetch, ...queryResult };
 }
 
@@ -75,5 +54,4 @@ function useChatRoomMembers(chatroomId) {
 
   return { chatroomMembersData, chatroomMembersRefetch, ...queryResult };
 }
-
-export { useChatRooms, useChatMessages, useChatRoomMembers };
+ */

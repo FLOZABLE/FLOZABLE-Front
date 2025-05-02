@@ -16,6 +16,7 @@ import PlanModal from "@/components/modals/PlanModal";
 //import "@schedule-x/theme-default/dist/index.css";
 import "@schedule-x/theme-shadcn/dist/index.css";
 import JoinGroupModal from "@/components/modals/JoinGroupModal";
+import ChatModal from "@/components/modals/ChatModal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -83,6 +84,7 @@ export default function RootLayout({
             <AccountModal />
             <PlanModal />
             <JoinGroupModal />
+            <ChatModal />
             {children}
           </AppContainer>
           <Toaster richColors />
