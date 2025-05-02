@@ -17,6 +17,13 @@ export interface ChatRoom {
   last_message: Message | null;
   last_read: Message | null;
   unreads: number;
+  name: string;
+}
+
+export interface UseChatMessagesParams {
+  chatroomId: string | null;
+  lastMsgId: string | null;
+  length: number;
 }
 
 // get /chat/rooms

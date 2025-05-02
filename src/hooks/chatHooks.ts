@@ -1,6 +1,7 @@
 import { getChatMembers, getChatMessages, getChatRooms } from "@/apis/chatApi";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
+import { UseChatMessagesParams } from "@/types/chat";
 
 export function useChatRooms() {
   const { account } = useAccount();
@@ -18,15 +19,18 @@ export function useChatRooms() {
   return { chatrooms, chatroomsRefetch, ...queryResult };
 }
 
-/* function useChatMessages({ chatroomId, length, lastMsgId }: {}) {
+export function useChatMessages({
+  chatroomId,
+  lastMsgId,
+  length,
+}: UseChatMessagesParams) {
   const queryResult = useInfiniteQuery({
-    queryKey: [`useChatMessages`, chatroomId, length, lastMsgId],
-    queryFn: ({ pageParam }) =>
-      getChatMessages({ chatroomId, pageParam, length }),
+    queryKey: [`chatMessages`, chatroomId, length, lastMsgId],
+    //enabled already handles chatroomId's existence
+    queryFn: ({ pageParam }) => getChatMessages(chatroomId!, pageParam, length),
     staleTime: 1000 * 60 * 10,
     enabled: !!chatroomId,
     initialPageParam: 0,
-    //select: (response) => response?.data?.messages || [],
     getNextPageParam: (lastPage, allPages) => {
       const nextPage =
         lastPage?.data?.messages.length === length
@@ -41,12 +45,13 @@ export function useChatRooms() {
   return { chatMessagesData, chatMessagesRefetch, ...queryResult };
 }
 
-function useChatRoomMembers(chatroomId) {
+export function useChatRoomMembers(chatroomId: string) {
   const queryResult = useQuery({
-    queryKey: [`useChatRoomMembers`, chatroomId],
+    queryKey: [`chatRoomMembers`, chatroomId],
     queryFn: () => getChatMembers(chatroomId),
     staleTime: 1000 * 60 * 10,
     enabled: !!chatroomId,
+    select: (response) => response.data?.members || [],
   });
 
   const { data: chatroomMembersData, refetch: chatroomMembersRefetch } =
@@ -54,4 +59,3 @@ function useChatRoomMembers(chatroomId) {
 
   return { chatroomMembersData, chatroomMembersRefetch, ...queryResult };
 }
- */
