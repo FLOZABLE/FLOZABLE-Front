@@ -10,11 +10,14 @@ import {
 import UserContainer from "../users/UserContainer";
 import UserSubjectViewer from "../users/UserSubjectViewer";
 import ChatButton from "../buttons/ChatButton";
+import { useRouter } from "next/navigation";
 
 export default function FriendsViewer({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
+
   const { friendsStatus } = useFriendsStatus();
 
   return (
@@ -27,7 +30,12 @@ export default function FriendsViewer({
         {friendsStatus?.map((friend, i) => {
           return (
             <div key={i}>
-              <UserContainer userinfo={friend}>
+              <UserContainer
+                userinfo={friend}
+                onClick={() => {
+                  router.push(`/dashboard/user/${friend.user_id}`);
+                }}
+              >
                 <ChatButton className="ml-10" />
               </UserContainer>
               <UserSubjectViewer userInfo={friend} />

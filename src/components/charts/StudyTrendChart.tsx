@@ -61,7 +61,7 @@ export default function StudyTrendChart({
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    if (!groupedSubjects) return;
+    if (!groupedSubjects?.[viewer]) return;
 
     const dates = getDates(viewDate, viewer, 7);
     const total = groupedSubjects[viewer].total;
