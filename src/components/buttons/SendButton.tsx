@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
-import { cn } from "@/utils/tools";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 type SendButtonProps = {
   onSubmit: () => void;
@@ -16,25 +16,40 @@ export function SendButton({ onSubmit }: SendButtonProps) {
   const handleSubmit = () => {
     onSubmit();
     setSubmit(true);
-    setTimeout(() => {
-      setSubmit(false);
-    }, 1000);
+    setTimeout(() => setSubmit(false), 600);
   };
 
   return (
     <Button
       variant="ghost"
       size="icon"
+      className="relative w-10 h-10 overflow-hidden"
       onClick={handleSubmit}
-      className="relative w-10 h-10"
     >
-      <FontAwesomeIcon
-        icon={faPaperPlane}
-        className={cn(
-          "absolute transition-colors duration-300 hover:text-orange-500",
-          submit && "animate-send"
+      <AnimatePresence mode="wait">
+        {submit ? (
+          <motion.div
+            key="flying"
+            initial={{ opacity: 1, x: 0, y: 0 }}
+            animate={{ x: [0, 20, 20, -20, 0], y: [0, -20, 20, 20, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+            className="absolute"
+          >
+            <FontAwesomeIcon icon={faPaperPlane} className="text-orange-500" />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="normal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute"
+          >
+            <FontAwesomeIcon icon={faPaperPlane} className="text-muted-foreground hover:text-orange-500 transition-colors" />
+          </motion.div>
         )}
-      />
+      </AnimatePresence>
     </Button>
   );
 }

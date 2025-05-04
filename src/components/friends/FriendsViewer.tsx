@@ -36,7 +36,7 @@ export default function FriendsViewer({
                   router.push(`/dashboard/user/${friend.user_id}`);
                 }}
               >
-                <ChatButton className="ml-10" />
+                <ChatButton className="ml-10" userInfo={friend} />
               </UserContainer>
               <UserSubjectViewer userInfo={friend} />
             </div>

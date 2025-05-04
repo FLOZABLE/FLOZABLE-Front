@@ -15,7 +15,7 @@ export interface ChatRoom {
   type: "group" | "room";
   members: string[];
   last_message: Message | null;
-  last_read: Message | null;
+  last_read: string | null;
   unreads: number;
   name: string;
 }
