@@ -1,5 +1,6 @@
 "use client";
 
+import RankingTrendChart from "@/components/charts/RankingTrendChart";
 import StudyTrendChart from "@/components/charts/StudyTrendChart";
 import ProfileCard from "@/components/users/ProfileCard";
 import { useAccountProfile } from "@/hooks/accountHooks";
@@ -26,7 +27,7 @@ export default function UserPage({ params }: UserPageProps) {
         <h1 className="text-2xl font-semibold">User</h1>
       </div>
       <div className="flex gap-5">
-        <div>
+        <div className="">
           <ProfileCard
             userInfo={accountProfile.userinfo}
             subjects={accountProfile.subjects}
@@ -34,13 +35,21 @@ export default function UserPage({ params }: UserPageProps) {
             className="w-96 shrink-0 "
           />
         </div>
-        <StudyTrendChart
-          viewDate={viewDate}
-          viewer={viewer}
-          groupedSubjects={accountProfile.grouped_subjects}
-          isMine={false}
-          className="w-full overflow-hidden"
-        />
+        <div className="flex flex-col gap-5 flex-1/2">
+          <StudyTrendChart
+            viewDate={viewDate}
+            viewer={viewer}
+            groupedSubjects={accountProfile.grouped_subjects}
+            isMine={false}
+            className="h-[30rem]"
+          />
+          <RankingTrendChart
+            viewDate={viewDate}
+            viewer={viewer}
+            userId={accountProfile?.userinfo.user_id}
+            className="h-[30rem]"
+          />
+        </div>
       </div>
     </main>
   );

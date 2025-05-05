@@ -59,10 +59,10 @@ export default function NotificationsBtn() {
     async (notificationId: string, accepted: boolean) => {
       filterNotification(notificationId);
 
-      postChatRequestReply({
-        accepted,
+      postChatRequestReply(
         notificationId,
-      });
+        accepted
+      );
     },
     []
   );

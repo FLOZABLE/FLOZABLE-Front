@@ -1,3 +1,5 @@
+"use client";
+
 import { EventPlan } from "@/types/plan";
 import {
   Card,
@@ -8,7 +10,6 @@ import {
 } from "../ui/card";
 import { Button } from "../ui/button";
 import { Pencil, Trash, X } from "lucide-react";
-import { cn, formatPlanDateRange } from "@/utils/tools";
 import parser from "html-react-parser";
 import { useWindowSize } from "@/hooks/otherHooks";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -26,6 +27,7 @@ import {
 import { deletePlan } from "@/apis/plansApi";
 import { usePlans } from "@/hooks/plansHooks";
 import { usePlanModal } from "../structure/ModalProviders";
+import { cn, formatPlanDateRange } from "@/utils/tools";
 
 interface Position {
   top: number;

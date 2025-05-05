@@ -110,7 +110,7 @@ export default function ProfileCard({
         </div>
         <div className="flex gap-2  justify-center">
           <FriendRequestButton userInfo={userInfo} />
-          <ChatButton />
+          <ChatButton userInfo={userInfo} />
         </div>
       </CardContent>
     </Card>

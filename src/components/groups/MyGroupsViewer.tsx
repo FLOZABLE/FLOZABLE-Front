@@ -7,6 +7,8 @@ import { useDebounce } from "use-debounce";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 import { useAccount } from "@/hooks/accountHooks";
 import { useJoinGroupModal } from "../structure/ModalProviders";
+import socket from "@/utils/sockets/socket";
+import mediaSocket from "@/utils/sockets/mediaSocket";
 
 export default function MyGroupsViewer() {
   const myGroupsRef = useRef<SwiperRef>(null);
@@ -34,6 +36,25 @@ export default function MyGroupsViewer() {
       }));
     };
   }, [!!myGroups?.length]);
+
+  useEffect(() => {
+    if (debouncedIndex === -1 || !myGroups) return;
+
+    const group = myGroups[debouncedIndex];
+    if (!group) return;
+
+    localStorage.setItem("swiperGroupId", group.group_id);
+    //only in study page
+    //if (!window.location.href.includes("study")) return;
+
+    socket.emit("group:change", group.group_id);
+    mediaSocket.emit("group:change", group.group_id);
+
+    return () => {
+      socket.emit("group:change", null);
+      mediaSocket.emit("group:change", null);
+    };
+  }, [debouncedIndex, myGroups?.length]);
 
   return (
     <div>

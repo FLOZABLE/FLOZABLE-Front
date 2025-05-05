@@ -50,14 +50,12 @@ export default function Stats() {
           subjects={subjects}
           className="h-[30rem]"
         />
-
         <RankingTrendChart
           viewDate={viewDate}
           viewer={viewer}
           userId={account?.user_id}
           className="h-[30rem]"
         />
-
         <StudyHeatMap viewDate={viewDate} groupedSubjects={groupedSubjects} />
       </div>
     </main>

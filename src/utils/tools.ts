@@ -1,3 +1,5 @@
+"use client";
+
 import { DateTime, DateTimeUnit } from "luxon";
 //import { postNotificationsSubscribe } from "@/Api/notificationsApi";
 import * as ct from "countries-and-timezones";
@@ -8,7 +10,7 @@ import clsx, { ClassValue } from "clsx";
 import { GroupedSubjects } from "@/types/subject";
 import { ViewerType } from "@/types/others";
 
-function getCountryCode(timezone: string): string | false {
+export function getCountryCode(timezone: string): string | false {
   try {
     const timeZoneData = ct.getTimezone(timezone);
     // tim
@@ -25,7 +27,7 @@ function getCountryCode(timezone: string): string | false {
   }
 }
 
-function toTimer(sec: number): string {
+export function toTimer(sec: number): string {
   const positiveSec = sec < 0 ? 0 : sec;
 
   const hrDisp = Math.floor(positiveSec / 3600)
@@ -40,12 +42,12 @@ function toTimer(sec: number): string {
   return `${hrDisp}:${minDisp}:${secDisp}`;
 }
 
-function getTimezone(): string {
+export function getTimezone(): string {
   const timezone: string = Intl.DateTimeFormat().resolvedOptions().timeZone;
   return timezone;
 }
 
-const secondConverter = ({
+export const secondConverter = ({
   sec,
   options = ["s", "m", "h"],
   precise = false,
@@ -75,7 +77,7 @@ const secondConverter = ({
   return formattedValue;
 };
 
-const durationFormatter = (sec: number): string => {
+export const durationFormatter = (sec: number): string => {
   let res = "";
   let hours = 0;
   if (sec >= 3600) {
@@ -99,12 +101,12 @@ const durationFormatter = (sec: number): string => {
   return res;
 };
 
-function randomIntInRange(min: number, max: number): number {
+export function randomIntInRange(min: number, max: number): number {
   const randomVal: number = Math.floor(Math.random() * (max - min + 1)) + min;
   return randomVal;
 }
 
-const focusCalculator = (grouped: Array<[number, number]>): number => {
+export const focusCalculator = (grouped: Array<[number, number]>): number => {
   if (!grouped) return 0;
   let focus = 0;
   grouped.map(([start, stop]) => {
@@ -117,9 +119,9 @@ const focusCalculator = (grouped: Array<[number, number]>): number => {
   return focus;
 };
 
-function streakCalculator(groupedSubjects: GroupedSubjects | null) {
+export function streakCalculator(groupedSubjects: GroupedSubjects | null) {
   if (!groupedSubjects?.day?.total) return 0;
-  
+
   const reversedDaily = groupedSubjects.day.total.toReversed();
 
   let streak = 0;
@@ -135,7 +137,7 @@ function streakCalculator(groupedSubjects: GroupedSubjects | null) {
   return streak;
 }
 
-function todayTotalCalculator(groupedSubjects: {
+export function todayTotalCalculator(groupedSubjects: {
   day?: { total?: Array<{ data?: number }> };
 }): number {
   if (!groupedSubjects || !groupedSubjects?.day?.total?.length) return 0;
@@ -144,7 +146,7 @@ function todayTotalCalculator(groupedSubjects: {
   return totalSeconds ? totalSeconds : 0;
 }
 
-function todayFocusCalculator(groupedSubjects: {
+export function todayFocusCalculator(groupedSubjects: {
   day?: { focus?: Array<{ data?: number }> };
 }): number {
   if (!groupedSubjects || !groupedSubjects?.day?.focus?.length) return 0;
@@ -153,8 +155,10 @@ function todayFocusCalculator(groupedSubjects: {
   return totalSeconds ? totalSeconds : 0;
 }
 
-async function requestNotification(applicationServerKey: string): Promise<any> {
-  // Helper function to check if service workers and push are supported
+export async function requestNotification(
+  applicationServerKey: string
+): Promise<any> {
+  // Helper export function to check if service workers and push are supported
   function isSupported(): boolean {
     return "serviceWorker" in navigator && "PushManager" in window;
   }
@@ -219,7 +223,7 @@ async function requestNotification(applicationServerKey: string): Promise<any> {
   }
 }
 
-function unsubscribeFromPush(): void {
+export function unsubscribeFromPush(): void {
   if (!("serviceWorker" in navigator)) {
     console.log("Service Worker is not supported");
     return;
@@ -245,7 +249,11 @@ function unsubscribeFromPush(): void {
     });
 }
 
-function getDates(date: Date, mode: DateTimeUnit, length: number): DateTime[] {
+export function getDates(
+  date: Date,
+  mode: DateTimeUnit,
+  length: number
+): DateTime[] {
   const dates: DateTime[] = [];
   let dateTime = DateTime.fromJSDate(date).startOf(mode).startOf("day");
   const now = DateTime.now().startOf(mode).startOf("day");
@@ -263,7 +271,7 @@ function getDates(date: Date, mode: DateTimeUnit, length: number): DateTime[] {
   return dates;
 }
 
-function getDatesDisplay({
+export function getDatesDisplay({
   date,
   viewer,
   formats = { day: "LLLL d", week: "LLL d", month: "kkkk LLLL" },
@@ -284,7 +292,7 @@ function getDatesDisplay({
   return `${from} - ${end}`;
 }
 
-function exitFullscreen(): void {
+export function exitFullscreen(): void {
   try {
     if (document.fullscreenElement === null) return;
 
@@ -302,7 +310,7 @@ function exitFullscreen(): void {
   }
 }
 
-/* async function requestHandler<T extends { success: boolean }>(
+/* async export function requestHandler<T extends { success: boolean }>(
   request: Promise<AxiosResponse<T>>
 ): Promise<T> {
   try {
@@ -321,7 +329,7 @@ function exitFullscreen(): void {
  * @param request - A promise resolving to an AxiosResponse containing an ApiResponse<T>
  * @returns A promise resolving to ApiResponse<T>
  */
-async function requestHandler<T>(
+export async function requestHandler<T>(
   request: Promise<AxiosResponse<ApiResponse<T>>>
 ): Promise<ApiResponse<T>> {
   try {
@@ -342,7 +350,7 @@ async function requestHandler<T>(
   }
 }
 
-/* function updateQueryData<T extends Record<string, any>, K extends keyof T>(
+/* export function updateQueryData<T extends Record<string, any>, K extends keyof T>(
   oldData: ApiResponse<T> | undefined,
   newData: ((prev: T[K] | undefined) => T[K]) | T[K],
   key: K
@@ -382,11 +390,11 @@ async function requestHandler<T>(
 /**
  * Updates a specific key in oldData.data with newData, which can be a value or a function.
  * @param oldData - The existing ApiResponse object to update
- * @param newData - The new value or a function to compute the new value
+ * @param newData - The new value or a export function to compute the new value
  * @param key - The key in oldData.data to update
  * @returns The updated ApiResponse object or the original if an error occurs
  */
-function updateQueryData<
+export function updateQueryData<
   T = { [key: string]: any },
   K extends keyof T = keyof T
 >(
@@ -414,7 +422,7 @@ function updateQueryData<
   }
 }
 
-const calculateTimeToMidnight = (): number => {
+export const calculateTimeToMidnight = (): number => {
   const now = new Date();
   const midnight = new Date(now);
   midnight.setHours(24, 0, 0, 0); // Sets to next midnight (12 AM)
@@ -425,10 +433,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(...inputs));
 }
 
-export const formatPlanDateRange = (
+export function formatPlanDateRange(
   startISO: string | undefined,
   endISO: string | undefined
-): string => {
+): string {
   if (!startISO || !endISO) return "";
 
   const start = DateTime.fromISO(startISO);
@@ -448,25 +456,8 @@ export const formatPlanDateRange = (
   const endTime = end.toFormat("h:mm a");
 
   return `${weekdayDate} ${startTime} - ${endTime}`;
-};
+}
 
-export {
-  getCountryCode,
-  toTimer,
-  getTimezone,
-  secondConverter,
-  randomIntInRange,
-  durationFormatter,
-  focusCalculator,
-  todayTotalCalculator,
-  todayFocusCalculator,
-  streakCalculator,
-  requestNotification,
-  unsubscribeFromPush,
-  getDates,
-  getDatesDisplay,
-  exitFullscreen,
-  requestHandler,
-  updateQueryData,
-  calculateTimeToMidnight,
-};
+export function test(): string {
+  return "";
+}

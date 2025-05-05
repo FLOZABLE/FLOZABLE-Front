@@ -3,7 +3,7 @@ import { Ranking } from "@/types/ranking";
 import { cn, secondConverter } from "@/utils/tools";
 import parser from "html-react-parser";
 import { Goal, Heart, Hourglass, Lock, UserRound } from "lucide-react";
-import { HTMLProps, useCallback, useMemo } from "react";
+import { ComponentProps, HTMLProps, useCallback, useMemo } from "react";
 import { Badge } from "../ui/badge";
 import { useAccount } from "@/hooks/accountHooks";
 import { Button } from "../ui/button";
@@ -14,7 +14,7 @@ import { postGroupLike } from "@/apis/groupsApi";
 import LikeButton from "../buttons/LikeButton/LikeButton";
 import { useGroupsUpdater } from "@/hooks/updaters/groupsUpdaters";
 
-interface GroupContainerProps extends HTMLProps<HTMLDivElement> {
+interface GroupContainerProps extends ComponentProps<"div"> {
   group: Group;
   rankings: Ranking[] | undefined;
   isJoinButton?: boolean;
@@ -75,7 +75,10 @@ export default function GroupContainer({
 
   return (
     <div
-      className={cn("rounded-xl border-2 p-5 flex flex-col gap-2", className)}
+      className={cn(
+        "rounded-xl border-2 p-5 flex flex-col gap-2 bg-background",
+        className
+      )}
       {...props}
     >
       <h3 className="font-semibold truncate">{group.name}</h3>
@@ -116,7 +119,7 @@ export default function GroupContainer({
             <Button
               className="absolute-center"
               onClick={() => {
-                router.push(`/dashboard/study?group=${group.group_id}`);
+                router.push(`/dashboard/study?study_group=${group.group_id}`);
               }}
             >
               Join the session

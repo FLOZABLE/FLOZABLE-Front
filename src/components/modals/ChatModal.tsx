@@ -32,6 +32,7 @@ import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useDebounce } from "use-debounce";
 
 const MotionChatBubble = motion(ChatBubble);
 
@@ -50,7 +51,7 @@ export default function ChatModal() {
       length: 30,
     });
 
-  const messagesRef = useRef<Record<string, HTMLElement>>({});
+  //const messagesRef = useRef<Record<string, HTMLElement>>({});
 
   const messageListRef = useRef<{ scrollToBottom: () => void }>(null);
 
@@ -58,10 +59,18 @@ export default function ChatModal() {
 
   const [newMessage, setNewMessage] = useState("");
 
-  const { chatMessagesData, fetchNextPage, hasNextPage } =
+  const { chatMessagesData, fetchNextPage, hasNextPage, isLoading } =
     useChatMessages(messageDataOptions);
 
   const updateChatrooms = useChatroomsUpdater();
+
+  const chatroomKey = useMemo(() => {
+    if (!isLoading && messageDataOptions.chatroomId)
+      return messageDataOptions.chatroomId;
+    return null;
+  }, [isLoading, chatMessagesData]);
+
+  const [debouncedChatroomKey] = useDebounce(chatroomKey, 10);
 
   const chatroomName = useMemo(() => {
     const chatroom = chatrooms?.find(
@@ -71,7 +80,6 @@ export default function ChatModal() {
   }, [chatrooms, chatModal.chatroom_id]);
 
   useEffect(() => {
-    console.log(inView, "gd", hasNextPage);
     if (inView && hasNextPage) {
       console.log("fetch");
       fetchNextPage();
@@ -81,7 +89,6 @@ export default function ChatModal() {
   useEffect(() => {
     if (!chatMessagesData?.pages) return;
 
-    console.log(chatMessagesData);
     const allMessages: Message[] = [];
     chatMessagesData.pages.map((page) => {
       if (!page?.data?.messages) return;
@@ -123,7 +130,6 @@ export default function ChatModal() {
           (chatroom) => chatroom.chatroom_id === chatroomId
         );
 
-        console.log(chatroomIndex);
         if (chatroomIndex === -1) return [...prev];
 
         const updatedChatroom: ChatRoom = {
@@ -224,7 +230,7 @@ export default function ChatModal() {
             className="overflow-auto h-full"
             ref={messageListRef}
           >
-            <AnimatePresence initial={false}>
+            <AnimatePresence key={debouncedChatroomKey}>
               {messages.map((message, index) => {
                 const variant =
                   message.user_id === account?.user_id ? "sent" : "received";
@@ -241,13 +247,14 @@ export default function ChatModal() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="max-w-[70%]:"
+                    className="max-w-[70%]"
                     variant={variant}
                     ref={(el) => {
                       if (index === 5) {
+                        console.log(message, "index");
                         setTimeout(() => {
                           inViewRef(el);
-                        }, 500);
+                        }, 100);
                       }
                     }}
                   >
