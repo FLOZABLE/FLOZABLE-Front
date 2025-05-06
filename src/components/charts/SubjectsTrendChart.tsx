@@ -100,6 +100,7 @@ export default function SubjectsTrendChart({
             margin={{
               left: 12,
               right: 12,
+              top: 10,
             }}
           >
             <CartesianGrid vertical={false} />

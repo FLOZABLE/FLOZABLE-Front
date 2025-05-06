@@ -2,25 +2,28 @@
 
 import { useTheme } from "next-themes";
 import { Toaster as Sonner, ToasterProps } from "sonner";
+import {
+  Info,
+  Loader2,
+  CircleCheck,
+  TriangleAlert,
+  CircleAlert,
+} from "lucide-react"; // Import your desired icons
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme={resolvedTheme as ToasterProps["theme"]}
       className="toaster group"
-      style={
-        {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-          /* "--rt-color-success": "red",
-          "--success-bg": "#fff",
-          "--success-border": "pink",
-          "--success-text": "blue", */
-        } as React.CSSProperties
-      }
+      icons={{
+        success: <CircleCheck className="fill-green-500 text-white" />,
+        error: <CircleAlert className="fill-red-500 text-white" />,
+        warning: <TriangleAlert className="fill-yellow-500 text-white" />,
+        info: <Info className="fill-blue-500 text-white" />,
+        loading: <Loader2 className="animate-spin text-gray-500" />,
+      }}
       {...props}
     />
   );

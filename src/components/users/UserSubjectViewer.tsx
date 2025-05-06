@@ -39,10 +39,10 @@ export default function UserSubjectViewer({ userInfo }: FriendsViewerProps) {
   }, [userInfo?.active_subject]);
 
   return (
-    <div className="bg-accent p-2 rounded-md flex gap-2">
-      <p>{activeSubject.name}</p>
+    <div className="p-2 rounded-md flex gap-2">
+      <p className="whitespace-nowrap truncate">{activeSubject.name}</p>
       {activeSubject.start ? (
-        <MemberTimer start={activeSubject.start} />
+        <MemberTimer start={activeSubject.start} className="ml-auto" />
       ) : null}
     </div>
   );

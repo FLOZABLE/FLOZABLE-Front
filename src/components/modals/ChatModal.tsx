@@ -100,8 +100,6 @@ export default function ChatModal() {
   }, [chatMessagesData]);
 
   useEffect(() => {
-    if (!chatModal.chatroom_id) return;
-
     setMessageDataOptions((prev) => {
       const newMessageDataOptions = structuredClone(prev);
       const chatroom = chatrooms?.find(
@@ -117,19 +115,58 @@ export default function ChatModal() {
       return newMessageDataOptions;
     });
 
-    const onChatMessage = ({
+    //change unread/last read value when selected chatroom changes
+    updateChatrooms((prev) => {
+      const newState = [...prev];
+      const chatroomIndex = newState.findIndex(
+        (chatroom) => chatroom.chatroom_id === chatModal.chatroom_id
+      );
+
+      if (chatroomIndex === -1) return prev;
+
+      const lastRead = newState[chatroomIndex].last_read;
+      //console.log("lastread", lastRead);
+      /* if (lastRead) {
+        setTimeout(() => {
+          //console.log("trigger");
+          setLastReadMessageId(lastRead);
+        }, 100);
+      } */
+
+      const lastMsg = newState[chatroomIndex].last_message;
+
+      //console.log("last", lastMsg);
+      if (lastMsg) {
+        newState[chatroomIndex].last_read = lastMsg.message_id;
+      }
+
+      const updatedChatroom = {
+        ...newState[chatroomIndex],
+        unreads: 0,
+        lastRead: newState[chatroomIndex].last_message?.message_id || lastRead,
+      };
+
+      newState[chatroomIndex] = updatedChatroom;
+
+      return newState;
+    });
+    socket.emit("chat:read", chatModal.chatroom_id);
+
+    const onChatMessage = async ({
       message,
       chatroomId,
     }: {
       message: Message;
       chatroomId: string;
     }) => {
-      updateChatrooms((prev) => {
+      console.log(message, chatroomId, "new message");
+      const updatedChatrooms = await updateChatrooms((prev) => {
         const newChatrooms = [...prev];
         const chatroomIndex = newChatrooms.findIndex(
           (chatroom) => chatroom.chatroom_id === chatroomId
         );
 
+        console.log(chatroomIndex, "new message");
         if (chatroomIndex === -1) return [...prev];
 
         const updatedChatroom: ChatRoom = {
@@ -158,7 +195,26 @@ export default function ChatModal() {
         setMessages((prev) => [...prev, message]);
         socket.emit("chat:read", chatModal.chatroom_id);
       } else {
-        toast.info(message.message);
+        const chatroom = updatedChatrooms?.find(
+          (chatroom) => chatroom.chatroom_id === chatroomId
+        );
+        toast.info(
+          <div>
+            <p>{chatroom?.name}</p>
+            <p>{message.message}</p>
+          </div>,
+          {
+            action: {
+              label: "View",
+              onClick: () =>
+                setChatModal((prev) => ({
+                  ...prev,
+                  opened: true,
+                  chatroom_id: chatroomId,
+                })),
+            },
+          }
+        );
       }
     };
 
@@ -174,7 +230,7 @@ export default function ChatModal() {
     return () => {
       socket.off("chat:message", onChatMessage);
     };
-  }, [chatModal.chatroom_id, messageListRef]);
+  }, [chatModal.chatroom_id]);
 
   const onSubmit = useCallback(() => {
     socket.emit("chat:send", chatModal.chatroom_id, newMessage);
@@ -194,7 +250,11 @@ export default function ChatModal() {
           className="absolute right-3 top-3 size-8 z-10"
           variant={"ghost"}
           onClick={() => {
-            setChatModal((prev) => ({ ...prev, opened: false }));
+            setChatModal((prev) => ({
+              ...prev,
+              opened: false,
+              chatroom_id: null,
+            }));
           }}
         >
           <X className="size-6" />

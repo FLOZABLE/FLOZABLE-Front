@@ -15,6 +15,7 @@ import {
 import { cn } from "@/utils/tools";
 import AccountBtn from "../buttons/AccountBtn";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
+import { useRouter } from "next/navigation";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -56,6 +57,8 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export default function MainHeader() {
+  const router = useRouter();
+
   return (
     <header className="fixed z-10 backdrop-blur-sm w-screen px-16 flex items-center justify-between h-15">
       <div>
@@ -120,7 +123,13 @@ export default function MainHeader() {
             </NavigationMenuContent>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuTrigger>Dashboard</NavigationMenuTrigger>
+            <NavigationMenuTrigger
+              onClick={() => {
+                router.push("/dashboard");
+              }}
+            >
+              Dashboard
+            </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                 {components.map((component) => (

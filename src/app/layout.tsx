@@ -87,7 +87,7 @@ export default function RootLayout({
             <ChatModal />
             {children}
           </AppContainer>
-          <Toaster richColors />
+          <Toaster />
         </Suspense>
       </body>
     </html>

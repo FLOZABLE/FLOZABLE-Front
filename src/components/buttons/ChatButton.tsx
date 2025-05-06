@@ -9,9 +9,14 @@ import { useAccount } from "@/hooks/accountHooks";
 
 interface ChatButtonProps extends ButtonProps {
   userInfo?: Userinfo;
+  groupId?: string;
 }
 
-export default function ChatButton({ userInfo, ...props }: ChatButtonProps) {
+export default function ChatButton({
+  userInfo,
+  groupId,
+  ...props
+}: ChatButtonProps) {
   const { setChatModal } = useChatModal();
 
   const { account } = useAccount();
@@ -36,7 +41,13 @@ export default function ChatButton({ userInfo, ...props }: ChatButtonProps) {
     <Button
       effect={"shineHover"}
       onClick={() => {
-        if (!userInfo) {
+        if (groupId) {
+          setChatModal((prev) => ({
+            ...prev,
+            chatroom_id: groupId,
+            opened: true,
+          }));
+        } else if (!userInfo) {
           return setChatModal((prev) => ({
             ...prev,
             opened: true,

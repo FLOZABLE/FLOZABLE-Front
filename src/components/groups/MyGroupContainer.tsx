@@ -26,6 +26,7 @@ import mediaSocket from "@/utils/sockets/mediaSocket";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 import { ServerCreateTransportResponse } from "@/types/mediaSoup";
 import { useGroupMembersUpdater } from "@/hooks/updaters/groupsUpdaters";
+import ChatButton from "../buttons/ChatButton";
 
 const videoParams = {
   encodings: [
@@ -411,6 +412,7 @@ export default function MyGroupContainer({
               <BookOpen />
               {totalTime}
             </Badge>
+            <ChatButton groupId={group.group_id} />
           </div>
         </CardDescription>
       </CardHeader>
