@@ -21,7 +21,7 @@ import { cn } from "@/utils/tools";
 interface ComboboxProps {
   value: string;
   onChange: (value: string) => void;
-  options: { label: string; value: string }[];
+  options: { label: React.ReactNode; value: string }[];
   placeholder?: string;
   blankMessage?: string;
 }

@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { WorkersContext } from "../structure/Providers";
+import { useEffect, useState } from "react";
+import { useWorkers } from "../structure/Providers";
 import { toTimer } from "@/utils/tools";
 import { Badge, BadgeProps } from "../ui/badge";
 
@@ -13,7 +13,7 @@ export default function MemberTimer({
   start,
   ...props
 }: MemberTimerProps) {
-  const { membersTimerWorker } = useContext(WorkersContext);
+  const { membersTimerWorker } = useWorkers();
 
   const [timer, setTimer] = useState({
     value: 0,

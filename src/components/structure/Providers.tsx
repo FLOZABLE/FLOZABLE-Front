@@ -232,8 +232,10 @@ function AppProvider({ children }: AppProviderProps) {
   );
 }
 
+
 export const WorkersContext = createContext<WorkersContextType>({
   membersTimerWorker: null,
+  subjectTimerWorker: null,
   createWorker: () => {},
   terminateWorker: () => {},
   getWorker: () => null,
@@ -245,8 +247,8 @@ interface WorkersProviderProps {
 
 export function WorkersProvider({ children }: WorkersProviderProps) {
   const membersTimerWorkerRef = useRef<Worker | null>(null);
+  const subjectTimerWorkerRef = useRef<Worker | null>(null);
 
-  // Initialize the shared membersTimer worker
   useEffect(() => {
     if (!membersTimerWorkerRef.current) {
       membersTimerWorkerRef.current = new Worker(
@@ -254,16 +256,23 @@ export function WorkersProvider({ children }: WorkersProviderProps) {
       );
     }
 
+    if (!subjectTimerWorkerRef.current) {
+      subjectTimerWorkerRef.current = new Worker(
+        new URL("@/utils/workers/subjectTimerWorker.js", import.meta.url)
+      );
+    }
+
     return () => {
-      // Cleanup worker when app unmounts
       membersTimerWorkerRef.current?.terminate();
       membersTimerWorkerRef.current = null;
+
+      subjectTimerWorkerRef.current?.terminate();
+      subjectTimerWorkerRef.current = null;
     };
   }, []);
 
   const createWorker = (name: string) => {
-    // You can add logic here for dynamically creating other workers
-    console.warn(`Only membersTimer worker is shared in this context.`, name);
+    console.warn(`Workers are auto-initialized. Manual creation not supported. Tried: ${name}`);
   };
 
   const terminateWorker = (name: string) => {
@@ -271,12 +280,15 @@ export function WorkersProvider({ children }: WorkersProviderProps) {
       membersTimerWorkerRef.current.terminate();
       membersTimerWorkerRef.current = null;
     }
+    if (name === "subjectTimer" && subjectTimerWorkerRef.current) {
+      subjectTimerWorkerRef.current.terminate();
+      subjectTimerWorkerRef.current = null;
+    }
   };
 
-  const getWorker = (name: string) => {
-    if (name === "membersTimer") {
-      return membersTimerWorkerRef.current;
-    }
+  const getWorker = (name: string): Worker | null => {
+    if (name === "membersTimer") return membersTimerWorkerRef.current;
+    if (name === "subjectTimer") return subjectTimerWorkerRef.current;
     return null;
   };
 
@@ -284,6 +296,7 @@ export function WorkersProvider({ children }: WorkersProviderProps) {
     <WorkersContext.Provider
       value={{
         membersTimerWorker: membersTimerWorkerRef.current,
+        subjectTimerWorker: subjectTimerWorkerRef.current,
         createWorker,
         terminateWorker,
         getWorker,

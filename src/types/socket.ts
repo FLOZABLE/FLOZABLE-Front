@@ -6,10 +6,21 @@ export interface OnStudying {
   subject: ActiveSubject;
 }
 
+export interface OnMyStudying {
+  subject: ActiveSubject;
+}
+
 export interface OnStopStudying {
   userId: string;
   subject: ActiveSubject;
   activeSubject: ActiveSubject;
+  duration: number;
+}
+
+export interface OnMyStopStudying {
+  subject: ActiveSubject;
+  activeSubject: ActiveSubject;
+  stoppedSubject: ActiveSubject;
   duration: number;
 }
 

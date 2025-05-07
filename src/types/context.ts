@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 
 export interface WorkersContextType {
   membersTimerWorker: Worker | null;
+  subjectTimerWorker: Worker | null;
   createWorker: (name: string, script: string) => void;
   terminateWorker: (name: string) => void;
   getWorker: (name: string) => Worker | null;

@@ -47,22 +47,12 @@ export function useSubjects() {
   const subjects = subjectsData?.subjects;
   const groupedSubjects = subjectsData?.grouped_subjects;
 
-  const updateSubjects = useCallback(async (newData: Subject[]) => {
-    await queryClient.setQueryData(
-      ["subjects"],
-      (oldData: SubjectsResponse | undefined) => {
-        return updateQueryData(oldData, newData, "subjects");
-      }
-    );
-  }, []);
-
   return {
     subjects,
     groupedSubjects,
     subjectsData,
     subjectsRefetch,
     subjectsIsLoading,
-    updateSubjects,
     ...queryResult,
   };
 }
