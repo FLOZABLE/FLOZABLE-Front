@@ -79,6 +79,7 @@ export function useUpdater<TData extends object, TKey extends keyof TData>(
     let updatedFieldValue: TData[TKey] | undefined;
 
     await queryClient.setQueryData<ApiResponse<TData>>(queryKey, (oldData) => {
+      console.log(oldData, "update");
       if (!oldData?.data) return oldData;
 
       const prev = oldData.data[nestedField];
@@ -145,4 +146,23 @@ export function useUpdateSearchParam() {
   };
 
   return updateParam;
+}
+
+export function useFullscreen(): boolean {
+  const [isFullscreen, setIsFullscreen] = useState(
+    typeof document !== "undefined" && document.fullscreenElement !== null
+  );
+
+  useEffect(() => {
+    function handleChange() {
+      setIsFullscreen(document.fullscreenElement !== null);
+    }
+
+    document.addEventListener("fullscreenchange", handleChange);
+    return () => {
+      document.removeEventListener("fullscreenchange", handleChange);
+    };
+  }, []);
+
+  return isFullscreen;
 }

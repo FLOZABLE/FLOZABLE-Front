@@ -19,7 +19,16 @@ export default function StudyModalContainer({
   ...props
 }: StudyModalContainerProps) {
   return (
-    <Card className={cn("w-fit gap-2 py-3 fixed", className)} {...props}>
+    <Card
+      className={cn(
+        "w-fit gap-2 py-3 fixed transition-all duration-300 ease-in-out transform",
+        open
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 translate-y-4 pointer-events-none",
+        className
+      )}
+      {...props}
+    >
       <CardHeader className="px-3 flex items-center">
         <Button
           onClick={() => {

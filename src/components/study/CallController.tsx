@@ -24,7 +24,7 @@ export default function CallController({} /* : CallControllerProps */) {
             <p>Microphone</p>
             <AnimatedSwitchButton
               className="ml-auto"
-              onIcon={<Mic />}
+              onIcon={<Mic className="text-white"/>}
               offIcon={<MicOff />}
               onClick={() => {
                 setIsMic((prev) => !prev);
@@ -36,7 +36,7 @@ export default function CallController({} /* : CallControllerProps */) {
             <p>Camera</p>
             <AnimatedSwitchButton
               className="ml-auto"
-              onIcon={<Video />}
+              onIcon={<Video className="text-white"/>}
               offIcon={<VideoOff />}
               onClick={() => {
                 setIsCam((prev) => !prev);
@@ -48,7 +48,7 @@ export default function CallController({} /* : CallControllerProps */) {
             <p>Headphone</p>
             <AnimatedSwitchButton
               className="ml-auto"
-              onIcon={<Headset />}
+              onIcon={<Headset className="text-white" />}
               offIcon={<HeadphoneOff />}
               onClick={() => {
                 setIsHeadphone((prev) => !prev);

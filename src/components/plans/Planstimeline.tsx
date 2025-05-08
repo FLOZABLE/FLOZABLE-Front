@@ -1,4 +1,10 @@
-import { ComponentProps, useCallback, useEffect, useState } from "react";
+import {
+  ComponentProps,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ViewerType } from "@/types/others";
 import { Button } from "../ui/button";
@@ -14,12 +20,14 @@ import { Badge } from "../ui/badge";
 interface PlanstimelineProps extends ComponentProps<"div"> {
   viewDate: Date;
   viewer?: ViewerType;
+  closeButton?: ReactNode;
 }
 
 export default function Planstimeline({
   viewer,
   viewDate,
   className,
+  closeButton,
   ...props
 }: PlanstimelineProps) {
   const { plansData } = usePlans(viewDate);
@@ -71,26 +79,25 @@ export default function Planstimeline({
 
   return (
     <Card {...props} className={cn("overflow-hidden", className)}>
-      <CardHeader>
-        <CardTitle className="flex items-center">
-          Plans
-          <Badge variant={"outline"} className="ml-5">
-            <p>{filteredPlans.length} Plans</p>
-          </Badge>
-          <Button
-            variant={"outline"}
-            className="ml-auto"
-            onClick={() => {
-              setPlanModal((prev) => ({
-                ...prev,
-                opened: true,
-                plan_id: "new",
-              }));
-            }}
-          >
-            <CirclePlus /> Add Plan
-          </Button>
-        </CardTitle>
+      <CardHeader className="flex items-center">
+        {closeButton}
+        <CardTitle className="">Plans</CardTitle>
+        <Badge variant={"outline"} className="ml-5">
+          <p>{filteredPlans.length} Plans</p>
+        </Badge>
+        <Button
+          variant={"outline"}
+          className="ml-auto"
+          onClick={() => {
+            setPlanModal((prev) => ({
+              ...prev,
+              opened: true,
+              plan_id: "new",
+            }));
+          }}
+        >
+          <CirclePlus /> Add Plan
+        </Button>
       </CardHeader>
       <CardContent className="overflow-auto">
         {filteredPlans.map((plan, i) => {

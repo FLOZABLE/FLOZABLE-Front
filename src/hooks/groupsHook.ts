@@ -43,7 +43,7 @@ export function useGroupMembers(groupId: string, isActive: boolean) {
   const queryResult = useQuery({
     queryKey: [`groupMembers`, groupId],
     queryFn: () => getGroupMembers(groupId),
-    staleTime: 1000 * 10,
+    staleTime: 1000 * 10 * 60,
     enabled: !!groupId && !!isActive,
     select: (response) => response?.data?.members ?? [],
     placeholderData: () => ({

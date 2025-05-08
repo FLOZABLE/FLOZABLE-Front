@@ -11,7 +11,7 @@ import { BookOpen, UserRound } from "lucide-react";
 import { useGroupMembers } from "@/hooks/groupsHook";
 import MemberContainer from "./MemberContainer";
 import Skeleton from "react-loading-skeleton";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 import { OnStopStudying, OnStudying } from "@/types/socket";
 import socket from "@/utils/sockets/socket";
 import { useCallOptions } from "../structure/Providers";
@@ -97,10 +97,13 @@ export default function MyGroupContainer({
 
   useEffect(() => {
     const onStudying = ({ userId, subject }: OnStudying) => {
+      console.log(userId, subject);
       updateGroupMembers((prev) => {
+        console.log('gdddd')
         const memberIndex = prev.findIndex(
           (member) => member.user_id === userId
         );
+        console.log(memberIndex, prev);
         if (memberIndex === -1) return prev;
 
         const newGroupMembers = [...prev];
@@ -144,7 +147,7 @@ export default function MyGroupContainer({
       socket.off("study:start", onStudying);
       socket.off("study:stop", onStopStudying);
     };
-  }, [isActive]);
+  }, [group.group_id, updateGroupMembers, isActive]);
 
   const getRouterRtpCapabilities =
     useCallback(async (): Promise<RtpCapabilities> => {
