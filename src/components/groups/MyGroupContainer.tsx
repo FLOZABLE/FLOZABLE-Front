@@ -397,7 +397,7 @@ export default function MyGroupContainer({
   }, [producerTransport, audioStream]);
 
   return (
-    <Card className="p-9 h-full">
+    <Card className="h-full border-0 py-0 bg-transparent">
       <CardHeader>
         <CardTitle>{group.name}</CardTitle>
         <CardDescription>

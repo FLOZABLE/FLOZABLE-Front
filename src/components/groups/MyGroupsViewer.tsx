@@ -2,15 +2,23 @@ import { useGroups } from "@/hooks/groupsHook";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import MyGroupContainer from "./MyGroupContainer";
-import { useEffect, useRef, useState } from "react";
+import { ComponentProps, useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 import { useAccount } from "@/hooks/accountHooks";
 import { useJoinGroupModal } from "../structure/ModalProviders";
 import socket from "@/utils/sockets/socket";
 import mediaSocket from "@/utils/sockets/mediaSocket";
+import { cn } from "@/utils/tools";
 
-export default function MyGroupsViewer() {
+interface MyGroupsViewerProps extends ComponentProps<"div"> {
+  swiperClassName?: ComponentProps<"div">["className"];
+}
+
+export default function MyGroupsViewer({
+  swiperClassName,
+  ...props
+}: MyGroupsViewerProps) {
   const myGroupsRef = useRef<SwiperRef>(null);
 
   const { myGroups } = useGroups();
@@ -57,10 +65,10 @@ export default function MyGroupsViewer() {
   }, [debouncedIndex, myGroups?.length]);
 
   return (
-    <div>
+    <div {...props}>
       {myGroups?.length ? (
         <Swiper
-          className="h-[80vh] overflow-hidden"
+          className={cn("h-[80vh] overflow-hidden", swiperClassName)}
           id="myGroupsViewer"
           slidesPerView={1}
           loop={true}

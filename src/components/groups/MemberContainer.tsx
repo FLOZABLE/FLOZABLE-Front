@@ -48,7 +48,7 @@ export default function MemberContainer({
 
   return (
     <div
-      className="bg-muted h-32 !rounded-xl relative p-3"
+      className="bg-muted/50 h-32 !rounded-xl relative p-3"
       onClick={() => {
         router.push(`/dashboard/user/${member.user_id}`);
       }}

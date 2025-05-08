@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState } from "react";
 import { cn, toTimer } from "@/utils/tools";
 import { Button } from "../ui/button";
 import { Check, ChevronsUpDown, Pause, Play } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
 import socket from "@/utils/sockets/socket";
 import { OnMyStopStudying, OnMyStudying } from "@/types/socket";
 import {
@@ -20,6 +19,7 @@ import {
 import { useWorkers } from "../structure/Providers";
 import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectsUpdaters";
+import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
 
 export default function SubjectTimer() {
   const { subjectTimerWorker } = useWorkers();
@@ -228,7 +228,9 @@ export default function SubjectTimer() {
           </Command>
         </PopoverContent>
       </Popover>
-      <Button
+      <AnimatedSwitchButton
+        onIcon={<Pause />}
+        offIcon={<Play />}
         onClick={() => {
           if (selectedSubject.active) {
             socket.emit("study:stop");
@@ -236,31 +238,8 @@ export default function SubjectTimer() {
             socket.emit("study:start", selectedSubject.subject_id);
           }
         }}
-      >
-        <AnimatePresence mode="wait" initial={false}>
-          {selectedSubject.active ? (
-            <motion.div
-              key="pause"
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Pause />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="play"
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Play />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </Button>
+        clicked={selectedSubject.active}
+      />
     </div>
   );
 }

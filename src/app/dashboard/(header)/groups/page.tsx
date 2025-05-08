@@ -15,7 +15,9 @@ export default function Groups() {
 
   return (
     <main className="p-5">
-      <MyGroupsViewer />
+      <Card className="p-6">
+        <MyGroupsViewer />
+      </Card>
       <Card className="mt-10">
         <CardHeader>Groups</CardHeader>
         <CardContent>

@@ -1,19 +1,16 @@
 import React, { ComponentProps } from "react";
 import { DockItem, FloatingDock } from "@/components/ui/floating-dock";
 import {
-  IconBrandGithub,
-  IconBrandX,
-  IconExchange,
   IconHeadphones,
   IconHome,
-  IconNewSection,
   IconPhone,
-  IconTerminal2,
   IconUsersGroup,
 } from "@tabler/icons-react";
 import { cn } from "@/utils/tools";
 import { useRouter } from "next/navigation";
-import { Calendar, Hourglass, MessageCircle } from "lucide-react";
+import { Calendar, Hourglass } from "lucide-react";
+import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
+import ChatButton from "../buttons/ChatButton";
 
 export default function StudyDock({ className }: ComponentProps<"div">) {
   const router = useRouter();
@@ -63,13 +60,15 @@ export default function StudyDock({ className }: ComponentProps<"div">) {
     },
     {
       title: "Chat",
-      icon: (
-        <MessageCircle className="h-full w-full text-neutral-500 dark:text-neutral-300" />
-      ),
+      icon: <ChatButton variant={"ghost"} effect={null} />,
+    },
+    {
+      title: "Theme",
+      icon: <ThemeToggleBtn />,
     },
   ];
   return (
-    <div className={cn("flex items-center justify-center", className)}>
+    <div className={cn("flex items-center justify-center z-10", className)}>
       <FloatingDock items={links} />
     </div>
   );

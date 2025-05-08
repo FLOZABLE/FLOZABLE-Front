@@ -7,28 +7,32 @@ import { cn } from "@/utils/tools";
 interface StudyModalContainerProps extends ComponentProps<"div"> {
   open: boolean;
   onClose: () => void;
+  title: string;
 }
 
 export default function StudyModalContainer({
   open,
   onClose,
+  title,
   children,
   className,
   ...props
 }: StudyModalContainerProps) {
   return (
-    <Card className={cn(className)} {...props}>
-      <CardHeader>
+    <Card className={cn("w-fit gap-2 py-3 fixed", className)} {...props}>
+      <CardHeader className="px-3 flex items-center">
         <Button
           onClick={() => {
             onClose();
           }}
+          className="w-fit"
+          variant={"ghost"}
         >
           <X />
         </Button>
-        <CardTitle>{}</CardTitle>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardContent className="px-3">{children}</CardContent>
     </Card>
   );
 }
