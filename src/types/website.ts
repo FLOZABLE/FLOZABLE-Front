@@ -1,5 +1,11 @@
 import { ApiResponse } from "./response";
 
+export type WebsiteSettingMode =
+  | "block"
+  | "study_block"
+  | "timer"
+  | "study_timer";
+
 export interface WebsiteSetting {
   website: string;
   block: boolean;
@@ -14,7 +20,7 @@ export interface WebsiteUsage {
   duration: number;
 }
 
-// get /extension/settings
+// GET /extension/settings
 export type ExtensionSettingsResponse = ApiResponse<{
   settings: WebsiteSetting[];
 }>;
@@ -23,3 +29,15 @@ export type ExtensionSettingsResponse = ApiResponse<{
 export type ExtensionUsageResponse = ApiResponse<{
   usage: WebsiteUsage[];
 }>;
+
+// PUT /extension/setting
+export type PutExtensionSettingResponse = ApiResponse<{
+  domain: string[];
+  setting: WebsiteSetting;
+}>;
+
+// PATCH /extension/setting
+/* export type PatchExtensionSettingResponse = ApiResponse<{
+  usage: WebsiteUsage[];
+}>;
+ */

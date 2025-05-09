@@ -1,6 +1,7 @@
 import {
   ExtensionSettingsResponse,
   ExtensionUsageResponse,
+  PutExtensionSettingResponse,
 } from "./../types/website";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
@@ -10,14 +11,16 @@ async function getExtensionSettings(): Promise<ExtensionSettingsResponse> {
   return requestHandler(AxiosInstance.get(`/extension/settings`));
 }
 
-async function putExtensionSetting(url: string) {
+async function putExtensionSetting(
+  url: string
+): Promise<PutExtensionSettingResponse> {
   return requestHandler(AxiosInstance.put(`/extension/setting`, { url }));
 }
 
 type PatchExtensionSettingParams = {
   website: string;
   mode: string;
-  value: string;
+  value: boolean;
 };
 async function patchExtensionSetting({
   website,
@@ -30,6 +33,12 @@ async function patchExtensionSetting({
       mode,
       value,
     })
+  );
+}
+
+async function deleteExtensionSetting(website: string) {
+  return requestHandler(
+    AxiosInstance.delete(`/extension/setting`, { data: { website } })
   );
 }
 
@@ -54,5 +63,6 @@ export {
   getExtensionUsage,
   putExtensionSetting,
   patchExtensionSetting,
+  deleteExtensionSetting,
   getExtensionSettings,
 };

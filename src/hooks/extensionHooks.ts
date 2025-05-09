@@ -6,7 +6,7 @@ function useExtensionSettings() {
   const { account } = useAccount();
 
   const queryResult = useQuery({
-    queryKey: [`getExtensionSettings`],
+    queryKey: [`extensionSettings`],
     queryFn: getExtensionSettings,
     staleTime: 1000 * 60,
     enabled: !!account,

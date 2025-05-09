@@ -87,13 +87,10 @@ export default function AccountModal() {
 
   const onSignIn = useCallback(
     async (values: z.infer<typeof signInFormSchema>) => {
-      console.log("submit");
       const response = await postAuthSignin({
         email: values.email,
         password: values.password,
       });
-
-      console.log("resp", response);
 
       if (!response.success) return;
       setAccountModal((prev) => ({ ...prev, opened: false }));

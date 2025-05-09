@@ -1,6 +1,7 @@
 "use client";
 
 import { patchAccountInfo, patchAccountPassword } from "@/apis/accountApi";
+import ExtensionSetting from "@/components/extension/ExtensionSetting";
 import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
 import { passwordSchema, strictString } from "@/components/modals/AccountModal";
 import AvatarWrapper from "@/components/ui/avatar";
@@ -230,6 +231,7 @@ export default function Account() {
             </CardContent>
           </Card>
         </div>
+        <ExtensionSetting />
         {/* <Card>
           <CardHeader>
             <CardTitle>Subjects</CardTitle>

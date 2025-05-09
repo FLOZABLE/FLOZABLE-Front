@@ -1,4 +1,9 @@
-export function validateStrictString(value: string, type: string, maxLength = 20, minLength = 1) {
+export function validateStrictString(
+  value: string,
+  type: string,
+  maxLength = 20,
+  minLength = 1
+) {
   if (!value) {
     return { isValid: false, message: `Please provide ${type}` };
   }
@@ -17,7 +22,12 @@ export function validateStrictString(value: string, type: string, maxLength = 20
   return { isValid: true, message: "" };
 }
 
-export function validatePassword(password: string, max = 20, min = 5, specialNeeded = true) {
+export function validatePassword(
+  password: string,
+  max = 20,
+  min = 5,
+  specialNeeded = true
+) {
   if (!password) {
     return { isValid: false, message: `Please provide a password` };
   }
@@ -40,4 +50,41 @@ export function validatePassword(password: string, max = 20, min = 5, specialNee
     return { isValid: false, message: `You need special characters` };
   }
   return { isValid: true, message: "" };
+}
+
+export function validateURL(
+  input: string,
+  strict = false,
+  allowedOrigins: string[] = []
+) {
+  try {
+    if (!input) {
+      return { isValid: false, reason: "Please provide URL" };
+    }
+
+    const raw =
+      input.includes("http://") || input.includes("https://")
+        ? input
+        : `https://${input}`;
+
+    const url = new URL(raw);
+    const origin = url.origin.replace(/^www\./, "");
+    const domain = url.hostname.replace(/^www\./, "");
+
+    if (domain.length > 100) {
+      return { isValid: false, reason: "Invalid URL" };
+    }
+
+    if (!domain.includes(".")) {
+      return { isValid: false, reason: "Invalid public domain" };
+    }
+
+    if (strict && !allowedOrigins.includes(origin)) {
+      return { isValid: false, reason: "Invalid Domain" };
+    }
+
+    return { isValid: true, domain, origin, url };
+  } catch {
+    return { isValid: false, reason: "Invalid URL" };
+  }
 }
