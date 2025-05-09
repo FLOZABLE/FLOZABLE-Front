@@ -5,7 +5,7 @@ import { faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import Draggable from "react-draggable";
 import { toast } from "react-toastify";
 import ThemeCategoryBtn from "@/components/buttons/ThemeCategoryBtn/ThemeCategoryBtn";
-import YouTubePlayer from "@/components/youtube/YouTubePlayer/YouTubePlayer";
+import YouTubePlayer from "@/components/youtube/YouTubePlayer";
 import { ThemesContext } from "@/components/structure/Providers";
 
 function ThemePreview({ isActive, setIsActive }) {

@@ -4,7 +4,15 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
-import { Calendar, ChartBar, House, Trophy, UserRound } from "lucide-react";
+import {
+  Calendar,
+  ChartBar,
+  CircleUserRound,
+  House,
+  Trophy,
+  UserRound,
+  UsersRound,
+} from "lucide-react";
 import { getAuthLogout } from "@/apis/authApi";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import { useAccount } from "@/hooks/accountHooks";
@@ -28,10 +36,10 @@ export default function SidebarWrapper() {
       ),
     },
     {
-      label: "Leaderboard",
-      href: "/dashboard/leaderboard",
+      label: "Groups",
+      href: "/dashboard/groups",
       icon: (
-        <Trophy className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <UsersRound className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
@@ -42,10 +50,17 @@ export default function SidebarWrapper() {
       ),
     },
     {
-      label: "Groups",
-      href: "/dashboard/groups",
+      label: "Leaderboard",
+      href: "/dashboard/leaderboard",
       icon: (
-        <UserRound className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <Trophy className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Account",
+      href: "/dashboard/account",
+      icon: (
+        <CircleUserRound className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {

@@ -27,6 +27,7 @@ import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 import { ServerCreateTransportResponse } from "@/types/mediaSoup";
 import { useGroupMembersUpdater } from "@/hooks/updaters/groupsUpdaters";
 import ChatButton from "../buttons/ChatButton";
+import MembersStatusViewer from "./MembersStatusViewer";
 
 const videoParams = {
   encodings: [
@@ -399,11 +400,14 @@ export default function MyGroupContainer({
   }, [producerTransport, audioStream]);
 
   return (
-    <Card className="h-full border-0 py-0 bg-transparent">
+    <Card className="h-full border-0 py-0 bg-transparent relative">
+      <MembersStatusViewer members={groupMembersData}/>
       <CardHeader>
         {isStudy ? (
           <CardTitle>
-            <Badge className="text-xl" variant={"default"}>{group.name}</Badge>
+            <Badge className="text-xl" variant={"default"}>
+              {group.name}
+            </Badge>
           </CardTitle>
         ) : (
           <CardTitle>{group.name}</CardTitle>

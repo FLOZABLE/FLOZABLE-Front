@@ -19,7 +19,7 @@ export default function Welcome({ ...props }: ComponentProps<"div">) {
       <CardHeader>
         <CardTitle className="text-3xl">Hi, {account?.name} 👋</CardTitle>
         <CardDescription className="flex">
-          <p>What do you want to learn today!</p>
+          <p>What do you want to learn today?</p>
           <Image
             alt="cover image"
             width={40}

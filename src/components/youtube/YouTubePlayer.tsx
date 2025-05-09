@@ -1,6 +1,5 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import styles from "./YouTubePlayer.module.css";
 
 // Dynamically import ReactPlayer with SSR disabled
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
@@ -19,7 +18,7 @@ export default function YoutubePlayer({
   height,
 }: YoutubePlayerProps) {
   return (
-    <div className={styles.YoutubePlayer} style={{ width, height }}>
+    <div style={{ width, height }}>
       {videoId ? (
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${videoId}`}

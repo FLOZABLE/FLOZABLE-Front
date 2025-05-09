@@ -16,7 +16,7 @@ import { X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 const YoutubePlayer = dynamic(
-  () => import("@/components/youtube/YouTubePlayer/YouTubePlayer"),
+  () => import("@/components/youtube/YouTubePlayer"),
   { ssr: false }
 );
 
