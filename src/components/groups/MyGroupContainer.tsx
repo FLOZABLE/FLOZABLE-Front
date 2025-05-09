@@ -11,7 +11,7 @@ import { BookOpen, UserRound } from "lucide-react";
 import { useGroupMembers } from "@/hooks/groupsHook";
 import MemberContainer from "./MemberContainer";
 import Skeleton from "react-loading-skeleton";
-import { useCallback, useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { OnStopStudying, OnStudying } from "@/types/socket";
 import socket from "@/utils/sockets/socket";
 import { useCallOptions } from "../structure/Providers";
@@ -58,11 +58,13 @@ interface MyGroupContainerProps {
   group: Group;
   isActive: boolean;
   isAdmin: boolean;
+  isStudy?: boolean;
 }
 
 export default function MyGroupContainer({
   group,
   isActive,
+  isStudy,
 }: MyGroupContainerProps) {
   const { isCam, isMic } = useCallOptions();
   const { groupMembersData, groupMembersIsLoading } = useGroupMembers(
@@ -97,13 +99,10 @@ export default function MyGroupContainer({
 
   useEffect(() => {
     const onStudying = ({ userId, subject }: OnStudying) => {
-      console.log(userId, subject);
       updateGroupMembers((prev) => {
-        console.log('gdddd')
         const memberIndex = prev.findIndex(
           (member) => member.user_id === userId
         );
-        console.log(memberIndex, prev);
         if (memberIndex === -1) return prev;
 
         const newGroupMembers = [...prev];
@@ -113,7 +112,7 @@ export default function MyGroupContainer({
         };
 
         return newGroupMembers;
-      }, group.group_id);
+      });
     };
 
     const onStopStudying = ({ userId, subject, duration }: OnStopStudying) => {
@@ -132,7 +131,7 @@ export default function MyGroupContainer({
         };
 
         return newGroupMembers;
-      }, group.group_id);
+      });
     };
 
     if (!isActive) {
@@ -147,7 +146,7 @@ export default function MyGroupContainer({
       socket.off("study:start", onStudying);
       socket.off("study:stop", onStopStudying);
     };
-  }, [group.group_id, updateGroupMembers, isActive]);
+  }, [isActive]);
 
   const getRouterRtpCapabilities =
     useCallback(async (): Promise<RtpCapabilities> => {
@@ -402,16 +401,22 @@ export default function MyGroupContainer({
   return (
     <Card className="h-full border-0 py-0 bg-transparent">
       <CardHeader>
-        <CardTitle>{group.name}</CardTitle>
+        {isStudy ? (
+          <CardTitle>
+            <Badge className="text-xl" variant={"default"}>{group.name}</Badge>
+          </CardTitle>
+        ) : (
+          <CardTitle>{group.name}</CardTitle>
+        )}
         <CardDescription>
           <div className="flex gap-2">
-            <Badge variant={"outline"}>
+            <Badge variant={"secondary"}>
               <UserRound />
               {groupMembersIsLoading
                 ? group.members.length
                 : groupMembersData?.length}
             </Badge>
-            <Badge variant={"outline"}>
+            <Badge variant={"secondary"}>
               <BookOpen />
               {totalTime}
             </Badge>

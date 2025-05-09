@@ -1,6 +1,7 @@
 "use client";
 
 import MyGroupsViewer from "@/components/groups/MyGroupsViewer";
+import StudyModal from "@/components/modals/StudyModal";
 import Planstimeline from "@/components/plans/Planstimeline";
 import AudioController from "@/components/study/AudioController";
 import CallController from "@/components/study/CallController";
@@ -8,13 +9,21 @@ import StudyDock from "@/components/study/StudyDock";
 import StudyModalContainer from "@/components/study/StudyModalContainer";
 import SubjectTimer from "@/components/study/SubjectTimer";
 import { Button } from "@/components/ui/button";
-import YoutubePlayer from "@/components/youtube/YouTubePlayer/YouTubePlayer";
+import { useWindowSize } from "@/hooks/otherHooks";
+import socket from "@/utils/sockets/socket";
 import { cn } from "@/utils/tools";
 import { X } from "lucide-react";
-import { useState } from "react";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+const YoutubePlayer = dynamic(
+  () => import("@/components/youtube/YouTubePlayer/YouTubePlayer"),
+  { ssr: false }
+);
 
 export default function Study() {
   const [theme, setTheme] = useState({ volume: 0, id: "YQc4WT0yDH4" });
+
+  const { width, height } = useWindowSize();
 
   const [studyOptions, setStudyOptions] = useState({
     planner: true,
@@ -26,8 +35,22 @@ export default function Study() {
     timeline: true,
   });
 
+  const [studyModal, setStudyModal] = useState(true);
+
+  useEffect(() => {
+    const onMyStudyStart = () => {
+      setStudyModal(false);
+    };
+    socket.on("mystudy:start", onMyStudyStart);
+
+    return () => {
+      socket.off("mystudy:start", onMyStudyStart);
+    };
+  }, []);
+
   return (
     <main className="w-screen h-screen">
+      <StudyModal open={studyModal} setOpen={setStudyModal} />
       <StudyDock
         className="fixed right-0 bottom-0"
         setStudyOptions={setStudyOptions}
@@ -105,12 +128,12 @@ export default function Study() {
         }
       />
 
-      {/* <YoutubePlayer
+      <YoutubePlayer
         width={width}
         height={height}
         volume={theme.volume}
         videoId={theme.id}
-      /> */}
+      />
     </main>
   );
 }

@@ -1,4 +1,4 @@
-.YouTubePlayer {
+/* .YouTubePlayer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,7 +6,7 @@
   will-change: transform;
 }
 
-.YouTubePlayer .video {
+.YouTubePlayer video {
   height: calc(100% + 18.75rem) !important;
   width: 100% !important;
   pointer-events: none;
@@ -14,4 +14,7 @@
   transform: translate3d(0, 0, 0);
   will-change: transform;
   transform: translateZ(0);
+  width: 100%;
+  height: 100%;
 }
+ */

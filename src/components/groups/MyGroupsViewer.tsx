@@ -10,6 +10,7 @@ import { useJoinGroupModal } from "../structure/ModalProviders";
 import socket from "@/utils/sockets/socket";
 import mediaSocket from "@/utils/sockets/mediaSocket";
 import { cn } from "@/utils/tools";
+import { usePathname } from "next/navigation";
 
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
@@ -20,6 +21,8 @@ export default function MyGroupsViewer({
   ...props
 }: MyGroupsViewerProps) {
   const myGroupsRef = useRef<SwiperRef>(null);
+
+  const pathname = usePathname();
 
   const { myGroups } = useGroups();
   const { account } = useAccount();
@@ -91,6 +94,7 @@ export default function MyGroupsViewer({
                   group={group}
                   isActive={debouncedIndex === i}
                   isAdmin={group.leader === account?.user_id}
+                  isStudy={pathname === "/dashboard/study"}
                 />
               </SwiperSlide>
             );

@@ -1,5 +1,5 @@
 import { useSubjects } from "@/hooks/subjectsHooks";
-import { useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { cn, toTimer } from "@/utils/tools";
 import { Button } from "../ui/button";
 import { Check, ChevronsUpDown, Pause, Play } from "lucide-react";
@@ -20,6 +20,13 @@ import { useWorkers } from "../structure/Providers";
 import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectsUpdaters";
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
+import StudyModal from "../modals/StudyModal";
+
+export type SubjectOption = {
+  value: string; // subject.subject_id
+  name: string; // subject.name
+  label: ReactNode; // the rendered JSX for the option
+};
 
 export default function SubjectTimer() {
   const { subjectTimerWorker } = useWorkers();
@@ -36,7 +43,7 @@ export default function SubjectTimer() {
     disp: "",
   });
 
-  const options = useMemo(() => {
+  const options: SubjectOption[] = useMemo(() => {
     if (!subjects?.length) return [];
     return subjects.map((subject) => {
       const disp = toTimer(
@@ -114,12 +121,33 @@ export default function SubjectTimer() {
           day: updatedDay,
         };
 
+        setSelectedSubject((prev) => {
+          if (prev.subject_id !== stoppedSubject.subject_id) {
+            return prev;
+          }
+          const updatedValue =
+            updatedDay.total[updatedDay.total.length - 1].data;
+
+          const disp = toTimer(updatedValue);
+          return {
+            ...prev,
+            active: false,
+            value: updatedValue,
+            disp,
+          };
+        });
+
         return newSubjects;
       });
     };
 
     socket.on("mystudy:start", onMyStudyStart);
     socket.on("mystudy:stop", onMyStudyStop);
+
+    return () => {
+      socket.off("mystudy:start", onMyStudyStart);
+      socket.off("mystudy:stop", onMyStudyStop);
+    };
   }, [subjects?.length]);
 
   useEffect(() => {

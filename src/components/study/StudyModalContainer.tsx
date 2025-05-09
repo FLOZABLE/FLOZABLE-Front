@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ComponentProps } from "react";
 import { cn } from "@/utils/tools";
+import { Badge } from "../ui/badge";
 
 interface StudyModalContainerProps extends ComponentProps<"div"> {
   open: boolean;
@@ -34,12 +35,16 @@ export default function StudyModalContainer({
           onClick={() => {
             onClose();
           }}
-          className="w-fit"
+          className="w-fit bg-background"
           variant={"ghost"}
         >
           <X />
         </Button>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>
+          <Badge className="text-xl bg-background" variant={"secondary"}>
+            {title}
+          </Badge>
+        </CardTitle>
       </CardHeader>
       <CardContent className="px-3">{children}</CardContent>
     </Card>

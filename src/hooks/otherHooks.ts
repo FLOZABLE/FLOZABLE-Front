@@ -79,7 +79,6 @@ export function useUpdater<TData extends object, TKey extends keyof TData>(
     let updatedFieldValue: TData[TKey] | undefined;
 
     await queryClient.setQueryData<ApiResponse<TData>>(queryKey, (oldData) => {
-      console.log(oldData, "update");
       if (!oldData?.data) return oldData;
 
       const prev = oldData.data[nestedField];

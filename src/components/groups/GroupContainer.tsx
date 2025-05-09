@@ -3,7 +3,7 @@ import { Ranking } from "@/types/ranking";
 import { cn, secondConverter } from "@/utils/tools";
 import parser from "html-react-parser";
 import { Goal, Heart, Hourglass, Lock, UserRound } from "lucide-react";
-import { ComponentProps, HTMLProps, useCallback, useMemo } from "react";
+import { ComponentProps, useCallback, useMemo } from "react";
 import { Badge } from "../ui/badge";
 import { useAccount } from "@/hooks/accountHooks";
 import { Button } from "../ui/button";

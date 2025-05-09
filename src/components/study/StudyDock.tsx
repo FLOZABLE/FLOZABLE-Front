@@ -12,6 +12,7 @@ import { Calendar, Hourglass } from "lucide-react";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import ChatButton from "../buttons/ChatButton";
 import ZoomButton from "../buttons/ZoomButton";
+import { useSubjects } from "@/hooks/subjectsHooks";
 
 type StudyOptions = {
   planner: boolean;
@@ -33,6 +34,8 @@ export default function StudyDock({
 }: StudyDockProps) {
   const router = useRouter();
 
+  const { subjectsRefetch } = useSubjects();
+
   const links: DockItem[] = [
     {
       title: "Home",
@@ -41,6 +44,7 @@ export default function StudyDock({
       ),
       onClick: () => {
         router.push("/dashboard");
+        subjectsRefetch();
       },
     },
 
