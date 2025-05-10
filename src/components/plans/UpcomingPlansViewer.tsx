@@ -4,6 +4,8 @@ import { ViewerType } from "@/types/others";
 import { DateTime } from "luxon";
 import { useMemo } from "react";
 import { Clock } from "lucide-react";
+import { useAccountGoogle } from "@/hooks/accountHooks";
+import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
 
 interface PlanContainerProps extends React.HTMLProps<HTMLDivElement> {
   plan: EventInput;
@@ -58,6 +60,8 @@ export default function UpcomingPlansViewer({
   viewDate,
   onPlanClick,
 }: UpcomingPlansViewerProps) {
+  const { accountGoogleData } = useAccountGoogle();
+
   const filteredPlans = useMemo(() => {
     const dt = DateTime.fromJSDate(viewDate);
     let rangeStart: DateTime;
@@ -96,13 +100,29 @@ export default function UpcomingPlansViewer({
           <p>{filteredPlans.length} Events</p>
         </Badge>
       </div>
-      <div className="rounded-md border-2">
-        {filteredPlans.map((plan, i) => {
-          return (
-            <PlanContainer key={i} plan={plan} onPlanClick={onPlanClick} />
-          );
-        })}
-      </div>
+      {accountGoogleData?.scopes?.some((scope) =>
+        scope.includes("calendar")
+      ) ? (
+        <div className="rounded-md border-2">
+          {filteredPlans.map((plan, i) => {
+            return (
+              <PlanContainer key={i} plan={plan} onPlanClick={onPlanClick} />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center gap-5">
+          <p>
+            {`You're not connected to Google Calendar. Please sign in to
+              authorize access.`}
+          </p>
+          <GoogleLoginBtn
+            className="w-fit"
+            scope={"email profile https://www.googleapis.com/auth/calendar"}
+            required="calendar"
+          />
+        </div>
+      )}
     </div>
   );
 }

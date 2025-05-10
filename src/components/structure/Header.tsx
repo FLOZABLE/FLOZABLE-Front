@@ -28,6 +28,7 @@ import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import ChatButton from "../buttons/ChatButton";
 
 type InfoBoxProps = {
   icon: ReactNode;
@@ -148,6 +149,7 @@ export default function Header() {
             Try our Chrome extension to block distractions!
           </Button>
         )}
+        <ChatButton variant={"outline"} className="aspect-square w-10 h-10" />
         <NotificationsBtn />
         <ThemeToggleBtn />
         <AvatarWrapper name={account?.name || ""} userId={account?.user_id} />

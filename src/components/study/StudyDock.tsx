@@ -107,7 +107,7 @@ export default function StudyDock({
     },
   ];
   return (
-    <div className={cn("flex items-center justify-center z-10", className)}>
+    <div className={cn("flex items-center justify-center z-20", className)}>
       <FloatingDock items={links} />
     </div>
   );

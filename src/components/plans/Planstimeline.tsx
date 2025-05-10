@@ -16,6 +16,8 @@ import { usePlans } from "@/hooks/plansHooks";
 import { DateTime } from "luxon";
 import { cn } from "@/utils/tools";
 import { Badge } from "../ui/badge";
+import { useAccountGoogle } from "@/hooks/accountHooks";
+import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
 
 interface PlanstimelineProps extends ComponentProps<"div"> {
   viewDate: Date;
@@ -30,6 +32,8 @@ export default function Planstimeline({
   closeButton,
   ...props
 }: PlanstimelineProps) {
+  const { accountGoogleData } = useAccountGoogle();
+
   const { plansData } = usePlans(viewDate);
   const { setPlanModal } = usePlanModal();
 
@@ -99,12 +103,28 @@ export default function Planstimeline({
           <CirclePlus /> Add Plan
         </Button>
       </CardHeader>
-      <CardContent className="overflow-auto">
-        {filteredPlans.map((plan, i) => {
-          return (
-            <PlanContainer onPlanClick={onPlanClick} plan={plan} key={i} />
-          );
-        })}
+      <CardContent className="overflow-auto h-full">
+        {accountGoogleData?.scopes?.some((scope) =>
+          scope.includes("calendar")
+        ) ? (
+          filteredPlans.map((plan, i) => {
+            return (
+              <PlanContainer onPlanClick={onPlanClick} plan={plan} key={i} />
+            );
+          })
+        ) : (
+          <div className="flex flex-col justify-center h-full gap-5">
+            <p>
+              {`You're not connected to Google Calendar. Please sign in to
+              authorize access.`}
+            </p>
+            <GoogleLoginBtn
+              className="w-fit"
+              scope={"email profile https://www.googleapis.com/auth/calendar"}
+              required="calendar"
+            />
+          </div>
+        )}
       </CardContent>
     </Card>
   );

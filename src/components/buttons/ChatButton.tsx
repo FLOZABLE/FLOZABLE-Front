@@ -2,10 +2,12 @@ import { MessageCircle } from "lucide-react";
 import { Button, ButtonProps } from "../ui/button";
 import { Userinfo } from "@/types/account";
 import { useChatModal } from "../structure/ModalProviders";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { postChatRequest } from "@/apis/chatApi";
 import { useChatRooms } from "@/hooks/chatHooks";
 import { useAccount } from "@/hooks/accountHooks";
+import { Badge } from "../ui/badge";
+import { cn } from "@/utils/tools";
 
 interface ChatButtonProps extends ButtonProps {
   userInfo?: Userinfo;
@@ -15,6 +17,7 @@ interface ChatButtonProps extends ButtonProps {
 export default function ChatButton({
   userInfo,
   groupId,
+  className,
   ...props
 }: ChatButtonProps) {
   const { setChatModal } = useChatModal();
@@ -37,9 +40,35 @@ export default function ChatButton({
     }));
   }, [userInfo]);
 
+  const count = useMemo(() => {
+    if (!chatrooms) return 0;
+
+    if (userInfo) {
+      const chatroom = chatrooms?.find(
+        (chatroom) =>
+          chatroom.members.sort().join() ===
+          [account?.user_id, userInfo?.user_id].sort().join()
+      );
+      if (chatroom) {
+        return chatroom?.unreads || 0;
+      }
+    } else if (!groupId) {
+      const count = chatrooms.reduce(
+        (acc, chatroom) => acc + chatroom.unreads || 0,
+        0
+      );
+      return count;
+    }
+
+    const chatroom = chatrooms.find(
+      (chatroom) => chatroom.chatroom_id === groupId
+    );
+    return chatroom?.unreads || 0;
+  }, [chatrooms, groupId, userInfo]);
+
   return (
     <Button
-      effect={"shineHover"}
+      className={cn("relative", className)}
       onClick={() => {
         if (groupId) {
           setChatModal((prev) => ({
@@ -74,6 +103,14 @@ export default function ChatButton({
       {...props}
     >
       <MessageCircle />
+      {!!count && (
+        <Badge
+          variant={"secondary"}
+          className="absolute right-[-7] bottom-[-7] py-0"
+        >
+          {count}
+        </Badge>
+      )}
     </Button>
   );
 }

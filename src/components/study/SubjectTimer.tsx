@@ -25,6 +25,7 @@ export type SubjectOption = {
   value: string; // subject.subject_id
   name: string; // subject.name
   label: ReactNode; // the rendered JSX for the option
+  time: number;
 };
 
 type SubjectTimerProps = {
@@ -50,21 +51,24 @@ export default function SubjectTimer({
 
   const options: SubjectOption[] = useMemo(() => {
     if (!subjects?.length) return [];
-    return subjects.map((subject) => {
-      const disp = toTimer(
-        subject.day.total[subject.day.total.length - 1]?.data || 0
-      );
-      return {
-        value: subject.subject_id,
-        name: subject.name,
-        label: (
-          <div className="flex w-full">
-            <p>{subject.name}</p>
-            <p className="ml-auto">{disp}</p>
-          </div>
-        ),
-      };
-    });
+    return subjects
+      .map((subject) => {
+        const disp = toTimer(
+          subject.day.total[subject.day.total.length - 1]?.data || 0
+        );
+        return {
+          value: subject.subject_id,
+          name: subject.name,
+          label: (
+            <div className="flex w-full">
+              <p>{subject.name}</p>
+              <p className="ml-auto">{disp}</p>
+            </div>
+          ),
+          time: subject.day.total[subject.day.total.length - 1]?.data || 0,
+        };
+      })
+      .sort((a, b) => b.time - a.time);
   }, [subjects]);
 
   useEffect(() => {
@@ -82,14 +86,18 @@ export default function SubjectTimer({
   }, [unhookCleanup]);
 
   useEffect(() => {
-    if (!subjects?.length) return;
+    if (!options?.length) return;
 
     setSelectedSubject((prev) => ({
       ...prev,
-      name: subjects[0].name,
-      value: subjects[0].day.total[subjects[0].day.total.length - 1]?.data || 0,
-      subject_id: subjects[0].subject_id,
+      name: options[0].name,
+      value: options[0].time,
+      subject_id: options[0].value,
     }));
+  }, [options.length]);
+
+  useEffect(() => {
+    if (!subjects?.length) return;
 
     const onMyStudyStart = ({ subject }: OnMyStudying) => {
       const subjectData = subjects.find(
@@ -175,7 +183,7 @@ export default function SubjectTimer({
       socket.off("mystudy:start", onMyStudyStart);
       socket.off("mystudy:stop", onMyStudyStop);
     };
-  }, [subjects?.length]);
+  }, [subjects]);
 
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {

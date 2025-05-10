@@ -59,10 +59,7 @@ export default function NotificationsBtn() {
     async (notificationId: string, accepted: boolean) => {
       filterNotification(notificationId);
 
-      postChatRequestReply(
-        notificationId,
-        accepted
-      );
+      postChatRequestReply(notificationId, accepted);
     },
     []
   );
@@ -150,13 +147,13 @@ export default function NotificationsBtn() {
       <DropdownMenuTrigger asChild>
         <Button className="aspect-square h-10 w-10 relative" variant="outline">
           <Bell />
-          {notifications?.length ? (
+          {notifications?.length && (
             <Dot
               color="var(--color-destructive)"
               strokeWidth={14}
               className="absolute right-[-7] top-[-7] fill-"
             />
-          ) : null}
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent

@@ -240,7 +240,7 @@ export default function ChatModal() {
   return (
     <Card
       className={cn(
-        "fixed bottom-12 h-96 w-96 z-20 transition-all duration-500 ease-in-out shadow-md pb-0 overflow-hidden",
+        "fixed bottom-20 h-96 w-96 z-20 transition-all duration-500 ease-in-out shadow-md pb-0 overflow-hidden",
         chatModal.opened ? "right-12" : "right-[-30rem]"
       )}
     >
