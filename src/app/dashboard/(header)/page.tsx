@@ -57,7 +57,7 @@ export default function Dashboard() {
           />
         </div>
         <div className="flex gap-5">
-          <FriendsViewer className="h-[50vh] w-[25rem]"/>
+          <FriendsViewer className="h-[50vh] w-[30rem]"/>
           <StudyTrendChart
             viewDate={viewDate}
             viewer={viewer}

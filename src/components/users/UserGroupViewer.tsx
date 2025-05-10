@@ -19,13 +19,18 @@ export default function UserGroupViewer({
     <Popover>
       <PopoverTrigger asChild>
         {group && (
-          <Button variant="link" effect={"hoverUnderline"} className="truncate">
+          <Button variant="link" effect={"hoverUnderline"} className="truncate w-full">
             Inside {group.name}
           </Button>
         )}
       </PopoverTrigger>
-      <PopoverContent>
-        {group && <GroupContainer group={group} rankings={rankings} />}
+      <PopoverContent side="bottom" align={"center"} className="w-[21rem]">
+        {group && (
+          <GroupContainer
+            group={group}
+            rankings={rankings}
+          />
+        )}
       </PopoverContent>
     </Popover>
   );

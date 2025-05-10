@@ -10,7 +10,8 @@ import { useJoinGroupModal } from "../structure/ModalProviders";
 import socket from "@/utils/sockets/socket";
 import mediaSocket from "@/utils/sockets/mediaSocket";
 import { cn } from "@/utils/tools";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useRemoveSearchParams } from "@/hooks/otherHooks";
 
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
@@ -31,6 +32,11 @@ export default function MyGroupsViewer({
   const [activeIndex, setActiveIndex] = useState(-1);
 
   const [debouncedIndex] = useDebounce(activeIndex, ACTIVE_GROUP_DEBOUNCE);
+
+  const searchParams = useSearchParams();
+  const studyGroupId = searchParams.get("study_group");
+
+  const removeSearchParams = useRemoveSearchParams();
 
   useEffect(() => {
     if (!myGroupsRef.current?.swiper) return;
@@ -65,7 +71,34 @@ export default function MyGroupsViewer({
       socket.emit("group:change", null);
       mediaSocket.emit("group:change", null);
     };
-  }, [debouncedIndex, myGroups?.length]);
+  }, [debouncedIndex, !!myGroups?.length]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      const swiperGroupId = localStorage.getItem("swiperGroupId");
+
+      if (!swiperGroupId || !myGroups?.length) return;
+      localStorage.removeItem("swiperGroupId");
+
+      const groupIndex = myGroups.findIndex(
+        (group) => group.group_id === swiperGroupId
+      );
+      if (groupIndex === -1) return;
+      myGroupsRef.current?.swiper.slideTo(groupIndex);
+    }, 500);
+  }, [myGroups?.length]);
+
+  useEffect(() => {
+    if (!studyGroupId || !myGroups?.length) return;
+    setTimeout(() => {
+      const groupIndex = myGroups.findIndex(
+        (group) => group.group_id === studyGroupId
+      );
+      if (groupIndex === -1) return;
+      myGroupsRef.current?.swiper.slideTo(groupIndex);
+    }, 1000);
+    removeSearchParams("study_group");
+  }, [studyGroupId, myGroups?.length]);
 
   return (
     <div {...props}>

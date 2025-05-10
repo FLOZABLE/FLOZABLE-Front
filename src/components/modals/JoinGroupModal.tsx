@@ -83,6 +83,8 @@ export default function JoinGroupModal() {
 
       form.reset();
 
+      localStorage.setItem("swiperGroupId", group.group_id);
+
       updateGroups((prev) => {
         const newGroups = [...prev];
         const groupIndex = newGroups.findIndex(
@@ -110,9 +112,9 @@ export default function JoinGroupModal() {
       );
       if (groupIndex === -1 || !groupIndex) return;
 
-      setTimeout(() => {
+      /* setTimeout(() => {
         joinGroupModal.myGroupsSwiper?.slideTo(groupIndex);
-      }, 500);
+      }, 1000); */
 
       const myGroupsViewer = document.querySelector("#myGroupsViewer");
       myGroupsViewer?.scrollIntoView({

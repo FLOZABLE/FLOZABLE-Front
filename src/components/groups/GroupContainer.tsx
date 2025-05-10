@@ -3,7 +3,13 @@ import { Ranking } from "@/types/ranking";
 import { cn, secondConverter } from "@/utils/tools";
 import parser from "html-react-parser";
 import { Goal, Heart, Hourglass, Lock, UserRound } from "lucide-react";
-import { ComponentProps, useCallback, useMemo } from "react";
+import {
+  ComponentProps,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Badge } from "../ui/badge";
 import { useAccount } from "@/hooks/accountHooks";
 import { Button } from "../ui/button";
@@ -34,6 +40,8 @@ export default function GroupContainer({
 
   const { setJoinGroupModal } = useJoinGroupModal();
 
+  const [liked, setLiked] = useState<string[]>([]);
+
   const totalTime = useMemo(() => {
     if (!rankings || !group.members.length) return "0 h";
     const groupMembers = rankings.filter((user) =>
@@ -51,11 +59,11 @@ export default function GroupContainer({
   const onLike = useCallback(async () => {
     if (!account?.user_id) return;
 
-    const like = !group.likes.includes(account?.user_id);
+    const like = !liked.includes(account?.user_id);
     const response = await postGroupLike(group.group_id, like);
     if (!response.success) return;
 
-    updateGroups((prev) => {
+    const shit = await updateGroups((prev) => {
       const newGroups = [...prev];
       const groupIndex = newGroups.findIndex(
         (_group) => _group.group_id === group.group_id
@@ -71,7 +79,15 @@ export default function GroupContainer({
       }
       return newGroups;
     });
-  }, [group, account]);
+    const newGroup = shit?.find((_group) => _group.group_id === group.group_id);
+    if (newGroup?.likes) {
+      setLiked([...newGroup.likes]);
+    }
+  }, [group, account, liked]);
+
+  useEffect(() => {
+    setLiked(group.likes);
+  }, [group.likes]);
 
   return (
     <div
@@ -98,7 +114,7 @@ export default function GroupContainer({
         </Badge>
         <Badge variant={"outline"}>
           <Heart />
-          {group.likes.length}
+          {liked.length}
         </Badge>
       </div>
       {group.tags.length ? (
@@ -140,7 +156,7 @@ export default function GroupContainer({
             </Button>
           ))}
         <LikeButton
-          liked={group.likes.includes(account?.user_id || "")}
+          liked={liked.includes(account?.user_id || "")}
           onClick={onLike}
         />
       </div>
