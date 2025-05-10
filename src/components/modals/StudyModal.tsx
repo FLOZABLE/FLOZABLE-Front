@@ -25,7 +25,7 @@ export default function StudyModal({ open, setOpen }: StudyModalProps) {
         <CredenzaHeader>
           <CredenzaTitle>Select a subject to study!</CredenzaTitle>
         </CredenzaHeader>
-        <CredenzaBody>{open && <SubjectTimer />}</CredenzaBody>
+        <CredenzaBody className="z-10">{open && <SubjectTimer />}</CredenzaBody>
       </CredenzaContent>
     </Credenza>
   );

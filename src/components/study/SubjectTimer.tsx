@@ -20,7 +20,6 @@ import { useWorkers } from "../structure/Providers";
 import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectsUpdaters";
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
-import StudyModal from "../modals/StudyModal";
 
 export type SubjectOption = {
   value: string; // subject.subject_id
@@ -28,9 +27,15 @@ export type SubjectOption = {
   label: ReactNode; // the rendered JSX for the option
 };
 
-export default function SubjectTimer() {
+type SubjectTimerProps = {
+  unhookCleanup?: boolean;
+};
+
+export default function SubjectTimer({
+  unhookCleanup = false,
+}: SubjectTimerProps) {
   const { subjectTimerWorker } = useWorkers();
-  const { subjects } = useSubjects();
+  const { subjects, subjectsRefetch } = useSubjects();
 
   const updateSubjects = useSubjectsUpdater();
 
@@ -61,6 +66,20 @@ export default function SubjectTimer() {
       };
     });
   }, [subjects]);
+
+  useEffect(() => {
+    if (!unhookCleanup) return;
+
+    return () => {
+      socket.emit("study:stop");
+      subjectTimerWorker?.postMessage({
+        command: "stopSubjectTimer",
+      });
+      setTimeout(() => {
+        subjectsRefetch();
+      }, 500);
+    };
+  }, [unhookCleanup]);
 
   useEffect(() => {
     if (!subjects?.length) return;
@@ -199,7 +218,7 @@ export default function SubjectTimer() {
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
+        <PopoverContent className="w-[200px] p-0 pointer-events-auto ">
           <Command>
             <CommandList>
               <CommandGroup>
