@@ -61,8 +61,8 @@ export default function MainHeader() {
 
   return (
     <header className="fixed z-10 backdrop-blur-sm w-screen px-16 flex items-center justify-between h-15">
-      <div>
-        <Link href={"/"}>
+      <div className="invisible md:visible">
+        <Link href={"/"} >
           <h1 className="text-3xl font-bold">FLOZABLE</h1>
         </Link>
       </div>
@@ -89,7 +89,7 @@ export default function MainHeader() {
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-          <NavigationMenuItem>
+          {/* <NavigationMenuItem>
             <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -121,7 +121,7 @@ export default function MainHeader() {
                 </ListItem>
               </ul>
             </NavigationMenuContent>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
           <NavigationMenuItem>
             <NavigationMenuTrigger
               onClick={() => {
@@ -146,7 +146,7 @@ export default function MainHeader() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <div className="flex gap-2 justify-center">
+      <div className="flex gap-2 justify-center invisible md:visible">
         <AccountBtn />
         <ThemeToggleBtn />
       </div>

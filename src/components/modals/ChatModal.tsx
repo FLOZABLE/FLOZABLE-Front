@@ -34,7 +34,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useDebounce } from "use-debounce";
 
-const MotionChatBubble = motion(ChatBubble);
+const MotionChatBubble = motion.create(ChatBubble);
 
 export default function ChatModal() {
   const { account } = useAccount();

@@ -7,39 +7,39 @@ import { HeroParallax } from "@/components/ui/hero-parallax";
 
 const products = [
   {
-    title: "Moonbeam",
-    link: "https://gomoonbeam.com",
-    thumbnail: "/img/demo/study.png",
-  },
-  {
-    title: "Cursor",
-    link: "https://cursor.so",
-    thumbnail: "/img/demo/plans.png",
-  },
-  {
-    title: "Rogue",
-    link: "https://userogue.com",
-    thumbnail: "/img/demo/stats.png",
-  },
-  {
-    title: "Editorially",
-    link: "https://editorially.org",
+    title: "Dashboard",
+    link: "/dashboard",
     thumbnail: "/img/demo/dashboard.png",
   },
   {
-    title: "Editrix AI",
-    link: "https://editrix.ai",
+    title: "Groups",
+    link: "/dashboard/groups",
+    thumbnail: "/img/demo/groups1.png",
+  },
+  {
+    title: "Groups 2",
+    link: "/dashboard/groups",
+    thumbnail: "/img/demo/groups2.png",
+  },
+  {
+    title: "Leaderboard",
+    link: "/dashboard/leaderboard",
     thumbnail: "/img/demo/leaderboard.png",
   },
   {
-    title: "Pixel Perfect",
-    link: "https://app.pixelperfect.quest",
-    thumbnail: "/img/demo/friends.png",
+    title: "Planner",
+    link: "/dashboard/Planner",
+    thumbnail: "/img/demo/Planner.png",
   },
   {
-    title: "Algochurn",
-    link: "https://algochurn.com",
-    thumbnail: "/img/demo/themes.png",
+    title: "Stats",
+    link: "/dashboard/stats",
+    thumbnail: "/img/demo/stats.png",
+  },
+  {
+    title: "Study",
+    link: "/dashboard/study",
+    thumbnail: "/img/demo/study.png",
   },
 ];
 

@@ -116,7 +116,7 @@ export default function ReviewsSection() {
   return (
     <section className="section-container">
       <motion.div
-        className="overflow-x-hidden overflow-y-auto"
+        className="overflow-x-hidden overflow-y-auto w-full"
         {...fadeIn({ once: true })}
       >
         <div className="text-center">
@@ -131,8 +131,8 @@ export default function ReviewsSection() {
             dynamicBullets: true,
           }}
           modules={[Autoplay]}
-          speed={5000}
-          autoplay={{ delay: 0, disableOnInteraction: true }}
+          speed={1000}
+          autoplay={{ delay: 3000, disableOnInteraction: true }}
           ref={reviewsRef}
           breakpoints={{
             // when window width is >= 320px
@@ -141,12 +141,12 @@ export default function ReviewsSection() {
               spaceBetween: 20,
             },
             // when window width is >= 480px
-            480: {
-              slidesPerView: 3,
+            1000: {
+              slidesPerView: 2,
               spaceBetween: 20,
             },
             // when window width is >= 769
-            769: {
+            1400: {
               slidesPerView: 3,
               spaceBetween: 30,
             },

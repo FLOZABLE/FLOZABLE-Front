@@ -172,9 +172,9 @@ export default function ExtensionSetting() {
         <Separator className="my-2" />
         <div className="flex flex-col gap-1">
           <AnimatePresence>
-            {extensionSettings?.map((setting, i) => (
+            {extensionSettings?.map((setting) => (
               <motion.div
-                key={setting.website} // use a stable key if possible
+                key={setting.website}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}

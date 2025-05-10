@@ -14,10 +14,10 @@ type UserPageProps = {
 export default function UserPage({ params }: UserPageProps) {
   const { userId } = use(params);
   const { accountProfile } = useAccountProfile(userId);
-  const [viewDate, setViewDate] = useState<Date>(
+  const [viewDate, _setViewDate] = useState<Date>(
     new Date(new Date().setHours(0, 0, 0, 0))
   );
-  const [viewer, setViewer] = useState<ViewerType>("day");
+  const [viewer, _setViewer] = useState<ViewerType>("day");
 
   if (!accountProfile?.userinfo) return;
 

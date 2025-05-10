@@ -1,12 +1,20 @@
 "use client";
 
 import { patchAccountInfo, patchAccountPassword } from "@/apis/accountApi";
+import GoogleLoginBtn from "@/components/buttons/GoogleLoginBtn";
 import ExtensionSetting from "@/components/extension/ExtensionSetting";
 import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
 import { passwordSchema, strictString } from "@/components/modals/AccountModal";
+import { IconGoogleCalendar, IconYoutube } from "@/components/others/Svgs";
 import AvatarWrapper from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -14,7 +22,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { useAccount } from "@/hooks/accountHooks";
+import { useAccount, useAccountGoogle } from "@/hooks/accountHooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, UserRoundPen } from "lucide-react";
 import { useCallback } from "react";
@@ -45,6 +53,7 @@ const passwordFormSchema = z
 
 export default function Account() {
   const { account } = useAccount();
+  const { accountGoogleData } = useAccountGoogle();
 
   const profileForm = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -92,14 +101,14 @@ export default function Account() {
       <div className="flex justify-between w-full items-center mb-5">
         <h1 className="text-2xl font-semibold">Account</h1>
       </div>
-      <div>
-        <div>
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col items-center">
           <AvatarWrapper
             userId={account.user_id}
             name={account.name}
             className="size-50"
           />
-          <p className="text-2xl">Welcome, {account.name}</p>
+          <p className="text-2xl font-semibold">Welcome, {account.name}</p>
         </div>
         <div className="flex gap-5">
           <Card className="flex-1/2">
@@ -232,14 +241,80 @@ export default function Account() {
           </Card>
         </div>
         <ExtensionSetting />
-        {/* <Card>
+        <Card>
           <CardHeader>
-            <CardTitle>Subjects</CardTitle>
+            <CardTitle>Accounts</CardTitle>
+            <CardDescription>Manage your integration settings</CardDescription>
           </CardHeader>
-          <CardContent>
-
+          <CardContent className="flex flex-col gap-5">
+            <div className="flex gap-5">
+              <div>
+                <IconGoogleCalendar className="size-13" />
+              </div>
+              {!accountGoogleData?.scopes?.some((scope) =>
+                scope.includes("calendar")
+              ) ? (
+                <p>
+                  You haven&apos;t connected your Google Calendar yet or you
+                  aren&apos;t authorized. Please authorize our application to
+                  access your Google Calendar by signing in with your Google
+                  account here.
+                </p>
+              ) : (
+                <p>
+                  {`You've successfully connected your Google Calendar! Our app now has access to your calendar events, allowing you to seamlessly integrate your schedule with our platform.`}
+                </p>
+              )}
+              <GoogleLoginBtn
+                scope={"email profile https://www.googleapis.com/auth/calendar"}
+                required="calendar"
+              />
+            </div>
+            <div className="flex gap-5">
+              <div>
+                <IconYoutube className="size-13" />
+              </div>
+              {!accountGoogleData?.scopes?.some((scope) =>
+                scope.includes("youtube")
+              ) ? (
+                <p>
+                  You haven&apos;t connected your YouTube Account yet or you
+                  aren&apos;t authorized. Please authorize our application to
+                  access your YouTube Playlists here.
+                </p>
+              ) : (
+                <p>
+                  {`Your YouTube account is now connected! You can now access your playlists directly within our app to enhance your experience with personalized content.`}
+                </p>
+              )}
+              <GoogleLoginBtn
+                scope="https://www.googleapis.com/auth/youtube.readonly"
+                required="youtube"
+              />
+            </div>
+            {/* <div className="flex gap-5">
+              <div>
+                <IconSpotify className="size-13" />
+              </div>
+              {!spotifyInfo ? (
+                <p>
+                  You haven&apos;t connected your Spotify Account yet or you
+                  aren&apos;t authorized. Please authorize our application to
+                  access your Spotify Playlists here.
+                </p>
+              ) : (
+                <p>
+                  Spotify is successfully connected! Enjoy your playlists within
+                  our app and set the perfect mood for your tasks.
+                </p>
+              )}
+              <GoogleLoginBtn
+                scope={"email profile https://www.googleapis.com/auth/calendar"}
+                required="calendar"
+              />
+            </div> */}
           </CardContent>
-        </Card> */}
+        </Card>
       </div>
     </main>
   );
