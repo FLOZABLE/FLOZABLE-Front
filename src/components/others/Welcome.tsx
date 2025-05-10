@@ -1,6 +1,5 @@
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -29,7 +28,6 @@ export default function Welcome({ ...props }: ComponentProps<"div">) {
           />
         </CardDescription>
       </CardHeader>
-      <CardContent></CardContent>
       <CardFooter>
         <StudyBtn />
       </CardFooter>

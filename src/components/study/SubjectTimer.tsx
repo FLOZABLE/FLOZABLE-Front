@@ -72,10 +72,10 @@ export default function SubjectTimer({
 
     return () => {
       socket.emit("study:stop");
-      subjectTimerWorker?.postMessage({
-        command: "stopSubjectTimer",
-      });
       setTimeout(() => {
+        subjectTimerWorker?.postMessage({
+          command: "stopSubjectTimer",
+        });
         subjectsRefetch();
       }, 500);
     };
@@ -92,9 +92,17 @@ export default function SubjectTimer({
     }));
 
     const onMyStudyStart = ({ subject }: OnMyStudying) => {
+      const subjectData = subjects.find(
+        (_subject) => _subject.subject_id === subject.subject_id
+      );
+      if (!subjectData) return;
+
       setSelectedSubject((prev) => ({
         ...prev,
         subject_id: subject.subject_id,
+        name: subject.name,
+        value:
+          subjectData.day.total[subjectData.day.total.length - 1]?.data || 0,
         active: true,
       }));
       subjectTimerWorker?.postMessage({

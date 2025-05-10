@@ -268,6 +268,7 @@ export default function Account() {
               <GoogleLoginBtn
                 scope={"email profile https://www.googleapis.com/auth/calendar"}
                 required="calendar"
+                className="ml-auto"
               />
             </div>
             <div className="flex gap-5">
@@ -290,6 +291,7 @@ export default function Account() {
               <GoogleLoginBtn
                 scope="https://www.googleapis.com/auth/youtube.readonly"
                 required="youtube"
+                className="ml-auto"
               />
             </div>
             {/* <div className="flex gap-5">

@@ -8,9 +8,9 @@ import {
   Calendar,
   ChartBar,
   CircleUserRound,
+  GraduationCap,
   House,
   Trophy,
-  UserRound,
   UsersRound,
 } from "lucide-react";
 import { getAuthLogout } from "@/apis/authApi";
@@ -54,6 +54,13 @@ export default function SidebarWrapper() {
       href: "/dashboard/leaderboard",
       icon: (
         <Trophy className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Study",
+      href: "/dashboard/study",
+      icon: (
+        <GraduationCap className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {

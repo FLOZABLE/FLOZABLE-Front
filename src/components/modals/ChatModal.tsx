@@ -267,7 +267,7 @@ export default function ChatModal() {
       </CardContent>
       <Card
         className={cn(
-          "overflow-auto px-0 absolute left-96 top-0 bg-white h-full w-full transition-all duration-300 ease-in-out events pb-0 gap-0",
+          "overflow-auto px-0 absolute left-96 top-0 bg-background h-full w-full transition-all duration-300 ease-in-out events pb-0 gap-0",
           chatModal.chatroom_id && "left-0"
         )}
       >
