@@ -41,7 +41,7 @@ export default function ChatRoomContainer({
       <div className="ml-3 overflow-hidden w-full">
         <div className="flex content-center">
           <p className="truncate text-lg mr-3">{chatroom.name}</p>
-          <p className="ml-auto">{timeDisp}</p>
+          <p className="ml-auto whitespace-nowrap">{timeDisp}</p>
         </div>
         <div className="flex">
           <p className="truncate mr-3">{chatroom.last_message?.message}</p>

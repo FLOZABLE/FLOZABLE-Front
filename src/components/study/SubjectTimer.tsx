@@ -82,6 +82,12 @@ export default function SubjectTimer({
         });
         subjectsRefetch();
       }, 500);
+
+      setTimeout(() => {
+        subjectTimerWorker?.postMessage({
+          command: "stopSubjectTimer",
+        });
+      }, 1500);
     };
   }, [unhookCleanup]);
 
@@ -176,12 +182,18 @@ export default function SubjectTimer({
       });
     };
 
+    const onDisconnection = () => {};
+
     socket.on("mystudy:start", onMyStudyStart);
     socket.on("mystudy:stop", onMyStudyStop);
+
+    socket.on("disconnect", onDisconnection);
 
     return () => {
       socket.off("mystudy:start", onMyStudyStart);
       socket.off("mystudy:stop", onMyStudyStop);
+
+      socket.off("disconnect", onDisconnection);
     };
   }, [subjects]);
 
