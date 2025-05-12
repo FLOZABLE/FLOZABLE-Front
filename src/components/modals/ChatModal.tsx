@@ -9,10 +9,14 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { useChatMessages, useChatRooms } from "@/hooks/chatHooks";
+import {
+  useChatMessages,
+  useChatRoomMembers,
+  useChatRooms,
+} from "@/hooks/chatHooks";
 import ChatRoomContainer from "../chats/ChatRoomContainer";
 import { Button } from "../ui/button";
-import { ArrowLeft, X } from "lucide-react";
+import { ArrowLeft, Volume2, VolumeOff, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChatRoom, Message, UseChatMessagesParams } from "@/types/chat";
 import { ChatMessageList } from "../ui/chat/chat-message-list";
@@ -33,6 +37,8 @@ import { Input } from "../ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useDebounce } from "use-debounce";
+import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
+import Link from "next/link";
 
 const MotionChatBubble = motion.create(ChatBubble);
 
@@ -51,6 +57,8 @@ export default function ChatModal() {
       length: 30,
     });
 
+  const [muted, setMuted] = useState(false);
+
   //const messagesRef = useRef<Record<string, HTMLElement>>({});
 
   const messageListRef = useRef<{ scrollToBottom: () => void }>(null);
@@ -61,6 +69,7 @@ export default function ChatModal() {
 
   const { chatMessagesData, fetchNextPage, hasNextPage, isLoading } =
     useChatMessages(messageDataOptions);
+  const { chatroomMembersData } = useChatRoomMembers(chatModal.chatroom_id);
 
   const updateChatrooms = useChatroomsUpdater();
 
@@ -100,6 +109,8 @@ export default function ChatModal() {
   }, [chatMessagesData]);
 
   useEffect(() => {
+    const messageAudio = new Audio("/audio/message.mp3");
+
     setMessageDataOptions((prev) => {
       const newMessageDataOptions = structuredClone(prev);
       const chatroom = chatrooms?.find(
@@ -166,7 +177,6 @@ export default function ChatModal() {
           (chatroom) => chatroom.chatroom_id === chatroomId
         );
 
-        console.log(chatroomIndex, "new message");
         if (chatroomIndex === -1) return [...prev];
 
         const updatedChatroom: ChatRoom = {
@@ -195,6 +205,10 @@ export default function ChatModal() {
         setMessages((prev) => [...prev, message]);
         socket.emit("chat:read", chatModal.chatroom_id);
       } else {
+        if (!muted) {
+          messageAudio.play();
+        }
+
         const chatroom = updatedChatrooms?.find(
           (chatroom) => chatroom.chatroom_id === chatroomId
         );
@@ -221,7 +235,6 @@ export default function ChatModal() {
     socket.on("chat:message", onChatMessage);
 
     setTimeout(() => {
-      console.log("scroll bottom", messageListRef.current);
       if (messageListRef.current) {
         messageListRef.current.scrollToBottom();
       }
@@ -230,7 +243,7 @@ export default function ChatModal() {
     return () => {
       socket.off("chat:message", onChatMessage);
     };
-  }, [chatModal.chatroom_id]);
+  }, [chatModal.chatroom_id, muted]);
 
   const onSubmit = useCallback(() => {
     socket.emit("chat:send", chatModal.chatroom_id, newMessage);
@@ -240,12 +253,20 @@ export default function ChatModal() {
   return (
     <Card
       className={cn(
-        "fixed bottom-20 h-96 w-96 z-20 transition-all duration-500 ease-in-out shadow-md pb-0 overflow-hidden",
+        "fixed bottom-20 h-96 w-96 z-20 transition-all duration-500 ease-in-out shadow-md pb-0 overflow-hidden gap-0",
         chatModal.opened ? "right-12" : "right-[-30rem]"
       )}
     >
-      <CardHeader>
+      <CardHeader className="flex items-center gap-5">
         <CardTitle>Chats</CardTitle>
+        <AnimatedSwitchButton
+          onIcon={<Volume2 />}
+          offIcon={<VolumeOff />}
+          clicked={!muted}
+          onClick={() => {
+            setMuted((prev) => !prev);
+          }}
+        />
         <Button
           className="absolute right-3 top-3 size-8 z-10"
           variant={"ghost"}
@@ -300,6 +321,10 @@ export default function ChatModal() {
                   ? dateTime.toFormat("h:mm a")
                   : dateTime.toFormat("M/d h:mm a");
 
+                const memberData = chatroomMembersData?.find(
+                  (member) => member.user_id === message.user_id
+                );
+
                 return (
                   <MotionChatBubble
                     key={message.message_id}
@@ -307,7 +332,10 @@ export default function ChatModal() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="max-w-[70%]"
+                    className={cn(
+                      "max-w-[70%] relative",
+                      variant === "received" && "pb-5"
+                    )}
                     variant={variant}
                     ref={(el) => {
                       if (index === 5) {
@@ -319,13 +347,21 @@ export default function ChatModal() {
                     }}
                   >
                     <ChatBubbleAvatar
-                      fallback={account?.name}
+                      fallback={memberData?.name || "User"}
                       src={`${config.static_server}/img/profile-images/${message.user_id}.jpeg`}
                     />
                     <ChatBubbleMessage variant={variant}>
                       {message.message}
                       <ChatBubbleTimestamp timestamp={timeDisp} />
                     </ChatBubbleMessage>
+                    {variant === "received" && memberData && (
+                      <Link
+                        href={`/dashboard/user/${memberData?.user_id}`}
+                        className="absolute left-0 bottom-0 text-xs truncate max-w-30 animated-underline"
+                      >
+                        {memberData.name}
+                      </Link>
+                    )}
                   </MotionChatBubble>
                 );
               })}

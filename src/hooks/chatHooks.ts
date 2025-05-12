@@ -45,10 +45,10 @@ export function useChatMessages({
   return { chatMessagesData, chatMessagesRefetch, ...queryResult };
 }
 
-export function useChatRoomMembers(chatroomId: string) {
+export function useChatRoomMembers(chatroomId: string | null) {
   const queryResult = useQuery({
     queryKey: [`chatRoomMembers`, chatroomId],
-    queryFn: () => getChatMembers(chatroomId),
+    queryFn: () => getChatMembers(chatroomId!),
     staleTime: 1000 * 60 * 10,
     enabled: !!chatroomId,
     select: (response) => response.data?.members || [],
