@@ -17,7 +17,6 @@ import PlanModal from "@/components/modals/PlanModal";
 import "@schedule-x/theme-shadcn/dist/index.css";
 import JoinGroupModal from "@/components/modals/JoinGroupModal";
 import ChatModal from "@/components/modals/ChatModal";
-import RedirectOnMobile from "@/components/others/RedirectOnMobile";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -82,7 +81,6 @@ export default function RootLayout({
       <body className={`${inter.variable} ${roboto.variable}`}>
         <Suspense>
           <AppContainer>
-            <RedirectOnMobile />
             <AccountModal />
             <PlanModal />
             <JoinGroupModal />

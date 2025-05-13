@@ -9,6 +9,7 @@ interface Links {
   label: string;
   href: string;
   icon: React.JSX.Element | React.ReactNode;
+  onClick?: () => Promise<void> | void;
 }
 
 interface SidebarContextProps {
@@ -155,15 +156,18 @@ export const MobileSidebar = ({
   );
 };
 
+type LinkPropsWithoutHref = Omit<LinkProps, "href">;
+
+interface SidebarLinkProps extends LinkPropsWithoutHref {
+  link: Links;
+  className?: string;
+}
+
 export const SidebarLink = ({
   link,
   className,
   ...props
-}: {
-  link: Links;
-  className?: string;
-  props?: LinkProps;
-}) => {
+}: SidebarLinkProps) => {
   const { open, animate } = useSidebar();
   return (
     <Link
@@ -172,6 +176,11 @@ export const SidebarLink = ({
         "flex items-center justify-start gap-2  group/sidebar py-2",
         className
       )}
+      onClick={() => {
+        if (link.onClick) {
+          link.onClick();
+        }
+      }}
       {...props}
     >
       {link.icon}

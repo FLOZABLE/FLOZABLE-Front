@@ -152,7 +152,13 @@ export default function Header() {
         <ChatButton variant={"outline"} className="aspect-square w-10 h-10" />
         <NotificationsBtn />
         <ThemeToggleBtn />
-        <AvatarWrapper name={account?.name || ""} userId={account?.user_id} />
+        <AvatarWrapper
+          name={account?.name || ""}
+          userId={account?.user_id}
+          onClick={() => {
+            router.push("/dashboard/account");
+          }}
+        />
       </div>
     </header>
   );

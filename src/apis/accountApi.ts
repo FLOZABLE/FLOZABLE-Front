@@ -7,7 +7,7 @@ import {
 } from "@/types/account";
 import { SuccessResponse } from "@/types/response";
 import AxiosInstance from "@/utils/axiosInstance";
-import { requestHandler } from "@/utils/tools";
+import { getTimezone, requestHandler } from "@/utils/tools";
 
 export async function getAccount(): Promise<AccountResponse> {
   return requestHandler(AxiosInstance.get(`/account`));
@@ -16,9 +16,11 @@ export async function getAccount(): Promise<AccountResponse> {
 export async function getAccountProfile(
   userId: string
 ): Promise<AccountProfileResponse> {
+  const timezone = getTimezone();
+
   return requestHandler(
     AxiosInstance.get(`/account/profile`, {
-      params: { user_id: userId },
+      params: { user_id: userId, timezone },
     })
   );
 }

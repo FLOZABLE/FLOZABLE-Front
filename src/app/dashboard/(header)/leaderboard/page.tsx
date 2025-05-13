@@ -27,7 +27,7 @@ import { useRankings } from "@/hooks/rankingsHooks";
 import { ViewerType } from "@/types/others";
 import { secondConverter } from "@/utils/tools";
 import { Loader2 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const PAGE_LENGTH = 30;
@@ -40,6 +40,8 @@ export default function Leaderboard() {
 
   const { account } = useAccount();
   const { rankingsData, rankingsIsLoading } = useRankings(viewer, viewDate);
+
+  const router = useRouter();
 
   const searchParams = useSearchParams();
   const page: number = parseInt(searchParams.get("page") || "1");
@@ -94,7 +96,14 @@ export default function Leaderboard() {
                     return (
                       <div key={i} className="flex items-center">
                         {rankingInfo.ranking}
-                        <UserContainer userinfo={rankingInfo} />
+                        <UserContainer
+                          userinfo={rankingInfo}
+                          onClick={() => {
+                            router.push(
+                              `/dashboard/user/${rankingInfo.user_id}`
+                            );
+                          }}
+                        />
                         <Badge className="ml-auto" variant={"secondary"}>
                           {secondConverter({ sec: rankingInfo.study_time })}
                         </Badge>

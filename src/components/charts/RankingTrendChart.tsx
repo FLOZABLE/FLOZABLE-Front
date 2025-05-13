@@ -75,7 +75,7 @@ export default function RankingTrendChart({
             margin={{
               left: 12,
               right: 12,
-              top: 10,
+              top: 20,
             }}
           >
             <CartesianGrid vertical={false} />

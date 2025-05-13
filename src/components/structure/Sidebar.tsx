@@ -74,19 +74,18 @@ export default function SidebarWrapper() {
       label: "Logout",
       href: "/",
       icon: (
-        <IconArrowLeft
-          onClick={async () => {
-            const response = await getAuthLogout();
-            if (response.success) {
-              clearAccountData();
-              setTimeout(() => {
-                window.location.reload();
-              }, 500);
-            }
-          }}
-          className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200"
-        />
+        <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
+      onClick: async () => {
+        const response = await getAuthLogout();
+        console.log(response);
+        if (response.success) {
+          clearAccountData();
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+        }
+      },
     },
   ];
   const [open, setOpen] = useState(false);
@@ -98,7 +97,7 @@ export default function SidebarWrapper() {
           <Logo />
           <div className="mt-8 flex flex-col gap-2">
             {links.map((link, idx) => (
-              <SidebarLink key={idx} link={link} />
+              <SidebarLink key={idx} link={link} onClick={link.onClick} />
             ))}
           </div>
         </div>
