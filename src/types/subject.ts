@@ -46,8 +46,18 @@ export interface ActiveSubject {
   name: string;
 }
 
-// get /subjects
+export interface NewSubject
+  extends Pick<Subject, "name" | "color" | "created_at" | "subject_id"> {
+  user_id: string; //this is honestly useless. only used in db
+}
+
+// GET /subjects
 export type SubjectsResponse = ApiResponse<{
   subjects: Subject[];
   grouped_subjects: GroupedSubjects;
+}>;
+
+// PUT /subjects/subject
+export type PutSubjectResponse = ApiResponse<{
+  subject: NewSubject;
 }>;

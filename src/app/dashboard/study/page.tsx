@@ -62,7 +62,7 @@ export default function Study() {
           setStudyOptions((prev) => ({ ...prev, timer: false }));
         }}
         title="Timer"
-        className="top-5 left-5"
+        className="top-5 left-5 z-10"
       >
         <SubjectTimer unhookCleanup={true} />
       </StudyModalContainer>

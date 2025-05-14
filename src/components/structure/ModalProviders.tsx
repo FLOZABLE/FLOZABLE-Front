@@ -86,12 +86,6 @@ export function createModalProvider<State, StateName extends string>(
   };
 }
 
-// Define modal providers and hooks
-export const {
-  Provider: AddSubjectsModalProvider,
-  useModal: useAddSubjectsModal,
-} = createModalProvider(false, "isAddSubjectModal");
-
 export const { Provider: AccountModalProvider, useModal: useAccountModal } =
   createModalProvider({ opened: false, isSignIn: true }, "accountModal");
 
@@ -109,8 +103,13 @@ export const {
 export const { Provider: EditGroupModalProvider, useModal: useEditGroupModal } =
   createModalProvider({ opened: false, group_id: null }, "editGroupModal");
 
-export const { Provider: SubjectsModalProvider, useModal: useSubjectsModal } =
+/* export const { Provider: SubjectsModalProvider, useModal: useSubjectsModal } =
   createModalProvider({ opened: false, subject_id: null }, "isSubjectsModal");
+ */
+export const {
+  Provider: AddSubjectModalProvider,
+  useModal: useAddSubjectModal,
+} = createModalProvider({ opened: false }, "addSubjectModal");
 
 export const { Provider: PlanModalProvider, useModal: usePlanModal } =
   createModalProvider<PlanModalState, "planModal">(
@@ -140,9 +139,9 @@ const MODAL_PROVIDERS = [
   JoinGroupModalProvider,
   CreateGroupModalProvider,
   EditGroupModalProvider,
-  SubjectsModalProvider,
+  //SubjectsModalProvider,
+  AddSubjectModalProvider,
   PlanModalProvider,
-  AddSubjectsModalProvider,
   ChatModalProvider,
   SearchUsersModalProvider,
   WelcomeModalProvider,

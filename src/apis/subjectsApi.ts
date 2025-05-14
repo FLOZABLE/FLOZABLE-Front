@@ -1,4 +1,4 @@
-import { SubjectsResponse } from "@/types/subject";
+import { PutSubjectResponse, SubjectsResponse } from "@/types/subject";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 
@@ -13,7 +13,10 @@ type PutSubjectParams = {
   name: string;
   color: string;
 };
-export async function putSubject({ name, color }: PutSubjectParams) {
+export async function putSubject({
+  name,
+  color,
+}: PutSubjectParams): Promise<PutSubjectResponse> {
   return requestHandler(
     AxiosInstance.put(`/subjects/subject`, {
       name,

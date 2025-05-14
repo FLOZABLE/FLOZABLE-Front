@@ -1,3 +1,4 @@
+import AddSubjectModal from "@/components/modals/AddSubjectModal";
 import RedirectOnMobile from "@/components/others/RedirectOnMobile";
 
 export default function DashboardLayout({
@@ -8,6 +9,7 @@ export default function DashboardLayout({
   return (
     <>
       <RedirectOnMobile />
+      <AddSubjectModal />
       {children}
     </>
   );

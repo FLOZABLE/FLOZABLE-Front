@@ -1,0 +1,198 @@
+"use client";
+
+import { z } from "zod";
+import { useAddSubjectModal } from "../structure/ModalProviders";
+import {
+  Credenza,
+  CredenzaBody,
+  CredenzaHeader,
+  CredenzaContent,
+  CredenzaTitle,
+} from "../ui/credenza";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useCallback } from "react";
+import { Button } from "../ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
+import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
+import { ColorPicker } from "../inputs/ColorPicker";
+import { putSubject } from "@/apis/subjectsApi";
+import { useSubjectsUpdater } from "@/hooks/updaters/subjectsUpdaters";
+import { Subject } from "@/types/subject";
+import { DateTime } from "luxon";
+
+const newSubjectSchema = z.object({
+  name: z.string().min(1, "Please provide name"),
+  color: z.string().min(1, "Please pick a color"),
+});
+
+type NewSubjectFormValues = z.infer<typeof newSubjectSchema>;
+
+export default function AddSubjectModal() {
+  const { addSubjectModal, setAddSubjectModal } = useAddSubjectModal();
+
+  const form = useForm<NewSubjectFormValues>({
+    resolver: zodResolver(newSubjectSchema),
+    defaultValues: {
+      name: "",
+      color: undefined,
+    },
+  });
+  const color = form.watch("color");
+
+  const updateSubjects = useSubjectsUpdater();
+
+  const onSubmit = useCallback(async (values: NewSubjectFormValues) => {
+    const response = await putSubject(values);
+    console.log(response);
+    if (!response.success || !response.data?.subject) return;
+
+    setAddSubjectModal((prev) => ({ ...prev, opened: false }));
+
+    form.reset();
+
+    updateSubjects((prev) => {
+      const newSubjects = [...prev];
+      const subjectStart = newSubjects.toSorted(
+        (a, b) => a.created_at - b.created_at
+      )[0].created_at;
+
+      const dayStart = DateTime.fromSeconds(subjectStart).startOf("day");
+      const weekStart = dayStart.startOf("week");
+      const monthStart = dayStart.startOf("month");
+
+      const now = DateTime.now().startOf("day");
+
+      const daysLength = now.diff(dayStart, "days").days + 1;
+      const weeksLength =
+        now.startOf("week").diff(weekStart, "weeks").weeks + 1;
+      const monthsLength =
+        now.startOf("month").diff(monthStart, "months").months + 1;
+
+      const dailyArray = [];
+      for (let i = 0; i < daysLength; i++) {
+        dailyArray.push({
+          date: dayStart.plus({ day: i }).toISODate(),
+          data: 0,
+        });
+      }
+
+      const weeklyArray = [];
+      for (let i = 0; i < weeksLength; i++) {
+        weeklyArray.push({
+          date: weekStart.plus({ week: i }).toISODate(),
+          data: 0,
+        });
+      }
+
+      const monthlyArray = [];
+      for (let i = 0; i < monthsLength; i++) {
+        monthlyArray.push({
+          date: monthStart.plus({ month: i }).toISODate(),
+          data: 0,
+        });
+      }
+
+      const day = {
+        timeline: structuredClone(
+          dailyArray.map((val) => ({ ...val, data: [] }))
+        ),
+        total: structuredClone(dailyArray),
+        focus: structuredClone(dailyArray),
+      };
+
+      const week = {
+        timeline: structuredClone(
+          weeklyArray.map((val) => ({ ...val, data: [] }))
+        ),
+        total: structuredClone(weeklyArray),
+        focus: structuredClone(weeklyArray),
+      };
+
+      const month = {
+        timeline: structuredClone(
+          monthlyArray.map((val) => ({ ...val, data: [] }))
+        ),
+        total: structuredClone(monthlyArray),
+        focus: structuredClone(monthlyArray),
+      };
+
+      const newSubject: Subject = {
+        ...response.data!.subject,
+        timeline: [],
+        day,
+        week,
+        month,
+      };
+      newSubjects.push(newSubject);
+      return newSubjects;
+    });
+  }, []);
+
+  return (
+    <Credenza
+      open={addSubjectModal.opened}
+      onOpenChange={(opened) => {
+        setAddSubjectModal((prev) => ({ ...prev, opened }));
+      }}
+    >
+      <CredenzaContent desktopClassName="!max-w-100">
+        <CredenzaHeader className="justify-self-center">
+          <CredenzaTitle className="text-2xl">Add Subject</CredenzaTitle>
+        </CredenzaHeader>
+        <CredenzaBody>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6 flex flex-col"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <FloatingLabelInput
+                        placeholder="Name"
+                        label="Name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="color"
+                render={() => (
+                  <FormItem>
+                    <FormControl>
+                      <ColorPicker
+                        color={color}
+                        setColor={(newColor) =>
+                          form.setValue("color", newColor, {
+                            shouldValidate: true,
+                          })
+                        }
+                        options={["solid"]}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Create</Button>
+            </form>
+          </Form>
+        </CredenzaBody>
+      </CredenzaContent>
+    </Credenza>
+  );
+}

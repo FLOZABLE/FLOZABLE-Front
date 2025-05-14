@@ -10,17 +10,19 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/utils/tools";
 import { Paintbrush } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 const solids = [
-  "#E2E2E2",
-  "#ff75c3",
-  "#ffa647",
-  "#ffe83f",
-  "#9fff5b",
-  "#70e2ff",
-  "#cd93ff",
-  "#09203f",
+  "#f4f4f5", // light gray (neutral)
+  "#d1d5db", // muted stone gray
+  "#f9a8d4", // soft pink
+  "#facc15", // amber gold
+  "#4ade80", // mint green
+  "#5eead4", // teal
+  "#60a5fa", // soft blue
+  "#818cf8", // indigo
+  "#a78bfa", // soft purple
+  "#334155", // slate (dark neutral)
 ];
 
 const gradients = [
@@ -49,50 +51,55 @@ const images = [
   "url(https://images.unsplash.com/photo-1691225850735-6e4e51834cad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2532&q=90)",
 ];
 
+type ColorType = "solid" | "gradient" | "image";
+
 export function ColorPicker({
-  background,
-  setBackground,
+  color,
+  setColor,
   className,
   options,
 }: {
-  background: string;
-  setBackground: (background: string) => void;
+  color: null | string;
+  setColor: (color: string) => void;
   className?: string;
-  options: string[];
+  options: ColorType[];
 }) {
+  const [open, setOpen] = useState(false);
+
   const defaultTab = useMemo(() => {
-    if (background.includes("url")) return "image";
-    if (background.includes("gradient")) return "gradient";
+    if (!color) return "solid";
+    if (color.includes("url")) return "image";
+    if (color.includes("gradient")) return "gradient";
     return "solid";
-  }, [background]);
+  }, [color]);
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
             "w-[220px] justify-start text-left font-normal",
-            !background && "text-muted-foreground",
+            !color && "text-muted-foreground",
             className
           )}
         >
           <div className="w-full flex items-center gap-2">
-            {background ? (
+            {color ? (
               <div
                 className="h-4 w-4 rounded !bg-center !bg-cover transition-all"
-                style={{ background }}
+                style={{ backgroundColor: color }}
               ></div>
             ) : (
               <Paintbrush className="h-4 w-4" />
             )}
             <div className="truncate flex-1">
-              {background ? background : "Pick a color"}
+              {color ? color : "Pick a color"}
             </div>
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64">
+      <PopoverContent className="w-64 pointer-events-auto">
         <Tabs defaultValue={defaultTab} className="w-full">
           {options.length > 1 ? (
             <TabsList className="w-full mb-4">
@@ -115,9 +122,12 @@ export function ColorPicker({
               {solids.map((s) => (
                 <div
                   key={s}
-                  style={{ background: s }}
+                  style={{ backgroundColor: s }}
                   className="rounded-md h-6 w-6 cursor-pointer active:scale-105"
-                  onClick={() => setBackground(s)}
+                  onClick={() => {
+                    setColor(s);
+                    setOpen(false);
+                  }}
                 />
               ))}
             </TabsContent>
@@ -129,14 +139,17 @@ export function ColorPicker({
                 {gradients.map((s) => (
                   <div
                     key={s}
-                    style={{ background: s }}
+                    style={{ backgroundColor: s }}
                     className="rounded-md h-6 w-6 cursor-pointer active:scale-105"
-                    onClick={() => setBackground(s)}
+                    onClick={() => {
+                      setColor(s);
+                      setOpen(false);
+                    }}
                   />
                 ))}
               </div>
 
-              {/* <GradientButton background={background}>
+              {/* <GradientButton color={color}>
                 💡 Get more at{" "}
               </GradientButton> */}
             </TabsContent>
@@ -150,12 +163,15 @@ export function ColorPicker({
                     key={s}
                     style={{ backgroundImage: s }}
                     className="rounded-md bg-cover bg-center h-12 w-full cursor-pointer active:scale-105"
-                    onClick={() => setBackground(s)}
+                    onClick={() => {
+                      setColor(s);
+                      setOpen(false);
+                    }}
                   />
                 ))}
               </div>
 
-              {/* <GradientButton background={background}>
+              {/* <GradientButton color={color}>
                 🎁 Get abstract{" "}
               </GradientButton> */}
             </TabsContent>
@@ -166,9 +182,14 @@ export function ColorPicker({
 
         <Input
           id="custom"
-          value={background}
+          value={color || ""}
           className="col-span-2 h-8 mt-4"
-          onChange={(e) => setBackground(e.currentTarget.value)}
+          onChange={(e) => setColor(e.currentTarget.value)}
+          onKeyDown={(e) => {
+            if (e.key === "enter") {
+              setOpen(false);
+            }
+          }}
         />
       </PopoverContent>
     </Popover>
@@ -176,16 +197,16 @@ export function ColorPicker({
 }
 
 /* const GradientButton = ({
-  background,
+  color,
   children
 }: {
-  background: string
+  color: string
   children: React.ReactNode
 }) => {
   return (
     <div
       className="p-0.5 rounded-md relative !bg-cover !bg-center transition-all"
-      style={{ background }}>
+      style={{ backgroundColor: color }}>
       <div className="bg-popover/80 rounded-md p-1 text-xs text-center">
         {children}
       </div>

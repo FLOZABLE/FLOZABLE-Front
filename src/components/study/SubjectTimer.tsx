@@ -2,7 +2,7 @@ import { useSubjects } from "@/hooks/subjectsHooks";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { cn, toTimer } from "@/utils/tools";
 import { Button } from "../ui/button";
-import { Check, ChevronsUpDown, Pause, Play } from "lucide-react";
+import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
 import socket from "@/utils/sockets/socket";
 import { OnMyStopStudying, OnMyStudying } from "@/types/socket";
 import {
@@ -20,6 +20,7 @@ import { useWorkers } from "../structure/Providers";
 import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectsUpdaters";
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
+import { useAddSubjectModal } from "../structure/ModalProviders";
 
 export type SubjectOption = {
   value: string; // subject.subject_id
@@ -37,6 +38,8 @@ export default function SubjectTimer({
 }: SubjectTimerProps) {
   const { subjectTimerWorker } = useWorkers();
   const { subjects, subjectsRefetch } = useSubjects();
+
+  const { setAddSubjectModal } = useAddSubjectModal();
 
   const updateSubjects = useSubjectsUpdater();
 
@@ -223,98 +226,114 @@ export default function SubjectTimer({
   }, [selectedSubject.subject_id]);
 
   return (
-    <div className="flex gap-2">
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-[200px] justify-between"
-          >
-            {selectedSubject.subject_id !== "" ? (
-              <div className="flex w-full">
-                <p>{selectedSubject.name}</p>
-                <AnimatedTimerDisplay
-                  value={selectedSubject.value}
-                  className="ml-auto"
-                />
-              </div>
-            ) : (
-              "Select a subject"
-            )}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0 pointer-events-auto ">
-          <Command>
-            <CommandList>
-              <CommandGroup>
-                {options.map((option) => {
-                  const isSelected =
-                    selectedSubject.subject_id === option.value;
-                  return (
-                    <CommandItem
-                      key={option.value}
-                      value={option.value}
-                      onSelect={(subject_id) => {
-                        const subject = subjects?.find(
-                          (subject) => subject.subject_id === subject_id
-                        );
-                        if (subject) {
-                          setSelectedSubject((prev) => ({
-                            ...prev,
-                            subject_id,
-                            name: subject.name,
-                            value:
-                              subject.day.total[subject.day.total.length - 1]
-                                ?.data || 0,
-                            active: false,
-                          }));
-                        }
-                        if (selectedSubject.active) {
-                          socket.emit("study:stop");
-                        }
-                        setOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          isSelected ? "opacity-100" : "opacity-0"
+    <div className="flex flex-col gap-3">
+      <div className="flex gap-3">
+        <Popover open={open} onOpenChange={setOpen} modal={true}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={open}
+              className="w-[200px] justify-between"
+            >
+              {selectedSubject.subject_id !== "" ? (
+                <div className="flex w-full">
+                  <p>{selectedSubject.name}</p>
+                  <AnimatedTimerDisplay
+                    value={selectedSubject.value}
+                    className="ml-auto"
+                  />
+                </div>
+              ) : (
+                "Select a subject"
+              )}
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[200px] p-0 pointer-events-auto ">
+            <Command>
+              <CommandList>
+                <CommandGroup>
+                  {options.map((option) => {
+                    const isSelected =
+                      selectedSubject.subject_id === option.value;
+                    return (
+                      <CommandItem
+                        key={option.value}
+                        value={option.value}
+                        onSelect={(subject_id) => {
+                          const subject = subjects?.find(
+                            (subject) => subject.subject_id === subject_id
+                          );
+                          if (subject) {
+                            setSelectedSubject((prev) => ({
+                              ...prev,
+                              subject_id,
+                              name: subject.name,
+                              value:
+                                subject.day.total[subject.day.total.length - 1]
+                                  ?.data || 0,
+                              active: false,
+                            }));
+                          }
+                          if (selectedSubject.active) {
+                            socket.emit("study:stop");
+                          }
+                          setOpen(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            isSelected ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {isSelected ? (
+                          <div className="flex w-full">
+                            <p>{selectedSubject.name}</p>
+                            <AnimatedTimerDisplay
+                              value={selectedSubject.value}
+                              className="ml-auto"
+                            />
+                          </div>
+                        ) : (
+                          option.label
                         )}
-                      />
-                      {isSelected ? (
-                        <div className="flex w-full">
-                          <p>{selectedSubject.name}</p>
-                          <AnimatedTimerDisplay
-                            value={selectedSubject.value}
-                            className="ml-auto"
-                          />
-                        </div>
-                      ) : (
-                        option.label
-                      )}
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
-      <AnimatedSwitchButton
-        onIcon={<Pause />}
-        offIcon={<Play />}
+                      </CommandItem>
+                    );
+                  })}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+        <AnimatedSwitchButton
+          onIcon={<Pause />}
+          offIcon={<Play />}
+          onClick={() => {
+            if (selectedSubject.active) {
+              socket.emit("study:stop");
+            } else {
+              socket.emit("study:start", selectedSubject.subject_id);
+            }
+          }}
+          clicked={selectedSubject.active}
+        />
+      </div>
+      <Button
+        effect={"expandIcon"}
+        icon={Library}
+        iconPlacement="right"
+        variant={"secondary"}
         onClick={() => {
           if (selectedSubject.active) {
             socket.emit("study:stop");
-          } else {
-            socket.emit("study:start", selectedSubject.subject_id);
           }
+          setAddSubjectModal((prev) => ({ ...prev, opened: true }));
         }}
-        clicked={selectedSubject.active}
-      />
+      >
+        Or add one
+      </Button>
     </div>
   );
 }

@@ -17,8 +17,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/utils/tools";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 
-interface ComboboxProps {
+interface ComboboxProps
+  extends React.ComponentProps<typeof PopoverPrimitive.Root> {
   value: string;
   onChange: (value: string) => void;
   options: { label: React.ReactNode; value: string }[];
@@ -33,11 +35,12 @@ export default function Combobox({
   options,
   placeholder,
   blankMessage,
+  ...props
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} {...props}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
