@@ -20,6 +20,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+const greenScaleMap: Record<number, string> = {
+  1: "!fill-green-100",
+  2: "!fill-green-200",
+  3: "!fill-green-300",
+  4: "!fill-green-400",
+  5: "!fill-green-500",
+  6: "!fill-green-600",
+  7: "!fill-green-700",
+  8: "!fill-green-800",
+  9: "!fill-green-900",
+};
 interface StudyHeatMapProps {
   viewDate: Date;
   groupedSubjects: GroupedSubjects | undefined;
@@ -88,6 +99,11 @@ export default function StudyHeatMap({
               count: day.data,
             })) || []
           }
+          classForValue={(value) => {
+            if (!value || value.count === 0) return "fill-muted";
+            const scale = Math.ceil(value.count / 3600);
+            return greenScaleMap[scale] || "fill-green-50";
+          }}
           showWeekdayLabels={true}
         />
         {tooltipData && (

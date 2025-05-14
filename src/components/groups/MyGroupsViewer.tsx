@@ -2,7 +2,13 @@ import { useGroups } from "@/hooks/groupsHook";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import MyGroupContainer from "./MyGroupContainer";
-import { ComponentProps, useEffect, useRef, useState } from "react";
+import {
+  ComponentProps,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDebounce } from "use-debounce";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 import { useAccount } from "@/hooks/accountHooks";
@@ -12,10 +18,22 @@ import mediaSocket from "@/utils/sockets/mediaSocket";
 import { cn } from "@/utils/tools";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
+import { Group } from "@/types/group";
+import { postGroupLeave } from "@/apis/groupsApi";
+import {
+  useGroupsUpdater,
+  useMyGroupsUpdater,
+} from "@/hooks/updaters/groupsUpdaters";
+import { AlertDialogWrapper } from "../ui/alert-dialog";
 
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
 }
+
+export type setConfirmLeaveModalType = {
+  open: boolean;
+  group: Group | null;
+};
 
 export default function MyGroupsViewer({
   swiperClassName,
@@ -37,6 +55,15 @@ export default function MyGroupsViewer({
   const studyGroupId = searchParams.get("study_group");
 
   const removeSearchParams = useRemoveSearchParams();
+
+  const updateMyGroups = useMyGroupsUpdater();
+  const updateGroups = useGroupsUpdater();
+
+  const [confirmLeaveModal, setConfirmLeaveModal] =
+    useState<setConfirmLeaveModalType>({
+      open: false,
+      group: null,
+    });
 
   useEffect(() => {
     if (!myGroupsRef.current?.swiper) return;
@@ -74,9 +101,8 @@ export default function MyGroupsViewer({
   }, [debouncedIndex, !!myGroups?.length]);
 
   useEffect(() => {
+    const swiperGroupId = localStorage.getItem("swiperGroupId");
     setTimeout(() => {
-      const swiperGroupId = localStorage.getItem("swiperGroupId");
-
       if (!swiperGroupId || !myGroups?.length) return;
       localStorage.removeItem("swiperGroupId");
 
@@ -85,7 +111,7 @@ export default function MyGroupsViewer({
       );
       if (groupIndex === -1) return;
       myGroupsRef.current?.swiper.slideTo(groupIndex);
-    }, 500);
+    }, 600);
   }, [myGroups?.length]);
 
   useEffect(() => {
@@ -100,8 +126,43 @@ export default function MyGroupsViewer({
     removeSearchParams("study_group");
   }, [studyGroupId, myGroups?.length]);
 
+  const leaveGroup = useCallback(async () => {
+    const groupId = confirmLeaveModal.group?.group_id;
+    if (!groupId) return;
+
+    const response = await postGroupLeave(groupId);
+    if (!response.success) return;
+
+    updateMyGroups((prev) =>
+      prev.filter((_group) => _group.group_id !== groupId)
+    );
+    updateGroups((prev) => {
+      const groupIndex = prev.findIndex((group) => group.group_id === groupId);
+      if (groupIndex === -1) return prev;
+      
+      const newGroups = [...prev];
+      newGroups[groupIndex] = {
+        ...newGroups[groupIndex],
+        members: newGroups[groupIndex].members.filter(
+          (memberId) => memberId !== account?.user_id
+        ),
+      };
+      return newGroups;
+    });
+  }, [myGroups, confirmLeaveModal, account]);
+
   return (
     <div {...props}>
+      <AlertDialogWrapper
+        open={confirmLeaveModal.open}
+        onOpenChange={(open) => {
+          setConfirmLeaveModal((prev) => ({ ...prev, open }));
+        }}
+        onContinue={leaveGroup}
+        description={
+          "This action cannot be undone. You will be removed from the study group."
+        }
+      />
       {myGroups?.length ? (
         <Swiper
           className={cn("h-[80vh] overflow-hidden", swiperClassName)}
@@ -124,6 +185,7 @@ export default function MyGroupsViewer({
             return (
               <SwiperSlide key={i} className="h-screen">
                 <MyGroupContainer
+                  setConfirmLeaveModal={setConfirmLeaveModal}
                   group={group}
                   isActive={debouncedIndex === i}
                   isAdmin={group.leader === account?.user_id}

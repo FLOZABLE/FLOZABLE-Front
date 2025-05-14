@@ -41,6 +41,14 @@ export async function postGroupJoin(
     })
   );
 }
+
+export async function postGroupLeave(groupId: string) {
+  return requestHandler(
+    AxiosInstance.post(`/groups/group/leave`, {
+      group_id: groupId,
+    })
+  );
+}
 /* 
 async function getGroupMembers(groupId) {
   const timezone = getTimezone();

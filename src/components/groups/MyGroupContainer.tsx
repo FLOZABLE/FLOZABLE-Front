@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { BookOpen, UserRound } from "lucide-react";
+import { BookOpen, LogOut, UserRound } from "lucide-react";
 import { useGroupMembers } from "@/hooks/groupsHook";
 import MemberContainer from "./MemberContainer";
 import Skeleton from "react-loading-skeleton";
@@ -28,6 +28,8 @@ import { ServerCreateTransportResponse } from "@/types/mediaSoup";
 import { useGroupMembersUpdater } from "@/hooks/updaters/groupsUpdaters";
 import ChatButton from "../buttons/ChatButton";
 import MembersStatusViewer from "./MembersStatusViewer";
+import { Button } from "../ui/button";
+import { setConfirmLeaveModalType } from "./MyGroupsViewer";
 
 const videoParams = {
   encodings: [
@@ -59,12 +61,16 @@ interface MyGroupContainerProps {
   group: Group;
   isActive: boolean;
   isAdmin: boolean;
+  setConfirmLeaveModal: React.Dispatch<
+    React.SetStateAction<setConfirmLeaveModalType>
+  >;
   isStudy?: boolean;
 }
 
 export default function MyGroupContainer({
   group,
   isActive,
+  setConfirmLeaveModal,
   isStudy,
 }: MyGroupContainerProps) {
   const { isCam, isMic } = useCallOptions();
@@ -401,7 +407,7 @@ export default function MyGroupContainer({
 
   return (
     <Card className="h-full border-0 py-0 bg-transparent relative">
-      <MembersStatusViewer members={groupMembersData}/>
+      <MembersStatusViewer members={groupMembersData} />
       <CardHeader>
         {isStudy ? (
           <CardTitle>
@@ -425,6 +431,17 @@ export default function MyGroupContainer({
               {totalTime}
             </Badge>
             <ChatButton groupId={group.group_id} />
+            <Button
+              onClick={() => {
+                setConfirmLeaveModal((prev) => ({
+                  ...prev,
+                  open: true,
+                  group,
+                }));
+              }}
+            >
+              <LogOut />
+            </Button>
           </div>
         </CardDescription>
       </CardHeader>

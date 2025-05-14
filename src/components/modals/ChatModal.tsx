@@ -246,8 +246,11 @@ export default function ChatModal() {
   }, [chatModal.chatroom_id, muted]);
 
   const onSubmit = useCallback(() => {
+    if (!newMessage.length) return;
+    
     socket.emit("chat:send", chatModal.chatroom_id, newMessage);
     setNewMessage("");
+    messageListRef.current?.scrollToBottom();
   }, [newMessage, chatModal.chatroom_id]);
 
   return (
