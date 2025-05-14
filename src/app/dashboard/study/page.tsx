@@ -74,6 +74,7 @@ export default function Study() {
         }}
         title="Groups"
         className="absolute-center bg-transparent border-0"
+        cardClassName="bg-transparent border-0"
       >
         <MyGroupsViewer
           className="w-[70vw]"

@@ -96,7 +96,7 @@ export default function RankingTrendChart({
             />
             <Line
               dataKey="data"
-              type="natural"
+              type="monotone"
               stroke="var(--color-data)"
               strokeWidth={2}
               dot={{
