@@ -107,7 +107,7 @@ export default function Header() {
   return (
     <header className="backdrop-blur-sm sticky top-0 left-0 w-full h-12 px-10 flex flex-row justify-between items-center z-20">
       <div className="flex gap-3 items-center">
-        <InfoBox
+        {/* <InfoBox
           icon={<BookOpen size={30} />}
           name={"Study Time"}
           value={studyTime}
@@ -125,7 +125,7 @@ export default function Header() {
           icon={<Brain size={30} />}
           name={"Focus Time"}
           value={focusTime}
-        />
+        /> */}
       </div>
       <div className="flex gap-3 items-center">
         {!extensionSettings?.length && !extensionSettingsIsLoading && (

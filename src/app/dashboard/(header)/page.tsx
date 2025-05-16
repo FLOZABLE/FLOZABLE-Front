@@ -2,13 +2,17 @@
 
 import { DatePicker } from "@/components/buttons/DatePicker";
 import StudyTrendChart from "@/components/charts/StudyTrendChart";
+import SummaryViewer from "@/components/charts/SummaryViewer";
 import FriendsViewer from "@/components/friends/FriendsViewer";
 import TopLeaderboard from "@/components/leaderboard/TopLeaderboard";
 import Welcome from "@/components/others/Welcome";
 import Planstimeline from "@/components/plans/Planstimeline";
+import { Button } from "@/components/ui/button";
 import SelectorWrapper from "@/components/ui/select";
+import YoutubePlayer from "@/components/youtube/YouTubePlayer";
 import { useSubjects } from "@/hooks/subjectsHooks";
 import { ViewerType } from "@/types/others";
+import { Play } from "lucide-react";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -21,7 +25,22 @@ export default function Dashboard() {
 
   return (
     <main className="p-5">
-      <div className="flex justify-between w-full items-center mb-5">
+      <div className="relative">
+        <YoutubePlayer
+          videoId="29XymHesxa0"
+          volume={0}
+          className="w-full rounded-xl overflow-hidden h-[60vh]"
+        />
+        <Button
+          variant={"secondary"}
+          className="absolute left-[50%] bottom-10 translate-x-[-50%]"
+        >
+          <Play />
+          Begin Study
+        </Button>
+      </div>
+      <SummaryViewer />
+      {/*<div className="flex justify-between w-full items-center mb-5">
         <h1 className="text-2xl font-semibold">Dashboard</h1>
         <div className="flex gap-3">
           <DatePicker
@@ -65,7 +84,7 @@ export default function Dashboard() {
             className="h-[50vh] w-full"
           />
         </div>
-      </div>
+      </div> */}
     </main>
   );
 }

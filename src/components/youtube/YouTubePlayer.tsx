@@ -1,24 +1,23 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import dynamic from "next/dynamic";
+import { cn } from "@/utils/tools";
 
 // Dynamically import ReactPlayer with SSR disabled
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
-type YoutubePlayerProps = {
+interface YoutubePlayerProps extends ComponentProps<"div"> {
   videoId?: string;
   volume: number;
-  width: number;
-  height: number;
-};
+}
 
 export default function YoutubePlayer({
   videoId,
   volume,
-  width,
-  height,
+  className,
+  ...props
 }: YoutubePlayerProps) {
   return (
-    <div style={{ width, height }}>
+    <div className={cn("relative", className)} {...props}>
       {videoId ? (
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${videoId}`}
@@ -38,8 +37,13 @@ export default function YoutubePlayer({
             },
           }}
           width="100%"
-          height="100%"
-          style={{ pointerEvents: "none" }}
+          height="calc(100% + 19rem)"
+          style={{
+            pointerEvents: "none",
+            position: "absolute",
+            transform: "translateY(-50%)",
+            top: "50%",
+          }}
         />
       ) : null}
     </div>

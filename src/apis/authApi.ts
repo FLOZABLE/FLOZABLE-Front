@@ -3,11 +3,11 @@ import { SuccessResponse } from "@/types/response";
 import AxiosInstance from "@/utils/axiosInstance";
 import { requestHandler } from "@/utils/tools";
 
-async function getAuthLogout(): Promise<SuccessResponse> {
+export async function getAuthLogout(): Promise<SuccessResponse> {
   return requestHandler(AxiosInstance.get(`/auth/logout`));
 }
 
-async function postAuthVerify(): Promise<PostAuthVerifyResponse> {
+export async function postAuthVerify(): Promise<PostAuthVerifyResponse> {
   return requestHandler(AxiosInstance.post(`/auth/verify`));
 }
 
@@ -15,7 +15,7 @@ type PostAuthSigninParams = {
   email: string;
   password: string;
 };
-async function postAuthSignin({
+export async function postAuthSignin({
   email,
   password,
 }: PostAuthSigninParams): Promise<SuccessResponse> {
@@ -33,7 +33,7 @@ type PostAuthSignupParams = {
   password: string;
   timezone: string;
 };
-async function postAuthSignup({
+export async function postAuthSignup({
   name,
   email,
   password,
@@ -48,5 +48,3 @@ async function postAuthSignup({
     })
   );
 }
-
-export { getAuthLogout, postAuthVerify, postAuthSignin, postAuthSignup };

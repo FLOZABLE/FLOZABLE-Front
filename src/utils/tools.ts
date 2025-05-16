@@ -77,6 +77,76 @@ export const secondConverter = ({
   return formattedValue;
 };
 
+type SecondConverterParams = {
+  sec: number | undefined | null;
+  options: [string, string, string]; // Options must be a tuple of 3 strings for keys
+  precise?: boolean;
+  decimal?: boolean;
+};
+
+// Define the expected return type with dynamic keys
+// Using an index signature to indicate that keys are strings
+// and values are number or null
+export interface DynamicTimeParts {
+  [key: string]: number | null;
+}
+
+// Modify the function to use options array elements as keys in the return object
+export const splitSecondConverter = ({
+  sec,
+  options, // Keep options parameter - it's now crucial for keys
+  precise = false, // Keep precise parameter - used in null determination logic
+  decimal = false,
+}: SecondConverterParams): DynamicTimeParts => {
+  const totalSeconds: number = sec ? sec : 0;
+
+  const hour = Math.floor(totalSeconds / 3600);
+  const minute = Math.floor((totalSeconds / 60) % 60);
+  const second = Math.floor(totalSeconds % 60);
+
+  const calculatedHours: number = hour;
+  const calculatedMinutes: number = minute;
+  const calculatedSeconds: number = second;
+
+  let resultHours: number | null = null;
+  let resultMinutes: number | null = null;
+  let resultSeconds: number | null = null;
+
+  if (decimal && totalSeconds >= 3600) {
+    const decimalHours = totalSeconds / 3600;
+    const roundedDecimalHours = Math.round(decimalHours * 10) / 10;
+    return {
+      [options[2]]: roundedDecimalHours,
+    };
+  }
+
+  if (calculatedHours > 0) {
+    resultHours = calculatedHours;
+  }
+
+  if (
+    calculatedMinutes > 0 ||
+    (calculatedHours === 0 && calculatedSeconds === 0)
+  ) {
+    resultMinutes = calculatedMinutes;
+  }
+
+  if (
+    calculatedSeconds > 0 &&
+    (precise || (calculatedHours === 0 && calculatedMinutes === 0))
+  ) {
+    resultSeconds = calculatedSeconds;
+  }
+
+  const result: DynamicTimeParts = {};
+
+  result[options[2]] = resultHours;
+  result[options[1]] = resultMinutes;
+  result[options[0]] = resultSeconds;
+
+  return result;
+};
+
 export const durationFormatter = (sec: number): string => {
   let res = "";
   let hours = 0;
@@ -119,7 +189,9 @@ export const focusCalculator = (grouped: Array<[number, number]>): number => {
   return focus;
 };
 
-export function streakCalculator(groupedSubjects: GroupedSubjects | null) {
+export function streakCalculator(
+  groupedSubjects: GroupedSubjects | null
+): number {
   if (!groupedSubjects?.day?.total) return 0;
 
   const reversedDaily = groupedSubjects.day.total.toReversed();

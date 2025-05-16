@@ -131,8 +131,7 @@ export default function Study() {
       />
 
       <YoutubePlayer
-        width={width}
-        height={height}
+        className="w-screen h-screen"
         volume={theme.volume}
         videoId={theme.id}
       />

@@ -1,9 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
-import { useCallback } from "react";
-import { calculateTimeToMidnight, updateQueryData } from "@/utils/tools";
+import { calculateTimeToMidnight } from "@/utils/tools";
 import { getSubjects } from "@/apis/subjectsApi";
-import { GroupedSubjects, Subject, SubjectsResponse } from "@/types/subject";
+import { GroupedSubjects } from "@/types/subject";
 
 const defaultGroupedSubjects: GroupedSubjects = {
   day: { timeline: [], total: [], focus: [] },
@@ -12,8 +11,6 @@ const defaultGroupedSubjects: GroupedSubjects = {
 };
 
 export function useSubjects() {
-  const queryClient = useQueryClient();
-
   const { account } = useAccount();
 
   const queryResult = useQuery({
@@ -56,32 +53,3 @@ export function useSubjects() {
     ...queryResult,
   };
 }
-
-/* function useSubjectUsers(subjectId) {
-  const queryClient = useQueryClient();
-
-  const queryResult = useQuery({
-    queryKey: [`useSubjectUsers`, subjectId],
-    queryFn: () => getSubjectUsers(subjectId),
-    staleTime: 1000 * 60 * 10,
-    enabled: !!false,
-  });
-
-  const clearSubjectUsers = () => {
-    queryClient.resetQueries({ queryKey: ["useSubjectUsers", subjectId] });
-  };
-
-  const {
-    data: subjectUsersData,
-    refetch: subjectUsersRefetch,
-    isLoading: subjectUsersIsLoading,
-  } = queryResult;
-
-  return {
-    subjectUsersData,
-    subjectUsersRefetch,
-    subjectUsersIsLoading,
-    clearSubjectUsers,
-    ...queryResult,
-  };
-} */

@@ -85,7 +85,7 @@ export default function RankingTrendChart({
               axisLine={false}
               tickMargin={8}
             />
-            <YAxis reversed={true} />
+            <YAxis reversed={true} domain={[1, "auto"]} />
             <ChartTooltip
               cursor={false}
               content={
