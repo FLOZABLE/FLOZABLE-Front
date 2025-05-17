@@ -57,7 +57,7 @@ export default function MemberContainer({
       <AvatarWrapper
         className="absolute bottom-[-0.5rem] left-[-0.5rem]"
         name={member.name}
-        id={member.user_id}
+        userId={member.user_id}
       />
       <MemberCamDisplay
         member={member}

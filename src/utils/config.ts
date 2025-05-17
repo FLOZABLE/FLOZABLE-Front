@@ -1,5 +1,3 @@
-"use client";
-
 interface ConfigType {
   server: string;
   static_server: string;

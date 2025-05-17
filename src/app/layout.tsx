@@ -78,7 +78,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${roboto.variable}`}>
@@ -93,9 +92,10 @@ export default function RootLayout({
           <Toaster />
         </Suspense>
       </body>
-      {config.google_analytics_id ? (
-        <GoogleAnalytics gaId={config.google_analytics_id} />
-      ) : null}
+      {!!config.google_analytics_id &&
+        process.env.NODE_ENV === "production" && (
+          <GoogleAnalytics gaId={config.google_analytics_id} />
+        )}
     </html>
   );
 }

@@ -46,7 +46,7 @@ export default function Study() {
   }, []);
 
   return (
-    <main className="w-screen h-screen">
+    <main className="w-screen h-screen overflow-hidden">
       <StudyModal open={studyModal} setOpen={setStudyModal} />
       <StudyDock
         className="fixed right-0 bottom-0"
