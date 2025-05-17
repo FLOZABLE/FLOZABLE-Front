@@ -154,7 +154,7 @@ export default function MyGroupsViewer({
 
   if (!myGroups?.length) {
     return (
-      <div className="bg-background-foreground p-5">
+      <div className="bg-background p-5 rounded-md">
         <h3>{"You haven't joined any groups yet!"}</h3>
         {pathname !== "/dashboard/groups" && (
           <Link href={"/dashboard/groups"} className="underline">Click here to join groups!</Link>

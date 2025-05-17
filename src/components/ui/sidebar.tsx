@@ -11,13 +11,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { cn } from "@/utils/tools";
 
-interface Links {
-  label: string;
-  href: string;
-  icon: React.JSX.Element | React.ReactNode;
-  onClick?: () => Promise<void> | void;
-}
-
 interface SidebarContextProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
