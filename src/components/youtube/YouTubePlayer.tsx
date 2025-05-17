@@ -17,7 +17,7 @@ export default function YoutubePlayer({
   ...props
 }: YoutubePlayerProps) {
   return (
-    <div className={cn("relative", className)} {...props}>
+    <div className={cn("relative z-[-1]", className)} {...props}>
       {videoId ? (
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${videoId}`}

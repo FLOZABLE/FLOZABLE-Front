@@ -25,6 +25,7 @@ import {
   useMyGroupsUpdater,
 } from "@/hooks/updaters/groupsUpdaters";
 import { AlertDialogWrapper } from "../ui/alert-dialog";
+import Link from "next/link";
 
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
@@ -139,7 +140,7 @@ export default function MyGroupsViewer({
     updateGroups((prev) => {
       const groupIndex = prev.findIndex((group) => group.group_id === groupId);
       if (groupIndex === -1) return prev;
-      
+
       const newGroups = [...prev];
       newGroups[groupIndex] = {
         ...newGroups[groupIndex],
@@ -150,6 +151,17 @@ export default function MyGroupsViewer({
       return newGroups;
     });
   }, [myGroups, confirmLeaveModal, account]);
+
+  if (!myGroups?.length) {
+    return (
+      <div className="bg-background-foreground p-5">
+        <h3>{"You haven't joined any groups yet!"}</h3>
+        {pathname !== "/dashboard/groups" && (
+          <Link href={"/dashboard/groups"} className="underline">Click here to join groups!</Link>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div {...props}>

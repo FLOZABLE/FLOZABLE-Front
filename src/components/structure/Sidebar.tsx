@@ -1,26 +1,29 @@
 "use client";
 import React, { useState } from "react";
-import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
+import { Sidebar, SidebarBody, SidebarItem, SidebarLink } from "../ui/sidebar";
 import {
   Calendar,
   ChartBar,
   CircleUserRound,
   GraduationCap,
   House,
+  LogIn,
+  LogOut,
   Trophy,
   UsersRound,
 } from "lucide-react";
 import { getAuthLogout } from "@/apis/authApi";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import { useAccount } from "@/hooks/accountHooks";
+import { useAccountModal } from "./ModalProviders";
 
 export default function SidebarWrapper() {
   const { account, clearAccountData } = useAccount();
+  const { setAccountModal } = useAccountModal();
 
-  const links = [
+  const items = [
     {
       label: "Dashboard",
       href: "/dashboard",
@@ -72,18 +75,27 @@ export default function SidebarWrapper() {
     },
     {
       label: account ? "Logout" : "Sign in",
-      href: account ? "#" : "#",
-      icon: (
-        <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      href: null,
+      icon: account ? (
+        <LogOut className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ) : (
+        <LogIn className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
       onClick: async () => {
-        const response = await getAuthLogout();
-        console.log(response);
-        if (response.success) {
-          clearAccountData();
-          /* setTimeout(() => {
-            window.location.reload();
-          }, 500); */
+        if (account) {
+          const response = await getAuthLogout();
+          if (response.success) {
+            clearAccountData();
+            setTimeout(() => {
+              window.location.reload();
+            }, 500);
+          }
+        } else {
+          setAccountModal((prev) => ({
+            ...prev,
+            isSignIn: true,
+            opened: true,
+          }));
         }
       },
     },
@@ -96,9 +108,13 @@ export default function SidebarWrapper() {
         <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
           <Logo />
           <div className="mt-8 flex flex-col gap-2">
-            {links.map((link, idx) => (
-              <SidebarLink key={idx} link={link} onClick={link.onClick} />
-            ))}
+            {items.map((item, idx) => {
+              if (item.href) {
+                return <SidebarLink key={idx} {...item} />;
+              } else {
+                return <SidebarItem key={idx} {...item} />;
+              }
+            })}
           </div>
         </div>
         <div className="absolute bottom-10 left-2">
