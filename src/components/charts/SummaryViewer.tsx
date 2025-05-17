@@ -1,15 +1,17 @@
 import { useExtensionUsage } from "@/hooks/extensionHooks";
 import { useSubjects } from "@/hooks/subjectsHooks";
 import {
+  cn,
   DynamicTimeParts,
   splitSecondConverter,
   streakCalculator,
   todayFocusCalculator,
   todayTotalCalculator,
 } from "@/utils/tools";
-import { useMemo } from "react";
+import { ComponentProps, useMemo } from "react";
 import { Card, CardContent } from "../ui/card";
 import NumberFlow from "@number-flow/react";
+import SimpleStudyTimeChart from "./SimpleStudyTimeChart";
 
 interface TimeDisplayProps {
   title: string;
@@ -40,7 +42,10 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ title, timeParts }) => {
   );
 };
 
-export default function SummaryViewer() {
+export default function SummaryViewer({
+  className,
+  ...props
+}: ComponentProps<"div">) {
   const { groupedSubjects } = useSubjects();
   const { extensionUsage } = useExtensionUsage(
     new Date(new Date().setHours(0, 0, 0, 0)),
@@ -86,15 +91,15 @@ export default function SummaryViewer() {
   }, [groupedSubjects]);
 
   return (
-    <Card>
+    <Card className={cn("border-0 shadow-none", className)} {...props}>
       <CardContent>
         <div className="grid grid-cols-2 gap-3">
           <TimeDisplay title="Study Time" timeParts={studyTime} />
           <TimeDisplay title="Focus Time" timeParts={focusTime} />
           <TimeDisplay title="Website Usage" timeParts={websiteTime} />
         </div>
-        <div className="mt-3">
-          <div>
+        <div className="mt-3 flex">
+          <div className="flex-1/2">
             <span className="flex items-baseline gap-1 h-14">
               <p className="text-5xl font-bold">
                 <NumberFlow value={streak} />
@@ -103,6 +108,10 @@ export default function SummaryViewer() {
             </span>
             <p>Streak</p>
           </div>
+          <SimpleStudyTimeChart
+            groupedSubjects={groupedSubjects}
+            className="flex-1/2"
+          />
         </div>
       </CardContent>
     </Card>

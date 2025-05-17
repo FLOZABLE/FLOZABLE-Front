@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAccountModal } from "../structure/ModalProviders";
 import {
   Credenza,
@@ -13,7 +13,7 @@ import {
 import { postAuthSignin, postAuthSignup } from "@/apis/authApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { getTimezone } from "@/utils/tools";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Form,
   FormControl,
@@ -65,6 +65,9 @@ export default function AccountModal() {
   const { accountRefetch } = useAccount();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
+
+  const [alreadyViewed, setAlreadyViewed] = useState(false);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
 
@@ -123,6 +126,12 @@ export default function AccountModal() {
     [accountRefetch, setAccountModal, searchParams, router]
   );
 
+  useEffect(() => {
+    if (!pathname.includes("/dashboard") || alreadyViewed) return;
+    setAlreadyViewed(true);
+    setAccountModal((prev) => ({ ...prev, opened: true, isSignIn: true }));
+  }, [pathname]);
+  
   return (
     <Credenza
       open={accountModal.opened}

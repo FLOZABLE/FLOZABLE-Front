@@ -1,0 +1,55 @@
+import { GroupedSubjects } from "@/types/subject";
+import { cn } from "@/utils/tools";
+import { ComponentProps, useMemo } from "react";
+
+type StreakDataType = {
+  isStreak: boolean;
+  value: number;
+};
+
+interface SimpleStudyTimeChartProps extends ComponentProps<"div"> {
+  groupedSubjects: GroupedSubjects | undefined;
+}
+
+export default function SimpleStudyTimeChart({
+  groupedSubjects,
+  className,
+}: SimpleStudyTimeChartProps) {
+  const streakData: { data: StreakDataType[]; max: number } = useMemo(() => {
+    if (!groupedSubjects?.day?.total) return { data: [], max: 0 };
+    const reversedDaily = groupedSubjects.day.total.toReversed();
+
+    const data: StreakDataType[] = [];
+    let isStreak = true;
+
+    reversedDaily.slice(0, 15).map((day) => {
+      if (!day.data) {
+        isStreak = false;
+      }
+      data.push({ isStreak, value: day.data });
+    });
+    const max = data.toSorted((a, b) => b.value - a.value)[0]?.value || 0;
+    data.reverse();
+    data.push(...Array(10).fill({ isStreak: false, value: 0 }));
+    return { data, max };
+  }, [groupedSubjects]);
+
+  return (
+    <div className={cn("w-full", className)}>
+      <div className="w-full h-full flex items-end gap-3">
+        {streakData.data.map((data, i) => {
+          return (
+            <div
+              key={i}
+              style={{ height: (data.value / streakData.max) * 100 + "%" }}
+              className={cn(
+                "w-[7px] min-h-2 rounded-sm h-fit",
+                data.isStreak ? "bg-amber-500" : "bg-border"
+              )}
+            ></div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}

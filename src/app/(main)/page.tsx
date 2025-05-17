@@ -29,7 +29,7 @@ const products = [
   {
     title: "Planner",
     link: "/dashboard/Planner",
-    thumbnail: "/img/demo/Planner.png",
+    thumbnail: "/img/demo/planner.png",
   },
   {
     title: "Stats",

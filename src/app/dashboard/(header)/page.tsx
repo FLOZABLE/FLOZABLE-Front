@@ -1,18 +1,17 @@
 "use client";
 
 import { DatePicker } from "@/components/buttons/DatePicker";
-import StudyTrendChart from "@/components/charts/StudyTrendChart";
 import SummaryViewer from "@/components/charts/SummaryViewer";
 import FriendsViewer from "@/components/friends/FriendsViewer";
 import TopLeaderboard from "@/components/leaderboard/TopLeaderboard";
-import Welcome from "@/components/others/Welcome";
 import Planstimeline from "@/components/plans/Planstimeline";
 import { Button } from "@/components/ui/button";
 import SelectorWrapper from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import YoutubePlayer from "@/components/youtube/YouTubePlayer";
-import { useSubjects } from "@/hooks/subjectsHooks";
 import { ViewerType } from "@/types/others";
 import { Play } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -21,70 +20,64 @@ export default function Dashboard() {
   );
   const [viewer, setViewer] = useState<ViewerType>("day");
 
-  const { groupedSubjects } = useSubjects();
-
+  const router = useRouter();
   return (
     <main className="p-5">
-      <div className="relative">
-        <YoutubePlayer
-          videoId="29XymHesxa0"
-          volume={0}
-          className="w-full rounded-xl overflow-hidden h-[60vh]"
-        />
-        <Button
-          variant={"secondary"}
-          className="absolute left-[50%] bottom-10 translate-x-[-50%]"
-        >
-          <Play />
-          Begin Study
-        </Button>
-      </div>
-      <SummaryViewer />
-      {/*<div className="flex justify-between w-full items-center mb-5">
-        <h1 className="text-2xl font-semibold">Dashboard</h1>
-        <div className="flex gap-3">
-          <DatePicker
-            viewDate={viewDate}
-            setViewDate={setViewDate}
-            viewer={viewer}
+      <div className="flex flex-col gap-5">
+        <div className="relative">
+          <YoutubePlayer
+            videoId="29XymHesxa0"
+            volume={0}
+            className="w-full rounded-xl overflow-hidden h-[50vh]"
           />
-          <SelectorWrapper
-            value={viewer}
-            onChange={(viewer: ViewerType) => {
-              setViewer(viewer);
+          <Button
+            variant={"secondary"}
+            className="absolute left-[50%] bottom-10 translate-x-[-50%]"
+            onClick={() => {
+              router.push("/dashboard/study");
             }}
-            options={[
-              { value: "day", label: "Day" },
-              { value: "week", label: "Week" },
-              { value: "month", label: "Month" },
-            ]}
-          />
+          >
+            <Play />
+            Begin Study
+          </Button>
         </div>
-      </div>
-      <div className="flex gap-5 flex-col">
-        <div className="flex gap-5 max-h-80">
-          <Welcome className="flex-1/3" />
+        <div className="flex">
+          <SummaryViewer className="flex-1/2" />
+          <div className="my-5">
+            <Separator orientation="vertical" className="h-full border-2" />
+          </div>
           <Planstimeline
             viewer={viewer}
             viewDate={viewDate}
-            className="flex-1/3"
-          />
-          <TopLeaderboard
-            viewer={viewer}
-            viewDate={viewDate}
-            className="flex-1/3"
+            className="flex-1/2 border-0 shadow-none"
           />
         </div>
-        <div className="flex gap-5">
-          <FriendsViewer className="h-[50vh] w-[30rem]"/>
-          <StudyTrendChart
-            viewDate={viewDate}
-            viewer={viewer}
-            groupedSubjects={groupedSubjects}
-            className="h-[50vh] w-full"
-          />
+        <Separator className="border-2" />
+        <div className="flex">
+          <FriendsViewer className="h-[50vh] w-[30rem] border-0 shadow-none" />
+          <div className="flex-1/2">
+            <div className="flex gap-5 mb-5 justify-end">
+              <DatePicker
+                viewDate={viewDate}
+                setViewDate={setViewDate}
+                viewer={viewer}
+              />
+              <SelectorWrapper
+                value={viewer}
+                onChange={(viewer: ViewerType) => {
+                  setViewer(viewer);
+                }}
+                options={[
+                  { value: "day", label: "Day" },
+                  { value: "week", label: "Week" },
+                  { value: "month", label: "Month" },
+                ]}
+              />
+            </div>
+            <TopLeaderboard viewer={viewer} viewDate={viewDate} />
+          </div>
         </div>
-      </div> */}
+      </div>
     </main>
   );
 }

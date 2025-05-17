@@ -176,7 +176,10 @@ export const SidebarLink = ({
         "flex items-center justify-start gap-2  group/sidebar py-2",
         className
       )}
-      onClick={() => {
+      onClick={(e) => {
+        if (link.href === "#") {
+          e.preventDefault();
+        }
         if (link.onClick) {
           link.onClick();
         }

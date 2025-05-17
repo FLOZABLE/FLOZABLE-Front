@@ -9,7 +9,6 @@ import StudyDock from "@/components/study/StudyDock";
 import StudyModalContainer from "@/components/study/StudyModalContainer";
 import SubjectTimer from "@/components/study/SubjectTimer";
 import { Button } from "@/components/ui/button";
-import { useWindowSize } from "@/hooks/otherHooks";
 import socket from "@/utils/sockets/socket";
 import { cn } from "@/utils/tools";
 import { X } from "lucide-react";
@@ -23,9 +22,6 @@ const YoutubePlayer = dynamic(
 
 export default function Study() {
   const [theme, setTheme] = useState({ volume: 0, id: "YQc4WT0yDH4" });
-
-  const { width, height } = useWindowSize();
-
   const [studyOptions, setStudyOptions] = useState({
     planner: true,
     timer: true,

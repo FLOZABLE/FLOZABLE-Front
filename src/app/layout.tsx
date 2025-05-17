@@ -17,6 +17,8 @@ import PlanModal from "@/components/modals/PlanModal";
 import "@schedule-x/theme-shadcn/dist/index.css";
 import JoinGroupModal from "@/components/modals/JoinGroupModal";
 import ChatModal from "@/components/modals/ChatModal";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import config from "@/utils/config";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -76,6 +78,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${roboto.variable}`}>
@@ -90,6 +93,9 @@ export default function RootLayout({
           <Toaster />
         </Suspense>
       </body>
+      {config.google_analytics_id ? (
+        <GoogleAnalytics gaId={config.google_analytics_id} />
+      ) : null}
     </html>
   );
 }
