@@ -41,7 +41,7 @@ export default function Dashboard() {
             Begin Study
           </Button>
         </div>
-        <div className="flex">
+        <div className="flex gap-5">
           <SummaryViewer className="flex-1/2" />
           <div className="my-5">
             <Separator orientation="vertical" className="h-full border-2" />
@@ -53,7 +53,7 @@ export default function Dashboard() {
           />
         </div>
         <Separator className="border-2" />
-        <div className="flex">
+        <div className="flex gap-5">
           <FriendsViewer className="h-[50vh] w-[30rem] border-0 shadow-none" />
           <div className="flex-1/2">
             <div className="flex gap-5 mb-5 justify-end">

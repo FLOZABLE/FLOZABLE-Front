@@ -58,6 +58,7 @@ export default function SummaryViewer({
     const formattedTodayTotal = splitSecondConverter({
       sec: todayTotal,
       options: ["sec", "mins", "hours"],
+      decimal: true,
     });
     return formattedTodayTotal;
   }, [groupedSubjects]);
@@ -70,6 +71,7 @@ export default function SummaryViewer({
     const formattedWebsiteUsage = splitSecondConverter({
       sec: totalWebsiteUsage,
       options: ["sec", "mins", "hours"],
+      decimal: true,
     });
     return formattedWebsiteUsage;
   }, [extensionUsage]);
@@ -80,6 +82,7 @@ export default function SummaryViewer({
     const formattedFocus = splitSecondConverter({
       sec: focus,
       options: ["sec", "mins", "hours"],
+      decimal: true,
     });
     return formattedFocus;
   }, [groupedSubjects]);

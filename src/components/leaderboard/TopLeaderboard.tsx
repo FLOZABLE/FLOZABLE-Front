@@ -53,7 +53,7 @@ function RankingContainer({
   }
 
   return (
-    <div>
+    <div className="nth-last-[1]:pb-5">
       {title && <p className="text-sm">{title}</p>}
       {!rankingsIsLoading && rankingsData ? (
         slicedRanking.map((user, i) => (
