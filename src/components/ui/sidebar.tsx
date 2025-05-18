@@ -155,7 +155,7 @@ export const MobileSidebar = ({
   );
 };
 
-interface SidebarItemType {
+export interface SidebarItemType {
   icon: ReactNode;
   label: string;
 }
@@ -172,7 +172,7 @@ export const SidebarItem = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-start gap-2  group/sidebar py-2 cursor-pointer",
+        "flex items-center justify-start gap-2  group/sidebar py-2 cursor-pointer relative",
         className
       )}
       {...props}

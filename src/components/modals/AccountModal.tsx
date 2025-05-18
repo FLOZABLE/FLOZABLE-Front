@@ -62,7 +62,7 @@ export const signUpFormSchema = z.object({
 
 export default function AccountModal() {
   const { accountModal, setAccountModal } = useAccountModal();
-  const { accountRefetch } = useAccount();
+  const { account, accountRefetch, status } = useAccount();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -127,11 +127,25 @@ export default function AccountModal() {
   );
 
   useEffect(() => {
-    if (!pathname.includes("/dashboard") || alreadyViewed) return;
-    setAlreadyViewed(true);
-    setAccountModal((prev) => ({ ...prev, opened: true, isSignIn: true }));
-  }, [pathname]);
-  
+    setTimeout(() => {
+      if (
+        pathname.includes("dashboard") &&
+        !alreadyViewed &&
+        !account &&
+        status !== "pending"
+      ) {
+        setAccountModal((prev) => ({
+          ...prev,
+          opened: true,
+          isSignIn: true,
+        }));
+        setAlreadyViewed(true);
+      } else {
+        setAccountModal((prev) => ({ ...prev, opened: false }));
+      }
+    }, 100);
+  }, [account, status]);
+
   return (
     <Credenza
       open={accountModal.opened}

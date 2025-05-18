@@ -1,5 +1,5 @@
 import { Bell, Dot } from "lucide-react";
-import { Button } from "../ui/button";
+import { Button, ButtonProps } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,15 +10,26 @@ import {
 import { useNotifications } from "@/hooks/notificationsHooks";
 import NotificationContainer from "../notifications/NotificationContainer";
 import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendsHooks";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { postFriendsRequestReply } from "@/apis/friendsApi";
 import { deleteNotification } from "@/apis/notificationsApi";
 import { postChatRequestReply } from "@/apis/chatApi";
 import { useRouter } from "next/navigation";
 import { Notification } from "@/types/notification";
 import { useNotificationsUpdater } from "@/hooks/updaters/notificationsUpdaters";
+import { cn } from "@/utils/tools";
 
-export default function NotificationsBtn() {
+interface NotificationsButton extends ButtonProps {
+  buttonRef?: React.Ref<HTMLButtonElement>;
+}
+
+export default function NotificationsButton({
+  className,
+  buttonRef,
+  ...props
+}: NotificationsButton) {
+  const [open, setOpen] = useState(false);
+
   const router = useRouter();
 
   const { notifications } = useNotifications();
@@ -143,9 +154,17 @@ export default function NotificationsBtn() {
   }, []);
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
-        <Button className="aspect-square h-10 w-10 relative" variant="outline">
+        <Button
+          className={cn("aspect-square h-10 w-10 relative", className)}
+          variant="outline"
+          ref={buttonRef}
+          onClick={() => {
+            setOpen(true);
+          }}
+          {...props}
+        >
           <Bell />
           {!!notifications?.length && (
             <Dot
@@ -157,8 +176,8 @@ export default function NotificationsBtn() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        side="bottom"
-        align="end"
+        side="left"
+        align="start"
         className="p-0 max-h-[70vh]"
       >
         <DropdownMenuLabel className="sticky top-0 z-10 bg-background border-b-2 p-3">

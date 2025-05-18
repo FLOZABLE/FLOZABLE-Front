@@ -12,12 +12,14 @@ import { cn } from "@/utils/tools";
 interface ChatButtonProps extends ButtonProps {
   userInfo?: Userinfo;
   groupId?: string;
+  buttonRef?: React.Ref<HTMLButtonElement>;
 }
 
 export default function ChatButton({
   userInfo,
   groupId,
   className,
+  buttonRef,
   ...props
 }: ChatButtonProps) {
   const { setChatModal } = useChatModal();
@@ -68,6 +70,7 @@ export default function ChatButton({
 
   return (
     <Button
+      ref={buttonRef}
       className={cn("relative", className)}
       onClick={() => {
         if (groupId) {

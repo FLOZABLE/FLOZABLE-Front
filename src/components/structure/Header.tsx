@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRightIcon } from "lucide-react";
-import NotificationsBtn from "../buttons/NotificationsBtn";
+import NotificationsButton from "../buttons/NotificationsButton";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import AvatarWrapper from "../ui/avatar";
 import { useAccount } from "@/hooks/accountHooks";
@@ -45,7 +45,7 @@ export default function Header() {
           </Button>
         )}
         <ChatButton variant={"outline"} className="aspect-square w-10 h-10" />
-        <NotificationsBtn />
+        <NotificationsButton />
         <ThemeToggleBtn />
         <AvatarWrapper
           name={account?.name || ""}

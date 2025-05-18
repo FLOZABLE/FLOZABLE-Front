@@ -34,6 +34,7 @@ export function useAccount() {
     accountError,
     accountIsLoading,
     clearAccountData,
+    ...queryResult,
   };
 }
 

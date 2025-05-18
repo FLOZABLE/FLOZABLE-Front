@@ -422,43 +422,6 @@ export async function requestHandler<T>(
   }
 }
 
-/* export function updateQueryData<T extends Record<string, any>, K extends keyof T>(
-  oldData: ApiResponse<T> | undefined,
-  newData: ((prev: T[K] | undefined) => T[K]) | T[K],
-  key: K
-): ApiResponse<T> | undefined {
-  try {
-    if (!oldData?.success) return oldData;
-
-    const currentData = oldData.data;
-
-    if (typeof newData === "function") {
-      const prevValue = currentData?.[key];
-      const updater = newData as (prev: T[K] | undefined) => T[K];
-      const newValue = updater(prevValue);
-
-      return {
-        ...oldData,
-        data: {
-          ...currentData,
-          [key]: newValue,
-        } as T,
-      };
-    }
-
-    return {
-      ...oldData,
-      data: {
-        ...currentData,
-        [key]: newData,
-      } as T,
-    };
-  } catch (err) {
-    console.log(err);
-    return oldData;
-  }
-} */
-
 /**
  * Updates a specific key in oldData.data with newData, which can be a value or a function.
  * @param oldData - The existing ApiResponse object to update

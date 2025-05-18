@@ -41,40 +41,42 @@ export default function Dashboard() {
             Begin Study
           </Button>
         </div>
-        <div className="flex gap-5">
-          <SummaryViewer className="flex-1/2" />
-          <div className="my-5">
-            <Separator orientation="vertical" className="h-full border-2" />
-          </div>
-          <Planstimeline
-            viewer={viewer}
-            viewDate={viewDate}
-            className="flex-1/2 border-0 shadow-none"
-          />
-        </div>
-        <Separator className="border-2" />
-        <div className="flex gap-5">
-          <FriendsViewer className="h-[50vh] w-[30rem] border-0 shadow-none" />
-          <div className="flex-1/2">
-            <div className="flex gap-5 mb-5 justify-end">
-              <DatePicker
-                viewDate={viewDate}
-                setViewDate={setViewDate}
-                viewer={viewer}
-              />
-              <SelectorWrapper
-                value={viewer}
-                onChange={(viewer: ViewerType) => {
-                  setViewer(viewer);
-                }}
-                options={[
-                  { value: "day", label: "Day" },
-                  { value: "week", label: "Week" },
-                  { value: "month", label: "Month" },
-                ]}
-              />
+        <div className="gap-5 max-w-5xl mx-auto w-full flex flex-col">
+          <div className="flex gap-5">
+            <SummaryViewer className="flex-1/2" />
+            <div className="my-5">
+              <Separator orientation="vertical" className="h-full border-1" />
             </div>
-            <TopLeaderboard viewer={viewer} viewDate={viewDate} />
+            <Planstimeline
+              viewer={viewer}
+              viewDate={viewDate}
+              className="flex-1/2 border-0 shadow-none"
+            />
+          </div>
+          <Separator className="border-1" />
+          <div className="flex gap-5">
+            <FriendsViewer className="h-[50vh] w-[30rem] border-0 shadow-none" />
+            <div className="flex-1/2">
+              <div className="flex gap-5 mb-5 justify-end">
+                <DatePicker
+                  viewDate={viewDate}
+                  setViewDate={setViewDate}
+                  viewer={viewer}
+                />
+                <SelectorWrapper
+                  value={viewer}
+                  onChange={(viewer: ViewerType) => {
+                    setViewer(viewer);
+                  }}
+                  options={[
+                    { value: "day", label: "Day" },
+                    { value: "week", label: "Week" },
+                    { value: "month", label: "Month" },
+                  ]}
+                />
+              </div>
+              <TopLeaderboard viewer={viewer} viewDate={viewDate} />
+            </div>
           </div>
         </div>
       </div>

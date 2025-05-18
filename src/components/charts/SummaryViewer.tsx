@@ -94,7 +94,10 @@ export default function SummaryViewer({
   }, [groupedSubjects]);
 
   return (
-    <Card className={cn("border-0 shadow-none", className)} {...props}>
+    <Card
+      className={cn("border-0 shadow-none overflow-hidden", className)}
+      {...props}
+    >
       <CardContent>
         <div className="grid grid-cols-2 gap-3">
           <TimeDisplay title="Study Time" timeParts={studyTime} />
@@ -102,7 +105,7 @@ export default function SummaryViewer({
           <TimeDisplay title="Website Usage" timeParts={websiteTime} />
         </div>
         <div className="mt-3 flex">
-          <div className="flex-1/2">
+          <div>
             <span className="flex items-baseline gap-1 h-14">
               <p className="text-5xl font-bold">
                 <NumberFlow value={streak} />
@@ -113,7 +116,7 @@ export default function SummaryViewer({
           </div>
           <SimpleStudyTimeChart
             groupedSubjects={groupedSubjects}
-            className="flex-1/2"
+            className="ml-3"
           />
         </div>
       </CardContent>

@@ -230,7 +230,7 @@ export default function Planner() {
 
     //min top set to 100
     const top = element.y > 100 ? element.y : 200;
-    console.log(element.x, windowSize.width / 2)
+    console.log(element.x, windowSize.width / 2);
     const left =
       element.x < windowSize.width / 2
         ? element.x + element.width
@@ -238,7 +238,7 @@ export default function Planner() {
     setPlanViewerPos({ top, left });
   }, [windowSize.width]);
 
-  console.log(windowSize)
+  console.log(windowSize);
 
   const onUpcomingPlanClick = useCallback((plan: EventInput) => {
     const api = calendarRef.current?.getApi();
