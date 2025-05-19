@@ -56,7 +56,7 @@ export default function Leaderboard() {
     <main className="p-5">
       <div className="flex justify-between w-full items-center mb-5 z-10">
         <h1 className="text-2xl font-semibold">Leaderboard</h1>
-        <div className="flex gap-3 fixed right-8 top-16 z-10">
+        <div className="flex gap-3 fixed right-8 top-8 z-10">
           <DatePicker
             viewDate={viewDate}
             setViewDate={setViewDate}

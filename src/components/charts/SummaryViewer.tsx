@@ -52,8 +52,8 @@ export default function SummaryViewer({
     "day"
   );
 
-  const studyTime: DynamicTimeParts | undefined = useMemo(() => {
-    if (!groupedSubjects?.day) return;
+  const studyTime: DynamicTimeParts = useMemo(() => {
+    if (!groupedSubjects?.day) return { mins: 0 };
     const todayTotal = todayTotalCalculator(groupedSubjects);
     const formattedTodayTotal = splitSecondConverter({
       sec: todayTotal,
@@ -63,8 +63,8 @@ export default function SummaryViewer({
     return formattedTodayTotal;
   }, [groupedSubjects]);
 
-  const websiteTime: DynamicTimeParts | undefined = useMemo(() => {
-    if (!extensionUsage) return;
+  const websiteTime: DynamicTimeParts = useMemo(() => {
+    if (!extensionUsage) return { mins: 0 };
     const totalWebsiteUsage = extensionUsage.reduce((a, b) => {
       return a + b.duration;
     }, 0);
@@ -76,8 +76,8 @@ export default function SummaryViewer({
     return formattedWebsiteUsage;
   }, [extensionUsage]);
 
-  const focusTime: DynamicTimeParts | undefined = useMemo(() => {
-    if (!groupedSubjects) return;
+  const focusTime: DynamicTimeParts = useMemo(() => {
+    if (!groupedSubjects) return { mins: 0 };
     const focus = todayFocusCalculator(groupedSubjects);
     const formattedFocus = splitSecondConverter({
       sec: focus,

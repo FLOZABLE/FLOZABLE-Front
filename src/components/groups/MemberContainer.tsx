@@ -40,7 +40,7 @@ export default function MemberContainer({
       total: member.study_time,
     };
     if (member.active_subject && member.active_subject?.subject_id !== "0") {
-      timer.start = member.active_subject?.time;
+      timer.start = member.active_subject?.start_time;
       timer.name = `Studying ${member.active_subject.name}`;
     }
     setSubjectTimer(timer);

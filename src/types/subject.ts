@@ -42,7 +42,7 @@ export interface GroupedSubjects {
 
 export interface ActiveSubject {
   subject_id: string;
-  time: number;
+  start_time: number;
   name: string;
 }
 

@@ -22,7 +22,7 @@ export default function UserSubjectViewer({ userInfo }: FriendsViewerProps) {
   useEffect(() => {
     const activeSubject = {
       name: "Offline",
-      start: userInfo?.active_subject?.time ?? 0,
+      start: userInfo?.active_subject?.start_time ?? 0,
       total: 0,
     };
     if (!userInfo?.active_subject) {

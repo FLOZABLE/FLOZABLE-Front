@@ -38,7 +38,7 @@ async function getPlansGoogle(date) {
 }
 
 async function patchPlan(planModal) {
-  const start = Math.floor(planModal.start.getTime() / 1000);
+  const start = Math.floor(planModal.start.getTime() );
   const end = Math.floor(planModal.end.getTime() / 1000);
   const completed = planModal.completed ? 1 : 0;
   const timezone = getTimezone();
