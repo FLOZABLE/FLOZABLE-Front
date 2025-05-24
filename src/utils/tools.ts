@@ -1,6 +1,6 @@
 "use client";
 
-import { DateTime, DateTimeUnit } from "luxon";
+import { DateTime } from "luxon";
 //import { postNotificationsSubscribe } from "@/Api/notificationsApi";
 import * as ct from "countries-and-timezones";
 import { AxiosError, AxiosResponse } from "axios";
@@ -323,20 +323,20 @@ export function unsubscribeFromPush(): void {
 
 export function getDates(
   date: Date,
-  mode: DateTimeUnit,
+  viewer: ViewerType,
   length: number
 ): DateTime[] {
   const dates: DateTime[] = [];
-  let dateTime = DateTime.fromJSDate(date).startOf(mode).startOf("day");
-  const now = DateTime.now().startOf(mode).startOf("day");
+  let dateTime = DateTime.fromJSDate(date).startOf(viewer).startOf("day");
+  const now = DateTime.now().startOf(viewer).startOf("day");
 
   for (let i = 0; i < length; i++) {
-    if (dateTime.plus({ [mode]: i }) <= now) {
-      dates.push(dateTime.plus({ [mode]: i }));
+    if (dateTime.plus({ [viewer]: i }) <= now) {
+      dates.push(dateTime.plus({ [viewer]: i }));
     }
   }
   while (dates.length < length) {
-    dateTime = dateTime.minus({ [mode]: 1 });
+    dateTime = dateTime.minus({ [viewer]: 1 });
     dates.unshift(dateTime);
   }
 

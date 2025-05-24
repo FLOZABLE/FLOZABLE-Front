@@ -22,19 +22,19 @@ export interface FriendTrend {
   friends: Omit<FriendStatus, "active_subject">[];
 }
 
-export type SearchedUser = Pick<Userinfo, "user_id" | "name" | "timezone">;
+/* export type SearchedUser = Pick<Userinfo, "user_id" | "name" | "timezone">;
 
-export type RecommendedUsers = Pick<Userinfo, "user_id" | "name" | "timezone">;
+export type RecommendedUsers = Pick<Userinfo, "user_id" | "name" | "timezone">; */
 
 // get /friends
 export type FriendsResponse = ApiResponse<{ friends: Friend[] }>;
 
 // get /friends/search
-export type FriendsSearchResponse = ApiResponse<{ users: SearchedUser[] }>;
+export type FriendsSearchResponse = ApiResponse<{ users: Userinfo[] }>;
 
 // get /friends/recommended
 export type FriendsRecommendedResponse = ApiResponse<{
-  users: RecommendedUsers[];
+  users: Userinfo[];
 }>;
 
 // get /friends/status

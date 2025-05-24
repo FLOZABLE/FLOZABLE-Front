@@ -33,6 +33,7 @@ interface SubjectsTrendChartProps extends ComponentProps<"div"> {
   subjects: Subject[] | undefined;
   isMine?: boolean;
 }
+
 export default function SubjectsTrendChart({
   viewDate,
   viewer,
