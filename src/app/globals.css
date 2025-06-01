@@ -47,25 +47,6 @@
   --gray-4: #3f4d5a;
 }
 
-.modal {
-  visibility: hidden;
-  opacity: 0;
-  top: 31.25rem;
-  position: fixed;
-  left: calc(50vw - var(--modal-width) / 2);
-  transition: 0.3s ease-in-out opacity, 0.3s ease-in-out visibility,
-    0.3s ease-in-out top;
-  background-color: #fff;
-  z-index: 7;
-  box-shadow: rgba(100, 100, 111, 0.2) 0em 0.4375rem 1.8125rem 0em;
-  border-radius: 1.25rem;
-}
-
-.modal.open {
-  visibility: visible;
-  opacity: 1;
-}
-
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);

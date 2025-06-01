@@ -112,12 +112,13 @@ export default function SubjectTimer({
       const subjectData = subjects.find(
         (_subject) => _subject.subject_id === subject.subject_id
       );
+      console.log("start", subjectData, subject);
       if (!subjectData) return;
 
       setSelectedSubject((prev) => ({
         ...prev,
         subject_id: subject.subject_id,
-        name: subject.name,
+        name: subjectData.name,
         value:
           subjectData.day.total[subjectData.day.total.length - 1]?.data || 0,
         active: true,
@@ -127,7 +128,10 @@ export default function SubjectTimer({
       });
     };
 
-    const onMyStudyStop = ({ stoppedSubject, duration }: OnMyStopStudying) => {
+    const onMyStudyStop = ({
+      stopped_subject_id,
+      duration,
+    }: OnMyStopStudying) => {
       setSelectedSubject((prev) => ({
         ...prev,
         active: false,
@@ -139,7 +143,7 @@ export default function SubjectTimer({
 
       updateSubjects((prev) => {
         const subjectIndex = prev.findIndex(
-          (subject) => subject.subject_id === stoppedSubject.subject_id
+          (subject) => subject.subject_id === stopped_subject_id
         );
 
         if (subjectIndex === -1) {
@@ -166,7 +170,7 @@ export default function SubjectTimer({
         };
 
         setSelectedSubject((prev) => {
-          if (prev.subject_id !== stoppedSubject.subject_id) {
+          if (prev.subject_id !== stopped_subject_id) {
             return prev;
           }
           const updatedValue =

@@ -19,6 +19,12 @@ export interface Userinfo {
   timezone: string;
 }
 
+export interface UserStatus {
+  subject_id: string;
+  name: string;
+  start_time: number;
+}
+
 export interface GoogleAccount {
   id: string;
   email: string;

@@ -5,7 +5,7 @@ import { getTimezone, requestHandler } from "@/utils/tools";
 export async function getSubjects(): Promise<SubjectsResponse> {
   const timezone = getTimezone();
   return requestHandler(
-    AxiosInstance.get(`/subjects`, { params: { timezone } })
+    AxiosInstance.get(`/subject/all`, { params: { timezone } })
   );
 }
 

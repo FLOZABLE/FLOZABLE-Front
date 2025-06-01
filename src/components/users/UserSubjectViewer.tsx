@@ -22,21 +22,21 @@ export default function UserSubjectViewer({ userInfo }: FriendsViewerProps) {
   useEffect(() => {
     const activeSubject = {
       name: "Offline",
-      start: userInfo?.active_subject?.start_time ?? 0,
+      start: userInfo?.status?.start_time ?? 0,
       total: 0,
     };
-    if (!userInfo?.active_subject) {
+    if (!userInfo?.status) {
       setActiveSubject(activeSubject);
       return;
     }
 
-    if (userInfo.active_subject.subject_id !== "0") {
-      activeSubject.name = `Studying ${userInfo.active_subject.name}`;
-    } else if (userInfo.active_subject.subject_id === "0") {
+    if (userInfo.status.subject_id !== "0") {
+      activeSubject.name = `Studying ${userInfo.status.name}`;
+    } else if (userInfo.status.subject_id === "0") {
       activeSubject.name = "Taking break";
     }
     setActiveSubject(activeSubject);
-  }, [userInfo?.active_subject]);
+  }, [userInfo?.status]);
 
   return (
     <div className="p-2 rounded-md flex gap-2">

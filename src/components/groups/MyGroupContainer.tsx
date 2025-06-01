@@ -115,17 +115,17 @@ export default function MyGroupContainer({
         const newGroupMembers = [...prev];
         newGroupMembers[memberIndex] = {
           ...newGroupMembers[memberIndex],
-          active_subject: subject,
+          status: subject,
         };
 
         return newGroupMembers;
       });
     };
 
-    const onStopStudying = ({ userId, subject, duration }: OnStopStudying) => {
+    const onStopStudying = ({ user_id, status, duration }: OnStopStudying) => {
       updateGroupMembers((prev) => {
         const memberIndex = prev.findIndex(
-          (member) => member.user_id === userId
+          (member) => member.user_id === user_id
         );
         if (memberIndex === -1) return prev;
 
@@ -133,7 +133,7 @@ export default function MyGroupContainer({
         const study_time = newGroupMembers[memberIndex].study_time + duration;
         newGroupMembers[memberIndex] = {
           ...newGroupMembers[memberIndex],
-          active_subject: subject,
+          status,
           study_time,
         };
 

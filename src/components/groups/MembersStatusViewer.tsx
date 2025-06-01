@@ -18,9 +18,9 @@ export default function MembersStatusViewer({
     if (!members) return status;
 
     members.forEach((member) => {
-      if (!member.active_subject) {
+      if (!member.status) {
         status.offline.push(member.user_id);
-      } else if (member.active_subject.subject_id === "0") {
+      } else if (member.status.subject_id === "0") {
         status.resting.push(member.user_id);
       } else {
         status.studying.push(member.user_id);

@@ -39,9 +39,9 @@ export default function MemberContainer({
       start: null,
       total: member.study_time,
     };
-    if (member.active_subject && member.active_subject?.subject_id !== "0") {
-      timer.start = member.active_subject?.start_time;
-      timer.name = `Studying ${member.active_subject.name}`;
+    if (member.status && member.status?.subject_id !== "0") {
+      timer.start = member.status?.start_time;
+      timer.name = `Studying ${member.status.name}`;
     }
     setSubjectTimer(timer);
   }, [member]);

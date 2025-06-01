@@ -492,7 +492,3 @@ export function formatPlanDateRange(
 
   return `${weekdayDate} ${startTime} - ${endTime}`;
 }
-
-export function test(): string {
-  return "";
-}

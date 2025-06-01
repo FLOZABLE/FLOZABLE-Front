@@ -43,8 +43,8 @@ export const strictString = (type: string, maxLength = 20, minLength = 1) =>
 
 export const passwordSchema = z
   .string()
-  .min(5, { message: "Password is too short (5 characters minimum)" })
-  .max(30, { message: "Password is too long (30 characters maximum)" })
+  .min(8, { message: "Password is too short (8 characters minimum)" })
+  .max(20, { message: "Password is too long (20 characters maximum)" })
   .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {
     message: "You need at least one special character",
   });

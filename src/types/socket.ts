@@ -1,3 +1,4 @@
+import { UserStatus } from "./account";
 import { ActiveGroup } from "./group";
 import { ActiveSubject } from "./subject";
 
@@ -11,16 +12,13 @@ export interface OnMyStudying {
 }
 
 export interface OnStopStudying {
-  userId: string;
-  subject: ActiveSubject;
-  activeSubject: ActiveSubject;
+  user_id: string;
+  status: UserStatus;
   duration: number;
 }
 
 export interface OnMyStopStudying {
-  subject: ActiveSubject;
-  activeSubject: ActiveSubject;
-  stoppedSubject: ActiveSubject;
+  stopped_subject_id: string;
   duration: number;
 }
 

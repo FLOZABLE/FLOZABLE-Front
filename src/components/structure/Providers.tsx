@@ -14,8 +14,6 @@ import {
   useRef,
   useState,
 } from "react";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import socket from "@/utils/sockets/socket";
 import mediaSocket from "@/utils/sockets/mediaSocket";
 import { useAccount } from "@/hooks/accountHooks";
@@ -154,25 +152,25 @@ function AppProvider({ children }: AppProviderProps) {
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
         const copy = [...prev];
-        copy[index] = { ...copy[index], active_subject: subject };
+        copy[index] = { ...copy[index], status: subject };
         return copy;
       });
-      //updateProfileStatus(userId, "active_subject", subject);
+      //updateProfileStatus(userId, "status", status);
     };
 
-    const onStopStudying = ({ userId, subject, duration }: OnStopStudying) => {
+    const onStopStudying = ({ user_id, status, duration }: OnStopStudying) => {
       updateFriendsStatus((prev) => {
-        const index = prev.findIndex((f) => f.user_id === userId);
+        const index = prev.findIndex((f) => f.user_id === user_id);
         if (index === -1) return prev;
         const copy = [...prev];
         copy[index] = {
           ...copy[index],
-          active_subject: subject,
+          status: status,
           study_time: (copy[index].study_time || 0) + duration,
         };
         return copy;
       });
-      //updateProfileStatus(userId, "active_subject", subject);
+      //updateProfileStatus(userId, "status", status);
     };
 
     const onActiveGroup = ({ userId, group }: OnActiveGroup) => {
@@ -219,19 +217,16 @@ function AppProvider({ children }: AppProviderProps) {
     <WorkersProvider>
       <NextStepProvider>
         <NextStep steps={steps}>
-          <LocalizationProvider dateAdapter={AdapterLuxon}>
-            <ModalProviders>
-              <CallOptionsProvider>
-                <ThemesProvider>{children}</ThemesProvider>
-              </CallOptionsProvider>
-            </ModalProviders>
-          </LocalizationProvider>
+          <ModalProviders>
+            <CallOptionsProvider>
+              <ThemesProvider>{children}</ThemesProvider>
+            </CallOptionsProvider>
+          </ModalProviders>
         </NextStep>
       </NextStepProvider>
     </WorkersProvider>
   );
 }
-
 
 export const WorkersContext = createContext<WorkersContextType>({
   membersTimerWorker: null,
@@ -272,7 +267,9 @@ export function WorkersProvider({ children }: WorkersProviderProps) {
   }, []);
 
   const createWorker = (name: string) => {
-    console.warn(`Workers are auto-initialized. Manual creation not supported. Tried: ${name}`);
+    console.warn(
+      `Workers are auto-initialized. Manual creation not supported. Tried: ${name}`
+    );
   };
 
   const terminateWorker = (name: string) => {
@@ -280,7 +277,7 @@ export function WorkersProvider({ children }: WorkersProviderProps) {
       membersTimerWorkerRef.current.terminate();
       membersTimerWorkerRef.current = null;
     }
-    if (name === "subjectTimer" && subjectTimerWorkerRef.current) {
+    if (name === "statusTimer" && subjectTimerWorkerRef.current) {
       subjectTimerWorkerRef.current.terminate();
       subjectTimerWorkerRef.current = null;
     }
@@ -288,7 +285,7 @@ export function WorkersProvider({ children }: WorkersProviderProps) {
 
   const getWorker = (name: string): Worker | null => {
     if (name === "membersTimer") return membersTimerWorkerRef.current;
-    if (name === "subjectTimer") return subjectTimerWorkerRef.current;
+    if (name === "statusTimer") return subjectTimerWorkerRef.current;
     return null;
   };
 

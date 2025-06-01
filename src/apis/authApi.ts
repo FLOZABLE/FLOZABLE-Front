@@ -20,7 +20,7 @@ export async function postAuthSignin({
   password,
 }: PostAuthSigninParams): Promise<SuccessResponse> {
   return requestHandler(
-    AxiosInstance.post(`/auth/signin`, {
+    AxiosInstance.post(`/auth/login`, {
       email,
       password,
     })
