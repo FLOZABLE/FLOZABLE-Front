@@ -15,7 +15,7 @@ export default function AnimatedTimerDisplay({
   const minutes = Math.floor((value % 3600) / 60);
   const seconds = value % 60;
   return (
-    <div className={cn("", className)} {...props}>
+    <div className={cn("whitespace-nowrap shrink-0", className)} {...props}>
       <NumberFlow value={hours} format={{ minimumIntegerDigits: 2 }} />
       <span>:</span>
       <NumberFlow value={minutes} format={{ minimumIntegerDigits: 2 }} />

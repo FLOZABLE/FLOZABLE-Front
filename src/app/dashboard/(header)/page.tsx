@@ -5,6 +5,7 @@ import SummaryViewer from "@/components/charts/SummaryViewer";
 import FriendsViewer from "@/components/friends/FriendsViewer";
 import TopLeaderboard from "@/components/leaderboard/TopLeaderboard";
 import Planstimeline from "@/components/plans/Planstimeline";
+import { useWorkers } from "@/components/structure/Providers";
 import { Button } from "@/components/ui/button";
 import SelectorWrapper from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
@@ -12,7 +13,7 @@ import YoutubePlayer from "@/components/youtube/YouTubePlayer";
 import { ViewerType } from "@/types/others";
 import { Play } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const [viewDate, setViewDate] = useState<Date>(
@@ -21,6 +22,18 @@ export default function Dashboard() {
   const [viewer, setViewer] = useState<ViewerType>("day");
 
   const router = useRouter();
+
+  const { subjectTimerWorker } = useWorkers();
+
+  useEffect(() => {
+    //just to make sure
+    setTimeout(() => {
+      subjectTimerWorker?.postMessage({
+        command: "stopSubjectTimer",
+      });
+    }, 1000);
+  }, []);
+
   return (
     <main className="p-5">
       <div className="flex flex-col gap-5">

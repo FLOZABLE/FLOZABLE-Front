@@ -238,20 +238,22 @@ export default function SubjectTimer({
               variant="outline"
               role="combobox"
               aria-expanded={open}
-              className="w-[200px] justify-between"
+              className="w-[200px] justify-between overflow-hidden"
             >
-              {selectedSubject.subject_id !== "" ? (
-                <div className="flex w-full">
-                  <p>{selectedSubject.name}</p>
-                  <AnimatedTimerDisplay
-                    value={selectedSubject.value}
-                    className="ml-auto"
-                  />
-                </div>
-              ) : (
-                "Select a subject"
-              )}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              <div className="flex w-full items-center">
+                {selectedSubject.subject_id !== "" ? (
+                  <>
+                    <p className="truncate">{selectedSubject.name}</p>
+                    <AnimatedTimerDisplay
+                      value={selectedSubject.value}
+                      className="ml-auto"
+                    />
+                  </>
+                ) : (
+                  "Select a subject"
+                )}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </div>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0 pointer-events-auto ">
@@ -293,8 +295,8 @@ export default function SubjectTimer({
                           )}
                         />
                         {isSelected ? (
-                          <div className="flex w-full">
-                            <p>{selectedSubject.name}</p>
+                          <div className="flex w-full overflow-hidden">
+                            <p className="truncate">{selectedSubject.name}</p>
                             <AnimatedTimerDisplay
                               value={selectedSubject.value}
                               className="ml-auto"
