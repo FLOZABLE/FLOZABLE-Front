@@ -1,4 +1,4 @@
-import { Friend, FriendStatus } from "@/types/friend";
+import { Friend, FriendStatus } from "@/types/friendTypes";
 import { useUpdater } from "../otherHooks";
 
 export function useFriendsUpdater() {

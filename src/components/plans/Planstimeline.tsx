@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import { Button } from "../ui/button";
 import { CirclePlus } from "lucide-react";
 import { usePlanModal } from "../structure/ModalProviders";

@@ -1,14 +1,14 @@
 import { UserRoundPlus, UserRoundX } from "lucide-react";
 import { Button } from "../ui/button";
 import { useCallback } from "react";
-import { deleteFriend, postFriendsRequest } from "@/apis/friendApi";
-import { Userinfo } from "@/types/account";
+import { Userinfo } from "@/types/accountTypes";
 import {
   useFriends,
   useFriendsStatus,
   useFriendsTrends,
-} from "@/hooks/friendsHooks";
+} from "@/hooks/friendHooks";
 import { useFriendsUpdater } from "@/hooks/updaters/friendsUpdaters";
+import { deleteFriend, sendFriendRequest } from "@/apis/friendApi";
 
 interface FriendRequestButtonProps {
   userInfo: Userinfo;
@@ -24,7 +24,7 @@ export default function FriendRequestButton({
   const updateFriends = useFriendsUpdater();
 
   const requestFriend = useCallback(async () => {
-    await postFriendsRequest(userInfo.user_id);
+    await sendFriendRequest(userInfo.user_id);
   }, [userInfo]);
 
   const unFriend = useCallback(async () => {

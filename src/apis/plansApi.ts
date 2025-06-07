@@ -4,7 +4,7 @@ import {
   PatchPlanResponse,
   PlansResponse,
   PutPlanResponse,
-} from "@/types/plan";
+} from "@/types/planTypes";
 import AxiosInstance from "@/utils/axiosInstance";
 import { requestHandler } from "@/utils/tools";
 

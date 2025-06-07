@@ -19,7 +19,7 @@ import {
 import { cn, getDatesDisplay } from "@/utils/tools";
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 
 interface DatePickerProps extends  React.ComponentProps<typeof PopoverPrimitive.Content>  {

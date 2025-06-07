@@ -1,6 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { Button, ButtonProps } from "../ui/button";
-import { Userinfo } from "@/types/account";
+import { Userinfo } from "@/types/accountTypes";
 import { useChatModal } from "../structure/ModalProviders";
 import { useCallback, useMemo } from "react";
 import { postChatRequest } from "@/apis/chatApi";

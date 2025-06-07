@@ -1,5 +1,5 @@
-import { Userinfo } from "./account";
-import { ApiResponse } from "./response";
+import { Userinfo } from "./accountTypes";
+import { ApiResponse } from "./responseTypes";
 
 export interface Ranking
   extends Pick<Userinfo, "user_id" | "name" | "timezone" | "created_at"> {

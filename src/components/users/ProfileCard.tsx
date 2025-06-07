@@ -1,4 +1,4 @@
-import { Userinfo } from "@/types/account";
+import { Userinfo } from "@/types/accountTypes";
 import {
   Card,
   CardContent,
@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import AvatarWrapper from "../ui/avatar";
-import { GroupedSubjects, Subject } from "@/types/subject";
+import { GroupedSubjects, Subject } from "@/types/subjectTypes";
 import { ComponentProps, ReactNode, useMemo } from "react";
 import { DateTime, DurationUnit } from "luxon";
 import FriendRequestButton from "../buttons/FriendRequestButton";

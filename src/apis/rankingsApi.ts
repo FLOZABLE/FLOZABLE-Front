@@ -1,5 +1,5 @@
-import { ViewerType } from "@/types/others";
-import { RankingsResponse, RankingsUserResponse } from "@/types/ranking";
+import { ViewerType } from "@/types/othersTypes";
+import { RankingsResponse, RankingsUserResponse } from "@/types/rankingTypes";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 import { DateTime } from "luxon";

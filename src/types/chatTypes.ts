@@ -1,5 +1,5 @@
-import { Userinfo } from "./account";
-import { ApiResponse } from "./response";
+import { Userinfo } from "./accountTypes";
+import { ApiResponse } from "./responseTypes";
 
 export interface Message {
   message_id: string;

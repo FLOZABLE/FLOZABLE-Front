@@ -1,4 +1,4 @@
-import { PutSubjectResponse, SubjectsResponse } from "@/types/subject";
+import { PutSubjectResponse, SubjectsResponse } from "@/types/subjectTypes";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 

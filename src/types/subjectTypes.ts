@@ -1,4 +1,4 @@
-import { ApiResponse } from "./response";
+import { ApiResponse } from "./responseTypes";
 
 export type TimeRange = [number, number]; // [start, duration]
 

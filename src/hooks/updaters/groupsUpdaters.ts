@@ -1,4 +1,4 @@
-import { Group, GroupMember } from "@/types/group";
+import { Group, GroupMember } from "@/types/groupTypes";
 import { useUpdater } from "../otherHooks";
 
 export function useGroupsUpdater() {

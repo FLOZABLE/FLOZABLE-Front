@@ -1,6 +1,6 @@
-import { UserStatus } from "./account";
-import { ActiveGroup } from "./group";
-import { ActiveSubject } from "./subject";
+import { UserStatus } from "./accountTypes";
+import { ActiveGroup } from "./groupTypes";
+import { ActiveSubject } from "./subjectTypes";
 
 export interface OnStudying {
   userId: string;

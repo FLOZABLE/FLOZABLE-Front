@@ -26,8 +26,8 @@ import {
   OnDeActiveGroup,
   OnStopStudying,
   OnStudying,
-} from "@/types/socket";
-import { CallOptionsContextType, WorkersContextType } from "@/types/context";
+} from "@/types/socketTypes";
+import { CallOptionsContextType, WorkersContextType } from "@/types/contextTypes";
 import { useFriendsStatusUpdater } from "@/hooks/updaters/friendsUpdaters";
 //import { ViewerType } from "@/types/others";
 

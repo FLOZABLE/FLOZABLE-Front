@@ -22,10 +22,10 @@ import {
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { Button } from "../ui/button";
 import { ArrowRightIcon } from "lucide-react";
-import { defaultPlan, EventPlan } from "@/types/plan";
+import { defaultPlan, EventPlan } from "@/types/planTypes";
 import TimePicker from "../buttons/TimePicker";
 import { DatePicker } from "../buttons/DatePicker";
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import { usePlans } from "@/hooks/plansHooks";
 import { DateTime } from "luxon";
 import Editor from "../editor/Editor";

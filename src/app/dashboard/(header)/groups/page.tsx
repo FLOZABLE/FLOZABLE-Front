@@ -3,8 +3,8 @@
 import GroupContainer from "@/components/groups/GroupContainer";
 import MyGroupsViewer from "@/components/groups/MyGroupsViewer";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useGroups } from "@/hooks/groupsHook";
-import { useRankings } from "@/hooks/rankingsHooks";
+import { useGroups } from "@/hooks/groupHook";
+import { useRankings } from "@/hooks/rankingHooks";
 
 export default function Groups() {
   const { groups } = useGroups();

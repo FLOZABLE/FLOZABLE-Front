@@ -3,7 +3,7 @@ import {
   getRankingsFriends,
   getRankingsUser,
 } from "@/apis/rankingsApi";
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import { useQuery } from "@tanstack/react-query";
 
 function useRankings(viewer: ViewerType, viewDate: Date) {

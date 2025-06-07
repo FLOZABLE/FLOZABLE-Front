@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
 import { DateTime } from "luxon";
 import { useUpdater } from "./otherHooks";
-import { CalendarPlan } from "@/types/plan";
+import { CalendarPlan } from "@/types/planTypes";
 
 export function usePlans(date: Date) {
   const { account } = useAccount();

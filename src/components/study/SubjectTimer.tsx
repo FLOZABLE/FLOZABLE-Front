@@ -4,7 +4,7 @@ import { cn, toTimer } from "@/utils/tools";
 import { Button } from "../ui/button";
 import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
 import socket from "@/utils/sockets/socket";
-import { OnMyStopStudying, OnMyStudying } from "@/types/socket";
+import { OnMyStopStudying, OnMyStudying } from "@/types/socketTypes";
 import {
   Command,
   CommandGroup,

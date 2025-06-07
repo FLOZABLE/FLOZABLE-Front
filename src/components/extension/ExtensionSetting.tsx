@@ -28,7 +28,7 @@ import {
   patchExtensionSetting,
   putExtensionSetting,
 } from "@/apis/extensionApi";
-import { WebsiteSettingMode } from "@/types/website";
+import { WebsiteSettingMode } from "@/types/websiteTypes";
 import { useExtensionSettingsUpdater } from "@/hooks/updaters/extensionUpdaters";
 import { Trash } from "lucide-react";
 import { AlertDialogWrapper } from "../ui/alert-dialog";

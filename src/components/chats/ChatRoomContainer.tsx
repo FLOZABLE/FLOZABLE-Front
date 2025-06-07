@@ -1,4 +1,4 @@
-import { ChatRoom } from "@/types/chat";
+import { ChatRoom } from "@/types/chatTypes";
 import ChatRoomCoverImage from "./ChatRoomCoverImage";
 import { DateTime } from "luxon";
 import { useMemo } from "react";

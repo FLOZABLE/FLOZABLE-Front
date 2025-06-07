@@ -1,4 +1,4 @@
-import { FriendStatus } from "@/types/friend";
+import { FriendStatus } from "@/types/friendTypes";
 import { useEffect, useState } from "react";
 import MemberTimer from "../groups/MemberTimer";
 

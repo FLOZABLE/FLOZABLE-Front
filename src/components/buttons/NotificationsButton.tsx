@@ -9,15 +9,15 @@ import {
 } from "../ui/dropdown-menu";
 import { useNotifications } from "@/hooks/notificationsHooks";
 import NotificationContainer from "../notifications/NotificationContainer";
-import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendsHooks";
+import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendHooks";
 import React, { useCallback, useState } from "react";
-import { postFriendsRequestReply } from "@/apis/friendApi";
 import { deleteNotification } from "@/apis/notificationsApi";
 import { postChatRequestReply } from "@/apis/chatApi";
 import { useRouter } from "next/navigation";
-import { Notification } from "@/types/notification";
+import { Notification } from "@/types/notificationTypes";
 import { useNotificationsUpdater } from "@/hooks/updaters/notificationsUpdaters";
 import { cn } from "@/utils/tools";
+import { replyToFriendRequest } from "@/apis/friendApi";
 
 interface NotificationsButton extends ButtonProps {
   buttonRef?: React.Ref<HTMLButtonElement>;
@@ -48,7 +48,7 @@ export default function NotificationsButton({
 
   const friendRequestReply = useCallback(
     async (notificationId: string, accepted: boolean) => {
-      const response = await postFriendsRequestReply(notificationId, accepted);
+      const response = await replyToFriendRequest(notificationId, accepted);
 
       filterNotification(notificationId);
 

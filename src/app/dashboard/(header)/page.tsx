@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import SelectorWrapper from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import YoutubePlayer from "@/components/youtube/YouTubePlayer";
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import { Play } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-import { WebsiteSetting } from "@/types/website";
+import { WebsiteSetting } from "@/types/websiteTypes";
 import { useUpdater } from "../otherHooks";
 
 export function useExtensionSettingsUpdater() {

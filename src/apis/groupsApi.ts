@@ -1,4 +1,4 @@
-import { GroupMembersResponse, GroupsResponse } from "@/types/group";
+import { GroupMembersResponse, GroupsResponse } from "@/types/groupTypes";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 

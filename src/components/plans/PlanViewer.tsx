@@ -1,6 +1,6 @@
 "use client";
 
-import { EventPlan } from "@/types/plan";
+import { EventPlan } from "@/types/planTypes";
 import {
   Card,
   CardContent,

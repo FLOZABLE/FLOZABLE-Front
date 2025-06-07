@@ -1,4 +1,4 @@
-import { ApiResponse } from "./response";
+import { ApiResponse } from "./responseTypes";
 
 export type WebsiteSettingMode =
   | "block"

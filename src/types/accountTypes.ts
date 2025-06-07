@@ -1,6 +1,6 @@
-import { Friend } from "./friend";
-import { ApiResponse } from "./response";
-import { ActiveSubject, GroupedSubjects, Subject } from "./subject";
+import { Friend } from "./friendTypes";
+import { ApiResponse } from "./responseTypes";
+import { ActiveSubject, GroupedSubjects, Subject } from "./subjectTypes";
 
 export interface Account {
   user_id: string;
@@ -36,16 +36,16 @@ export interface GoogleAccount {
   scopes: string[];
 }
 
-// get /account
+// GET /account
 export type AccountResponse = ApiResponse<{ userinfo: Account }>;
 
-// get /account/google
+// GET /account/google
 export type AccountGoogleResponse = ApiResponse<{ google_info: GoogleAccount }>;
 
-// patch /account
+// GET /account
 export type AccountPatchResponse = ApiResponse<{ verified: boolean }>;
 
-// get /account/profile
+// GET /account/profile
 export type AccountProfileResponse = ApiResponse<{
   userinfo: Userinfo;
   friends: Friend[];
@@ -53,7 +53,7 @@ export type AccountProfileResponse = ApiResponse<{
   grouped_subjects: GroupedSubjects;
 }>;
 
-// get /account/profile/status
+// GET /account/profile/status
 export type AccountProfileStatusResponse = ApiResponse<{
   active_subject: ActiveSubject;
 }>;

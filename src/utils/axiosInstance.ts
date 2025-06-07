@@ -7,7 +7,7 @@ import axios, {
 import config from "./config"; // Assuming config.ts exports an object with a 'server' string property
 import axiosRetry from "axios-retry";
 import { toast } from "sonner"; // Assuming 'sonner' library has TypeScript types
-import { ApiResponse } from "@/types/response";
+import { ApiResponse } from "@/types/responseTypes";
 
 // Define the type for the Axios Instance
 const AxiosInstance: AxiosInstanceType = axios.create({

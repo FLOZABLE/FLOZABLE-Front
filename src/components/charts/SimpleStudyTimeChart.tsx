@@ -1,4 +1,4 @@
-import { GroupedSubjects } from "@/types/subject";
+import { GroupedSubjects } from "@/types/subjectTypes";
 import { cn } from "@/utils/tools";
 import { ComponentProps, useEffect, useMemo, useRef } from "react";
 

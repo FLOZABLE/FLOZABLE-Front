@@ -1,6 +1,6 @@
 "use client";
 
-import { useGroups } from "@/hooks/groupsHook";
+import { useGroups } from "@/hooks/groupHook";
 import { useJoinGroupModal } from "../structure/ModalProviders";
 import {
   Credenza,
@@ -11,8 +11,8 @@ import {
 } from "../ui/credenza";
 import GroupContainer from "../groups/GroupContainer";
 import { useCallback, useEffect, useMemo } from "react";
-import { Group } from "@/types/group";
-import { useRankings } from "@/hooks/rankingsHooks";
+import { Group } from "@/types/groupTypes";
+import { useRankings } from "@/hooks/rankingHooks";
 import { Button } from "../ui/button";
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { z } from "zod";

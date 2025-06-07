@@ -18,7 +18,7 @@ import ChatRoomContainer from "../chats/ChatRoomContainer";
 import { Button } from "../ui/button";
 import { ArrowLeft, Volume2, VolumeOff, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ChatRoom, Message, UseChatMessagesParams } from "@/types/chat";
+import { ChatRoom, Message, UseChatMessagesParams } from "@/types/chatTypes";
 import { ChatMessageList } from "../ui/chat/chat-message-list";
 import {
   ChatBubble,

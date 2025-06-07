@@ -1,5 +1,5 @@
 import AvatarWrapper from "../ui/avatar";
-import { Notification } from "@/types/notification";
+import { Notification } from "@/types/notificationTypes";
 import Image from "next/image";
 
 interface NotificationContainerProps {

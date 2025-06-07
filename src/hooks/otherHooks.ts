@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/types/response";
+import { ApiResponse } from "@/types/responseTypes";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";

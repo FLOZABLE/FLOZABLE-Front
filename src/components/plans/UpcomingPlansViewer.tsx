@@ -1,6 +1,6 @@
 import { EventInput } from "@fullcalendar/core";
 import { Badge } from "../ui/badge";
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import { DateTime } from "luxon";
 import { useMemo } from "react";
 import { Clock } from "lucide-react";

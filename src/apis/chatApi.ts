@@ -3,7 +3,7 @@ import {
   ChatMessagesResponse,
   ChatRoomsResponse,
   PostChatRequestResponse,
-} from "@/types/chat";
+} from "@/types/chatTypes";
 import AxiosInstance from "@/utils/axiosInstance";
 import { requestHandler } from "@/utils/tools";
 

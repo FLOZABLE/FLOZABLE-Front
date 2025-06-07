@@ -18,9 +18,9 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ComponentProps, useMemo, useState } from "react";
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import { cn, getDates, getDatesDisplay, secondConverter } from "@/utils/tools";
-import { Subject } from "@/types/subject";
+import { Subject } from "@/types/subjectTypes";
 
 type ChartDatum = {
   label: string;

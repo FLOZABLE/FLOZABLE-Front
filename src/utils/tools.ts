@@ -4,11 +4,11 @@ import { DateTime } from "luxon";
 //import { postNotificationsSubscribe } from "@/Api/notificationsApi";
 import * as ct from "countries-and-timezones";
 import { AxiosError, AxiosResponse } from "axios";
-import { ApiResponse } from "@/types/response";
+import { ApiResponse } from "@/types/responseTypes";
 import { twMerge } from "tailwind-merge";
 import clsx, { ClassValue } from "clsx";
-import { GroupedSubjects } from "@/types/subject";
-import { ViewerType } from "@/types/others";
+import { GroupedSubjects } from "@/types/subjectTypes";
+import { ViewerType } from "@/types/othersTypes";
 
 export function getCountryCode(timezone: string): string | false {
   try {

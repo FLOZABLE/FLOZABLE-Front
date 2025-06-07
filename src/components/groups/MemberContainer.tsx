@@ -1,4 +1,4 @@
-import { GroupMember } from "@/types/group";
+import { GroupMember } from "@/types/groupTypes";
 import AvatarWrapper from "../ui/avatar";
 import { useEffect, useState } from "react";
 import { IconRestPerson, IconStudyPerson } from "../others/Svgs";

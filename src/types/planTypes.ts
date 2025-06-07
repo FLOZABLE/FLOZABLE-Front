@@ -1,5 +1,5 @@
 import { EventApi } from "@fullcalendar/core";
-import { ApiResponse } from "./response";
+import { ApiResponse } from "./responseTypes";
 import { DateTime } from "luxon";
 
 export interface CalendarPlan {

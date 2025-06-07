@@ -1,5 +1,5 @@
-import { PostAuthVerifyResponse } from "@/types/auth";
-import { SuccessResponse } from "@/types/response";
+import { PostAuthVerifyResponse } from "@/types/authTypes";
+import { SuccessResponse } from "@/types/responseTypes";
 import AxiosInstance from "@/utils/axiosInstance";
 import { requestHandler } from "@/utils/tools";
 

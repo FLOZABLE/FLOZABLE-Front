@@ -1,4 +1,4 @@
-import { ChatRoom } from "@/types/chat";
+import { ChatRoom } from "@/types/chatTypes";
 import { useUpdater } from "../otherHooks";
 
 export function useChatroomsUpdater() {

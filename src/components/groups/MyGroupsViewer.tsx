@@ -1,4 +1,4 @@
-import { useGroups } from "@/hooks/groupsHook";
+import { useGroups } from "@/hooks/groupHook";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import MyGroupContainer from "./MyGroupContainer";
@@ -18,7 +18,7 @@ import mediaSocket from "@/utils/sockets/mediaSocket";
 import { cn } from "@/utils/tools";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
-import { Group } from "@/types/group";
+import { Group } from "@/types/groupTypes";
 import { postGroupLeave } from "@/apis/groupsApi";
 import {
   useGroupsUpdater,

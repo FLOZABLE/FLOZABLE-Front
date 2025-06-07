@@ -1,6 +1,6 @@
-import { ApiResponse } from "./response";
+import { ApiResponse } from "./responseTypes";
 
-// post /auth/verify
+// POST /auth/verify
 export type PostAuthVerifyResponse = ApiResponse<{
   token: string;
   user_id: string;

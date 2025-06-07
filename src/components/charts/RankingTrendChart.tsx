@@ -17,8 +17,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ComponentProps, useMemo } from "react";
-import { ViewerType } from "@/types/others";
-import { useRankingsUser } from "@/hooks/rankingsHooks";
+import { ViewerType } from "@/types/othersTypes";
+import { useRankingsUser } from "@/hooks/rankingHooks";
 import { DateTime } from "luxon";
 import { cn, getDatesDisplay } from "@/utils/tools";
 

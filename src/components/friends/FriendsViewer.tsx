@@ -1,4 +1,4 @@
-import { useFriendsStatus } from "@/hooks/friendsHooks";
+import { useFriendsStatus } from "@/hooks/friendHooks";
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import UserSubjectViewer from "../users/UserSubjectViewer";
 import ChatButton from "../buttons/ChatButton";
 import { useRouter } from "next/navigation";
 import UserGroupViewer from "../users/UserGroupViewer";
-import { useRankings } from "@/hooks/rankingsHooks";
+import { useRankings } from "@/hooks/rankingHooks";
 
 export default function FriendsViewer({
   className,

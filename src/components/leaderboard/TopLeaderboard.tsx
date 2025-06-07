@@ -1,4 +1,4 @@
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useRankings } from "@/hooks/rankingsHooks";
+import { useRankings } from "@/hooks/rankingHooks";
 import UserContainer from "../users/UserContainer";
 import { useAccount } from "@/hooks/accountHooks";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,7 +16,7 @@ import { getDatesDisplay, secondConverter } from "@/utils/tools";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { DateTime } from "luxon";
-import { Ranking } from "@/types/ranking";
+import { Ranking } from "@/types/rankingTypes";
 
 interface RankingContainerProps {
   title?: string;

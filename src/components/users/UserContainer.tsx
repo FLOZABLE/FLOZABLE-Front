@@ -1,4 +1,4 @@
-import { Userinfo } from "@/types/account";
+import { Userinfo } from "@/types/accountTypes";
 import AvatarWrapper from "../ui/avatar";
 import CountryViewer from "./CountryViewer";
 import { cn } from "@/utils/tools";

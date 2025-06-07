@@ -1,4 +1,4 @@
-import { Group } from "@/types/group";
+import { Group } from "@/types/groupTypes";
 import {
   Card,
   CardContent,
@@ -8,11 +8,11 @@ import {
 } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { BookOpen, LogOut, UserRound } from "lucide-react";
-import { useGroupMembers } from "@/hooks/groupsHook";
+import { useGroupMembers } from "@/hooks/groupHook";
 import MemberContainer from "./MemberContainer";
 import Skeleton from "react-loading-skeleton";
 import { useCallback, useEffect, useState } from "react";
-import { OnStopStudying, OnStudying } from "@/types/socket";
+import { OnStopStudying, OnStudying } from "@/types/socketTypes";
 import socket from "@/utils/sockets/socket";
 import { useCallOptions } from "../structure/Providers";
 import { secondConverter } from "@/utils/tools";
@@ -24,7 +24,7 @@ import { DtlsParameters, Transport } from "mediasoup-client/lib/Transport";
 import { Device } from "mediasoup-client";
 import mediaSocket from "@/utils/sockets/mediaSocket";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
-import { ServerCreateTransportResponse } from "@/types/mediaSoup";
+import { ServerCreateTransportResponse } from "@/types/mediaSoupTypes";
 import { useGroupMembersUpdater } from "@/hooks/updaters/groupsUpdaters";
 import ChatButton from "../buttons/ChatButton";
 import MembersStatusViewer from "./MembersStatusViewer";

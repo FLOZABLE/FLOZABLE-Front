@@ -2,7 +2,7 @@ import {
   ExtensionSettingsResponse,
   ExtensionUsageResponse,
   PutExtensionSettingResponse,
-} from "./../types/website";
+} from "../types/websiteTypes";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 import { DateTime } from "luxon";

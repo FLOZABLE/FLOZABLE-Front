@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePlans } from "@/hooks/plansHooks";
-import { convertToEventPlan, EventPlan } from "@/types/plan";
+import { convertToEventPlan, EventPlan } from "@/types/planTypes";
 import { DateTime } from "luxon";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -11,7 +11,7 @@ import interactionPlugin, {
   DateClickArg,
   EventResizeDoneArg,
 } from "@fullcalendar/interaction";
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import { DatePicker } from "@/components/buttons/DatePicker";
 import SelectorWrapper from "@/components/ui/select";
 import { Button } from "@/components/ui/button";

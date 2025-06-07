@@ -1,4 +1,4 @@
-import { NotificationsResponse } from "@/types/notification";
+import { NotificationsResponse } from "@/types/notificationTypes";
 import AxiosInstance from "@/utils/axiosInstance";
 import { requestHandler } from "@/utils/tools";
 

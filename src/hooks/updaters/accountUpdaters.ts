@@ -1,4 +1,4 @@
-import { Account } from "@/types/account";
+import { Account } from "@/types/accountTypes";
 import { useUpdater } from "../otherHooks";
 
 export function useUserInfoUpdater() {

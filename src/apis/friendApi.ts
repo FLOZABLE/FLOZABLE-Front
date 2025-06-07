@@ -1,85 +1,87 @@
 import {
-  FriendsRecommendedResponse,
+  FriendSearchResponse,
   FriendsResponse,
-  FriendsSearchResponse,
   FriendsStatusResponse,
-  FriendsTrendResponse,
-} from "@/types/friend";
+  FriendsTrendsResponse,
+  RecommendedFriendsResponse,
+} from "@/types/friendTypes";
 import AxiosInstance from "@/utils/axiosInstance";
 import { getTimezone, requestHandler } from "@/utils/tools";
 
-export async function getFriendAll(): Promise<FriendsResponse> {
-  return requestHandler(AxiosInstance.get(`/friend/all`));
+// Get all friends
+export async function getFriends(): Promise<FriendsResponse> {
+  return requestHandler(AxiosInstance.get("/friend/all"));
 }
 
+// Delete a friend
 export async function deleteFriend(friendId: string) {
   return requestHandler(
-    AxiosInstance.delete(`/friend`, { data: { friend_id: friendId } })
-  );
-}
-
-export async function getFriendsRecommended(): Promise<FriendsRecommendedResponse> {
-  return requestHandler(AxiosInstance.get(`/friend/recommended`));
-}
-
-export async function getFriendsSearch(
-  searchQuery: string
-): Promise<FriendsSearchResponse> {
-  return requestHandler(
-    AxiosInstance.get(`/friend/search`, {
-      params: {
-        query: searchQuery,
-      },
+    AxiosInstance.delete("/friend", {
+      data: { friend_id: friendId },
     })
   );
 }
 
-export async function getFriendTrends(): Promise<FriendsTrendResponse> {
-  const timezone = getTimezone();
+// Get recommended friends
+export async function getRecommendedFriends(): Promise<RecommendedFriendsResponse> {
+  return requestHandler(AxiosInstance.get("/friend/recommended"));
+}
+
+// Search friends by query
+export async function searchFriends(
+  query: string
+): Promise<FriendSearchResponse> {
   return requestHandler(
-    AxiosInstance.get(`/friend/trends`, {
-      params: {
-        timezone,
-      },
+    AxiosInstance.get("/friend/search", {
+      params: { query },
     })
   );
 }
 
+// Get friend trends with timezone
+export async function getFriendTrends(): Promise<FriendsTrendsResponse> {
+  return requestHandler(
+    AxiosInstance.get("/friend/trends", {
+      params: { timezone: getTimezone() },
+    })
+  );
+}
+
+// Get friend status with timezone
 export async function getFriendStatus(): Promise<FriendsStatusResponse> {
-  const timezone = getTimezone();
-
-  const response = await AxiosInstance.get(`/friend/status`, {
-    params: { timezone },
-  });
-  return response.data;
+  return requestHandler(
+    AxiosInstance.get("/friend/status", {
+      params: { timezone: getTimezone() },
+    })
+  );
 }
 
-export async function postFriendRequest(targetId: string) {
+export async function sendFriendRequest(targetId: string) {
   return requestHandler(
-    AxiosInstance.post(`/friend/request`, {
+    AxiosInstance.post("/friend/request", {
       target_id: targetId,
     })
   );
 }
 
-export async function postFriendRequestReply(
+// Reply to friend request
+export async function replyToFriendRequest(
   notificationId: string,
   accepted: boolean
 ) {
   return requestHandler(
-    AxiosInstance.post(`/friend/request/reply`, {
+    AxiosInstance.post("/friend/request/reply", {
       notification_id: notificationId,
       accepted,
     })
   );
 }
 
-export async function deleteFriendRequest(notificationId: string) {
+// Cancel friend request
+export async function cancelFriendRequest(notificationId: string) {
   return requestHandler(
-    AxiosInstance.delete(`/friend/request`, {
-      data: {
-        notification_id: notificationId,
-      },
+    AxiosInstance.delete("/friend/request", {
+      data: { notification_id: notificationId },
     })
   );
 }

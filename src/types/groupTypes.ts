@@ -1,5 +1,5 @@
-import { Userinfo, UserStatus } from "./account";
-import { ApiResponse } from "./response";
+import { Userinfo, UserStatus } from "./accountTypes";
+import { ApiResponse } from "./responseTypes";
 
 export interface Group {
   group_id: string;
@@ -25,13 +25,13 @@ export interface GroupMember extends Pick<Userinfo, "user_id" | "name"> {
   status?: UserStatus;
 }
 
-// get /groups
+// GET /group/all
 export type GroupsResponse = ApiResponse<{
   groups: Group[];
   my_groups: Group[];
 }>;
 
-// get /groups/group/members
+// GET /group/members
 export type GroupMembersResponse = ApiResponse<{
   members: GroupMember[];
 }>;

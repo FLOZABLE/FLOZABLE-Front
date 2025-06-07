@@ -30,7 +30,7 @@ import { Button } from "../ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
 import ShowPasswordBtn from "../buttons/ShowPasswordBtn";
-import { useGroups } from "@/hooks/groupsHook";
+import { useGroups } from "@/hooks/groupHook";
 
 export const strictString = (type: string, maxLength = 20, minLength = 1) =>
   z

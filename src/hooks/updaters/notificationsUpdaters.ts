@@ -1,4 +1,4 @@
-import { Notification } from "@/types/notification";
+import { Notification } from "@/types/notificationTypes";
 import { useUpdater } from "../otherHooks";
 
 export function useNotificationsUpdater() {

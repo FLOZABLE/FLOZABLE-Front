@@ -11,7 +11,7 @@ import {
   ChatModalState,
   JoinGroupModalState,
   PlanModalState,
-} from "@/types/modal";
+} from "@/types/modalTypes";
 
 // Helper type for context value
 type ModalContextValue<State, StateName extends string> = {

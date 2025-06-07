@@ -1,7 +1,7 @@
-import { Userinfo } from "@/types/account";
-import { ActiveGroup } from "@/types/group";
+import { Userinfo } from "@/types/accountTypes";
+import { ActiveGroup } from "@/types/groupTypes";
 import GroupContainer from "../groups/GroupContainer";
-import { Ranking } from "@/types/ranking";
+import { Ranking } from "@/types/rankingTypes";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 

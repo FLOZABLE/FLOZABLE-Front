@@ -23,11 +23,11 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { ComponentProps, useEffect, useState } from "react";
-import { ViewerType } from "@/types/others";
+import { ViewerType } from "@/types/othersTypes";
 import { cn, getDates, getDatesDisplay, secondConverter } from "@/utils/tools";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import { GroupedSubjects } from "@/types/subject";
+import { GroupedSubjects } from "@/types/subjectTypes";
 
 interface StudyTrendData {
   label: string;
