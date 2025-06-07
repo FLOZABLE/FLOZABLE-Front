@@ -1,7 +1,7 @@
 import { UserRoundPlus, UserRoundX } from "lucide-react";
 import { Button } from "../ui/button";
 import { useCallback } from "react";
-import { deleteFriend, postFriendsRequest } from "@/apis/friendsApi";
+import { deleteFriend, postFriendsRequest } from "@/apis/friendApi";
 import { Userinfo } from "@/types/account";
 import {
   useFriends,

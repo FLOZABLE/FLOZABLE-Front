@@ -18,7 +18,7 @@ export async function putSubject({
   color,
 }: PutSubjectParams): Promise<PutSubjectResponse> {
   return requestHandler(
-    AxiosInstance.put(`/subjects/subject`, {
+    AxiosInstance.put(`/subject`, {
       name,
       color,
     })
@@ -36,7 +36,7 @@ export async function patchSubject({
   color,
 }: PatchSubjectParams) {
   return requestHandler(
-    AxiosInstance.patch(`/subjects/subject`, {
+    AxiosInstance.patch(`/subject`, {
       subject_id: subjectId,
       name,
       color,
@@ -46,7 +46,7 @@ export async function patchSubject({
 
 export async function deleteSubjectsSubject(subjectId: string) {
   return requestHandler(
-    AxiosInstance.delete(`/subjects/subject`, {
+    AxiosInstance.delete(`/subject`, {
       data: { subject_id: subjectId },
     })
   );
@@ -54,7 +54,7 @@ export async function deleteSubjectsSubject(subjectId: string) {
 
 export async function getSubjectUsers(subjectId: string) {
   return requestHandler(
-    AxiosInstance.get(`/subjects/subject/users`, {
+    AxiosInstance.get(`/subject/users`, {
       params: { subject_id: subjectId },
     })
   );
@@ -69,7 +69,7 @@ export async function postSubjectShare({
   users,
 }: PostSubjectShareParams) {
   return requestHandler(
-    AxiosInstance.post(`/subjects/subject/share`, {
+    AxiosInstance.post(`/subject/share`, {
       subject_id: subjectId,
       users,
     })
@@ -85,7 +85,7 @@ export async function deleteSubjectShare({
   targetId,
 }: DeleteSubjectShareParams) {
   return requestHandler(
-    AxiosInstance.delete(`/subjects/subject/share`, {
+    AxiosInstance.delete(`/subject/share`, {
       data: { subject_id: subjectId, target_id: targetId },
     })
   );

@@ -2,7 +2,7 @@ import {
   getFriends,
   getFriendsStatus,
   getFriendsTrends,
-} from "@/apis/friendsApi";
+} from "@/apis/friendApi";
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
 

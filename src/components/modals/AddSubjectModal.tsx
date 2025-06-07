@@ -22,7 +22,7 @@ import {
 } from "../ui/form";
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { ColorPicker } from "../inputs/ColorPicker";
-import { putSubject } from "@/apis/subjectsApi";
+import { putSubject } from "@/apis/subjectApi";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectsUpdaters";
 import { Subject } from "@/types/subject";
 import { DateTime } from "luxon";

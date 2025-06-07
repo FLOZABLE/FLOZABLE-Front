@@ -11,7 +11,7 @@ import { useNotifications } from "@/hooks/notificationsHooks";
 import NotificationContainer from "../notifications/NotificationContainer";
 import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendsHooks";
 import React, { useCallback, useState } from "react";
-import { postFriendsRequestReply } from "@/apis/friendsApi";
+import { postFriendsRequestReply } from "@/apis/friendApi";
 import { deleteNotification } from "@/apis/notificationsApi";
 import { postChatRequestReply } from "@/apis/chatApi";
 import { useRouter } from "next/navigation";

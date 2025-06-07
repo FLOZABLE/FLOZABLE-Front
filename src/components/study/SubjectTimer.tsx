@@ -63,8 +63,8 @@ export default function SubjectTimer({
           value: subject.subject_id,
           name: subject.name,
           label: (
-            <div className="flex w-full">
-              <p>{subject.name}</p>
+            <div className="flex w-full gap-2 overflow-hidden">
+              <p className="truncate">{subject.name}</p>
               <p className="ml-auto">{disp}</p>
             </div>
           ),
