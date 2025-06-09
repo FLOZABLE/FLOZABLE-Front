@@ -18,7 +18,7 @@ import { useJoinGroupModal } from "../structure/ModalProviders";
 import { useRouter } from "next/navigation";
 import { postGroupLike } from "@/apis/groupsApi";
 import LikeButton from "../buttons/LikeButton/LikeButton";
-import { useGroupsUpdater } from "@/hooks/updaters/groupsUpdaters";
+import { useGroupsUpdater } from "@/hooks/updaters/groupUpdaters";
 
 interface GroupContainerProps extends ComponentProps<"div"> {
   group: Group;

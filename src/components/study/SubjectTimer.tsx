@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/popover";
 import { useWorkers } from "../structure/Providers";
 import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
-import { useSubjectsUpdater } from "@/hooks/updaters/subjectsUpdaters";
+import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
 import { useAddSubjectModal } from "../structure/ModalProviders";
 

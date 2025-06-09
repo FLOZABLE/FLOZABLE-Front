@@ -1,14 +1,14 @@
-import { getGroupMembers, getGroups } from "@/apis/groupsApi";
+import { getGroupAll, getGroupMembers, getGroupMine } from "@/apis/groupsApi";
 import { useQuery } from "@tanstack/react-query";
+import { useAccount } from "./accountHooks";
 
 export function useGroups() {
   const queryResult = useQuery({
     queryKey: [`groups`],
-    queryFn: getGroups,
+    queryFn: getGroupAll,
     staleTime: 1000 * 60 * 5,
     select: (response) => ({
       groups: response.data?.groups ?? [],
-      my_groups: response.data?.my_groups ?? [],
     }),
     placeholderData: () => ({
       data: {
@@ -27,14 +27,50 @@ export function useGroups() {
   } = queryResult;
 
   const groups = groupsData?.groups;
-  const myGroups = groupsData?.my_groups;
 
   return {
     groupsData,
     groups,
-    myGroups,
     groupsIsLoading,
     groupsRefetch,
+    ...queryResult,
+  };
+}
+
+export function useMyGroups() {
+  const { account } = useAccount();
+
+  const queryResult = useQuery({
+    queryKey: [`myGroups`],
+    queryFn: getGroupMine,
+    staleTime: 1000 * 60 * 5,
+    select: (response) => ({
+      groups: response.data?.groups ?? [],
+    }),
+    placeholderData: () => ({
+      data: {
+        groups: [],
+        my_groups: [],
+      },
+      status: 200,
+      success: true,
+    }),
+    enabled: !!account?.user_id,
+  });
+
+  const {
+    data: myGroupsData,
+    isLoading: myGroupsIsLoading,
+    refetch: myGroupsRefetch,
+  } = queryResult;
+
+  const myGroups = myGroupsData?.groups;
+
+  return {
+    myGroups,
+    myGroupsData,
+    myGroupsIsLoading,
+    myGroupsRefetch,
     ...queryResult,
   };
 }

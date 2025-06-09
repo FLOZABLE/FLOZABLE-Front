@@ -7,7 +7,7 @@ import {
   useFriendsStatus,
   useFriendsTrends,
 } from "@/hooks/friendHooks";
-import { useFriendsUpdater } from "@/hooks/updaters/friendsUpdaters";
+import { useFriendsUpdater } from "@/hooks/updaters/friendUpdaters";
 import { deleteFriend, sendFriendRequest } from "@/apis/friendApi";
 
 interface FriendRequestButtonProps {

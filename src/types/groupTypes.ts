@@ -16,6 +16,7 @@ export interface Group {
   likes: string[];
 }
 
+// Group with active time (for the current user)
 export interface ActiveGroup extends Group {
   time: number;
 }
@@ -26,12 +27,10 @@ export interface GroupMember extends Pick<Userinfo, "user_id" | "name"> {
 }
 
 // GET /group/all
-export type GroupsResponse = ApiResponse<{
-  groups: Group[];
-  my_groups: Group[];
-}>;
+export type AllGroupsResponse = ApiResponse<{ groups: Group[] }>;
+
+// GET /group/mine
+export type MyGroupsResponse = ApiResponse<{ groups: string[] }>;
 
 // GET /group/members
-export type GroupMembersResponse = ApiResponse<{
-  members: GroupMember[];
-}>;
+export type GroupMembersResponse = ApiResponse<{ members: GroupMember[] }>;

@@ -31,14 +31,17 @@ import { postGroupJoin } from "@/apis/groupsApi";
 import {
   useGroupsUpdater,
   useMyGroupsUpdater,
-} from "@/hooks/updaters/groupsUpdaters";
+} from "@/hooks/updaters/groupUpdaters";
 import { useAccount } from "@/hooks/accountHooks";
+
+const passwordSchema = z
+  .string()
+  .min(5, { message: "Password is too short (5 characters minimum)" })
+  .max(20, { message: "Password is too long (20 characters maximum)" });
 
 const FormSchema = (visibility: boolean) =>
   z.object({
-    password: visibility
-      ? z.string().optional()
-      : z.string().min(1, { message: "Password is missing." }),
+    password: visibility ? z.string().optional() : passwordSchema,
   });
 
 export default function JoinGroupModal() {
@@ -102,13 +105,13 @@ export default function JoinGroupModal() {
       const updatedMyGroups = await updateMyGroups((prev) => {
         const newGroup = { ...group };
         newGroup.members = [...newGroup.members, account.user_id];
-        const newGroups = [...prev, newGroup];
+        const newGroups = [...prev, newGroup.group_id];
         return newGroups;
       });
 
       //slide to my groups viewer & index of group
       const groupIndex = updatedMyGroups?.findIndex(
-        (myGroup) => myGroup.group_id === group.group_id
+        (myGroupId) => myGroupId === group.group_id
       );
       if (groupIndex === -1 || !groupIndex) return;
 

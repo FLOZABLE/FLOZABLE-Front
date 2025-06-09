@@ -23,7 +23,7 @@ import {
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { ColorPicker } from "../inputs/ColorPicker";
 import { putSubject } from "@/apis/subjectApi";
-import { useSubjectsUpdater } from "@/hooks/updaters/subjectsUpdaters";
+import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
 import { Subject } from "@/types/subjectTypes";
 import { DateTime } from "luxon";
 

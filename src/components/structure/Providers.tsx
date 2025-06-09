@@ -28,7 +28,7 @@ import {
   OnStudying,
 } from "@/types/socketTypes";
 import { CallOptionsContextType, WorkersContextType } from "@/types/contextTypes";
-import { useFriendsStatusUpdater } from "@/hooks/updaters/friendsUpdaters";
+import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
 //import { ViewerType } from "@/types/others";
 
 /* export const ViewDateContext = createContext({});

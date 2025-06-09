@@ -1,4 +1,4 @@
-import { useGroups } from "@/hooks/groupHook";
+import { useGroups, useMyGroups } from "@/hooks/groupHook";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import MyGroupContainer from "./MyGroupContainer";
@@ -6,6 +6,7 @@ import {
   ComponentProps,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -19,13 +20,13 @@ import { cn } from "@/utils/tools";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { Group } from "@/types/groupTypes";
-import { postGroupLeave } from "@/apis/groupsApi";
 import {
   useGroupsUpdater,
   useMyGroupsUpdater,
-} from "@/hooks/updaters/groupsUpdaters";
+} from "@/hooks/updaters/groupUpdaters";
 import { AlertDialogWrapper } from "../ui/alert-dialog";
 import Link from "next/link";
+import { postGroupLeave } from "@/apis/groupsApi";
 
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
@@ -44,8 +45,10 @@ export default function MyGroupsViewer({
 
   const pathname = usePathname();
 
-  const { myGroups } = useGroups();
+  const { groups } = useGroups();
+  const { myGroups } = useMyGroups();
   const { account } = useAccount();
+
   const { setJoinGroupModal } = useJoinGroupModal();
 
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -85,15 +88,15 @@ export default function MyGroupsViewer({
   useEffect(() => {
     if (debouncedIndex === -1 || !myGroups) return;
 
-    const group = myGroups[debouncedIndex];
-    if (!group) return;
+    const groupId = myGroups[debouncedIndex];
+    if (!groupId) return;
 
-    localStorage.setItem("swiperGroupId", group.group_id);
+    localStorage.setItem("swiperGroupId", groupId);
     //only in study page
     //if (!window.location.href.includes("study")) return;
 
-    socket.emit("group:change", group.group_id);
-    mediaSocket.emit("group:change", group.group_id);
+    socket.emit("group:change", groupId);
+    mediaSocket.emit("group:change", groupId);
 
     return () => {
       socket.emit("group:change", null);
@@ -108,7 +111,7 @@ export default function MyGroupsViewer({
       localStorage.removeItem("swiperGroupId");
 
       const groupIndex = myGroups.findIndex(
-        (group) => group.group_id === swiperGroupId
+        (groupId) => groupId === swiperGroupId
       );
       if (groupIndex === -1) return;
       myGroupsRef.current?.swiper.slideTo(groupIndex);
@@ -119,7 +122,7 @@ export default function MyGroupsViewer({
     if (!studyGroupId || !myGroups?.length) return;
     setTimeout(() => {
       const groupIndex = myGroups.findIndex(
-        (group) => group.group_id === studyGroupId
+        (groupId) => groupId === studyGroupId
       );
       if (groupIndex === -1) return;
       myGroupsRef.current?.swiper.slideTo(groupIndex);
@@ -134,9 +137,7 @@ export default function MyGroupsViewer({
     const response = await postGroupLeave(groupId);
     if (!response.success) return;
 
-    updateMyGroups((prev) =>
-      prev.filter((_group) => _group.group_id !== groupId)
-    );
+    updateMyGroups((prev) => prev.filter((_groupId) => _groupId !== groupId));
     updateGroups((prev) => {
       const groupIndex = prev.findIndex((group) => group.group_id === groupId);
       if (groupIndex === -1) return prev;
@@ -152,12 +153,19 @@ export default function MyGroupsViewer({
     });
   }, [myGroups, confirmLeaveModal, account]);
 
+  const myGroupsInfo = useMemo(() => {
+    if (!groups) return [];
+    return groups?.filter((group) => myGroups?.includes(group.group_id));
+  }, [groups, myGroups]);
+
   if (!myGroups?.length) {
     return (
       <div className="bg-background p-5 rounded-md">
         <h3>{"You haven't joined any groups yet!"}</h3>
         {pathname !== "/dashboard/groups" && (
-          <Link href={"/dashboard/groups"} className="underline">Click here to join groups!</Link>
+          <Link href={"/dashboard/groups"} className="underline">
+            Click here to join groups!
+          </Link>
         )}
       </div>
     );
@@ -193,7 +201,7 @@ export default function MyGroupsViewer({
           }}
           ref={myGroupsRef}
         >
-          {myGroups.map((group, i) => {
+          {myGroupsInfo.map((group, i) => {
             return (
               <SwiperSlide key={i} className="h-screen">
                 <MyGroupContainer

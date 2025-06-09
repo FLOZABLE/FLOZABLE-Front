@@ -30,7 +30,6 @@ import { Button } from "../ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
 import ShowPasswordBtn from "../buttons/ShowPasswordBtn";
-import { useGroups } from "@/hooks/groupHook";
 
 export const strictString = (type: string, maxLength = 20, minLength = 1) =>
   z
@@ -64,7 +63,6 @@ export const signUpFormSchema = z.object({
 export default function AccountModal() {
   const { accountModal, setAccountModal } = useAccountModal();
   const { account, accountRefetch, status } = useAccount();
-  const { groupsRefetch } = useGroups();
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -101,8 +99,6 @@ export default function AccountModal() {
       if (!response.success) return;
       setAccountModal((prev) => ({ ...prev, opened: false }));
       accountRefetch();
-      
-      groupsRefetch();
     },
     [accountRefetch, setAccountModal, searchParams, router]
   );
@@ -127,8 +123,6 @@ export default function AccountModal() {
       router.replace(`/dashboard?${newSearchParams.toString()}`, {
         scroll: false,
       });
-
-      groupsRefetch();
     },
     [accountRefetch, setAccountModal, searchParams, router]
   );

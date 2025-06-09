@@ -1,14 +1,10 @@
-import {
-  getRankings,
-  getRankingsFriends,
-  getRankingsUser,
-} from "@/apis/rankingsApi";
+import { getRankings, getUserRankings } from "@/apis/rankingApi";
 import { ViewerType } from "@/types/othersTypes";
 import { useQuery } from "@tanstack/react-query";
 
-function useRankings(viewer: ViewerType, viewDate: Date) {
+export function useRankings(viewer: ViewerType, viewDate: Date) {
   const queryResult = useQuery({
-    queryKey: [`getRankings`, viewer, viewDate],
+    queryKey: [`useRankings`, viewer, viewDate],
     queryFn: () => getRankings(viewer, viewDate),
     staleTime: 1000 * 60 * 5,
     enabled: !!viewer && !!viewDate,
@@ -20,10 +16,14 @@ function useRankings(viewer: ViewerType, viewDate: Date) {
   return { rankingsData, rankingsIsLoading, ...queryResult };
 }
 
-function useRankingsUser(userId: string, viewer: ViewerType, viewDate: Date) {
+export function useRankingsUser(
+  userId: string,
+  viewer: ViewerType,
+  viewDate: Date
+) {
   const queryResult = useQuery({
-    queryKey: [`getRankingsUser`, userId, viewer, viewDate],
-    queryFn: () => getRankingsUser(userId, viewer, viewDate),
+    queryKey: [`useRankingsUser`, userId, viewer, viewDate],
+    queryFn: () => getUserRankings(userId, viewer, viewDate),
     staleTime: 1000 * 60,
     enabled: !!userId && !!viewer && !!viewDate,
     select: (response) => response?.data?.rankings || [],
@@ -34,14 +34,3 @@ function useRankingsUser(userId: string, viewer: ViewerType, viewDate: Date) {
 
   return { rankingsUserData, rankingsUserIsLoading, ...queryResult };
 }
-
-function useRankingsFriends(viewer: ViewerType) {
-  return useQuery({
-    queryKey: [`getRankingsFriends`, viewer],
-    queryFn: () => getRankingsFriends(viewer),
-    staleTime: 1000 * 60,
-    enabled: !!viewer,
-  });
-}
-
-export { useRankings, useRankingsUser, useRankingsFriends };

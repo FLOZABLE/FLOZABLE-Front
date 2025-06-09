@@ -25,7 +25,7 @@ import { Device } from "mediasoup-client";
 import mediaSocket from "@/utils/sockets/mediaSocket";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
 import { ServerCreateTransportResponse } from "@/types/mediaSoupTypes";
-import { useGroupMembersUpdater } from "@/hooks/updaters/groupsUpdaters";
+import { useGroupMembersUpdater } from "@/hooks/updaters/groupUpdaters";
 import ChatButton from "../buttons/ChatButton";
 import MembersStatusViewer from "./MembersStatusViewer";
 import { Button } from "../ui/button";
