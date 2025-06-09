@@ -4,7 +4,14 @@ import { LogIn, LogOut } from "lucide-react";
 import { Button, ButtonProps } from "../ui/button";
 import { getAuthLogout } from "@/apis/authApi";
 
-export default function AccountButton({ ...props }: ButtonProps) {
+interface AccountButtonProps extends ButtonProps {
+  isSignupButton?: boolean;
+}
+
+export default function AccountButton({
+  isSignupButton = true,
+  ...props
+}: AccountButtonProps) {
   const { setAccountModal } = useAccountModal();
   const { account, clearAccountData } = useAccount();
 
@@ -45,19 +52,21 @@ export default function AccountButton({ ...props }: ButtonProps) {
           >
             Sign in
           </Button>
-          <Button
-            variant={"outline"}
-            onClick={() => {
-              setAccountModal((prev) => ({
-                ...prev,
-                opened: true,
-                isSignIn: false,
-              }));
-            }}
-            {...props}
-          >
-            Start for free
-          </Button>
+          {isSignupButton && (
+            <Button
+              variant={"outline"}
+              onClick={() => {
+                setAccountModal((prev) => ({
+                  ...prev,
+                  opened: true,
+                  isSignIn: false,
+                }));
+              }}
+              {...props}
+            >
+              Start for free
+            </Button>
+          )}
         </div>
       )}
     </>

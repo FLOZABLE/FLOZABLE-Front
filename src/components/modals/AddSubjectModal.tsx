@@ -26,19 +26,15 @@ import { putSubject } from "@/apis/subjectApi";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
 import { Subject } from "@/types/subjectTypes";
 import { DateTime } from "luxon";
+import { putSubjectSchema } from "@/schemas/subjectSchemas";
 
-const newSubjectSchema = z.object({
-  name: z.string().min(1, "Please provide name"),
-  color: z.string().min(1, "Please pick a color"),
-});
-
-type NewSubjectFormValues = z.infer<typeof newSubjectSchema>;
+type PutSubjectSchemaValues = z.infer<typeof putSubjectSchema>;
 
 export default function AddSubjectModal() {
   const { addSubjectModal, setAddSubjectModal } = useAddSubjectModal();
 
-  const form = useForm<NewSubjectFormValues>({
-    resolver: zodResolver(newSubjectSchema),
+  const form = useForm<PutSubjectSchemaValues>({
+    resolver: zodResolver(putSubjectSchema),
     defaultValues: {
       name: "",
       color: undefined,
@@ -48,9 +44,8 @@ export default function AddSubjectModal() {
 
   const updateSubjects = useSubjectsUpdater();
 
-  const onSubmit = useCallback(async (values: NewSubjectFormValues) => {
+  const onSubmit = useCallback(async (values: PutSubjectSchemaValues) => {
     const response = await putSubject(values);
-    console.log(response);
     if (!response.success || !response.data?.subject) return;
 
     setAddSubjectModal((prev) => ({ ...prev, opened: false }));

@@ -5,6 +5,7 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 import AvatarWrapper from "../ui/avatar";
 import AccountButton from "../buttons/AccountButton";
 import NotificationsButton from "../buttons/NotificationsButton";
+import Image from "next/image";
 
 export default function AccountViewer() {
   const { account } = useAccount();
@@ -21,16 +22,28 @@ export default function AccountViewer() {
             {account?.user_id ? (
               <AvatarWrapper userId={account.user_id} name={account.name} />
             ) : (
-              <div className="relative flex size-8 shrink-0 overflow-hidden rounded-full"></div>
+              <Image
+                src={"/logo.png"}
+                width={40}
+                height={40}
+                alt="logo"
+                className=""
+              ></Image>
             )}
             <div className="grid flex-1 text-left text-sm leading-tight gap-2">
               <div className="flex justify-between items-center ">
                 <span className="truncate font-medium px-3">
-                  {account?.name}
+                  {account ? account.name : "FLOZABLE"}
                 </span>
                 <NotificationsButton className="ml-auto" />
               </div>
-              <AccountButton variant={"default"} effect={null} size={"sm"} />
+              <AccountButton
+                variant={"default"}
+                effect={null}
+                isSignupButton={false}
+                size={"sm"}
+                className="flex-1/2"
+              />
             </div>
           </div>
         </SidebarMenuButton>

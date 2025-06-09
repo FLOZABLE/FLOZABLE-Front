@@ -33,16 +33,9 @@ import {
   useMyGroupsUpdater,
 } from "@/hooks/updaters/groupUpdaters";
 import { useAccount } from "@/hooks/accountHooks";
+import { postGroupJoinSchema } from "@/schemas/groupSchemas";
 
-const passwordSchema = z
-  .string()
-  .min(5, { message: "Password is too short (5 characters minimum)" })
-  .max(20, { message: "Password is too long (20 characters maximum)" });
-
-const FormSchema = (visibility: boolean) =>
-  z.object({
-    password: visibility ? z.string().optional() : passwordSchema,
-  });
+type PutGroupJoinSchemaValues = z.infer<ReturnType<typeof postGroupJoinSchema>>;
 
 export default function JoinGroupModal() {
   const searchParams = useSearchParams();
@@ -69,15 +62,15 @@ export default function JoinGroupModal() {
     return group ? group : null;
   }, [groups, joinGroupModal.group_id]);
 
-  const form = useForm<z.infer<ReturnType<typeof FormSchema>>>({
-    resolver: zodResolver(FormSchema(group?.visibility ?? true)),
+  const form = useForm<PutGroupJoinSchemaValues>({
+    resolver: zodResolver(postGroupJoinSchema(group?.visibility ?? true)),
     defaultValues: {
       password: "",
     },
   });
 
   const onSubmit = useCallback(
-    async (data: z.infer<ReturnType<typeof FormSchema>>) => {
+    async (data: PutGroupJoinSchemaValues) => {
       if (!group?.group_id || !account) return;
       const response = await postGroupJoin(group?.group_id, data.password);
       if (!response.success) return;
@@ -146,6 +139,7 @@ export default function JoinGroupModal() {
       open={joinGroupModal.opened}
       onOpenChange={(opened) => {
         setJoinGroupModal((prev) => ({ ...prev, opened }));
+        form.reset();
       }}
     >
       <CredenzaContent desktopClassName="!max-w-100">

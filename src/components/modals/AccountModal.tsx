@@ -30,35 +30,13 @@ import { Button } from "../ui/button";
 import { ArrowRightIcon } from "lucide-react";
 import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
 import ShowPasswordBtn from "../buttons/ShowPasswordBtn";
+import {
+  postAuthSigninSchema,
+  postAuthSignupSchema,
+} from "@/schemas/authSchemas";
 
-export const strictString = (type: string, maxLength = 20, minLength = 1) =>
-  z
-    .string()
-    .min(minLength, { message: `${type} is too short` })
-    .max(maxLength, { message: `${type} is too long` })
-    .regex(/^[a-zA-Z0-9]+$/, {
-      message: `Invalid ${type} (Only A-Z, a-z, and 0-9 allowed)`,
-    });
-
-export const passwordSchema = z
-  .string()
-  .min(8, { message: "Password is too short (8 characters minimum)" })
-  .max(20, { message: "Password is too long (20 characters maximum)" })
-  .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {
-    message: "You need at least one special character",
-  });
-
-// Zod Schemas using the validations
-export const signInFormSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: passwordSchema,
-});
-
-export const signUpFormSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: passwordSchema,
-  name: strictString("Name", 25, 1),
-});
+type PostAuthSignupSchemaValues = z.infer<typeof postAuthSignupSchema>;
+type PostAuthSigninSchemaValues = z.infer<typeof postAuthSigninSchema>;
 
 export default function AccountModal() {
   const { accountModal, setAccountModal } = useAccountModal();
@@ -72,16 +50,16 @@ export default function AccountModal() {
 
   const [isShowPassword, setIsShowPassword] = useState(false);
 
-  const signInForm = useForm<z.infer<typeof signInFormSchema>>({
-    resolver: zodResolver(signInFormSchema),
+  const signInForm = useForm<PostAuthSigninSchemaValues>({
+    resolver: zodResolver(postAuthSigninSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const signUpForm = useForm<z.infer<typeof signUpFormSchema>>({
-    resolver: zodResolver(signUpFormSchema),
+  const signUpForm = useForm<PostAuthSignupSchemaValues>({
+    resolver: zodResolver(postAuthSignupSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -90,7 +68,7 @@ export default function AccountModal() {
   });
 
   const onSignIn = useCallback(
-    async (values: z.infer<typeof signInFormSchema>) => {
+    async (values: PostAuthSigninSchemaValues) => {
       const response = await postAuthSignin({
         email: values.email,
         password: values.password,
@@ -104,7 +82,7 @@ export default function AccountModal() {
   );
 
   const onSignUp = useCallback(
-    async (values: z.infer<typeof signUpFormSchema>) => {
+    async (values: PostAuthSignupSchemaValues) => {
       const timezone = getTimezone();
       const response = await postAuthSignup({
         ...values,
