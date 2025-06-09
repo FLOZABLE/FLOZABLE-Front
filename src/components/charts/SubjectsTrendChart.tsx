@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/chart";
 import { ComponentProps, useMemo, useState } from "react";
 import { ViewerType } from "@/types/othersTypes";
-import { cn, getDates, getDatesDisplay, secondConverter } from "@/utils/tools";
+import { cn, getDates, getDatesDisplay, secondConverter } from "@/lib/utils";
 import { Subject } from "@/types/subjectTypes";
 
 type ChartDatum = {

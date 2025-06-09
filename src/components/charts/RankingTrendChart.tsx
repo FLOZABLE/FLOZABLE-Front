@@ -20,7 +20,7 @@ import { ComponentProps, useMemo } from "react";
 import { ViewerType } from "@/types/othersTypes";
 import { useRankingsUser } from "@/hooks/rankingHooks";
 import { DateTime } from "luxon";
-import { cn, getDatesDisplay } from "@/utils/tools";
+import { cn, getDatesDisplay } from "@/lib/utils";
 
 const chartConfig = {
   data: {

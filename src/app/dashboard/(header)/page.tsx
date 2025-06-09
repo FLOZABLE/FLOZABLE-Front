@@ -35,7 +35,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <main className="p-5">
+    <main className="p-5 w-full">
       <div className="flex flex-col gap-5">
         <div className="relative">
           <YoutubePlayer

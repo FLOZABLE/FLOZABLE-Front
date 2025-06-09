@@ -5,9 +5,7 @@ import { ActiveSubject, GroupedSubjects, Subject } from "./subjectTypes";
 export interface Account {
   user_id: string;
   name: string;
-  email: string;
   timezone: string;
-  verified: boolean;
   groups: string[];
   friends: string[];
 }

@@ -12,8 +12,8 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { cn } from "@/utils/tools";
-import AccountBtn from "../buttons/AccountBtn";
+import { cn } from "@/lib/utils";
+import AccountBtn from "../buttons/AccountButton";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import { useRouter } from "next/navigation";
 

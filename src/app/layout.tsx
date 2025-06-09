@@ -18,7 +18,7 @@ import "@schedule-x/theme-shadcn/dist/index.css";
 import JoinGroupModal from "@/components/modals/JoinGroupModal";
 import ChatModal from "@/components/modals/ChatModal";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import config from "@/utils/config";
+import config from "@/lib/config";
 
 const inter = Inter({
   subsets: ["latin"],

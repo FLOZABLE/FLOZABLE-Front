@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import { z } from "zod";
-import { validateURL } from "@/utils/validate";
+import { validateURL } from "@/lib/validate";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {

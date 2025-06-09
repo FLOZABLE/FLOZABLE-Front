@@ -5,8 +5,8 @@ import {
   FriendsTrendsResponse,
   RecommendedFriendsResponse,
 } from "@/types/friendTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { getTimezone, requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { getTimezone, requestHandler } from "@/lib/utils";
 
 // Get all friends
 export async function getFriends(): Promise<FriendsResponse> {

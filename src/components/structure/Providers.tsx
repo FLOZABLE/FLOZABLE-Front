@@ -1,6 +1,6 @@
 "use client";
 
-import config from "@/utils/config";
+import config from "@/lib/config";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ModalProviders from "./ModalProviders";
@@ -14,10 +14,10 @@ import {
   useRef,
   useState,
 } from "react";
-import socket from "@/utils/sockets/socket";
-import mediaSocket from "@/utils/sockets/mediaSocket";
+import socket from "@/lib/sockets/socket";
+import mediaSocket from "@/lib/sockets/mediaSocket";
 import { useAccount } from "@/hooks/accountHooks";
-import { updateQueryData } from "@/utils/tools";
+import { updateQueryData } from "@/lib/utils";
 import { useThemes, useThemesUser } from "@/hooks/themesHooks";
 import { toast } from "react-toastify";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
@@ -247,13 +247,13 @@ export function WorkersProvider({ children }: WorkersProviderProps) {
   useEffect(() => {
     if (!membersTimerWorkerRef.current) {
       membersTimerWorkerRef.current = new Worker(
-        new URL("@/utils/workers/timerWorker.js", import.meta.url)
+        new URL("@/lib/workers/timerWorker.js", import.meta.url)
       );
     }
 
     if (!subjectTimerWorkerRef.current) {
       subjectTimerWorkerRef.current = new Worker(
-        new URL("@/utils/workers/subjectTimerWorker.js", import.meta.url)
+        new URL("@/lib/workers/subjectTimerWorker.js", import.meta.url)
       );
     }
 

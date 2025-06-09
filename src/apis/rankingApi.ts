@@ -1,7 +1,7 @@
 import { ViewerType } from "@/types/othersTypes";
 import { RankingsResponse, UserRankingsResponse } from "@/types/rankingTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { getTimezone, requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { getTimezone, requestHandler } from "@/lib/utils";
 import { DateTime } from "luxon";
 
 export async function getRankings(

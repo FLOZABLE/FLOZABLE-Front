@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useCallOptions } from "../structure/Providers";
-import mediaSocket from "@/utils/sockets/mediaSocket";
+import mediaSocket from "@/lib/sockets/mediaSocket";
 import { GroupMember } from "@/types/groupTypes";
 import { Device } from "mediasoup-client";
 import { Transport } from "mediasoup-client/lib/Transport";

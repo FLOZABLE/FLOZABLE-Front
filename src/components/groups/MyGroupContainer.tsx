@@ -13,17 +13,17 @@ import MemberContainer from "./MemberContainer";
 import Skeleton from "react-loading-skeleton";
 import { useCallback, useEffect, useState } from "react";
 import { OnStopStudying, OnStudying } from "@/types/socketTypes";
-import socket from "@/utils/sockets/socket";
+import socket from "@/lib/sockets/socket";
 import { useCallOptions } from "../structure/Providers";
-import { secondConverter } from "@/utils/tools";
+import { secondConverter } from "@/lib/utils";
 import {
   RtpCapabilities,
   RtpParameters,
 } from "mediasoup-client/lib/RtpParameters";
 import { DtlsParameters, Transport } from "mediasoup-client/lib/Transport";
 import { Device } from "mediasoup-client";
-import mediaSocket from "@/utils/sockets/mediaSocket";
-import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
+import mediaSocket from "@/lib/sockets/mediaSocket";
+import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
 import { ServerCreateTransportResponse } from "@/types/mediaSoupTypes";
 import { useGroupMembersUpdater } from "@/hooks/updaters/groupUpdaters";
 import ChatButton from "../buttons/ChatButton";

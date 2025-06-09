@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import { X, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 
 export type ChatPosition = "bottom-right" | "bottom-left";
 export type ChatSize = "sm" | "md" | "lg" | "xl" | "full";

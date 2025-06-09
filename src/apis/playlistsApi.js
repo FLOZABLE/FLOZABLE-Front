@@ -1,5 +1,5 @@
-import AxiosInstance from "@/utils/axiosInstance";
-import { requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { requestHandler } from "@/lib/utils";
 
 async function getPlaylistsSpotify() {
   return requestHandler(AxiosInstance.get(`/playlists/spotify`));

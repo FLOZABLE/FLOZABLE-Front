@@ -1,3 +1,5 @@
+"use client";
+
 import { MessageCircle } from "lucide-react";
 import { Button, ButtonProps } from "../ui/button";
 import { Userinfo } from "@/types/accountTypes";
@@ -7,7 +9,7 @@ import { postChatRequest } from "@/apis/chatApi";
 import { useChatRooms } from "@/hooks/chatHooks";
 import { useAccount } from "@/hooks/accountHooks";
 import { Badge } from "../ui/badge";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 
 interface ChatButtonProps extends ButtonProps {
   userInfo?: Userinfo;

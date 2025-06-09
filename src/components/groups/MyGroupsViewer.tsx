@@ -11,12 +11,12 @@ import {
   useState,
 } from "react";
 import { useDebounce } from "use-debounce";
-import { ACTIVE_GROUP_DEBOUNCE } from "@/utils/constants";
+import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
 import { useAccount } from "@/hooks/accountHooks";
 import { useJoinGroupModal } from "../structure/ModalProviders";
-import socket from "@/utils/sockets/socket";
-import mediaSocket from "@/utils/sockets/mediaSocket";
-import { cn } from "@/utils/tools";
+import socket from "@/lib/sockets/socket";
+import mediaSocket from "@/lib/sockets/mediaSocket";
+import { cn } from "@/lib/utils";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { Group } from "@/types/groupTypes";

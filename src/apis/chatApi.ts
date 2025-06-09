@@ -4,8 +4,8 @@ import {
   ChatRoomsResponse,
   PostChatRequestResponse,
 } from "@/types/chatTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { requestHandler } from "@/lib/utils";
 
 export async function getChatRooms(): Promise<ChatRoomsResponse> {
   return requestHandler(AxiosInstance.get(`/chat/rooms`));

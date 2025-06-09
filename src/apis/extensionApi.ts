@@ -3,8 +3,8 @@ import {
   ExtensionUsageResponse,
   PutExtensionSettingResponse,
 } from "../types/websiteTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { getTimezone, requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { getTimezone, requestHandler } from "@/lib/utils";
 import { DateTime } from "luxon";
 
 async function getExtensionSettings(): Promise<ExtensionSettingsResponse> {

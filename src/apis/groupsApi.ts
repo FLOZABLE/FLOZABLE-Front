@@ -3,8 +3,8 @@ import {
   MyGroupsResponse,
   GroupMembersResponse,
 } from "@/types/groupTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { getTimezone, requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { getTimezone, requestHandler } from "@/lib/utils";
 
 // GET /group/all – Get all public groups
 export async function getGroupAll(): Promise<AllGroupsResponse> {

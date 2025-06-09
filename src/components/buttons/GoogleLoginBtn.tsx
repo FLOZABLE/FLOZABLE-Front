@@ -1,5 +1,5 @@
-import config from "@/utils/config";
-import { getTimezone } from "@/utils/tools";
+import config from "@/lib/config";
+import { getTimezone } from "@/lib/utils";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Button } from "../ui/button";
 import { useAccountGoogle } from "@/hooks/accountHooks";

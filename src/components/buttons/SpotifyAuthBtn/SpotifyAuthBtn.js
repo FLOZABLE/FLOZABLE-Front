@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./SpotifyAuthBtn.module.css";
 import { useSpotifyInfo } from "@/hooks/playlistHooks";
-import config from "@/utils/config";
+import config from "@/lib/config";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
 import { IconSpotify } from "@/components/others/Svgs";
 

@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import { DateTime } from "luxon";
-import { getDatesDisplay, secondConverter } from "@/utils/tools";
+import { getDatesDisplay, secondConverter } from "@/lib/utils";
 import { GroupedSubjects } from "@/types/subjectTypes";
 import { MouseEvent, useState } from "react";
 import {

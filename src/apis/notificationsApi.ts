@@ -1,6 +1,6 @@
 import { NotificationsResponse } from "@/types/notificationTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { requestHandler } from "@/lib/utils";
 
 async function getNotifications(): Promise<NotificationsResponse> {
   return requestHandler(AxiosInstance.get(`/notifications`));

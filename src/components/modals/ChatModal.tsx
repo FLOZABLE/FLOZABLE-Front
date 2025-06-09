@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import { useChatModal } from "../structure/ModalProviders";
 import {
   Card,
@@ -27,10 +27,10 @@ import {
   ChatBubbleTimestamp,
 } from "../ui/chat/chat-bubble";
 import { useAccount } from "@/hooks/accountHooks";
-import config from "@/utils/config";
+import config from "@/lib/config";
 import { DateTime } from "luxon";
 import { SendButton } from "../buttons/SendButton";
-import socket from "@/utils/sockets/socket";
+import socket from "@/lib/sockets/socket";
 import { useChatroomsUpdater } from "@/hooks/updaters/chatUpdaters";
 import { toast } from "sonner";
 import { Input } from "../ui/input";

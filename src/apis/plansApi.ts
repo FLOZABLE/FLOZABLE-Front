@@ -5,8 +5,8 @@ import {
   PlansResponse,
   PutPlanResponse,
 } from "@/types/planTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { requestHandler } from "@/lib/utils";
 
 export async function getPlans(date: string): Promise<PlansResponse> {
   return requestHandler(AxiosInstance.get(`/plans`, { params: { date } }));

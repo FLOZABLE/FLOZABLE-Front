@@ -1,7 +1,7 @@
 import { Userinfo } from "@/types/accountTypes";
 import AvatarWrapper from "../ui/avatar";
 import CountryViewer from "./CountryViewer";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 
 interface UserContainerProps {
   userinfo: Userinfo;

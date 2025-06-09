@@ -1,5 +1,5 @@
 import { GroupedSubjects } from "@/types/subjectTypes";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import { ComponentProps, useEffect, useMemo, useRef } from "react";
 
 type StreakDataType = {

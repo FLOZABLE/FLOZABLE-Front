@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/chart";
 import { ComponentProps, useEffect, useState } from "react";
 import { ViewerType } from "@/types/othersTypes";
-import { cn, getDates, getDatesDisplay, secondConverter } from "@/utils/tools";
+import { cn, getDates, getDatesDisplay, secondConverter } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { GroupedSubjects } from "@/types/subjectTypes";

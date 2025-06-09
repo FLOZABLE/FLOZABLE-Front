@@ -16,7 +16,7 @@ import {
   secondConverter,
   streakCalculator,
   todayTotalCalculator,
-} from "@/utils/tools";
+} from "@/lib/utils";
 import { BookOpen, Flame, MapPin } from "lucide-react";
 import { Badge } from "../ui/badge";
 import CountryViewer from "./CountryViewer";

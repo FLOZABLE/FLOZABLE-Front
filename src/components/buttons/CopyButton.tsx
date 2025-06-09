@@ -1,7 +1,7 @@
 import { Copy, Check } from "lucide-react";
 
 import { Button, ButtonProps } from "@/components/ui/button";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import { forwardRef, useEffect, useState } from "react";
 
 interface CopyButtonProps extends ButtonProps {

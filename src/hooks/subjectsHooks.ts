@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
-import { calculateTimeToMidnight } from "@/utils/tools";
+import { calculateTimeToMidnight } from "@/lib/utils";
 import { getSubjects } from "@/apis/subjectApi";
 import { GroupedSubjects } from "@/types/subjectTypes";
 

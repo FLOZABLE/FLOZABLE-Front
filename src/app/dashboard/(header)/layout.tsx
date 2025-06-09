@@ -1,5 +1,7 @@
 //import Header from "@/components/structure/Header";
-import SidebarWrapper from "@/components/structure/Sidebar";
+import AppSidebar from "@/components/sidebar/AppSidebar";
+import { SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON, SidebarProvider } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 
 export const metadata = {
   title: "Dashboard - FLOZABLE",
@@ -48,12 +50,19 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex h-[100vh] overflow-hidden w-full dark:border-neutral-700 dark:bg-neutral-800">
-      <SidebarWrapper />
-      <div className="relative w-full overflow-auto">
-        {/* <Header /> */}
-        {children}
-      </div>
+    <div className="flex h-[100vh] w-screen overflow-hidden dark:border-neutral-700 dark:bg-neutral-800">
+      {/* <SidebarWrapper /> */}
+      <SidebarProvider defaultOpen={false}>
+        <AppSidebar />
+        <div>
+          <div
+            className={cn(/* `w-[calc(100vw - 2rem)]` */)}
+            style={{ width: `calc(100vw - 4rem)` }}
+          >
+            {children}
+          </div>
+        </div>
+      </SidebarProvider>
     </div>
   );
 }

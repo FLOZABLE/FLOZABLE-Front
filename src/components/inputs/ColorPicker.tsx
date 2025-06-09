@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import { Paintbrush } from "lucide-react";
 import { useMemo, useState } from "react";
 

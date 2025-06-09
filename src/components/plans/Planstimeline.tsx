@@ -14,7 +14,7 @@ import { PlanContainer } from "./UpcomingPlansViewer";
 import { EventInput } from "@fullcalendar/core";
 import { usePlans } from "@/hooks/plansHooks";
 import { DateTime } from "luxon";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { useAccountGoogle } from "@/hooks/accountHooks";
 import GoogleLoginBtn from "../buttons/GoogleLoginBtn";

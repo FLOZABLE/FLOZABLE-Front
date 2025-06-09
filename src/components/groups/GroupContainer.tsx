@@ -1,6 +1,6 @@
 import { Group } from "@/types/groupTypes";
 import { Ranking } from "@/types/rankingTypes";
-import { cn, secondConverter } from "@/utils/tools";
+import { cn, secondConverter } from "@/lib/utils";
 import parser from "html-react-parser";
 import { Goal, Heart, Hourglass, Lock, UserRound } from "lucide-react";
 import {

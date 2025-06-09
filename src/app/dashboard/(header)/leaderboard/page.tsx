@@ -25,7 +25,7 @@ import { useAccount } from "@/hooks/accountHooks";
 import { useUpdateSearchParam } from "@/hooks/otherHooks";
 import { useRankings } from "@/hooks/rankingHooks";
 import { ViewerType } from "@/types/othersTypes";
-import { secondConverter } from "@/utils/tools";
+import { secondConverter } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";

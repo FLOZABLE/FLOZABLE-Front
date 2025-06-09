@@ -16,7 +16,7 @@ import { postChatRequestReply } from "@/apis/chatApi";
 import { useRouter } from "next/navigation";
 import { Notification } from "@/types/notificationTypes";
 import { useNotificationsUpdater } from "@/hooks/updaters/notificationsUpdaters";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import { replyToFriendRequest } from "@/apis/friendApi";
 
 interface NotificationsButton extends ButtonProps {

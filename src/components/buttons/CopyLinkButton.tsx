@@ -3,7 +3,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Button } from "../ui/button";
 import { Check, Link } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import config from "@/utils/config";
+import config from "@/lib/config";
 
 interface CopyLinkButtonProps {
   link: string;

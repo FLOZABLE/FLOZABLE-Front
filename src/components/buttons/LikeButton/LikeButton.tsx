@@ -1,6 +1,6 @@
 import { Heart } from "lucide-react";
 import styles from "./LikeButton.module.css";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 

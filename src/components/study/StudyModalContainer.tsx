@@ -2,7 +2,7 @@ import { Move, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ComponentProps, useRef } from "react";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import Draggable from "react-draggable";
 

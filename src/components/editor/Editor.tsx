@@ -37,7 +37,7 @@ import { FontBackgroundToolbarPlugin } from "@/components/editor/plugins/toolbar
 //import { ElementFormatToolbarPlugin } from "@/components/editor/plugins/toolbar/element-format-toolbar-plugin";
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 
 const editorConfig: InitialConfigType = {
   namespace: "Editor",

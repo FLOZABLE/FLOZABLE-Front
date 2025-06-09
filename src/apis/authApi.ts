@@ -1,7 +1,7 @@
 import { PostAuthVerifyResponse } from "@/types/authTypes";
 import { SuccessResponse } from "@/types/responseTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { requestHandler } from "@/lib/utils";
 
 export async function getAuthLogout(): Promise<SuccessResponse> {
   return requestHandler(AxiosInstance.get(`/auth/logout`));

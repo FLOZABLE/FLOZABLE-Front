@@ -12,7 +12,7 @@ import { useAccount } from "@/hooks/accountHooks";
 import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { getDatesDisplay, secondConverter } from "@/utils/tools";
+import { getDatesDisplay, secondConverter } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { DateTime } from "luxon";

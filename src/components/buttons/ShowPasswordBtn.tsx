@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 
 type ShowPasswordBtnProps = {
   isShowPassword: boolean;

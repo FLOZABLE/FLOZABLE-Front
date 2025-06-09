@@ -1,6 +1,6 @@
 import { PutSubjectResponse, SubjectsResponse } from "@/types/subjectTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { getTimezone, requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { getTimezone, requestHandler } from "@/lib/utils";
 
 export async function getSubjects(): Promise<SubjectsResponse> {
   const timezone = getTimezone();

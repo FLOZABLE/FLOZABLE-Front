@@ -1,7 +1,7 @@
 // components/CountryViewer.tsx
 import { ComponentProps, JSX, useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
-import { cn, getCountryCode } from "@/utils/tools";
+import { cn, getCountryCode } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Globe } from "lucide-react";
 

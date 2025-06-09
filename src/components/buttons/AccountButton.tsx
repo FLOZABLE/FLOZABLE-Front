@@ -1,10 +1,10 @@
 import { useAccountModal } from "../structure/ModalProviders";
 import { useAccount } from "@/hooks/accountHooks";
-import { ArrowRightIcon } from "lucide-react";
-import { Button } from "../ui/button";
+import { LogIn, LogOut } from "lucide-react";
+import { Button, ButtonProps } from "../ui/button";
 import { getAuthLogout } from "@/apis/authApi";
 
-export default function AccountBtn() {
+export default function AccountButton({ ...props }: ButtonProps) {
   const { setAccountModal } = useAccountModal();
   const { account, clearAccountData } = useAccount();
 
@@ -13,7 +13,7 @@ export default function AccountBtn() {
       {account ? (
         <Button
           effect={"expandIcon"}
-          icon={ArrowRightIcon}
+          icon={LogOut}
           iconPlacement="right"
           onClick={async () => {
             const response = await getAuthLogout();
@@ -24,6 +24,7 @@ export default function AccountBtn() {
               }, 500);
             }
           }}
+          {...props}
         >
           Logout
         </Button>
@@ -31,7 +32,7 @@ export default function AccountBtn() {
         <div className="flex gap-3">
           <Button
             effect={"expandIcon"}
-            icon={ArrowRightIcon}
+            icon={LogIn}
             iconPlacement="right"
             onClick={() => {
               setAccountModal((prev) => ({
@@ -40,14 +41,12 @@ export default function AccountBtn() {
                 isSignIn: true,
               }));
             }}
+            {...props}
           >
             Sign in
           </Button>
           <Button
-            effect={"expandIcon"}
-            icon={ArrowRightIcon}
             variant={"outline"}
-            iconPlacement="right"
             onClick={() => {
               setAccountModal((prev) => ({
                 ...prev,
@@ -55,6 +54,7 @@ export default function AccountBtn() {
                 isSignIn: false,
               }));
             }}
+            {...props}
           >
             Start for free
           </Button>

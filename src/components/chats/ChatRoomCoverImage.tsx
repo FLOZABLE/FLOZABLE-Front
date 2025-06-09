@@ -1,4 +1,4 @@
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import AvatarWrapper from "../ui/avatar";
 
 type ChatRoomCoverImageProps = {

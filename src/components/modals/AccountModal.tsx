@@ -12,7 +12,7 @@ import {
 } from "../ui/credenza";
 import { postAuthSignin, postAuthSignup } from "@/apis/authApi";
 import { useAccount } from "@/hooks/accountHooks";
-import { getTimezone } from "@/utils/tools";
+import { getTimezone } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Form,

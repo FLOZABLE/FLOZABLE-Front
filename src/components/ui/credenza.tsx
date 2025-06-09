@@ -23,7 +23,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/otherHooks";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 
 interface BaseProps {
   children: React.ReactNode;

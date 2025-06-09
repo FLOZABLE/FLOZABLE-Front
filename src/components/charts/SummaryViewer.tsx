@@ -7,7 +7,7 @@ import {
   streakCalculator,
   todayFocusCalculator,
   todayTotalCalculator,
-} from "@/utils/tools";
+} from "@/lib/utils";
 import { ComponentProps, useMemo } from "react";
 import { Card, CardContent } from "../ui/card";
 import NumberFlow from "@number-flow/react";

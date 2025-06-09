@@ -1,7 +1,4 @@
-"use client";
-
 import { DateTime } from "luxon";
-//import { postNotificationsSubscribe } from "@/Api/notificationsApi";
 import * as ct from "countries-and-timezones";
 import { AxiosError, AxiosResponse } from "axios";
 import { ApiResponse } from "@/types/responseTypes";

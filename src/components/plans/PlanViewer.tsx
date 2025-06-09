@@ -27,7 +27,7 @@ import {
 import { deletePlan } from "@/apis/plansApi";
 import { usePlans } from "@/hooks/plansHooks";
 import { usePlanModal } from "../structure/ModalProviders";
-import { cn, formatPlanDateRange } from "@/utils/tools";
+import { cn, formatPlanDateRange } from "@/lib/utils";
 
 interface Position {
   top: number;

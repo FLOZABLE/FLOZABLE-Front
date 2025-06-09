@@ -6,7 +6,7 @@ import {
   IconPhone,
   IconUsersGroup,
 } from "@tabler/icons-react";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Calendar, Hourglass } from "lucide-react";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";

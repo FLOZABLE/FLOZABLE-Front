@@ -6,8 +6,8 @@ import {
   AccountResponse,
 } from "@/types/accountTypes";
 import { SuccessResponse } from "@/types/responseTypes";
-import AxiosInstance from "@/utils/axiosInstance";
-import { getTimezone, requestHandler } from "@/utils/tools";
+import AxiosInstance from "@/lib/axiosInstance";
+import { getTimezone, requestHandler } from "@/lib/utils";
 
 export async function getAccount(): Promise<AccountResponse> {
   return requestHandler(AxiosInstance.get(`/account`));

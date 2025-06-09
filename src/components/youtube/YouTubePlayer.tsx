@@ -1,6 +1,6 @@
 import React, { ComponentProps } from "react";
 import dynamic from "next/dynamic";
-import { cn } from "@/utils/tools";
+import { cn } from "@/lib/utils";
 
 // Dynamically import ReactPlayer with SSR disabled
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });

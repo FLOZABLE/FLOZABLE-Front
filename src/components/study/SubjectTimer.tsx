@@ -1,9 +1,9 @@
 import { useSubjects } from "@/hooks/subjectsHooks";
 import { ReactNode, useEffect, useMemo, useState } from "react";
-import { cn, toTimer } from "@/utils/tools";
+import { cn, toTimer } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
-import socket from "@/utils/sockets/socket";
+import socket from "@/lib/sockets/socket";
 import { OnMyStopStudying, OnMyStudying } from "@/types/socketTypes";
 import {
   Command,
