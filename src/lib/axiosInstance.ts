@@ -56,7 +56,7 @@ AxiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     // Use optional chaining for safe access
     const message = response?.data?.message;
-    const type = response?.data?.status === 200 ? "success" : "error";
+    const type = response?.data?.success === true ? "success" : "error";
 
     // Check if both message and a valid type exist before toasting
     if (message && (type === "success" || type === "error")) {

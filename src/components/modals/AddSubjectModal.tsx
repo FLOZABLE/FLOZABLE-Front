@@ -23,9 +23,12 @@ import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { ColorPicker } from "../inputs/ColorPicker";
 import { putSubject } from "@/apis/subjectApi";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
-import { PutSubjectSchemaValues, Subject } from "@/types/subjectTypes";
 import { DateTime } from "luxon";
-import { putSubjectSchema } from "@/schemas/subjectSchemas";
+import {
+  putSubjectSchema,
+  PutSubjectSchemaValues,
+} from "@/schemas/subjectSchemas";
+import { Subject } from "@/types/subjectTypes";
 
 export default function AddSubjectModal() {
   const { addSubjectModal, setAddSubjectModal } = useAddSubjectModal();

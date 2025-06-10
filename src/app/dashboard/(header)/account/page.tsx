@@ -24,12 +24,10 @@ import {
 import { useAccount, useAccountGoogle } from "@/hooks/accountHooks";
 import {
   patchAccountPasswordSchema,
-  patchAccountProfileSchema,
-} from "@/schemas/accountSchemas";
-import {
   PatchAccountPasswordSchemaValues,
+  patchAccountProfileSchema,
   PatchAccountProfileSchemaValues,
-} from "@/types/accountTypes";
+} from "@/schemas/accountSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, UserRoundPen } from "lucide-react";
 import { useCallback } from "react";

@@ -31,12 +31,10 @@ import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
 import ShowPasswordBtn from "../buttons/ShowPasswordBtn";
 import {
   postAuthSigninSchema,
-  postAuthSignupSchema,
-} from "@/schemas/authSchemas";
-import {
   PostAuthSigninSchemaValues,
+  postAuthSignupSchema,
   PostAuthSignupSchemaValues,
-} from "@/types/authTypes";
+} from "@/schemas/authSchemas";
 
 export default function AccountModal() {
   const { accountModal, setAccountModal } = useAccountModal();

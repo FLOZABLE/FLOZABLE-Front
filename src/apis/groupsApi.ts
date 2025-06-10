@@ -2,9 +2,11 @@ import {
   AllGroupsResponse,
   MyGroupsResponse,
   GroupMembersResponse,
+  PutGroupResponse,
 } from "@/types/groupTypes";
 import AxiosInstance from "@/lib/axiosInstance";
 import { getTimezone, requestHandler } from "@/lib/utils";
+import { PutGroupSchemaValues } from "@/schemas/groupSchemas";
 
 // GET /group/all – Get all public groups
 export async function getGroupAll(): Promise<AllGroupsResponse> {
@@ -57,4 +59,11 @@ export async function postGroupLeave(groupId: string) {
       group_id: groupId,
     })
   );
+}
+
+// PUT /group – Create a group
+export async function putGroup(
+  newGroup: PutGroupSchemaValues
+): Promise<PutGroupResponse> {
+  return requestHandler(AxiosInstance.put("/group", newGroup));
 }

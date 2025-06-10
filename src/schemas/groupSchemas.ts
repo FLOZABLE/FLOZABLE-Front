@@ -23,6 +23,39 @@ export const groupSchemas = {
     .refine((val) => val !== "", {
       message: "Please provide a password.",
     }),
+  description: z
+    .string()
+    .max(1000, { message: "Description cannot exceed 1000 characters." })
+    .refine((val) => val.trim() !== "", {
+      message: "Description cannot be empty.",
+    }),
+
+  max_members: z.coerce
+    .number()
+    .int()
+    .min(1, { message: "Max members must be at least 1." })
+    .max(50, { message: "Max members cannot exceed 50." }),
+
+  tags: z
+    .array(z.string().min(1).max(50))
+    .max(50, { message: "You can specify up to 50 tags." }),
+
+  color: z
+    .string()
+    .max(20, { message: "Color cannot exceed 20 characters." })
+    .refine((val) => val.trim() !== "", {
+      message: "Color cannot be empty.",
+    }),
+
+  goal_hr: z.coerce
+    .number()
+    .int()
+    .min(1, { message: "Goal hour must be at least 1." })
+    .max(12, { message: "Goal hour cannot exceed 12." }),
+
+  visibility: z.boolean({
+    required_error: "Visibility must be true or false.",
+  }),
 };
 
 export const postGroupJoinSchema = (visibility: boolean) =>
@@ -30,3 +63,30 @@ export const postGroupJoinSchema = (visibility: boolean) =>
     group_id: groupSchemas.group_id,
     password: visibility ? z.string().optional() : groupSchemas.password,
   });
+
+export type PostGroupJoinSchemaValues = z.infer<
+  ReturnType<typeof postGroupJoinSchema>
+>;
+
+export const putGroupSchema = z
+  .object({
+    name: groupSchemas.name,
+    password: z.string().optional(), // start as optional
+    description: groupSchemas.description,
+    max_members: groupSchemas.max_members,
+    tags: groupSchemas.tags,
+    color: groupSchemas.color,
+    goal_hr: groupSchemas.goal_hr,
+    visibility: groupSchemas.visibility,
+  })
+  .superRefine((data, ctx) => {
+    if (!data.visibility && (!data.password || data.password.trim() === "")) {
+      ctx.addIssue({
+        path: ["password"],
+        code: z.ZodIssueCode.custom,
+        message: "Please provide a password when the group is private.",
+      });
+    }
+  });
+
+export type PutGroupSchemaValues = z.infer<typeof putGroupSchema>;

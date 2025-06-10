@@ -11,7 +11,6 @@ import {
 } from "../ui/credenza";
 import GroupContainer from "../groups/GroupContainer";
 import { useCallback, useEffect, useMemo } from "react";
-import { Group, PutGroupJoinSchemaValues } from "@/types/groupTypes";
 import { useRankings } from "@/hooks/rankingHooks";
 import { Button } from "../ui/button";
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
@@ -32,7 +31,11 @@ import {
   useMyGroupsUpdater,
 } from "@/hooks/updaters/groupUpdaters";
 import { useAccount } from "@/hooks/accountHooks";
-import { postGroupJoinSchema } from "@/schemas/groupSchemas";
+import {
+  postGroupJoinSchema,
+  PostGroupJoinSchemaValues,
+} from "@/schemas/groupSchemas";
+import { Group } from "@/types/groupTypes";
 
 export default function JoinGroupModal() {
   const searchParams = useSearchParams();
@@ -59,7 +62,7 @@ export default function JoinGroupModal() {
     return group ? group : null;
   }, [groups, joinGroupModal.group_id]);
 
-  const form = useForm<PutGroupJoinSchemaValues>({
+  const form = useForm<PostGroupJoinSchemaValues>({
     resolver: zodResolver(postGroupJoinSchema(group?.visibility ?? true)),
     defaultValues: {
       password: "",
@@ -67,7 +70,7 @@ export default function JoinGroupModal() {
   });
 
   const onSubmit = useCallback(
-    async (data: PutGroupJoinSchemaValues) => {
+    async (data: PostGroupJoinSchemaValues) => {
       if (!group?.group_id || !account) return;
       const response = await postGroupJoin(group?.group_id, data.password);
       if (!response.success) return;

@@ -1,11 +1,6 @@
-import { z } from "zod";
 import { Friend } from "./friendTypes";
 import { ApiResponse } from "./responseTypes";
 import { ActiveSubject, GroupedSubjects, Subject } from "./subjectTypes";
-import {
-  patchAccountPasswordSchema,
-  patchAccountProfileSchema,
-} from "@/schemas/accountSchemas";
 
 export interface Account {
   user_id: string;
@@ -60,12 +55,3 @@ export type AccountProfileResponse = ApiResponse<{
 export type AccountProfileStatusResponse = ApiResponse<{
   active_subject: ActiveSubject;
 }>;
-
-//forms
-export type PatchAccountProfileSchemaValues = z.infer<
-  typeof patchAccountProfileSchema
->;
-
-export type PatchAccountPasswordSchemaValues = z.infer<
-  typeof patchAccountPasswordSchema
->;

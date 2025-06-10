@@ -46,6 +46,10 @@ export const patchAccountProfileSchema = z.object({
   confirmEmail: z.string(),
 });
 
+export type PatchAccountProfileSchemaValues = z.infer<
+  typeof patchAccountProfileSchema
+>;
+
 export const patchAccountPasswordSchema = z
   .object({
     password: accountSchemas.email,
@@ -55,3 +59,7 @@ export const patchAccountPasswordSchema = z
     path: ["confirmPassword"],
     message: "Passwords do not match.",
   });
+
+export type PatchAccountPasswordSchemaValues = z.infer<
+  typeof patchAccountPasswordSchema
+>;

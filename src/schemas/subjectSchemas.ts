@@ -29,3 +29,5 @@ export const putSubjectSchema = z.object({
   name: subjectSchema.name,
   color: subjectSchema.color,
 });
+
+export type PutSubjectSchemaValues = z.infer<typeof putSubjectSchema>;

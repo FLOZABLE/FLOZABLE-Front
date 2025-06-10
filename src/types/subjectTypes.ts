@@ -1,7 +1,4 @@
-import { putSubjectSchema } from "@/schemas/subjectSchemas";
 import { ApiResponse } from "./responseTypes";
-import { z } from "zod";
-
 export type TimeRange = [number, number]; // [start, duration]
 
 export interface TimelineEntry {
@@ -63,6 +60,3 @@ export type SubjectsResponse = ApiResponse<{
 export type PutSubjectResponse = ApiResponse<{
   subject: NewSubject;
 }>;
-
-//forms
-export type PutSubjectSchemaValues = z.infer<typeof putSubjectSchema>;

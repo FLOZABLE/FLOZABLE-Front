@@ -1,17 +1,31 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useState } from "react";
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const FloatingInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, placeholder, onFocus, onBlur, ...props }, ref) => {
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
+      onFocus?.(e); // Call original onFocus if it exists
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(false);
+      onBlur?.(e); // Call original onBlur if it exists
+    };
+
     return (
       <Input
-        placeholder=" "
+        placeholder={isFocused ? placeholder : " "} // Only show placeholder when focused
         className={cn("peer", className)}
         ref={ref}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         {...props}
       />
     );
@@ -20,7 +34,7 @@ const FloatingInput = React.forwardRef<HTMLInputElement, InputProps>(
 FloatingInput.displayName = "FloatingInput";
 
 const FloatingLabel = React.forwardRef<
-  React.ElementRef<typeof Label>,
+  React.ComponentRef<typeof Label>,
   React.ComponentPropsWithoutRef<typeof Label>
 >(({ className, ...props }, ref) => {
   return (
