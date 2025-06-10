@@ -39,3 +39,19 @@ export const accountSchemas = {
       message: "Please provide a password.",
     }),
 };
+
+export const patchAccountProfileSchema = z.object({
+  email: accountSchemas.email,
+  name: accountSchemas.name,
+  confirmEmail: z.string(),
+});
+
+export const patchAccountPasswordSchema = z
+  .object({
+    password: accountSchemas.email,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords do not match.",
+  });

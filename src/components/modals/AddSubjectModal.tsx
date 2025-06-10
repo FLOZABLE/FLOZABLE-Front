@@ -1,6 +1,5 @@
 "use client";
 
-import { z } from "zod";
 import { useAddSubjectModal } from "../structure/ModalProviders";
 import {
   Credenza,
@@ -24,11 +23,9 @@ import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { ColorPicker } from "../inputs/ColorPicker";
 import { putSubject } from "@/apis/subjectApi";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
-import { Subject } from "@/types/subjectTypes";
+import { PutSubjectSchemaValues, Subject } from "@/types/subjectTypes";
 import { DateTime } from "luxon";
 import { putSubjectSchema } from "@/schemas/subjectSchemas";
-
-type PutSubjectSchemaValues = z.infer<typeof putSubjectSchema>;
 
 export default function AddSubjectModal() {
   const { addSubjectModal, setAddSubjectModal } = useAddSubjectModal();

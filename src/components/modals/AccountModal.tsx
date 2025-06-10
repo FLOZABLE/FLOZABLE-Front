@@ -23,7 +23,6 @@ import {
 } from "../ui/form";
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -34,9 +33,10 @@ import {
   postAuthSigninSchema,
   postAuthSignupSchema,
 } from "@/schemas/authSchemas";
-
-type PostAuthSignupSchemaValues = z.infer<typeof postAuthSignupSchema>;
-type PostAuthSigninSchemaValues = z.infer<typeof postAuthSigninSchema>;
+import {
+  PostAuthSigninSchemaValues,
+  PostAuthSignupSchemaValues,
+} from "@/types/authTypes";
 
 export default function AccountModal() {
   const { accountModal, setAccountModal } = useAccountModal();

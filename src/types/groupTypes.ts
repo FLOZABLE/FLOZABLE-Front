@@ -1,5 +1,7 @@
+import { postGroupJoinSchema } from "@/schemas/groupSchemas";
 import { Userinfo, UserStatus } from "./accountTypes";
 import { ApiResponse } from "./responseTypes";
+import { z } from "zod";
 
 export interface Group {
   group_id: string;
@@ -34,3 +36,8 @@ export type MyGroupsResponse = ApiResponse<{ groups: string[] }>;
 
 // GET /group/members
 export type GroupMembersResponse = ApiResponse<{ members: GroupMember[] }>;
+
+//form
+export type PutGroupJoinSchemaValues = z.infer<
+  ReturnType<typeof postGroupJoinSchema>
+>;

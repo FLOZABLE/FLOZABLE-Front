@@ -11,11 +11,10 @@ import {
 } from "../ui/credenza";
 import GroupContainer from "../groups/GroupContainer";
 import { useCallback, useEffect, useMemo } from "react";
-import { Group } from "@/types/groupTypes";
+import { Group, PutGroupJoinSchemaValues } from "@/types/groupTypes";
 import { useRankings } from "@/hooks/rankingHooks";
 import { Button } from "../ui/button";
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -34,8 +33,6 @@ import {
 } from "@/hooks/updaters/groupUpdaters";
 import { useAccount } from "@/hooks/accountHooks";
 import { postGroupJoinSchema } from "@/schemas/groupSchemas";
-
-type PutGroupJoinSchemaValues = z.infer<ReturnType<typeof postGroupJoinSchema>>;
 
 export default function JoinGroupModal() {
   const searchParams = useSearchParams();

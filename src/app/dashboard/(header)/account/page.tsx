@@ -4,7 +4,6 @@ import { patchAccountInfo, patchAccountPassword } from "@/apis/accountApi";
 import GoogleLoginBtn from "@/components/buttons/GoogleLoginBtn";
 import ExtensionSetting from "@/components/extension/ExtensionSetting";
 import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
-import { passwordSchema, strictString } from "@/components/modals/AccountModal";
 import { IconGoogleCalendar, IconYoutube } from "@/components/others/Svgs";
 import AvatarWrapper from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -23,40 +22,25 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useAccount, useAccountGoogle } from "@/hooks/accountHooks";
+import {
+  patchAccountPasswordSchema,
+  patchAccountProfileSchema,
+} from "@/schemas/accountSchemas";
+import {
+  PatchAccountPasswordSchemaValues,
+  PatchAccountProfileSchemaValues,
+} from "@/types/accountTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, UserRoundPen } from "lucide-react";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-// Zod Schemas using the validations
-const profileFormSchema = z
-  .object({
-    name: strictString("Name", 25, 1),
-    email: z.string().email({ message: "Invalid email address." }),
-    confirmEmail: z.string(),
-  })
-  .refine((data) => data.email === data.confirmEmail, {
-    path: ["confirmEmail"],
-    message: "Email addresses do not match.",
-  });
-
-const passwordFormSchema = z
-  .object({
-    password: passwordSchema,
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Passwords do not match.",
-  });
 
 export default function Account() {
   const { account } = useAccount();
   const { accountGoogleData } = useAccountGoogle();
 
-  const profileForm = useForm<z.infer<typeof profileFormSchema>>({
-    resolver: zodResolver(profileFormSchema),
+  const profileForm = useForm<PatchAccountProfileSchemaValues>({
+    resolver: zodResolver(patchAccountProfileSchema),
     defaultValues: {
       email: "",
       confirmEmail: "",
@@ -64,8 +48,8 @@ export default function Account() {
     },
   });
 
-  const passwordForm = useForm<z.infer<typeof passwordFormSchema>>({
-    resolver: zodResolver(passwordFormSchema),
+  const passwordForm = useForm<PatchAccountPasswordSchemaValues>({
+    resolver: zodResolver(patchAccountPasswordSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
@@ -73,7 +57,7 @@ export default function Account() {
   });
 
   const onProfileUpdate = useCallback(
-    async (values: z.infer<typeof profileFormSchema>) => {
+    async (values: PatchAccountProfileSchemaValues) => {
       const response = await patchAccountInfo({
         ...values,
       });
@@ -84,7 +68,7 @@ export default function Account() {
   );
 
   const onPasswordUpdate = useCallback(
-    async (values: z.infer<typeof passwordFormSchema>) => {
+    async (values: PatchAccountPasswordSchemaValues) => {
       const response = await patchAccountPassword({
         ...values,
       });
