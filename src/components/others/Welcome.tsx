@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useAccount } from "@/hooks/accountHooks";
-import StudyBtn from "../buttons/StudyBtn";
+import StudyButton from "../buttons/StudyButton";
 import Image from "next/image";
 import { ComponentProps } from "react";
 
@@ -29,7 +29,7 @@ export default function Welcome({ ...props }: ComponentProps<"div">) {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <StudyBtn />
+        <StudyButton />
       </CardFooter>
     </Card>
   );

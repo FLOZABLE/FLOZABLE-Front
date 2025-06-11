@@ -25,7 +25,7 @@ import {
 } from "../ui/form";
 import { useSearchParams } from "next/navigation";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
-import { postGroupJoin } from "@/apis/groupsApi";
+import { postGroupJoin } from "@/apis/groupApi";
 import {
   useGroupsUpdater,
   useMyGroupsUpdater,
@@ -73,7 +73,9 @@ export default function JoinGroupModal() {
     async (data: PostGroupJoinSchemaValues) => {
       if (!group?.group_id || !account) return;
       const response = await postGroupJoin(group?.group_id, data.password);
-      if (!response.success) return;
+      if (!response.success || !response.data?.group) return;
+
+      const joinedGroup = response.data.group;
 
       setJoinGroupModal((prev) => ({ ...prev, opened: false }));
 
@@ -88,29 +90,14 @@ export default function JoinGroupModal() {
         );
         if (groupIndex === -1) return prev;
 
-        newGroups[groupIndex] = {
-          ...newGroups[groupIndex],
-          members: [...newGroups[groupIndex].members, account.user_id],
-        };
+        newGroups[groupIndex] = joinedGroup;
         return newGroups;
       });
 
-      const updatedMyGroups = await updateMyGroups((prev) => {
-        const newGroup = { ...group };
-        newGroup.members = [...newGroup.members, account.user_id];
-        const newGroups = [...prev, newGroup.group_id];
+      updateMyGroups((prev) => {
+        const newGroups = [...prev, joinedGroup.group_id];
         return newGroups;
       });
-
-      //slide to my groups viewer & index of group
-      const groupIndex = updatedMyGroups?.findIndex(
-        (myGroupId) => myGroupId === group.group_id
-      );
-      if (groupIndex === -1 || !groupIndex) return;
-
-      /* setTimeout(() => {
-        joinGroupModal.myGroupsSwiper?.slideTo(groupIndex);
-      }, 1000); */
 
       const myGroupsViewer = document.querySelector("#myGroupsViewer");
       myGroupsViewer?.scrollIntoView({

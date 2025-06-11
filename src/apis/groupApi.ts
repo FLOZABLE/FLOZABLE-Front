@@ -3,6 +3,7 @@ import {
   MyGroupsResponse,
   GroupMembersResponse,
   PutGroupResponse,
+  PostGroupJoin,
 } from "@/types/groupTypes";
 import AxiosInstance from "@/lib/axiosInstance";
 import { getTimezone, requestHandler } from "@/lib/utils";
@@ -23,9 +24,8 @@ export async function getGroupMembers(
   groupId: string
 ): Promise<GroupMembersResponse> {
   return requestHandler(
-    AxiosInstance.get("/group/members", {
+    AxiosInstance.get(`/group/${groupId}/members`, {
       params: {
-        group_id: groupId,
         timezone: getTimezone(),
       },
     })
@@ -43,10 +43,13 @@ export async function postGroupLike(groupId: string, like: boolean) {
 }
 
 // POST /group/join – Join a group with optional password
-export async function postGroupJoin(groupId: string, password?: string) {
+export async function postGroupJoin(
+  groupId: string,
+  password?: string
+): Promise<PostGroupJoin> {
+  console.log("shit");
   return requestHandler(
-    AxiosInstance.post("/group/join", {
-      group_id: groupId,
+    AxiosInstance.post(`/group/${groupId}/join`, {
       password,
     })
   );
@@ -54,11 +57,7 @@ export async function postGroupJoin(groupId: string, password?: string) {
 
 // POST /group/leave – Leave a group
 export async function postGroupLeave(groupId: string) {
-  return requestHandler(
-    AxiosInstance.post("/group/leave", {
-      group_id: groupId,
-    })
-  );
+  return requestHandler(AxiosInstance.post(`/group/${groupId}/leave`));
 }
 
 // PUT /group – Create a group

@@ -32,8 +32,11 @@ export type AllGroupsResponse = ApiResponse<{ groups: Group[] }>;
 // GET /group/mine
 export type MyGroupsResponse = ApiResponse<{ groups: string[] }>;
 
-// GET /group/members
+// GET /group/:GROUP_ID/members
 export type GroupMembersResponse = ApiResponse<{ members: GroupMember[] }>;
+
+// POST /group/:GROUP_ID/join
+export type PostGroupJoin = ApiResponse<{ group: Group }>;
 
 // PUT /group
 export type PutGroupResponse = ApiResponse<{ group: Group }>;

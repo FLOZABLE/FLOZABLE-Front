@@ -1,4 +1,4 @@
-import { getGroupAll, getGroupMembers, getGroupMine } from "@/apis/groupsApi";
+import { getGroupAll, getGroupMembers, getGroupMine } from "@/apis/groupApi";
 import { useQuery } from "@tanstack/react-query";
 import { useAccount } from "./accountHooks";
 

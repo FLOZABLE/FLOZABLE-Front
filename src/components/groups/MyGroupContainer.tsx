@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { BookOpen, LogOut, UserRound } from "lucide-react";
+import { BookOpen, GraduationCap, LogOut, UserRound } from "lucide-react";
 import { useGroupMembers } from "@/hooks/groupHook";
 import MemberContainer from "./MemberContainer";
 import Skeleton from "react-loading-skeleton";
@@ -30,6 +30,7 @@ import ChatButton from "../buttons/ChatButton";
 import MembersStatusViewer from "./MembersStatusViewer";
 import { Button } from "../ui/button";
 import { setConfirmLeaveModalType } from "./MyGroupsViewer";
+import { useRouter } from "next/navigation";
 
 const videoParams = {
   encodings: [
@@ -92,6 +93,8 @@ export default function MyGroupContainer({
   );
 
   const updateGroupMembers = useGroupMembersUpdater(group.group_id);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!groupMembersData?.length) return;
@@ -406,7 +409,7 @@ export default function MyGroupContainer({
   }, [producerTransport, audioStream]);
 
   return (
-    <Card className="h-full border-0 py-0 bg-transparent relative">
+    <Card className="h-full border-0 py-0 bg-transparent relative shadow-none">
       <MembersStatusViewer members={groupMembersData} />
       <CardHeader>
         {isStudy ? (
@@ -442,6 +445,17 @@ export default function MyGroupContainer({
             >
               <LogOut />
             </Button>
+            {!isStudy && (
+              <Button
+                onClick={() => {
+                  router.push(`/dashboard/study?study_group=${group.group_id}`);
+                }}
+                icon={GraduationCap}
+                iconPlacement="right"
+              >
+                Go Study
+              </Button>
+            )}
           </div>
         </CardDescription>
       </CardHeader>

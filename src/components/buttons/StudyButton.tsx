@@ -2,7 +2,7 @@ import { GraduationCap } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 
-export default function StudyBtn() {
+export default function StudyButton() {
   const router = useRouter();
 
   return (

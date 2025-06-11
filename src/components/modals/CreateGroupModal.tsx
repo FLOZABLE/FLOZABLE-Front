@@ -23,7 +23,7 @@ import { Button } from "../ui/button";
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import Editor from "../editor/Editor";
 import { ColorPicker } from "../inputs/ColorPicker";
-import { putGroup } from "@/apis/groupsApi";
+import { putGroup } from "@/apis/groupApi";
 import {
   useGroupsUpdater,
   useMyGroupsUpdater,
@@ -53,36 +53,25 @@ export default function CreateGroupModal() {
 
   const onSubmit = useCallback(async (data: PutGroupSchemaValues) => {
     const response = await putGroup(data);
-    console.log(response);
     if (!response.success || !response.data?.group) return;
 
     setCreateGroupModal((prev) => !prev);
 
     form.reset();
 
-    localStorage.setItem("swiperGroupId", response.data.group.group_id);
-
     const newGroup = response.data.group;
+
+    localStorage.setItem("swiperGroupId", newGroup.group_id);
 
     updateGroups((prev) => {
       const newGroups = [...prev, newGroup];
       return newGroups;
     });
 
-    const updatedMyGroups = await updateMyGroups((prev) => {
+    updateMyGroups((prev) => {
       const newGroups = [...prev, newGroup.group_id];
       return newGroups;
     });
-
-    //slide to my groups viewer & index of group
-    const groupIndex = updatedMyGroups?.findIndex(
-      (myGroupId) => myGroupId === newGroup.group_id
-    );
-    if (groupIndex === -1 || !groupIndex) return;
-
-    /* setTimeout(() => {
-      joinGroupModal.myGroupsSwiper?.slideTo(groupIndex);
-    }, 1000); */
 
     const myGroupsViewer = document.querySelector("#myGroupsViewer");
     myGroupsViewer?.scrollIntoView({

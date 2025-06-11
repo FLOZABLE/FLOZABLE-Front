@@ -60,7 +60,6 @@ export const groupSchemas = {
 
 export const postGroupJoinSchema = (visibility: boolean) =>
   z.object({
-    group_id: groupSchemas.group_id,
     password: visibility ? z.string().optional() : groupSchemas.password,
   });
 

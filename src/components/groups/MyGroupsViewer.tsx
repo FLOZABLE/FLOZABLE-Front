@@ -26,7 +26,7 @@ import {
 } from "@/hooks/updaters/groupUpdaters";
 import { AlertDialogWrapper } from "../ui/alert-dialog";
 import Link from "next/link";
-import { postGroupLeave } from "@/apis/groupsApi";
+import { postGroupLeave } from "@/apis/groupApi";
 
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
@@ -155,7 +155,13 @@ export default function MyGroupsViewer({
 
   const myGroupsInfo = useMemo(() => {
     if (!groups) return [];
-    return groups?.filter((group) => myGroups?.includes(group.group_id));
+    if (!myGroups) return [];
+
+    const groupMap = new Map(groups.map((g) => [g.group_id, g]));
+
+    return myGroups
+      .map((id) => groupMap.get(id))
+      .filter((group): group is Group => group !== undefined);
   }, [groups, myGroups]);
 
   if (!myGroups?.length) {
