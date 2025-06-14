@@ -3,6 +3,7 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -23,6 +24,7 @@ import {
 } from "lucide-react";
 import ChatButton from "../buttons/ChatButton";
 import { useRef } from "react";
+import TutorialButton from "../buttons/TutorialButton";
 
 const items = [
   {
@@ -108,6 +110,9 @@ export default function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <TutorialButton />
+      </SidebarFooter>
     </Sidebar>
   );
 }

@@ -27,7 +27,10 @@ import {
   OnStopStudying,
   OnStudying,
 } from "@/types/socketTypes";
-import { CallOptionsContextType, WorkersContextType } from "@/types/contextTypes";
+import {
+  CallOptionsContextType,
+  WorkersContextType,
+} from "@/types/contextTypes";
 import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
 //import { ViewerType } from "@/types/others";
 
@@ -91,11 +94,62 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
 
+import type { CardComponentProps } from "nextstepjs";
+
+export const CustomCard = ({
+  step,
+  currentStep,
+  totalSteps,
+  nextStep,
+  prevStep,
+  skipTour,
+  arrow,
+}: CardComponentProps) => {
+  return (
+    <div>
+      <h1>
+        {step.icon} {step.title}
+      </h1>
+      <h2>
+        {currentStep} of {totalSteps}
+      </h2>
+      <p>{step.content}</p>
+      <button onClick={prevStep}>Previous</button>
+      <button onClick={nextStep}>Next</button>
+      <button onClick={skipTour}>Skip</button>
+      {arrow}
+    </div>
+  );
+};
+
 const steps: Tour[] = [
   {
-    tour: "firstTour",
+    tour: "newUser",
     steps: [
-      // Step objects
+      {
+        icon: <>👋</>,
+        title: "Tour 1, Step 1",
+        content: <>First tour, first step</>,
+        side: "top",
+        showControls: true,
+        showSkip: true,
+        pointerPadding: 10,
+        pointerRadius: 10,
+        nextRoute: "/dashboard/study",
+        prevRoute: "/dashboard",
+      },
+      {
+        icon: <>🎉</>,
+        title: "Tour 1, Step 2",
+        content: <>First tour, second step</>,
+        selector: "#tour1-step2",
+        side: "top",
+        showControls: true,
+        showSkip: true,
+        pointerPadding: 10,
+        pointerRadius: 10,
+        viewportID: "scrollable-viewport",
+      },
     ],
   },
   {
@@ -216,7 +270,22 @@ function AppProvider({ children }: AppProviderProps) {
   return (
     <WorkersProvider>
       <NextStepProvider>
-        <NextStep steps={steps}>
+        <NextStep
+          steps={steps}
+          showNextStep={true}
+          shadowRgb="55,48,163"
+          shadowOpacity="0.8"
+          cardComponent={CustomCard}
+          cardTransition={{ duration: 0.5, type: "spring" }}
+          onStepChange={(step, tourName) =>
+            console.log(`Step changed to ${step} in ${tourName}`)
+          }
+          onComplete={(tourName) => console.log(`Tour completed: ${tourName}`)}
+          onSkip={(step, tourName) =>
+            console.log(`Tour skipped: ${step} in ${tourName}`)
+          }
+          clickThroughOverlay={false}
+        >
           <ModalProviders>
             <CallOptionsProvider>
               <ThemesProvider>{children}</ThemesProvider>
