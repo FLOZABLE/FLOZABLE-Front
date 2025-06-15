@@ -1,18 +1,19 @@
+import AxiosInstance from "@/lib/axiosInstance";
+import { getTimezone, requestHandler } from "@/lib/utils";
+import { DateTime } from "luxon";
+
 import {
   ExtensionSettingsResponse,
   ExtensionUsageResponse,
   PutExtensionSettingResponse,
 } from "../types/websiteTypes";
-import AxiosInstance from "@/lib/axiosInstance";
-import { getTimezone, requestHandler } from "@/lib/utils";
-import { DateTime } from "luxon";
 
 async function getExtensionSettings(): Promise<ExtensionSettingsResponse> {
   return requestHandler(AxiosInstance.get(`/extension/settings`));
 }
 
 async function putExtensionSetting(
-  url: string
+  url: string,
 ): Promise<PutExtensionSettingResponse> {
   return requestHandler(AxiosInstance.put(`/extension/setting`, { url }));
 }
@@ -32,19 +33,19 @@ async function patchExtensionSetting({
       website,
       mode,
       value,
-    })
+    }),
   );
 }
 
 async function deleteExtensionSetting(website: string) {
   return requestHandler(
-    AxiosInstance.delete(`/extension/setting`, { data: { website } })
+    AxiosInstance.delete(`/extension/setting`, { data: { website } }),
   );
 }
 
 async function getExtensionUsage(
   date: Date,
-  mode: string
+  mode: string,
 ): Promise<ExtensionUsageResponse> {
   const timezone = getTimezone();
 
@@ -55,7 +56,7 @@ async function getExtensionUsage(
         mode,
         timezone,
       },
-    })
+    }),
   );
 }
 

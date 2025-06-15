@@ -1,7 +1,5 @@
 "use client";
 
-import { Calendar as CalendarIcon } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -17,16 +15,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn, getDatesDisplay } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { DateTime } from "luxon";
 import { ViewerType } from "@/types/othersTypes";
-import * as PopoverPrimitive from "@radix-ui/react-popover"
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { DateTime } from "luxon";
+import { useEffect, useState } from "react";
 
-interface DatePickerProps extends  React.ComponentProps<typeof PopoverPrimitive.Content>  {
+interface DatePickerProps
+  extends React.ComponentProps<typeof PopoverPrimitive.Content> {
   viewDate: Date;
   setViewDate: (date: Date) => void;
   viewer: ViewerType;
-};
+}
 
 export function DatePicker({
   viewDate,
@@ -99,9 +99,8 @@ export function DatePicker({
           variant={"outline"}
           className={cn(
             "justify-start text-left font-normal",
-            !viewDate ? "text-muted-foreground" : ""
-          )}
-        >
+            !viewDate ? "text-muted-foreground" : "",
+          )}>
           <CalendarIcon />
           {disp}
         </Button>
@@ -110,16 +109,14 @@ export function DatePicker({
         align="end"
         {...props}
         className={cn(
-          "z-50 pointer-events-auto flex w-auto flex-col space-y-2 p-2", 
-          props.className
-        )}
-      >
+          "z-50 pointer-events-auto flex w-auto flex-col space-y-2 p-2",
+          props.className,
+        )}>
         <Select
           onValueChange={(value) => {
             const date = DateTime.fromISO(value).toJSDate();
             setViewDate(date);
-          }}
-        >
+          }}>
           <SelectTrigger>
             <SelectValue placeholder="Select" />
           </SelectTrigger>

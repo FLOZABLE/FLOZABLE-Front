@@ -25,8 +25,7 @@ export default function NotFound() {
             iconPlacement="right"
             onClick={() => {
               router.push("/");
-            }}
-          >
+            }}>
             Return to website
           </Button>
         </div>

@@ -13,11 +13,12 @@ import socket from "@/lib/sockets/socket";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useNextStep } from "nextstepjs";
 import { useEffect, useState } from "react";
 
 const YoutubePlayer = dynamic(
   () => import("@/components/youtube/YouTubePlayer"),
-  { ssr: false }
+  { ssr: false },
 );
 
 export default function Study() {
@@ -34,6 +35,8 @@ export default function Study() {
 
   const [studyModal, setStudyModal] = useState(true);
 
+  const { currentTour } = useNextStep();
+
   useEffect(() => {
     const onMyStudyStart = () => {
       setStudyModal(false);
@@ -44,6 +47,12 @@ export default function Study() {
       socket.off("mystudy:start", onMyStudyStart);
     };
   }, []);
+
+  useEffect(() => {
+    if (currentTour === "newUser") {
+      setStudyModal(false);
+    }
+  }, [currentTour]);
 
   return (
     <main className="w-screen h-screen overflow-hidden">
@@ -58,8 +67,7 @@ export default function Study() {
           setStudyOptions((prev) => ({ ...prev, timer: false }));
         }}
         title="Timer"
-        className="top-5 left-5 z-10"
-      >
+        className="top-5 left-5 z-10">
         <SubjectTimer />
       </StudyModalContainer>
 
@@ -70,8 +78,7 @@ export default function Study() {
         }}
         title="Groups"
         className="absolute-center bg-transparent border-0"
-        cardClassName="bg-transparent border-0"
-      >
+        cardClassName="bg-transparent border-0">
         <MyGroupsViewer
           className="w-[70vw]"
           swiperClassName="h-[60vh] bg-transparent"
@@ -84,8 +91,7 @@ export default function Study() {
           setStudyOptions((prev) => ({ ...prev, media: false }));
         }}
         title="Media"
-        className="right-5 top-5"
-      >
+        className="right-5 top-5">
         <CallController />
       </StudyModalContainer>
 
@@ -95,8 +101,7 @@ export default function Study() {
           setStudyOptions((prev) => ({ ...prev, audioController: false }));
         }}
         title="Audio"
-        className="right-5 bottom-20"
-      >
+        className="right-5 bottom-20">
         <AudioController
           themeVolume={theme.volume}
           setThemeVolume={(volume) => {
@@ -111,7 +116,7 @@ export default function Study() {
           "w-[25rem] fixed left-5 bottom-5 transition-all duration-300 ease-in-out transform",
           studyOptions.planner
             ? "opacity-100 translate-y-0 pointer-events-auto"
-            : "opacity-0 translate-y-4 pointer-events-none"
+            : "opacity-0 translate-y-4 pointer-events-none",
         )}
         closeButton={
           <Button
@@ -119,8 +124,7 @@ export default function Study() {
               setStudyOptions((prev) => ({ ...prev, planner: false }));
             }}
             className="w-fit"
-            variant={"ghost"}
-          >
+            variant={"ghost"}>
             <X />
           </Button>
         }

@@ -1,11 +1,12 @@
 "use client";
 
 import { useAccount } from "@/hooks/accountHooks";
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
-import AvatarWrapper from "../ui/avatar";
+import Image from "next/image";
+
 import AccountButton from "../buttons/AccountButton";
 import NotificationsButton from "../buttons/NotificationsButton";
-import Image from "next/image";
+import AvatarWrapper from "../ui/avatar";
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
 
 export default function AccountViewer() {
   const { account } = useAccount();
@@ -16,8 +17,7 @@ export default function AccountViewer() {
         <SidebarMenuButton
           asChild
           size="lg"
-          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground h-24"
-        >
+          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground h-24">
           <div className="flex items-start">
             {account?.user_id ? (
               <AvatarWrapper userId={account.user_id} name={account.name} />
@@ -27,8 +27,7 @@ export default function AccountViewer() {
                 width={40}
                 height={40}
                 alt="logo"
-                className=""
-              ></Image>
+                className=""></Image>
             )}
             <div className="grid flex-1 text-left text-sm leading-tight gap-2">
               <div className="flex justify-between items-center ">

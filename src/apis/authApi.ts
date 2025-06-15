@@ -1,7 +1,7 @@
-import { PostAuthVerifyResponse } from "@/types/authTypes";
-import { SuccessResponse } from "@/types/responseTypes";
 import AxiosInstance from "@/lib/axiosInstance";
 import { requestHandler } from "@/lib/utils";
+import { PostAuthVerifyResponse } from "@/types/authTypes";
+import { SuccessResponse } from "@/types/responseTypes";
 
 export async function getAuthLogout(): Promise<SuccessResponse> {
   return requestHandler(AxiosInstance.get(`/auth/logout`));
@@ -23,7 +23,7 @@ export async function postAuthSignin({
     AxiosInstance.post(`/auth/login`, {
       email,
       password,
-    })
+    }),
   );
 }
 
@@ -45,6 +45,6 @@ export async function postAuthSignup({
       email,
       password,
       timezone,
-    })
+    }),
   );
 }

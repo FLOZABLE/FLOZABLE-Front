@@ -1,11 +1,11 @@
 console.log("service worker");
 
-self.addEventListener('install', () => {
-  console.log('service worker installed')
+self.addEventListener("install", () => {
+  console.log("service worker installed");
 });
 
-self.addEventListener('activate', () => {
-  console.log('service worker activated')
+self.addEventListener("activate", () => {
+  console.log("service worker activated");
 });
 
 self.addEventListener("push", (event) => {
@@ -27,8 +27,8 @@ self.addEventListener("push", (event) => {
   event.waitUntil(
     self.registration.showNotification(
       notificationData.title,
-      notificationOptions
-    )
+      notificationOptions,
+    ),
   );
 });
 

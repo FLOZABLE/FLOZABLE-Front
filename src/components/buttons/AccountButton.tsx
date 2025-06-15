@@ -1,8 +1,9 @@
-import { useAccountModal } from "../structure/ModalProviders";
+import { getAuthLogout } from "@/apis/authApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { LogIn, LogOut } from "lucide-react";
+
+import { useAccountModal } from "../structure/ModalProviders";
 import { Button, ButtonProps } from "../ui/button";
-import { getAuthLogout } from "@/apis/authApi";
 
 interface AccountButtonProps extends ButtonProps {
   isSignupButton?: boolean;
@@ -31,8 +32,7 @@ export default function AccountButton({
               }, 500);
             }
           }}
-          {...props}
-        >
+          {...props}>
           Logout
         </Button>
       ) : (
@@ -48,8 +48,7 @@ export default function AccountButton({
                 isSignIn: true,
               }));
             }}
-            {...props}
-          >
+            {...props}>
             Sign in
           </Button>
           {isSignupButton && (
@@ -62,8 +61,7 @@ export default function AccountButton({
                   isSignIn: false,
                 }));
               }}
-              {...props}
-            >
+              {...props}>
               Start for free
             </Button>
           )}

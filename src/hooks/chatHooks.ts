@@ -1,7 +1,8 @@
 import { getChatMembers, getChatMessages, getChatRooms } from "@/apis/chatApi";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { useAccount } from "./accountHooks";
 import { UseChatMessagesParams } from "@/types/chatTypes";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+
+import { useAccount } from "./accountHooks";
 
 export function useChatRooms() {
   const { account } = useAccount();

@@ -1,7 +1,7 @@
 import { ApiResponse } from "@/types/responseTypes";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface WindowSize {
   width: number;
@@ -32,7 +32,7 @@ export function useWindowSize(): WindowSize {
 
 export function useModalState<T>(
   initialState: T,
-  resetOnPathChange: boolean = true
+  resetOnPathChange: boolean = true,
 ): [T, Dispatch<SetStateAction<T>>] {
   const [state, setState] = useState<T>(initialState);
   const pathname = usePathname();
@@ -66,13 +66,13 @@ export function useMediaQuery(query: string): boolean {
 
 export function useUpdater<TData extends object, TKey extends keyof TData>(
   baseQueryKey: unknown[],
-  nestedField: TKey
+  nestedField: TKey,
 ) {
   const queryClient = useQueryClient();
 
   return async (
     newData: TData[TKey] | ((oldValue: TData[TKey]) => TData[TKey]),
-    dynamicKey?: unknown // optional if needed
+    dynamicKey?: unknown, // optional if needed
   ) => {
     const queryKey = dynamicKey ? [...baseQueryKey, dynamicKey] : baseQueryKey;
 
@@ -149,7 +149,7 @@ export function useUpdateSearchParam() {
 
 export function useFullscreen(): boolean {
   const [isFullscreen, setIsFullscreen] = useState(
-    typeof document !== "undefined" && document.fullscreenElement !== null
+    typeof document !== "undefined" && document.fullscreenElement !== null,
   );
 
   useEffect(() => {

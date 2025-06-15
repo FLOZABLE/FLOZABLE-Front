@@ -1,10 +1,11 @@
+import { cn } from "@/lib/utils";
 import { Move, X } from "lucide-react";
+import { ComponentProps, useRef } from "react";
+import Draggable from "react-draggable";
+
+import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { ComponentProps, useRef } from "react";
-import { cn } from "@/lib/utils";
-import { Badge } from "../ui/badge";
-import Draggable from "react-draggable";
 
 interface StudyModalContainerProps extends ComponentProps<"div"> {
   open: boolean;
@@ -31,10 +32,9 @@ export default function StudyModalContainer({
         className={cn(
           "fixed ease-in-out transform bg-transparent transition-[opacity,margin,visibility] duration-300",
           open ? "opacity-100 mt-0 visible" : "opacity-0 mt-4 invisible",
-          className
+          className,
         )}
-        {...props}
-      >
+        {...props}>
         <Card className={cn("w-fit gap-2 py-3 relative", cardClassName)}>
           <CardHeader className="flex items-center px-2">
             <Button onClick={onClose} className="bg-background" variant="ghost">
@@ -47,8 +47,7 @@ export default function StudyModalContainer({
             </CardTitle>
             <Button
               variant="ghost"
-              className="drag-handle cursor-move ml-auto bg-background"
-            >
+              className="drag-handle cursor-move ml-auto bg-background">
               <Move />
             </Button>
           </CardHeader>

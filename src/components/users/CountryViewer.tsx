@@ -1,9 +1,10 @@
 // components/CountryViewer.tsx
+import { cn, getCountryCode } from "@/lib/utils";
+import { Globe } from "lucide-react";
 import { ComponentProps, JSX, useEffect, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
-import { cn, getCountryCode } from "@/lib/utils";
+
 import { Badge } from "../ui/badge";
-import { Globe } from "lucide-react";
 
 interface CountryViewerProps extends ComponentProps<"div"> {
   timezone?: string;
@@ -30,15 +31,14 @@ export default function CountryViewer({
         />
       ) : (
         <Globe className="text-lg" />
-      )
+      ),
     );
   }, [timezone]);
 
   return (
     <div
       className={cn("flex items-center space-x-2 group relative", className)}
-      {...props}
-    >
+      {...props}>
       <div className="transition-transform duration-300 group-hover:-translate-y-1">
         {flag}
       </div>

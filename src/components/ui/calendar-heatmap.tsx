@@ -37,30 +37,36 @@ export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
 /// utlity functions
 function useModifers(
   variantClassnames: Classname[],
-  datesPerVariant: Date[][]
+  datesPerVariant: Date[][],
 ): [Record<string, Date[]>, Record<string, string>] {
   const noOfVariants = variantClassnames.length;
 
   const variantLabels = [...Array(noOfVariants)].map(
-    (_, idx) => `__variant${idx}`
+    (_, idx) => `__variant${idx}`,
   );
 
-  const modifiers = variantLabels.reduce((acc, key, index) => {
-    acc[key] = datesPerVariant[index];
-    return acc;
-  }, {} as Record<string, Date[]>);
+  const modifiers = variantLabels.reduce(
+    (acc, key, index) => {
+      acc[key] = datesPerVariant[index];
+      return acc;
+    },
+    {} as Record<string, Date[]>,
+  );
 
-  const modifiersClassNames = variantLabels.reduce((acc, key, index) => {
-    acc[key] = variantClassnames[index];
-    return acc;
-  }, {} as Record<string, string>);
+  const modifiersClassNames = variantLabels.reduce(
+    (acc, key, index) => {
+      acc[key] = variantClassnames[index];
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
 
   return [modifiers, modifiersClassNames];
 }
 
 function categorizeDatesPerVariant(
   weightedDates: WeightedDateEntry[],
-  noOfVariants: number
+  noOfVariants: number,
 ) {
   const sortedEntries = weightedDates.sort((a, b) => a.weight - b.weight);
 
@@ -74,7 +80,7 @@ function categorizeDatesPerVariant(
   sortedEntries.forEach((entry) => {
     const category = Math.min(
       Math.floor((entry.weight - minNumber) / range),
-      noOfVariants - 1
+      noOfVariants - 1,
     );
     categorizedRecord[category].push(entry.date);
   });
@@ -99,12 +105,12 @@ function CalendarHeatmap({
 
   const [modifiers, modifiersClassNames] = useModifers(
     variantClassnames,
-    datesPerVariant
+    datesPerVariant,
   );
 
   return (
     <Calendar
-    numberOfMonths={5}
+      numberOfMonths={5}
       modifiers={modifiers}
       modifiersClassNames={modifiersClassNames}
       showOutsideDays={showOutsideDays}

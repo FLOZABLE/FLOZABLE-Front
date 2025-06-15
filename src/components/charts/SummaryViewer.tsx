@@ -8,9 +8,10 @@ import {
   todayFocusCalculator,
   todayTotalCalculator,
 } from "@/lib/utils";
-import { ComponentProps, useMemo } from "react";
-import { Card, CardContent } from "../ui/card";
 import NumberFlow from "@number-flow/react";
+import { ComponentProps, useMemo } from "react";
+
+import { Card, CardContent } from "../ui/card";
 import SimpleStudyTimeChart from "./SimpleStudyTimeChart";
 
 interface TimeDisplayProps {
@@ -49,7 +50,7 @@ export default function SummaryViewer({
   const { groupedSubjects } = useSubjects();
   const { extensionUsage } = useExtensionUsage(
     new Date(new Date().setHours(0, 0, 0, 0)),
-    "day"
+    "day",
   );
 
   const studyTime: DynamicTimeParts = useMemo(() => {
@@ -96,8 +97,7 @@ export default function SummaryViewer({
   return (
     <Card
       className={cn("border-0 shadow-none overflow-hidden", className)}
-      {...props}
-    >
+      {...props}>
       <CardContent>
         <div className="grid grid-cols-2 gap-3">
           <TimeDisplay title="Study Time" timeParts={studyTime} />

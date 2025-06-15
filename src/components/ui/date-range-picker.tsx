@@ -11,10 +11,11 @@ import { cn } from "@/lib/utils";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import * as React from "react";
-import { type DateRange } from "react-day-picker";
-import { Separator } from "./separator";
 import { useState } from "react";
+import { type DateRange } from "react-day-picker";
+
 import SelectorWrapper from "./select";
+import { Separator } from "./separator";
 
 export default function DateRangePicker({
   className,
@@ -34,9 +35,8 @@ export default function DateRangePicker({
             variant={"outline"}
             className={cn(
               "w-[300px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
-            )}
-          >
+              !date && "text-muted-foreground",
+            )}>
             <CalendarIcon className="mr-2 h-4 w-4" />
             {date?.from ? (
               date.to ? (

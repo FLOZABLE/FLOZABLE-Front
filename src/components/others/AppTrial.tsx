@@ -1,6 +1,6 @@
-import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import { Autoplay, Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 interface AppTrialProps {
   initialSlide?: number;
@@ -16,8 +16,7 @@ export default function AppTrial({ initialSlide = 0 }: AppTrialProps) {
         autoplay={{ delay: 3000 }}
         initialSlide={initialSlide}
         allowTouchMove={true}
-        className="w-52 h-[27.5rem] rounded-3xl relative"
-      >
+        className="w-52 h-[27.5rem] rounded-3xl relative">
         {["home", "leaderboard", "friends", "user", "groups", "study"].map(
           (name) => (
             <SwiperSlide key={name}>
@@ -34,7 +33,7 @@ export default function AppTrial({ initialSlide = 0 }: AppTrialProps) {
                 alt={`background-${name}`}
               />
             </SwiperSlide>
-          )
+          ),
         )}
       </Swiper>
       <div className="absolute top-[-0.5rem] left-1/2 transform -translate-x-1/2 w-56 h-[28rem] z-10 pointer-events-none">

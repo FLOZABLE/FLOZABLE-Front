@@ -1,7 +1,17 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { getDatesDisplay, secondConverter } from "@/lib/utils";
+import { GroupedSubjects } from "@/types/subjectTypes";
+import { DateTime } from "luxon";
+import { MouseEvent, useState } from "react";
 import CalendarHeatmap, {
   ReactCalendarHeatmapValue,
   TooltipDataAttrs,
 } from "react-calendar-heatmap";
+
 import {
   Card,
   CardContent,
@@ -10,15 +20,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { DateTime } from "luxon";
-import { getDatesDisplay, secondConverter } from "@/lib/utils";
-import { GroupedSubjects } from "@/types/subjectTypes";
-import { MouseEvent, useState } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 const greenScaleMap: Record<number, string> = {
   1: "!fill-green-100",
@@ -48,7 +49,7 @@ export default function StudyHeatMap({
 
   const handleMouseEnter = (
     e: MouseEvent,
-    value: ReactCalendarHeatmapValue<string>
+    value: ReactCalendarHeatmapValue<string>,
   ) => {
     if (!value.date) return;
     const label = secondConverter({ sec: value.count });
@@ -83,7 +84,9 @@ export default function StudyHeatMap({
             .toJSDate()}
           endDate={DateTime.fromJSDate(viewDate).endOf("year").toJSDate()}
           tooltipDataAttrs={(
-            value: CalendarHeatmap.ReactCalendarHeatmapValue<string> | undefined
+            value:
+              | CalendarHeatmap.ReactCalendarHeatmapValue<string>
+              | undefined,
           ) => {
             if (!value?.date) {
               return {} as TooltipDataAttrs;
@@ -115,8 +118,7 @@ export default function StudyHeatMap({
                   top: tooltipData.y - 10,
                   left: tooltipData.x,
                   pointerEvents: "none",
-                }}
-              >
+                }}>
                 <TooltipContent side="top">{tooltipData.label}</TooltipContent>
               </div>
             </TooltipTrigger>

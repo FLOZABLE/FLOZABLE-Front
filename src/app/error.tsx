@@ -16,8 +16,7 @@ export default function Error() {
             onClick={() => {
               window.location.reload();
             }}
-            className="animated-underline w-fit"
-          >
+            className="animated-underline w-fit">
             Refresh the page
           </li>
           <li>Try again in 30 minutes</li>

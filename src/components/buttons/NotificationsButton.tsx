@@ -1,4 +1,16 @@
+import { postChatRequestReply } from "@/apis/chatApi";
+import { replyToFriendRequest } from "@/apis/friendApi";
+import { deleteNotification } from "@/apis/notificationsApi";
+import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendHooks";
+import { useNotifications } from "@/hooks/notificationsHooks";
+import { useNotificationsUpdater } from "@/hooks/updaters/notificationsUpdaters";
+import { cn } from "@/lib/utils";
+import { Notification } from "@/types/notificationTypes";
 import { Bell, Dot } from "lucide-react";
+import { useRouter } from "next/navigation";
+import React, { useCallback, useState } from "react";
+
+import NotificationContainer from "../notifications/NotificationContainer";
 import { Button, ButtonProps } from "../ui/button";
 import {
   DropdownMenu,
@@ -7,17 +19,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useNotifications } from "@/hooks/notificationsHooks";
-import NotificationContainer from "../notifications/NotificationContainer";
-import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendHooks";
-import React, { useCallback, useState } from "react";
-import { deleteNotification } from "@/apis/notificationsApi";
-import { postChatRequestReply } from "@/apis/chatApi";
-import { useRouter } from "next/navigation";
-import { Notification } from "@/types/notificationTypes";
-import { useNotificationsUpdater } from "@/hooks/updaters/notificationsUpdaters";
-import { cn } from "@/lib/utils";
-import { replyToFriendRequest } from "@/apis/friendApi";
 
 interface NotificationsButton extends ButtonProps {
   buttonRef?: React.Ref<HTMLButtonElement>;
@@ -41,7 +42,7 @@ export default function NotificationsButton({
   const filterNotification = useCallback((notificationId: string) => {
     updateNotifications((prev) => {
       return prev.filter(
-        (notification) => notification.notification_id !== notificationId
+        (notification) => notification.notification_id !== notificationId,
       );
     });
   }, []);
@@ -57,7 +58,7 @@ export default function NotificationsButton({
       friendsStatusRefetch();
       friendsTrendRefetch();
     },
-    []
+    [],
   );
 
   const onDeleteNotification = useCallback((notificationId: string) => {
@@ -72,7 +73,7 @@ export default function NotificationsButton({
 
       postChatRequestReply(notificationId, accepted);
     },
-    []
+    [],
   );
 
   const getNotificationProps = useCallback((notification: Notification) => {
@@ -88,8 +89,7 @@ export default function NotificationsButton({
               onClick={(e) => {
                 e.stopPropagation();
                 friendRequestReply(notification_id, true);
-              }}
-            >
+              }}>
               Accept
             </Button>,
             <Button
@@ -98,8 +98,7 @@ export default function NotificationsButton({
               onClick={(e) => {
                 e.stopPropagation();
                 friendRequestReply(notification_id, false);
-              }}
-            >
+              }}>
               Decline
             </Button>,
           ],
@@ -115,8 +114,7 @@ export default function NotificationsButton({
               onClick={(e) => {
                 e.stopPropagation();
                 onDeleteNotification(notification.notification_id);
-              }}
-            >
+              }}>
               Got it
             </Button>,
           ],
@@ -132,8 +130,7 @@ export default function NotificationsButton({
               onClick={(e) => {
                 e.stopPropagation();
                 chatRequestReply(notification_id, true);
-              }}
-            >
+              }}>
               Accept
             </Button>,
             <Button
@@ -142,8 +139,7 @@ export default function NotificationsButton({
               onClick={(e) => {
                 e.stopPropagation();
                 chatRequestReply(notification_id, false);
-              }}
-            >
+              }}>
               Decline
             </Button>,
           ],
@@ -163,8 +159,7 @@ export default function NotificationsButton({
           onClick={() => {
             setOpen(true);
           }}
-          {...props}
-        >
+          {...props}>
           <Bell />
           {!!notifications?.length && (
             <Dot
@@ -178,8 +173,7 @@ export default function NotificationsButton({
       <DropdownMenuContent
         side="left"
         align="start"
-        className="p-0 max-h-[70vh]"
-      >
+        className="p-0 max-h-[70vh]">
         <DropdownMenuLabel className="sticky top-0 z-10 bg-background border-b-2 p-3">
           Notifications
         </DropdownMenuLabel>
@@ -190,8 +184,7 @@ export default function NotificationsButton({
             <DropdownMenuItem key={i}>
               <NotificationContainer
                 notification={notification}
-                onClick={onClick}
-              >
+                onClick={onClick}>
                 {buttons}
               </NotificationContainer>
             </DropdownMenuItem>

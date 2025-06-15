@@ -1,9 +1,10 @@
 import { Userinfo } from "@/types/accountTypes";
 import { ActiveGroup } from "@/types/groupTypes";
-import GroupContainer from "../groups/GroupContainer";
 import { Ranking } from "@/types/rankingTypes";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+
+import GroupContainer from "../groups/GroupContainer";
 import { Button } from "../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 type UserGroupViewerProps = {
   userInfo: Userinfo;
@@ -19,18 +20,16 @@ export default function UserGroupViewer({
     <Popover>
       <PopoverTrigger asChild>
         {group && (
-          <Button variant="link" effect={"hoverUnderline"} className="truncate w-full">
+          <Button
+            variant="link"
+            effect={"hoverUnderline"}
+            className="truncate w-full">
             Inside {group.name}
           </Button>
         )}
       </PopoverTrigger>
       <PopoverContent side="bottom" align={"center"} className="w-[21rem]">
-        {group && (
-          <GroupContainer
-            group={group}
-            rankings={rankings}
-          />
-        )}
+        {group && <GroupContainer group={group} rankings={rankings} />}
       </PopoverContent>
     </Popover>
   );

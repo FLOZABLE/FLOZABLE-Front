@@ -1,11 +1,11 @@
-import { DateTime } from "luxon";
-import * as ct from "countries-and-timezones";
-import { AxiosError, AxiosResponse } from "axios";
-import { ApiResponse } from "@/types/responseTypes";
-import { twMerge } from "tailwind-merge";
-import clsx, { ClassValue } from "clsx";
-import { GroupedSubjects } from "@/types/subjectTypes";
 import { ViewerType } from "@/types/othersTypes";
+import { ApiResponse } from "@/types/responseTypes";
+import { GroupedSubjects } from "@/types/subjectTypes";
+import { AxiosError, AxiosResponse } from "axios";
+import clsx, { ClassValue } from "clsx";
+import * as ct from "countries-and-timezones";
+import { DateTime } from "luxon";
+import { twMerge } from "tailwind-merge";
 
 export function getCountryCode(timezone: string): string | false {
   try {
@@ -18,7 +18,7 @@ export function getCountryCode(timezone: string): string | false {
   } catch (error: unknown) {
     console.error(
       `Error getting country code for timezone ${timezone}:`,
-      error
+      error,
     );
     return false;
   }
@@ -187,7 +187,7 @@ export const focusCalculator = (grouped: Array<[number, number]>): number => {
 };
 
 export function streakCalculator(
-  groupedSubjects: GroupedSubjects | null
+  groupedSubjects: GroupedSubjects | null,
 ): number {
   if (!groupedSubjects?.day?.total) return 0;
 
@@ -225,7 +225,7 @@ export function todayFocusCalculator(groupedSubjects: {
 }
 
 export async function requestNotification(
-  applicationServerKey: string
+  applicationServerKey: string,
 ): Promise<any> {
   // Helper export function to check if service workers and push are supported
   function isSupported(): boolean {
@@ -261,13 +261,13 @@ export async function requestNotification(
       console.log("Push subscription:", subscription);
       const p256dh = btoa(
         String.fromCharCode(
-          ...new Uint8Array(subscription.getKey("p256dh") as ArrayBuffer)
-        )
+          ...new Uint8Array(subscription.getKey("p256dh") as ArrayBuffer),
+        ),
       );
       const auth = btoa(
         String.fromCharCode(
-          ...new Uint8Array(subscription.getKey("auth") as ArrayBuffer)
-        )
+          ...new Uint8Array(subscription.getKey("auth") as ArrayBuffer),
+        ),
       );
       const subscriptionObject = {
         endpoint: subscription.endpoint,
@@ -321,7 +321,7 @@ export function unsubscribeFromPush(): void {
 export function getDates(
   date: Date,
   viewer: ViewerType,
-  length: number
+  length: number,
 ): DateTime[] {
   const dates: DateTime[] = [];
   let dateTime = DateTime.fromJSDate(date).startOf(viewer).startOf("day");
@@ -399,7 +399,7 @@ export function exitFullscreen(): void {
  * @returns A promise resolving to ApiResponse<T>
  */
 export async function requestHandler<T>(
-  request: Promise<AxiosResponse<ApiResponse<T>>>
+  request: Promise<AxiosResponse<ApiResponse<T>>>,
 ): Promise<ApiResponse<T>> {
   try {
     const response = await request;
@@ -428,11 +428,11 @@ export async function requestHandler<T>(
  */
 export function updateQueryData<
   T = { [key: string]: any },
-  K extends keyof T = keyof T
+  K extends keyof T = keyof T,
 >(
   oldData: ApiResponse<T> | any,
   newData: T[K] | ((oldValue: T[K]) => T[K]),
-  key: K
+  key: K,
 ): ApiResponse<T> {
   try {
     // Return unchanged if success is false or data is undefined
@@ -467,7 +467,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatPlanDateRange(
   startISO: string | undefined,
-  endISO: string | undefined
+  endISO: string | undefined,
 ): string {
   if (!startISO || !endISO) return "";
 
@@ -479,7 +479,7 @@ export function formatPlanDateRange(
   if (!sameDay) {
     // Optional: handle multi-day events if needed
     return `${start.toFormat("EEE, MMM d h:mm a")} - ${end.toFormat(
-      "EEE, MMM d h:mm a"
+      "EEE, MMM d h:mm a",
     )}`;
   }
 

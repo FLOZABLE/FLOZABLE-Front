@@ -41,7 +41,7 @@ const nextConfig = {
       },
     ];
   },
-  transpilePackages: ['nextstepjs'],
+  transpilePackages: ["nextstepjs"],
 };
 
 export default nextConfig;

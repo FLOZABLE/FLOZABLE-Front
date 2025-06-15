@@ -14,7 +14,7 @@ export default function Stats() {
   const { account } = useAccount();
 
   const [viewDate, setViewDate] = useState<Date>(
-    new Date(new Date().setHours(0, 0, 0, 0))
+    new Date(new Date().setHours(0, 0, 0, 0)),
   );
   const [viewer, setViewer] = useState<ViewerType>("day");
 

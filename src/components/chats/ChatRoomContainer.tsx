@@ -1,9 +1,10 @@
 import { ChatRoom } from "@/types/chatTypes";
-import ChatRoomCoverImage from "./ChatRoomCoverImage";
 import { DateTime } from "luxon";
 import { useMemo } from "react";
-import { Badge } from "../ui/badge";
+
 import { useChatModal } from "../structure/ModalProviders";
+import { Badge } from "../ui/badge";
+import ChatRoomCoverImage from "./ChatRoomCoverImage";
 
 type ChatRoomContainerProps = {
   chatroom: ChatRoom;
@@ -35,8 +36,7 @@ export default function ChatRoomContainer({
           ...prev,
           chatroom_id: chatroom.chatroom_id,
         }));
-      }}
-    >
+      }}>
       <ChatRoomCoverImage memberIds={chatroom.members} />
       <div className="ml-3 overflow-hidden w-full">
         <div className="flex content-center">

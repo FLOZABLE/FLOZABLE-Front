@@ -1,3 +1,5 @@
+import AxiosInstance from "@/lib/axiosInstance";
+import { getTimezone, requestHandler } from "@/lib/utils";
 import {
   AccountGoogleResponse,
   AccountPatchResponse,
@@ -6,31 +8,29 @@ import {
   AccountResponse,
 } from "@/types/accountTypes";
 import { SuccessResponse } from "@/types/responseTypes";
-import AxiosInstance from "@/lib/axiosInstance";
-import { getTimezone, requestHandler } from "@/lib/utils";
 
 export async function getAccount(): Promise<AccountResponse> {
   return requestHandler(AxiosInstance.get(`/account`));
 }
 
 export async function getAccountProfile(
-  userId: string
+  userId: string,
 ): Promise<AccountProfileResponse> {
   const timezone = getTimezone();
 
   return requestHandler(
     AxiosInstance.get(`/account/profile`, {
       params: { user_id: userId, timezone },
-    })
+    }),
   );
 }
 export async function getAccountProfileStatus(
-  userId: string
+  userId: string,
 ): Promise<AccountProfileStatusResponse> {
   return requestHandler(
     AxiosInstance.get(`/account/profile/status`, {
       params: { user_id: userId },
-    })
+    }),
   );
 }
 
@@ -50,19 +50,19 @@ export async function patchAccountInfo({
     AxiosInstance.patch(`/account`, {
       name,
       email,
-    })
+    }),
   );
 }
 
 export async function patchAccountImage(
-  formData: FormData
+  formData: FormData,
 ): Promise<SuccessResponse> {
   return requestHandler(
     AxiosInstance.patch(`/account/image`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
-    })
+    }),
   );
 }
 
@@ -75,6 +75,6 @@ export async function patchAccountPassword({
   return requestHandler(
     AxiosInstance.patch(`/account/password`, {
       password,
-    })
+    }),
   );
 }

@@ -1,13 +1,14 @@
+import { ApiResponse } from "@/types/responseTypes";
 import axios, {
+  AxiosError,
   AxiosInstance as AxiosInstanceType,
   AxiosRequestConfig,
   AxiosResponse,
-  AxiosError,
 } from "axios";
-import config from "./config"; // Assuming config.ts exports an object with a 'server' string property
 import axiosRetry from "axios-retry";
 import { toast } from "sonner"; // Assuming 'sonner' library has TypeScript types
-import { ApiResponse } from "@/types/responseTypes";
+
+import config from "./config"; // Assuming config.ts exports an object with a 'server' string property
 
 // Define the type for the Axios Instance
 const AxiosInstance: AxiosInstanceType = axios.create({
@@ -75,7 +76,7 @@ AxiosInstance.interceptors.response.use(
     }
 
     return Promise.reject(err);
-  }
+  },
 );
 
 export default AxiosInstance;

@@ -16,7 +16,7 @@ async function putThemesTheme({ name, tags, description, url }) {
       tags,
       description,
       url,
-    })
+    }),
   );
 }
 
@@ -26,7 +26,7 @@ async function postThemesThemeSave({ themeId, categoryId, categoryName }) {
       theme_id: themeId,
       category_id: categoryId,
       category_name: categoryName,
-    })
+    }),
   );
 }
 
@@ -35,7 +35,7 @@ async function postThemeLike({ themeId, like }) {
     AxiosInstance.post(`/themes/theme/like`, {
       theme_id: themeId,
       like,
-    })
+    }),
   );
 }
 

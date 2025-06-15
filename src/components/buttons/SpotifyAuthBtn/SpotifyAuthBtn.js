@@ -1,9 +1,10 @@
-import React from "react";
-import styles from "./SpotifyAuthBtn.module.css";
-import { useSpotifyInfo } from "@/hooks/playlistHooks";
-import config from "@/lib/config";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
 import { IconSpotify } from "@/components/others/Svgs";
+import { useSpotifyInfo } from "@/hooks/playlistHooks";
+import config from "@/lib/config";
+import React from "react";
+
+import styles from "./SpotifyAuthBtn.module.css";
 
 function SpotifyAuthBtn() {
   const { spotifyInfoIsLoading, spotifyInfo } = useSpotifyInfo();
@@ -11,8 +12,7 @@ function SpotifyAuthBtn() {
   return (
     <a
       className={styles.SpotifyAuthBtn}
-      href={`${config.server}/auth/signin/spotify`}
-    >
+      href={`${config.server}/auth/signin/spotify`}>
       {spotifyInfoIsLoading ? (
         <CircularLoading />
       ) : spotifyInfo ? (

@@ -81,15 +81,13 @@ export function ColorPicker({
           className={cn(
             "w-[220px] justify-start text-left font-normal",
             !color && "text-muted-foreground",
-            className
-          )}
-        >
+            className,
+          )}>
           <div className="w-full flex items-center gap-2">
             {color ? (
               <div
                 className="h-4 w-4 rounded !bg-center !bg-cover transition-all"
-                style={{ backgroundColor: color }}
-              ></div>
+                style={{ backgroundColor: color }}></div>
             ) : (
               <Paintbrush className="h-4 w-4" />
             )}
@@ -108,8 +106,7 @@ export function ColorPicker({
                   <TabsTrigger
                     className="flex-1 capitalize"
                     value={option}
-                    key={i}
-                  >
+                    key={i}>
                     {option}
                   </TabsTrigger>
                 );

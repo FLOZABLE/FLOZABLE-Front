@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { Button, ButtonProps } from "../ui/button";
 import { ReactNode } from "react";
+
+import { Button, ButtonProps } from "../ui/button";
 
 interface AnimatedSwitchButtonProps extends ButtonProps {
   onIcon: ReactNode;
@@ -22,8 +23,7 @@ export default function AnimatedSwitchButton({
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.2 }}
-          >
+            transition={{ duration: 0.2 }}>
             {onIcon}
           </motion.div>
         ) : (
@@ -32,8 +32,7 @@ export default function AnimatedSwitchButton({
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.2 }}
-          >
+            transition={{ duration: 0.2 }}>
             {offIcon}
           </motion.div>
         )}

@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const [viewDate, setViewDate] = useState<Date>(
-    new Date(new Date().setHours(0, 0, 0, 0))
+    new Date(new Date().setHours(0, 0, 0, 0)),
   );
   const [viewer, setViewer] = useState<ViewerType>("day");
 
@@ -54,8 +54,7 @@ export default function Dashboard() {
                 setCurrentStep(1);
               }, 500);
             }}
-            id="tour1-step1"
-          >
+            id="tour1-step1">
             <Play />
             Begin Study
           </Button>

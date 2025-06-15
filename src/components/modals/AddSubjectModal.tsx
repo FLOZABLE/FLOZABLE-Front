@@ -1,17 +1,29 @@
 "use client";
 
+import { putSubject } from "@/apis/subjectApi";
+import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
+import {
+  putSubjectSchema,
+  PutSubjectSchemaValues,
+} from "@/schemas/subjectSchemas";
+import { Subject } from "@/types/subjectTypes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { DateTime } from "luxon";
+import { useNextStep } from "nextstepjs";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
+
+import { ColorPicker } from "../inputs/ColorPicker";
+import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { useAddSubjectModal } from "../structure/ModalProviders";
+import { Button } from "../ui/button";
 import {
   Credenza,
   CredenzaBody,
-  CredenzaHeader,
   CredenzaContent,
+  CredenzaHeader,
   CredenzaTitle,
 } from "../ui/credenza";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback } from "react";
-import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -19,17 +31,6 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
-import { ColorPicker } from "../inputs/ColorPicker";
-import { putSubject } from "@/apis/subjectApi";
-import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
-import { DateTime } from "luxon";
-import {
-  putSubjectSchema,
-  PutSubjectSchemaValues,
-} from "@/schemas/subjectSchemas";
-import { Subject } from "@/types/subjectTypes";
-import { useNextStep } from "nextstepjs";
 
 export default function AddSubjectModal() {
   const { setCurrentStep } = useNextStep();
@@ -60,7 +61,7 @@ export default function AddSubjectModal() {
     updateSubjects((prev) => {
       const newSubjects = [...prev];
       const subjectStart = newSubjects.toSorted(
-        (a, b) => a.created_at - b.created_at
+        (a, b) => a.created_at - b.created_at,
       )[0].created_at;
 
       const dayStart = DateTime.fromSeconds(subjectStart).startOf("day");
@@ -101,7 +102,7 @@ export default function AddSubjectModal() {
 
       const day = {
         timeline: structuredClone(
-          dailyArray.map((val) => ({ ...val, data: [] }))
+          dailyArray.map((val) => ({ ...val, data: [] })),
         ),
         total: structuredClone(dailyArray),
         focus: structuredClone(dailyArray),
@@ -109,7 +110,7 @@ export default function AddSubjectModal() {
 
       const week = {
         timeline: structuredClone(
-          weeklyArray.map((val) => ({ ...val, data: [] }))
+          weeklyArray.map((val) => ({ ...val, data: [] })),
         ),
         total: structuredClone(weeklyArray),
         focus: structuredClone(weeklyArray),
@@ -117,7 +118,7 @@ export default function AddSubjectModal() {
 
       const month = {
         timeline: structuredClone(
-          monthlyArray.map((val) => ({ ...val, data: [] }))
+          monthlyArray.map((val) => ({ ...val, data: [] })),
         ),
         total: structuredClone(monthlyArray),
         focus: structuredClone(monthlyArray),
@@ -140,8 +141,7 @@ export default function AddSubjectModal() {
       open={addSubjectModal.opened}
       onOpenChange={(opened) => {
         setAddSubjectModal((prev) => ({ ...prev, opened }));
-      }}
-    >
+      }}>
       <CredenzaContent desktopClassName="!max-w-100" id="tour1-step3">
         <CredenzaHeader className="justify-self-center">
           <CredenzaTitle className="text-2xl">Add Subject</CredenzaTitle>
@@ -150,8 +150,7 @@ export default function AddSubjectModal() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 flex flex-col"
-            >
+              className="space-y-6 flex flex-col">
               <FormField
                 control={form.control}
                 name="name"

@@ -1,5 +1,4 @@
-import React from "react";
-import { SVGProps } from "react";
+import React, { SVGProps } from "react";
 
 export const IconApple = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -7,8 +6,7 @@ export const IconApple = (props: SVGProps<SVGSVGElement>) => (
     fill="#fff"
     stroke="#fff"
     viewBox="0 0 1920 1920"
-    {...props}
-  >
+    {...props}>
     <path
       fillRule="evenodd"
       d="m1380.664 0 5.547 52.865c13.923 131.766-31.47 278.7-121.238 393.146-1.359 1.585-2.944 2.717-4.189 4.302 14.943-.566 29.885-1.698 45.394-.226 67.694 2.83 245.646 28.64 362.016 202.176l31.583 47.205-47.318 31.47c-40.752 25.81-165.839 118.748-164.141 293.077 1.924 220.742 179.876 301.68 200.14 310.17l48.562 20.377-16.3 50.26c-13.472 43.47-52.3 154.746-128.144 267.947-72.335 107.768-162.217 242.024-314.246 244.854-71.769 1.811-117.615-19.81-159.613-38.262-39.96-17.66-74.26-32.828-131.086-32.828-60.11 0-96.448 15.735-138.558 34.073-39.507 17.207-84.335 36.677-146.482 39.28-2.83.114-5.66.114-8.264.114-147.274 0-249.608-150.897-317.755-251.306l-5.187-7.735c-170.414-256.903-265.7-675.19-108.466-953.793 86.598-153.614 244.174-250.627 411.258-253.117 65.09-.906 124.974 19.47 176.594 39.846 8.83-119.88 65.883-231.722 125.087-303.944C1061.89 84.448 1206.448 7.245 1327.573 2.264L1380.664 0Zm-82.75 562.948c-73.694-7.81-144.331 21.282-207.157 46.639-47.432 19.13-88.297 35.545-126.22 35.545-32.375 0-66.335-10.98-101.654-24.791l-5.433-.453-.227-1.698c-7.471-3.056-14.942-6-22.64-9.056C785 588.984 730.55 562.608 676.102 567.25c-127.125 1.924-247.684 76.863-314.586 195.61-144.897 256.627-23.658 647.057 108.787 842.215 70.41 103.805 145.123 206.365 227.76 201.724 40.978-1.698 69.505-14.15 105.843-29.885 46.865-20.49 100.07-43.582 183.725-43.582 80.712 0 131.765 22.527 176.82 42.45 37.242 16.527 68.146 30.451 111.729 28.64 86.372-1.585 146.708-81.731 222.326-194.706 49.582-73.92 81.278-146.708 99.277-195.271-76.637-45.96-220.628-162.443-222.666-389.411-1.698-180.103 97.24-294.662 165.613-352.168-85.353-92.598-195.385-107.88-242.816-109.918Zm-23.093-438.314c-76.524 20.49-158.707 72.449-211.233 136.86l-.113.113c-46.525 56.827-95.994 150.784-101.088 247.457 84.674-12.678 165.273-71.769 213.61-133.01 58.411-74.374 93.39-164.821 98.824-251.42Z"
@@ -21,8 +19,7 @@ export const IconPlayStore = (props: SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 32 32"
-    {...props}
-  >
+    {...props}>
     <mask
       id="a"
       width={24}
@@ -32,8 +29,7 @@ export const IconPlayStore = (props: SVGProps<SVGSVGElement>) => (
       maskUnits="userSpaceOnUse"
       style={{
         maskType: "alpha",
-      }}
-    >
+      }}>
       <path
         fill="#C4C4C4"
         d="M30.048 14.4a1.82 1.82 0 0 1 0 3.2L9.756 28.766c-1.235.68-2.756-.203-2.756-1.6V4.834c0-1.397 1.52-2.28 2.756-1.6L30.048 14.4Z"
@@ -64,8 +60,7 @@ export const IconPlayStore = (props: SVGProps<SVGSVGElement>) => (
         x2={7.071}
         y1={10.874}
         y2={19.551}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <stop stopColor="#00C3FF" />
         <stop offset={1} stopColor="#1BE2FA" />
       </linearGradient>
@@ -75,8 +70,7 @@ export const IconPlayStore = (props: SVGProps<SVGSVGElement>) => (
         x2={31.738}
         y1={15.818}
         y2={15.818}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <stop stopColor="#FFCE00" />
         <stop offset={1} stopColor="#FFEA00" />
       </linearGradient>
@@ -86,8 +80,7 @@ export const IconPlayStore = (props: SVGProps<SVGSVGElement>) => (
         x2={22.595}
         y1={30.1}
         y2={17.894}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <stop stopColor="#DE2453" />
         <stop offset={1} stopColor="#FE3944" />
       </linearGradient>
@@ -97,8 +90,7 @@ export const IconPlayStore = (props: SVGProps<SVGSVGElement>) => (
         x2={22.597}
         y1={1.901}
         y2={13.736}
-        gradientUnits="userSpaceOnUse"
-      >
+        gradientUnits="userSpaceOnUse">
         <stop stopColor="#11D574" />
         <stop offset={1} stopColor="#01F176" />
       </linearGradient>
@@ -135,8 +127,7 @@ export const IconGoogleCalendar = (props: SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="xMidYMid"
     viewBox="0 0 256 256"
-    {...props}
-  >
+    {...props}>
     <path fill="#FFF" d="M195.368 60.632H60.632v134.736h134.736z" />
     <path
       fill="#EA4335"
@@ -191,8 +182,7 @@ export const WelcomeIcon = (props: SVGProps<SVGSVGElement>) => (
     data-name="Layer 1"
     width={344}
     height={239.286}
-    {...props}
-  >
+    {...props}>
     <path
       fill="#f2f2f2"
       d="M474.114 404.286v130H148.415c-37.109 0-67.3-29.16-67.3-65s30.191-65 67.3-65Z"
@@ -284,8 +274,7 @@ export const IconStudyPerson = (props: SVGProps<SVGSVGElement>) => (
     id="_x32_"
     fill="currentColor"
     viewBox="0 0 512 512"
-    {...props}
-  >
+    {...props}>
     <g id="SVGRepo_iconCarrier">
       <style>{".st0{fill:currentColor}"}</style>
       <path
@@ -303,8 +292,7 @@ export const IconRestPerson = (props: SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
-    {...props}
-  >
+    {...props}>
     <path
       stroke="currentColor"
       strokeLinecap="round"

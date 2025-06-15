@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { useAccount } from "./accountHooks";
 import { getFriends, getFriendStatus, getFriendTrends } from "@/apis/friendApi";
+import { useQuery } from "@tanstack/react-query";
+
+import { useAccount } from "./accountHooks";
 
 export function useFriends() {
   const { account } = useAccount();

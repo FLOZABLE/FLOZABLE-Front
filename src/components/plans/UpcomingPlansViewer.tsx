@@ -1,11 +1,12 @@
-import { EventInput } from "@fullcalendar/core";
-import { Badge } from "../ui/badge";
+import { useAccountGoogle } from "@/hooks/accountHooks";
 import { ViewerType } from "@/types/othersTypes";
+import { EventInput } from "@fullcalendar/core";
+import { Clock } from "lucide-react";
 import { DateTime } from "luxon";
 import { useMemo } from "react";
-import { Clock } from "lucide-react";
-import { useAccountGoogle } from "@/hooks/accountHooks";
+
 import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
+import { Badge } from "../ui/badge";
 
 interface PlanContainerProps extends React.HTMLProps<HTMLDivElement> {
   plan: EventInput;
@@ -14,7 +15,7 @@ interface PlanContainerProps extends React.HTMLProps<HTMLDivElement> {
 
 export function PlanContainer({ plan, onPlanClick }: PlanContainerProps) {
   const dispTime = DateTime.fromISO(
-    plan.start?.toString() || ""
+    plan.start?.toString() || "",
   ).toLocaleString({
     month: "short", // e.g., "Mar"
     day: "numeric", // e.g., "7"
@@ -28,12 +29,10 @@ export function PlanContainer({ plan, onPlanClick }: PlanContainerProps) {
       className="flex p-4 gap-2 border-b-2 hover:bg-muted transition-colors duration-200 cursor-pointer"
       onClick={() => {
         onPlanClick?.(plan);
-      }}
-    >
+      }}>
       <span
         className={`rounded-4xl w-5 h-5 shrink-0`}
-        style={{ backgroundColor: plan.backgroundColor }}
-      ></span>
+        style={{ backgroundColor: plan.backgroundColor }}></span>
       <div className="overflow-hidden">
         <p className="truncate">{plan.title}</p>
         <span className="flex gap-1 items-center">
@@ -101,7 +100,7 @@ export default function UpcomingPlansViewer({
         </Badge>
       </div>
       {accountGoogleData?.scopes?.some((scope) =>
-        scope.includes("calendar")
+        scope.includes("calendar"),
       ) ? (
         <div className="rounded-md border-2">
           {filteredPlans.map((plan, i) => {

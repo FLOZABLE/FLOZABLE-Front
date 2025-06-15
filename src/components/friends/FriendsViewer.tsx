@@ -1,4 +1,8 @@
 import { useFriendsStatus } from "@/hooks/friendHooks";
+import { useRankings } from "@/hooks/rankingHooks";
+import { useRouter } from "next/navigation";
+
+import ChatButton from "../buttons/ChatButton";
 import {
   Card,
   CardContent,
@@ -7,11 +11,8 @@ import {
   CardTitle,
 } from "../ui/card";
 import UserContainer from "../users/UserContainer";
-import UserSubjectViewer from "../users/UserSubjectViewer";
-import ChatButton from "../buttons/ChatButton";
-import { useRouter } from "next/navigation";
 import UserGroupViewer from "../users/UserGroupViewer";
-import { useRankings } from "@/hooks/rankingHooks";
+import UserSubjectViewer from "../users/UserSubjectViewer";
 
 export default function FriendsViewer({
   className,
@@ -22,7 +23,7 @@ export default function FriendsViewer({
   const { friendsStatus } = useFriendsStatus();
   const { rankingsData } = useRankings(
     "day",
-    new Date(new Date().setHours(0, 0, 0, 0))
+    new Date(new Date().setHours(0, 0, 0, 0)),
   );
 
   return (
@@ -39,8 +40,7 @@ export default function FriendsViewer({
                 userinfo={friend}
                 onClick={() => {
                   router.push(`/dashboard/user/${friend.user_id}`);
-                }}
-              >
+                }}>
                 <ChatButton className="ml-10" userInfo={friend} />
               </UserContainer>
               <UserSubjectViewer userInfo={friend} />

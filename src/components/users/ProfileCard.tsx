@@ -1,4 +1,18 @@
+import {
+  secondConverter,
+  streakCalculator,
+  todayTotalCalculator,
+} from "@/lib/utils";
 import { Userinfo } from "@/types/accountTypes";
+import { GroupedSubjects, Subject } from "@/types/subjectTypes";
+import { BookOpen, Flame, MapPin } from "lucide-react";
+import { DateTime, DurationUnit } from "luxon";
+import { ComponentProps, ReactNode, useMemo } from "react";
+
+import ChatButton from "../buttons/ChatButton";
+import FriendRequestButton from "../buttons/FriendRequestButton";
+import AvatarWrapper from "../ui/avatar";
+import { Badge } from "../ui/badge";
 import {
   Card,
   CardContent,
@@ -6,19 +20,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import AvatarWrapper from "../ui/avatar";
-import { GroupedSubjects, Subject } from "@/types/subjectTypes";
-import { ComponentProps, ReactNode, useMemo } from "react";
-import { DateTime, DurationUnit } from "luxon";
-import FriendRequestButton from "../buttons/FriendRequestButton";
-import ChatButton from "../buttons/ChatButton";
-import {
-  secondConverter,
-  streakCalculator,
-  todayTotalCalculator,
-} from "@/lib/utils";
-import { BookOpen, Flame, MapPin } from "lucide-react";
-import { Badge } from "../ui/badge";
 import CountryViewer from "./CountryViewer";
 
 type InfoBoxProps = {

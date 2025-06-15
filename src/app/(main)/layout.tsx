@@ -1,5 +1,5 @@
-import MainHeader from "@/components/structure/MainHeader";
 import MainFooter from "@/components/structure/MainFooter";
+import MainHeader from "@/components/structure/MainHeader";
 
 export default function RootLayout({
   children,

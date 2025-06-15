@@ -1,8 +1,8 @@
 "use client";
 
-import { isMobile } from "react-device-detect";
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { isMobile } from "react-device-detect";
 
 export default function RedirectOnMobile() {
   const router = useRouter();
@@ -11,6 +11,6 @@ export default function RedirectOnMobile() {
       router.push("/dashboard/mobile");
     }
   }, []);
-  
+
   return null;
 }

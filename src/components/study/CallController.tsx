@@ -1,4 +1,3 @@
-import { useCallOptions } from "../structure/Providers";
 import {
   HeadphoneOff,
   Headset,
@@ -7,7 +6,9 @@ import {
   Video,
   VideoOff,
 } from "lucide-react";
+
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
+import { useCallOptions } from "../structure/Providers";
 import { Command, CommandGroup, CommandItem } from "../ui/command";
 
 //interface CallControllerProps {}
@@ -24,7 +25,7 @@ export default function CallController({} /* : CallControllerProps */) {
             <p>Microphone</p>
             <AnimatedSwitchButton
               className="ml-auto"
-              onIcon={<Mic className="text-white"/>}
+              onIcon={<Mic className="text-white" />}
               offIcon={<MicOff />}
               onClick={() => {
                 setIsMic((prev) => !prev);
@@ -36,7 +37,7 @@ export default function CallController({} /* : CallControllerProps */) {
             <p>Camera</p>
             <AnimatedSwitchButton
               className="ml-auto"
-              onIcon={<Video className="text-white"/>}
+              onIcon={<Video className="text-white" />}
               offIcon={<VideoOff />}
               onClick={() => {
                 setIsCam((prev) => !prev);

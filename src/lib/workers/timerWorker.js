@@ -14,5 +14,5 @@
   }
 }) */
 setInterval(() => {
-  self.postMessage({command: 'update-timer'});
+  self.postMessage({ command: "update-timer" });
 }, 1000);

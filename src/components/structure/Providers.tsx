@@ -1,9 +1,26 @@
 "use client";
 
+import { useAccount } from "@/hooks/accountHooks";
+import { useThemes, useThemesUser } from "@/hooks/themesHooks";
+import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
 import config from "@/lib/config";
+import mediaSocket from "@/lib/sockets/mediaSocket";
+import socket from "@/lib/sockets/socket";
+import steps from "@/lib/steps";
+import { updateQueryData } from "@/lib/utils";
+import {
+  CallOptionsContextType,
+  WorkersContextType,
+} from "@/types/contextTypes";
+import {
+  OnActiveGroup,
+  OnDeActiveGroup,
+  OnStopStudying,
+  OnStudying,
+} from "@/types/socketTypes";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import ModalProviders, { useAddSubjectModal } from "./ModalProviders";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { NextStep, NextStepProvider, useNextStep } from "nextstepjs";
 import {
   createContext,
@@ -14,24 +31,10 @@ import {
   useRef,
   useState,
 } from "react";
-import socket from "@/lib/sockets/socket";
-import mediaSocket from "@/lib/sockets/mediaSocket";
-import { useAccount } from "@/hooks/accountHooks";
-import { updateQueryData } from "@/lib/utils";
-import { useThemes, useThemesUser } from "@/hooks/themesHooks";
 import { toast } from "react-toastify";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import {
-  OnActiveGroup,
-  OnDeActiveGroup,
-  OnStopStudying,
-  OnStudying,
-} from "@/types/socketTypes";
-import {
-  CallOptionsContextType,
-  WorkersContextType,
-} from "@/types/contextTypes";
-import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
+
+import TutorialCard from "../tutorial/TutorialCard";
+import ModalProviders, { useAddSubjectModal } from "./ModalProviders";
 
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
@@ -68,8 +71,7 @@ export function AppContainer({ children }: ProviderProps) {
             attribute="class"
             defaultTheme="system"
             enableSystem
-            disableTransitionOnChange
-          >
+            disableTransitionOnChange>
             {/* <ViewerProvider>
               <ViewDateProvider>{children}</ViewDateProvider>
             </ViewerProvider> */}
@@ -89,36 +91,6 @@ interface ThemeProviderProps {
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
-
-import type { CardComponentProps } from "nextstepjs";
-import steps from "@/lib/steps";
-import TutorialCard from "../tutorial/TutorialCard";
-
-export const CustomCard = ({
-  step,
-  currentStep,
-  totalSteps,
-  nextStep,
-  prevStep,
-  skipTour,
-  arrow,
-}: CardComponentProps) => {
-  return (
-    <div>
-      <h1>
-        {step.icon} {step.title}
-      </h1>
-      <h2>
-        {currentStep} of {totalSteps}
-      </h2>
-      <p>{step.content}</p>
-      <button onClick={prevStep}>Previous</button>
-      <button onClick={nextStep}>Next</button>
-      <button onClick={skipTour}>Skip</button>
-      {arrow}
-    </div>
-  );
-};
 
 function AppProvider({ children }: ProviderProps) {
   const { account } = useAccount();
@@ -255,13 +227,13 @@ export function WorkersProvider({ children }: ProviderProps) {
   useEffect(() => {
     if (!membersTimerWorkerRef.current) {
       membersTimerWorkerRef.current = new Worker(
-        new URL("@/lib/workers/timerWorker.js", import.meta.url)
+        new URL("@/lib/workers/timerWorker.js", import.meta.url),
       );
     }
 
     if (!subjectTimerWorkerRef.current) {
       subjectTimerWorkerRef.current = new Worker(
-        new URL("@/lib/workers/subjectTimerWorker.js", import.meta.url)
+        new URL("@/lib/workers/subjectTimerWorker.js", import.meta.url),
       );
     }
 
@@ -276,7 +248,7 @@ export function WorkersProvider({ children }: ProviderProps) {
 
   const createWorker = (name: string) => {
     console.warn(
-      `Workers are auto-initialized. Manual creation not supported. Tried: ${name}`
+      `Workers are auto-initialized. Manual creation not supported. Tried: ${name}`,
     );
   };
 
@@ -305,8 +277,7 @@ export function WorkersProvider({ children }: ProviderProps) {
         createWorker,
         terminateWorker,
         getWorker,
-      }}
-    >
+      }}>
       {children}
     </WorkersContext.Provider>
   );
@@ -332,8 +303,7 @@ function CallOptionsProvider({ children }: { children: ReactNode }) {
 
   return (
     <CallOptionsContext.Provider
-      value={{ isCam, setIsCam, isMic, setIsMic, isHeadphone, setIsHeadphone }}
-    >
+      value={{ isCam, setIsCam, isMic, setIsMic, isHeadphone, setIsHeadphone }}>
       {children}
     </CallOptionsContext.Provider>
   );
@@ -366,8 +336,7 @@ function ThemesProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemesContext.Provider
-      value={{ themes, setThemes, userThemes, setUserThemes }}
-    >
+      value={{ themes, setThemes, userThemes, setUserThemes }}>
       {children}
     </ThemesContext.Provider>
   );
@@ -403,8 +372,7 @@ function TutorialProvider({ children }: ProviderProps) {
         console.log(`Tour skipped: ${step} in ${tourName}`)
       }
       clickThroughOverlay={false}
-      cardComponent={TutorialCard}
-    >
+      cardComponent={TutorialCard}>
       {children}
     </NextStep>
   );
@@ -414,8 +382,8 @@ function DevelopmentProvider({ children }: ProviderProps) {
   const { setCurrentStep, startNextStep } = useNextStep();
 
   /* useEffect(() => {
+    startNextStep("newUser");
     setTimeout(() => {
-      startNextStep("newUser");
       setCurrentStep(3);
     }, 5000);
   }, []); */

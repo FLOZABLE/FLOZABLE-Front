@@ -1,21 +1,35 @@
 "use client";
 
+import { postGroupJoin } from "@/apis/groupApi";
+import { useAccount } from "@/hooks/accountHooks";
 import { useGroups } from "@/hooks/groupHook";
+import { useRemoveSearchParams } from "@/hooks/otherHooks";
+import { useRankings } from "@/hooks/rankingHooks";
+import {
+  useGroupsUpdater,
+  useMyGroupsUpdater,
+} from "@/hooks/updaters/groupUpdaters";
+import {
+  postGroupJoinSchema,
+  PostGroupJoinSchemaValues,
+} from "@/schemas/groupSchemas";
+import { Group } from "@/types/groupTypes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo } from "react";
+import { useForm } from "react-hook-form";
+
+import GroupContainer from "../groups/GroupContainer";
+import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { useJoinGroupModal } from "../structure/ModalProviders";
+import { Button } from "../ui/button";
 import {
   Credenza,
   CredenzaBody,
-  CredenzaHeader,
   CredenzaContent,
+  CredenzaHeader,
   CredenzaTitle,
 } from "../ui/credenza";
-import GroupContainer from "../groups/GroupContainer";
-import { useCallback, useEffect, useMemo } from "react";
-import { useRankings } from "@/hooks/rankingHooks";
-import { Button } from "../ui/button";
-import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -23,19 +37,6 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { useSearchParams } from "next/navigation";
-import { useRemoveSearchParams } from "@/hooks/otherHooks";
-import { postGroupJoin } from "@/apis/groupApi";
-import {
-  useGroupsUpdater,
-  useMyGroupsUpdater,
-} from "@/hooks/updaters/groupUpdaters";
-import { useAccount } from "@/hooks/accountHooks";
-import {
-  postGroupJoinSchema,
-  PostGroupJoinSchemaValues,
-} from "@/schemas/groupSchemas";
-import { Group } from "@/types/groupTypes";
 
 export default function JoinGroupModal() {
   const searchParams = useSearchParams();
@@ -52,12 +53,12 @@ export default function JoinGroupModal() {
   const { groups } = useGroups();
   const { rankingsData } = useRankings(
     "day",
-    new Date(new Date().setHours(0, 0, 0, 0))
+    new Date(new Date().setHours(0, 0, 0, 0)),
   );
 
   const group: Group | null = useMemo(() => {
     const group = groups?.find(
-      (group) => group.group_id === joinGroupModal.group_id
+      (group) => group.group_id === joinGroupModal.group_id,
     );
     return group ? group : null;
   }, [groups, joinGroupModal.group_id]);
@@ -86,7 +87,7 @@ export default function JoinGroupModal() {
       updateGroups((prev) => {
         const newGroups = [...prev];
         const groupIndex = newGroups.findIndex(
-          (group) => group.group_id === joinGroupModal.group_id
+          (group) => group.group_id === joinGroupModal.group_id,
         );
         if (groupIndex === -1) return prev;
 
@@ -106,7 +107,7 @@ export default function JoinGroupModal() {
         inline: "nearest",
       });
     },
-    [account, group, joinGroupModal]
+    [account, group, joinGroupModal],
   );
 
   useEffect(() => {
@@ -127,8 +128,7 @@ export default function JoinGroupModal() {
       onOpenChange={(opened) => {
         setJoinGroupModal((prev) => ({ ...prev, opened }));
         form.reset();
-      }}
-    >
+      }}>
       <CredenzaContent desktopClassName="!max-w-100">
         <CredenzaHeader className="justify-self-center justify-center items-center text-center">
           <CredenzaTitle className="text-2xl">Join this group?</CredenzaTitle>
@@ -145,8 +145,7 @@ export default function JoinGroupModal() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6 flex justify-center flex-col"
-              >
+                className="space-y-6 flex justify-center flex-col">
                 {!group?.visibility && (
                   <FormField
                     control={form.control}

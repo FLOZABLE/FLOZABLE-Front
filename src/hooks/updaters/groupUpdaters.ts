@@ -1,4 +1,5 @@
 import { Group, GroupMember } from "@/types/groupTypes";
+
 import { useUpdater } from "../otherHooks";
 
 export function useGroupsUpdater() {
@@ -12,6 +13,6 @@ export function useMyGroupsUpdater() {
 export function useGroupMembersUpdater(groupId: string) {
   return useUpdater<{ members: GroupMember[] }, "members">(
     ["groupMembers", groupId],
-    "members"
+    "members",
   );
 }

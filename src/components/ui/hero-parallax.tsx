@@ -1,14 +1,16 @@
 "use client";
-import React from "react";
+
 import {
   motion,
-  useScroll,
-  useTransform,
-  useSpring,
   MotionValue,
+  useScroll,
+  useSpring,
+  useTransform,
 } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
+
 import { FlipWords } from "./flip-words";
 
 const words = ["Focus", "Potential", "Productivity", "Success", "Best Self"];
@@ -35,33 +37,32 @@ export const HeroParallax = ({
 
   const translateX = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, 1000]),
-    springConfig
+    springConfig,
   );
   const translateXReverse = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, -1000]),
-    springConfig
+    springConfig,
   );
   const rotateX = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [15, 0]),
-    springConfig
+    springConfig,
   );
   const opacity = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
-    springConfig
+    springConfig,
   );
   const rotateZ = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [20, 0]),
-    springConfig
+    springConfig,
   );
   const translateY = useSpring(
     useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
-    springConfig
+    springConfig,
   );
   return (
     <div
       ref={ref}
-      className="h-[250vh] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]"
-    >
+      className="h-[250vh] py-40 overflow-hidden  antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d]">
       <Header />
       <motion.div
         style={{
@@ -70,8 +71,7 @@ export const HeroParallax = ({
           translateY,
           opacity,
         }}
-        className=""
-      >
+        className="">
         <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
           {firstRow.map((product) => (
             <ProductCard
@@ -108,7 +108,8 @@ export const Header = () => {
   return (
     <div className="max-w-7xl relative mx-auto py-20 md:py-40 px-4 w-full  left-0 top-0 z-10 pointer-events-none">
       <h1 className="text-2xl md:text-7xl font-bold dark:text-white">
-        Unlock Your <FlipWords words={words} /><br />
+        Unlock Your <FlipWords words={words} />
+        <br />
         with FLOZABLE.
       </h1>
       <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
@@ -140,12 +141,10 @@ export const ProductCard = ({
         y: -20,
       }}
       key={product.title}
-      className="group/product h-96 w-[30rem] relative shrink-0"
-    >
+      className="group/product h-96 w-[30rem] relative shrink-0">
       <Link
         href={product.link}
-        className="block group-hover/product:shadow-2xl "
-      >
+        className="block group-hover/product:shadow-2xl ">
         <Image
           src={product.thumbnail}
           height="600"

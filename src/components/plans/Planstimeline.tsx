@@ -1,3 +1,10 @@
+import { useAccountGoogle } from "@/hooks/accountHooks";
+import { usePlans } from "@/hooks/plansHooks";
+import { cn } from "@/lib/utils";
+import { ViewerType } from "@/types/othersTypes";
+import { EventInput } from "@fullcalendar/core";
+import { CirclePlus } from "lucide-react";
+import { DateTime } from "luxon";
 import {
   ComponentProps,
   ReactNode,
@@ -5,19 +12,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { ViewerType } from "@/types/othersTypes";
-import { Button } from "../ui/button";
-import { CirclePlus } from "lucide-react";
-import { usePlanModal } from "../structure/ModalProviders";
-import { PlanContainer } from "./UpcomingPlansViewer";
-import { EventInput } from "@fullcalendar/core";
-import { usePlans } from "@/hooks/plansHooks";
-import { DateTime } from "luxon";
-import { cn } from "@/lib/utils";
-import { Badge } from "../ui/badge";
-import { useAccountGoogle } from "@/hooks/accountHooks";
+
 import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
+import { usePlanModal } from "../structure/ModalProviders";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { PlanContainer } from "./UpcomingPlansViewer";
 
 interface PlanstimelineProps extends ComponentProps<"div"> {
   viewDate: Date;
@@ -98,14 +99,13 @@ export default function Planstimeline({
               opened: true,
               plan_id: "new",
             }));
-          }}
-        >
+          }}>
           <CirclePlus /> Add Plan
         </Button>
       </CardHeader>
       <CardContent className="overflow-auto h-full">
         {accountGoogleData?.scopes?.some((scope) =>
-          scope.includes("calendar")
+          scope.includes("calendar"),
         ) ? (
           filteredPlans.map((plan, i) => {
             return (

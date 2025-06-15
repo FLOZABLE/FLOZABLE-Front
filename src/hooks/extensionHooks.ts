@@ -1,5 +1,6 @@
 import { getExtensionSettings, getExtensionUsage } from "@/apis/extensionApi";
 import { useQuery } from "@tanstack/react-query";
+
 import { useAccount } from "./accountHooks";
 
 function useExtensionSettings() {

@@ -1,14 +1,16 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { Toaster as Sonner, ToasterProps } from "sonner";
 import {
+  CircleAlert,
+  CircleCheck,
   Info,
   Loader2,
-  CircleCheck,
   TriangleAlert,
-  CircleAlert,
-} from "lucide-react"; // Import your desired icons
+} from "lucide-react";
+import { useTheme } from "next-themes";
+import { Toaster as Sonner, ToasterProps } from "sonner";
+
+// Import your desired icons
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { resolvedTheme } = useTheme();

@@ -1,19 +1,34 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useAccountModal } from "../structure/ModalProviders";
-import {
-  Credenza,
-  CredenzaBody,
-  CredenzaHeader,
-  CredenzaContent,
-  CredenzaTitle,
-  CredenzaDescription,
-} from "../ui/credenza";
 import { postAuthSignin, postAuthSignup } from "@/apis/authApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { getTimezone } from "@/lib/utils";
+import {
+  postAuthSigninSchema,
+  PostAuthSigninSchemaValues,
+  postAuthSignupSchema,
+  PostAuthSignupSchemaValues,
+} from "@/schemas/authSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRightIcon } from "lucide-react";
+import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+
+import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
+import ShowPasswordBtn from "../buttons/ShowPasswordBtn";
+import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
+import { useAccountModal } from "../structure/ModalProviders";
+import { Button } from "../ui/button";
+import {
+  Credenza,
+  CredenzaBody,
+  CredenzaContent,
+  CredenzaDescription,
+  CredenzaHeader,
+  CredenzaTitle,
+} from "../ui/credenza";
 import {
   Form,
   FormControl,
@@ -21,20 +36,6 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import { Button } from "../ui/button";
-import { ArrowRightIcon } from "lucide-react";
-import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
-import ShowPasswordBtn from "../buttons/ShowPasswordBtn";
-import {
-  postAuthSigninSchema,
-  PostAuthSigninSchemaValues,
-  postAuthSignupSchema,
-  PostAuthSignupSchemaValues,
-} from "@/schemas/authSchemas";
 
 export default function AccountModal() {
   const { accountModal, setAccountModal } = useAccountModal();
@@ -76,7 +77,7 @@ export default function AccountModal() {
       setAccountModal((prev) => ({ ...prev, opened: false }));
       accountRefetch();
     },
-    [accountRefetch, setAccountModal, searchParams, router]
+    [accountRefetch, setAccountModal, searchParams, router],
   );
 
   const onSignUp = useCallback(
@@ -100,7 +101,7 @@ export default function AccountModal() {
         scroll: false,
       });
     },
-    [accountRefetch, setAccountModal, searchParams, router]
+    [accountRefetch, setAccountModal, searchParams, router],
   );
 
   useEffect(() => {
@@ -128,8 +129,7 @@ export default function AccountModal() {
       open={accountModal.opened}
       onOpenChange={(opened) => {
         setAccountModal((prev) => ({ ...prev, opened }));
-      }}
-    >
+      }}>
       <CredenzaContent desktopClassName="!max-w-100">
         <CredenzaHeader className="justify-self-center justify-center items-center text-center">
           <Image src={"/logo.png"} width={100} height={100} alt="logo" />
@@ -146,8 +146,7 @@ export default function AccountModal() {
               <Form {...signInForm}>
                 <form
                   onSubmit={signInForm.handleSubmit(onSignIn)}
-                  className="space-y-6"
-                >
+                  className="space-y-6">
                   <FormField
                     control={signInForm.control}
                     name="email"
@@ -191,8 +190,7 @@ export default function AccountModal() {
                     effect={"expandIcon"}
                     icon={ArrowRightIcon}
                     iconPlacement="right"
-                    className="w-full"
-                  >
+                    className="w-full">
                     Login
                   </Button>
                   <GoogleLoginBtn
@@ -207,8 +205,7 @@ export default function AccountModal() {
             <Form {...signUpForm}>
               <form
                 onSubmit={signUpForm.handleSubmit(onSignUp)}
-                className="space-y-6"
-              >
+                className="space-y-6">
                 <FormField
                   control={signUpForm.control}
                   name="email"
@@ -268,8 +265,7 @@ export default function AccountModal() {
                   effect={"expandIcon"}
                   icon={ArrowRightIcon}
                   iconPlacement="right"
-                  className="w-full"
-                >
+                  className="w-full">
                   Sign up
                 </Button>
                 <GoogleLoginBtn
@@ -292,8 +288,7 @@ export default function AccountModal() {
                     ...prev,
                     isSignIn: false,
                   }));
-                }}
-              >
+                }}>
                 Sign up
               </Button>
             </div>
@@ -308,8 +303,7 @@ export default function AccountModal() {
                     ...prev,
                     isSignIn: true,
                   }));
-                }}
-              >
+                }}>
                 Sign in
               </Button>
             </div>

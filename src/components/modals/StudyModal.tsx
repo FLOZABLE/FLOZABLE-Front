@@ -1,4 +1,6 @@
 import { Dispatch } from "react";
+
+import SubjectTimer from "../study/SubjectTimer";
 import {
   Credenza,
   CredenzaBody,
@@ -6,7 +8,6 @@ import {
   CredenzaHeader,
   CredenzaTitle,
 } from "../ui/credenza";
-import SubjectTimer from "../study/SubjectTimer";
 
 type StudyModalProps = {
   open: boolean;
@@ -19,8 +20,7 @@ export default function StudyModal({ open, setOpen }: StudyModalProps) {
       open={open}
       onOpenChange={(open) => {
         setOpen(open);
-      }}
-    >
+      }}>
       <CredenzaContent className="w-fit">
         <CredenzaHeader>
           <CredenzaTitle>Choose a subject to study!</CredenzaTitle>

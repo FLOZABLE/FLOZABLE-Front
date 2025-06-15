@@ -1,21 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { usePlans } from "@/hooks/plansHooks";
-import { convertToEventPlan, EventPlan } from "@/types/planTypes";
-import { DateTime } from "luxon";
-import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin, {
-  DateClickArg,
-  EventResizeDoneArg,
-} from "@fullcalendar/interaction";
-import { ViewerType } from "@/types/othersTypes";
+import { patchPlan } from "@/apis/plansApi";
 import { DatePicker } from "@/components/buttons/DatePicker";
-import SelectorWrapper from "@/components/ui/select";
+import PlanViewer from "@/components/plans/PlanViewer";
+import UpcomingPlansViewer from "@/components/plans/UpcomingPlansViewer";
+import { usePlanModal } from "@/components/structure/ModalProviders";
 import { Button } from "@/components/ui/button";
-import { CalendarPlus, ChevronLeft, ChevronRight } from "lucide-react";
+import SelectorWrapper from "@/components/ui/select";
+import { useWindowSize } from "@/hooks/otherHooks";
+import { usePlans } from "@/hooks/plansHooks";
+import { ViewerType } from "@/types/othersTypes";
+import { convertToEventPlan, EventPlan } from "@/types/planTypes";
 import newStyled from "@emotion/styled";
 import {
   DateSelectArg,
@@ -24,12 +19,17 @@ import {
   EventDropArg,
   EventInput,
 } from "@fullcalendar/core";
-import { patchPlan } from "@/apis/plansApi";
-import PlanViewer from "@/components/plans/PlanViewer";
-import { useWindowSize } from "@/hooks/otherHooks";
-import { usePlanModal } from "@/components/structure/ModalProviders";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin, {
+  DateClickArg,
+  EventResizeDoneArg,
+} from "@fullcalendar/interaction";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { CalendarPlus, ChevronLeft, ChevronRight } from "lucide-react";
+import { DateTime } from "luxon";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import UpcomingPlansViewer from "@/components/plans/UpcomingPlansViewer";
 
 const StyleWrapper = newStyled.div`
 .fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
@@ -83,7 +83,7 @@ interface Position {
 
 export default function Planner() {
   const [viewDate, setViewDate] = useState(
-    new Date(new Date().setHours(0, 0, 0, 0))
+    new Date(new Date().setHours(0, 0, 0, 0)),
   );
   const [viewer, setViewer] = useState<ViewerType>("day");
   const { plansData, updatePlans } = usePlans(viewDate);
@@ -146,8 +146,8 @@ export default function Planner() {
       viewer === "day"
         ? "timeGridDay"
         : viewer === "week"
-        ? "timeGridWeek"
-        : "dayGridMonth"
+          ? "timeGridWeek"
+          : "dayGridMonth",
     );
   }, [viewer]);
 
@@ -175,7 +175,7 @@ export default function Planner() {
           };
         }
         return calendar;
-      })
+      }),
     );
   }, []);
 
@@ -183,14 +183,14 @@ export default function Planner() {
     (info: EventDropArg) => {
       handleEventUpdate(info.event);
     },
-    [handleEventUpdate]
+    [handleEventUpdate],
   );
 
   const onEventResize = useCallback(
     (info: EventResizeDoneArg) => {
       handleEventUpdate(info.event);
     },
-    [handleEventUpdate]
+    [handleEventUpdate],
   );
 
   const onEventClick = useCallback((info: EventClickArg) => {
@@ -286,8 +286,7 @@ export default function Planner() {
                   end: end.toJSDate(),
                 },
               }));
-            }}
-          >
+            }}>
             <CalendarPlus />
             Add Event
           </Button>
@@ -303,8 +302,7 @@ export default function Planner() {
             <Button
               onClick={() => {
                 setViewDate(new Date(new Date().setHours(0, 0, 0, 0)));
-              }}
-            >
+              }}>
               Today
             </Button>
             <Button
@@ -313,8 +311,7 @@ export default function Planner() {
                   [viewer]: 1,
                 });
                 setViewDate(dateTime.toJSDate());
-              }}
-            >
+              }}>
               <ChevronLeft />
             </Button>
             <Button
@@ -323,8 +320,7 @@ export default function Planner() {
                   [viewer]: 1,
                 });
                 setViewDate(dateTime.toJSDate());
-              }}
-            >
+              }}>
               <ChevronRight />
             </Button>
             <DatePicker
@@ -358,8 +354,8 @@ export default function Planner() {
                 viewer === "day"
                   ? "timeGridDay"
                   : viewer === "week"
-                  ? "timeGridWeek"
-                  : "dayGridMonth"
+                    ? "timeGridWeek"
+                    : "dayGridMonth"
               }
               eventClassNames={"event"}
               editable={true}

@@ -2,7 +2,7 @@ export function validateStrictString(
   value: string,
   type: string,
   maxLength = 20,
-  minLength = 1
+  minLength = 1,
 ) {
   if (!value) {
     return { isValid: false, message: `Please provide ${type}` };
@@ -26,7 +26,7 @@ export function validatePassword(
   password: string,
   max = 20,
   min = 5,
-  specialNeeded = true
+  specialNeeded = true,
 ) {
   if (!password) {
     return { isValid: false, message: `Please provide a password` };
@@ -55,7 +55,7 @@ export function validatePassword(
 export function validateURL(
   input: string,
   strict = false,
-  allowedOrigins: string[] = []
+  allowedOrigins: string[] = [],
 ) {
   try {
     if (!input) {

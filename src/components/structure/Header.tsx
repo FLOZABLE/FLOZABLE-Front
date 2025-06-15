@@ -1,15 +1,16 @@
 "use client";
 
+import { useAccount } from "@/hooks/accountHooks";
+import { useExtensionSettings } from "@/hooks/extensionHooks";
 import { ArrowRightIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
+import ChatButton from "../buttons/ChatButton";
 import NotificationsButton from "../buttons/NotificationsButton";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import AvatarWrapper from "../ui/avatar";
-import { useAccount } from "@/hooks/accountHooks";
-import { useExtensionSettings } from "@/hooks/extensionHooks";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import ChatButton from "../buttons/ChatButton";
 
 export default function Header() {
   const router = useRouter();
@@ -32,15 +33,14 @@ export default function Header() {
               router.push("/dashboard/account?website=youtube.com");
               window.open(
                 "https://chromewebstore.google.com/detail/flozable-tab-monitor/cmbdaanokelibhphiidlikongdoandlj",
-                "_blank"
+                "_blank",
               );
               setTimeout(() => {
                 toast.info(
-                  "Manage the websites you want to block or track usage from this page!"
+                  "Manage the websites you want to block or track usage from this page!",
                 );
               }, 500);
-            }}
-          >
+            }}>
             Try our Chrome extension to block distractions!
           </Button>
         )}

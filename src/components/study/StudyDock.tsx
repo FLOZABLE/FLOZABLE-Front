@@ -1,16 +1,17 @@
-import React, { ComponentProps } from "react";
 import { DockItem, FloatingDock } from "@/components/ui/floating-dock";
+import { cn } from "@/lib/utils";
 import {
   IconHeadphones,
   IconHome,
   IconPhone,
   IconUsersGroup,
 } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { Calendar, Hourglass } from "lucide-react";
-import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
+import { useRouter } from "next/navigation";
+import React, { ComponentProps } from "react";
+
 import ChatButton from "../buttons/ChatButton";
+import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
 import ZoomButton from "../buttons/ZoomButton";
 
 type StudyOptions = {

@@ -1,7 +1,22 @@
 "use client";
 
+import { patchPlan, putPlan } from "@/apis/plansApi";
+import { usePlans } from "@/hooks/plansHooks";
+import { ViewerType } from "@/types/othersTypes";
+import { defaultPlan, EventPlan } from "@/types/planTypes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ArrowRightIcon } from "lucide-react";
+import { DateTime } from "luxon";
 import { useCallback, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { DatePicker } from "../buttons/DatePicker";
+import TimePicker from "../buttons/TimePicker";
+import Editor from "../editor/Editor";
+import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { usePlanModal } from "../structure/ModalProviders";
+import { Button } from "../ui/button";
 import {
   Credenza,
   CredenzaBody,
@@ -9,9 +24,6 @@ import {
   CredenzaHeader,
   CredenzaTitle,
 } from "../ui/credenza";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -19,17 +31,6 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
-import { Button } from "../ui/button";
-import { ArrowRightIcon } from "lucide-react";
-import { defaultPlan, EventPlan } from "@/types/planTypes";
-import TimePicker from "../buttons/TimePicker";
-import { DatePicker } from "../buttons/DatePicker";
-import { ViewerType } from "@/types/othersTypes";
-import { usePlans } from "@/hooks/plansHooks";
-import { DateTime } from "luxon";
-import Editor from "../editor/Editor";
-import { patchPlan, putPlan } from "@/apis/plansApi";
 
 const planSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
@@ -82,7 +83,7 @@ export default function PlanModal() {
               };
             }
             return calendar;
-          })
+          }),
         );
       } else {
         const plan = plans.find((plan) => plan.id === planModal.plan_id);
@@ -109,13 +110,13 @@ export default function PlanModal() {
               };
             }
             return calendar;
-          })
+          }),
         );
       }
 
       setPlanModal((prev) => ({ ...prev, opened: false }));
     },
-    [planModal, setPlanModal, updatePlans, plans]
+    [planModal, setPlanModal, updatePlans, plans],
   );
 
   useEffect(() => {
@@ -182,8 +183,7 @@ export default function PlanModal() {
           planModal.calendarApi?.unselect();
         }
         setPlanModal((prev) => ({ ...prev, opened }));
-      }}
-    >
+      }}>
       <CredenzaContent>
         <CredenzaHeader>
           <CredenzaTitle>
@@ -194,8 +194,7 @@ export default function PlanModal() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSave)}
-              className="space-y-6"
-            >
+              className="space-y-6">
               <FormField
                 control={form.control}
                 name="title"
@@ -256,7 +255,7 @@ export default function PlanModal() {
                             const durationMs =
                               prevEnd.getTime() - prevStart.getTime();
                             const newEnd = new Date(
-                              newStartDate.getTime() + durationMs
+                              newStartDate.getTime() + durationMs,
                             );
                             const iso = newStartDate.toISOString();
 
@@ -325,8 +324,7 @@ export default function PlanModal() {
                   className="w-full"
                   effect={"expandIcon"}
                   icon={ArrowRightIcon}
-                  iconPlacement="right"
-                >
+                  iconPlacement="right">
                   {planModal.plan_id === "new" ? "Create Plan" : "Save Changes"}
                 </Button>
               </div>

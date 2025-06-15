@@ -1,12 +1,11 @@
-import { JSX } from 'react'
-import { ContentEditable as LexicalContentEditable } from '@lexical/react/LexicalContentEditable'
+import { ContentEditable as LexicalContentEditable } from "@lexical/react/LexicalContentEditable";
+import { JSX } from "react";
 
 type Props = {
-  placeholder: string
-  className?: string
-  placeholderClassName?: string
-}
-
+  placeholder: string;
+  className?: string;
+  placeholderClassName?: string;
+};
 
 export function ContentEditable({
   placeholder,
@@ -24,13 +23,11 @@ export function ContentEditable({
         <div
           className={
             placeholderClassName ??
-
             `pointer-events-none absolute left-0 top-0 select-none overflow-hidden text-ellipsis px-8 py-[18px] text-muted-foreground`
-          }
-        >
+          }>
           {placeholder}
         </div>
       }
     />
-  )
+  );
 }

@@ -19,7 +19,7 @@ export function useRankings(viewer: ViewerType, viewDate: Date) {
 export function useRankingsUser(
   userId: string,
   viewer: ViewerType,
-  viewDate: Date
+  viewDate: Date,
 ) {
   const queryResult = useQuery({
     queryKey: [`useRankingsUser`, userId, viewer, viewDate],

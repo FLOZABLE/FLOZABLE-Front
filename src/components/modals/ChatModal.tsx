@@ -1,7 +1,30 @@
 "use client";
 
+import { useAccount } from "@/hooks/accountHooks";
+import {
+  useChatMessages,
+  useChatRoomMembers,
+  useChatRooms,
+} from "@/hooks/chatHooks";
+import { useChatroomsUpdater } from "@/hooks/updaters/chatUpdaters";
+import config from "@/lib/config";
+import socket from "@/lib/sockets/socket";
 import { cn } from "@/lib/utils";
+import { ChatRoom, Message, UseChatMessagesParams } from "@/types/chatTypes";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, Volume2, VolumeOff, X } from "lucide-react";
+import { DateTime } from "luxon";
+import Link from "next/link";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import { toast } from "sonner";
+import { useDebounce } from "use-debounce";
+
+import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
+import { SendButton } from "../buttons/SendButton";
+import ChatRoomContainer from "../chats/ChatRoomContainer";
 import { useChatModal } from "../structure/ModalProviders";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
@@ -10,35 +33,13 @@ import {
   CardTitle,
 } from "../ui/card";
 import {
-  useChatMessages,
-  useChatRoomMembers,
-  useChatRooms,
-} from "@/hooks/chatHooks";
-import ChatRoomContainer from "../chats/ChatRoomContainer";
-import { Button } from "../ui/button";
-import { ArrowLeft, Volume2, VolumeOff, X } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ChatRoom, Message, UseChatMessagesParams } from "@/types/chatTypes";
-import { ChatMessageList } from "../ui/chat/chat-message-list";
-import {
   ChatBubble,
   ChatBubbleAvatar,
   ChatBubbleMessage,
   ChatBubbleTimestamp,
 } from "../ui/chat/chat-bubble";
-import { useAccount } from "@/hooks/accountHooks";
-import config from "@/lib/config";
-import { DateTime } from "luxon";
-import { SendButton } from "../buttons/SendButton";
-import socket from "@/lib/sockets/socket";
-import { useChatroomsUpdater } from "@/hooks/updaters/chatUpdaters";
-import { toast } from "sonner";
+import { ChatMessageList } from "../ui/chat/chat-message-list";
 import { Input } from "../ui/input";
-import { AnimatePresence, motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { useDebounce } from "use-debounce";
-import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
-import Link from "next/link";
 
 const MotionChatBubble = motion.create(ChatBubble);
 
@@ -83,7 +84,7 @@ export default function ChatModal() {
 
   const chatroomName = useMemo(() => {
     const chatroom = chatrooms?.find(
-      (chatroom) => chatroom.chatroom_id === chatModal.chatroom_id
+      (chatroom) => chatroom.chatroom_id === chatModal.chatroom_id,
     );
     return chatroom?.name || "(Not found)";
   }, [chatrooms, chatModal.chatroom_id]);
@@ -114,7 +115,7 @@ export default function ChatModal() {
     setMessageDataOptions((prev) => {
       const newMessageDataOptions = structuredClone(prev);
       const chatroom = chatrooms?.find(
-        (chatroom) => chatroom.chatroom_id === chatModal.chatroom_id
+        (chatroom) => chatroom.chatroom_id === chatModal.chatroom_id,
       );
       if (chatroom?.last_message) {
         newMessageDataOptions.lastMsgId = chatroom.last_message.message_id;
@@ -130,7 +131,7 @@ export default function ChatModal() {
     updateChatrooms((prev) => {
       const newState = [...prev];
       const chatroomIndex = newState.findIndex(
-        (chatroom) => chatroom.chatroom_id === chatModal.chatroom_id
+        (chatroom) => chatroom.chatroom_id === chatModal.chatroom_id,
       );
 
       if (chatroomIndex === -1) return prev;
@@ -174,7 +175,7 @@ export default function ChatModal() {
       const updatedChatrooms = await updateChatrooms((prev) => {
         const newChatrooms = [...prev];
         const chatroomIndex = newChatrooms.findIndex(
-          (chatroom) => chatroom.chatroom_id === chatroomId
+          (chatroom) => chatroom.chatroom_id === chatroomId,
         );
 
         if (chatroomIndex === -1) return [...prev];
@@ -210,7 +211,7 @@ export default function ChatModal() {
         }
 
         const chatroom = updatedChatrooms?.find(
-          (chatroom) => chatroom.chatroom_id === chatroomId
+          (chatroom) => chatroom.chatroom_id === chatroomId,
         );
         toast.info(
           <div>
@@ -227,7 +228,7 @@ export default function ChatModal() {
                   chatroom_id: chatroomId,
                 })),
             },
-          }
+          },
         );
       }
     };
@@ -247,7 +248,7 @@ export default function ChatModal() {
 
   const onSubmit = useCallback(() => {
     if (!newMessage.length) return;
-    
+
     socket.emit("chat:send", chatModal.chatroom_id, newMessage);
     setNewMessage("");
     messageListRef.current?.scrollToBottom();
@@ -257,9 +258,8 @@ export default function ChatModal() {
     <Card
       className={cn(
         "fixed bottom-20 h-96 w-96 z-20 transition-all duration-500 ease-in-out shadow-md pb-0 overflow-hidden gap-0",
-        chatModal.opened ? "right-12" : "right-[-30rem]"
-      )}
-    >
+        chatModal.opened ? "right-12" : "right-[-30rem]",
+      )}>
       <CardHeader className="flex items-center gap-5">
         <CardTitle>Chats</CardTitle>
         <AnimatedSwitchButton
@@ -279,8 +279,7 @@ export default function ChatModal() {
               opened: false,
               chatroom_id: null,
             }));
-          }}
-        >
+          }}>
           <X className="size-6" />
         </Button>
       </CardHeader>
@@ -292,17 +291,15 @@ export default function ChatModal() {
       <Card
         className={cn(
           "overflow-auto px-0 absolute left-96 top-0 bg-background h-full w-full transition-all duration-300 ease-in-out events pb-0 gap-0",
-          chatModal.chatroom_id && "left-0"
-        )}
-      >
+          chatModal.chatroom_id && "left-0",
+        )}>
         <CardHeader className="flex overflow-hidden items-center gap-2 shrink-0">
           <Button
             className="size-8 z-10"
             variant={"ghost"}
             onClick={() => {
               setChatModal((prev) => ({ ...prev, chatroom_id: null }));
-            }}
-          >
+            }}>
             <ArrowLeft className="size-6" />
           </Button>
           <CardTitle className="flex gap-2 items-center overflow-hidden mr-2">
@@ -312,8 +309,7 @@ export default function ChatModal() {
         <CardContent className="overflow-hidden h-full px-0">
           <ChatMessageList
             className="overflow-auto h-full"
-            ref={messageListRef}
-          >
+            ref={messageListRef}>
             <AnimatePresence key={debouncedChatroomKey}>
               {messages.map((message, index) => {
                 const variant =
@@ -325,7 +321,7 @@ export default function ChatModal() {
                   : dateTime.toFormat("M/d h:mm a");
 
                 const memberData = chatroomMembersData?.find(
-                  (member) => member.user_id === message.user_id
+                  (member) => member.user_id === message.user_id,
                 );
 
                 return (
@@ -337,7 +333,7 @@ export default function ChatModal() {
                     transition={{ duration: 0.2 }}
                     className={cn(
                       "max-w-[70%] relative",
-                      variant === "received" && "pb-5"
+                      variant === "received" && "pb-5",
                     )}
                     variant={variant}
                     ref={(el) => {
@@ -347,8 +343,7 @@ export default function ChatModal() {
                           inViewRef(el);
                         }, 100);
                       }
-                    }}
-                  >
+                    }}>
                     <ChatBubbleAvatar
                       fallback={memberData?.name || "User"}
                       src={`${config.static_server}/img/profile-images/${message.user_id}.jpeg`}
@@ -360,8 +355,7 @@ export default function ChatModal() {
                     {variant === "received" && memberData && (
                       <Link
                         href={`/dashboard/user/${memberData?.user_id}`}
-                        className="absolute left-0 bottom-0 text-xs truncate max-w-30 animated-underline"
-                      >
+                        className="absolute left-0 bottom-0 text-xs truncate max-w-30 animated-underline">
                         {memberData.name}
                       </Link>
                     )}

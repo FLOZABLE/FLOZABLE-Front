@@ -1,11 +1,12 @@
 import { GroupMember } from "@/types/groupTypes";
-import AvatarWrapper from "../ui/avatar";
-import { useEffect, useState } from "react";
-import { IconRestPerson, IconStudyPerson } from "../others/Svgs";
-import MemberCamDisplay from "./MemberCamDisplay";
 import { Device } from "mediasoup-client";
 import { Transport } from "mediasoup-client/lib/Transport";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+import { IconRestPerson, IconStudyPerson } from "../others/Svgs";
+import AvatarWrapper from "../ui/avatar";
+import MemberCamDisplay from "./MemberCamDisplay";
 import MemberTimer from "./MemberTimer";
 
 interface SubjectTimer {
@@ -51,8 +52,7 @@ export default function MemberContainer({
       className="bg-muted/50 h-32 !rounded-xl relative p-3"
       onClick={() => {
         router.push(`/dashboard/user/${member.user_id}`);
-      }}
-    >
+      }}>
       <p className="truncate">{member.name}</p>
       <AvatarWrapper
         className="absolute bottom-[-0.5rem] left-[-0.5rem]"

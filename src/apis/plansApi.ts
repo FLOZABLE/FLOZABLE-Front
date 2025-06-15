@@ -1,3 +1,5 @@
+import AxiosInstance from "@/lib/axiosInstance";
+import { requestHandler } from "@/lib/utils";
 import {
   EventPlan,
   NewEventPlan,
@@ -5,8 +7,6 @@ import {
   PlansResponse,
   PutPlanResponse,
 } from "@/types/planTypes";
-import AxiosInstance from "@/lib/axiosInstance";
-import { requestHandler } from "@/lib/utils";
 
 export async function getPlans(date: string): Promise<PlansResponse> {
   return requestHandler(AxiosInstance.get(`/plans`, { params: { date } }));
@@ -27,7 +27,7 @@ export async function deletePlan(calendarId: string, planId: string) {
         calendar_id: calendarId,
         plan_id: planId,
       },
-    })
+    }),
   );
 }
 /* 

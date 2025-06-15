@@ -1,7 +1,8 @@
 import NumberFlow from "@number-flow/react";
-import { Slider } from "../ui/slider";
 import { useEffect, useRef, useState } from "react";
+
 import { Badge } from "../ui/badge";
+import { Slider } from "../ui/slider";
 
 type AudioPlayerProps = {
   source: string;

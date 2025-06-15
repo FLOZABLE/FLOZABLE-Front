@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
 import { DateTime } from "luxon";
+import { useEffect, useMemo } from "react";
+
 import SelectorWrapper from "../ui/select";
 
 interface TimePickerProps extends React.HTMLProps<HTMLDivElement> {
@@ -39,7 +40,7 @@ const TimePicker: React.FC<TimePickerProps> = ({ date, setDate }) => {
           value: option.toISO() ?? "", // never undefined
         };
       }),
-    [baseDate]
+    [baseDate],
   );
 
   const selectedISO = useMemo(() => {

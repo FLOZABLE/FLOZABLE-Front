@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 import {
   Dialog,
   DialogClose,
@@ -25,6 +23,7 @@ import {
 import { useMediaQuery } from "@/hooks/otherHooks";
 import { cn } from "@/lib/utils";
 import { useNextStep } from "nextstepjs";
+import React from "react";
 
 interface BaseProps {
   children: React.ReactNode;
@@ -50,7 +49,7 @@ const useCredenzaContext = () => {
   const context = React.useContext(CredenzaContext);
   if (!context) {
     throw new Error(
-      "Credenza components cannot be rendered outside the Credenza Context"
+      "Credenza components cannot be rendered outside the Credenza Context",
     );
   }
   return context;
@@ -67,8 +66,7 @@ const Credenza = ({ children, onOpenChange, ...props }: RootCredenzaProps) => {
       <Credenza
         {...props}
         {...(!isDesktop && { autoFocus: true })}
-        onOpenChange={currentTour === "newUser" ? () => {} : onOpenChange}
-      >
+        onOpenChange={currentTour === "newUser" ? () => {} : onOpenChange}>
         {children}
       </Credenza>
     </CredenzaContext.Provider>
@@ -109,8 +107,7 @@ const CredenzaContent = ({
   return (
     <CredenzaContent
       className={cn(isDesktop ? desktopClassName : null, className)}
-      {...props}
-    >
+      {...props}>
       {children}
     </CredenzaContent>
   );

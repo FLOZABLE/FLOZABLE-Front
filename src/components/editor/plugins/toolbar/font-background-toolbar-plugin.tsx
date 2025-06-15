@@ -1,58 +1,56 @@
-'use client'
+"use client";
 
-import { useCallback, useState } from 'react'
-
+import { useToolbarContext } from "@/components/editor/context/toolbar-context";
+import { useUpdateToolbarHandler } from "@/components/editor/editor-hooks/use-update-toolbar";
+import ColorPicker from "@/components/editor/editor-ui/colorpicker";
 import {
   $getSelectionStyleValueForProperty,
   $patchStyleText,
-} from '@lexical/selection'
-import { $getSelection, $isRangeSelection, BaseSelection } from 'lexical'
-import { PaintBucketIcon } from 'lucide-react'
-
-import { useToolbarContext } from '@/components/editor/context/toolbar-context'
-import { useUpdateToolbarHandler } from '@/components/editor/editor-hooks/use-update-toolbar'
-import ColorPicker from '@/components/editor/editor-ui/colorpicker'
+} from "@lexical/selection";
+import { $getSelection, $isRangeSelection, BaseSelection } from "lexical";
+import { PaintBucketIcon } from "lucide-react";
+import { useCallback, useState } from "react";
 
 export function FontBackgroundToolbarPlugin() {
-  const { activeEditor } = useToolbarContext()
+  const { activeEditor } = useToolbarContext();
 
-  const [bgColor, setBgColor] = useState('#fff')
+  const [bgColor, setBgColor] = useState("#fff");
 
   const $updateToolbar = (selection: BaseSelection) => {
     if ($isRangeSelection(selection)) {
       setBgColor(
         $getSelectionStyleValueForProperty(
           selection,
-          'background-color',
-          '#fff'
-        )
-      )
+          "background-color",
+          "#fff",
+        ),
+      );
     }
-  }
+  };
 
-  useUpdateToolbarHandler($updateToolbar)
+  useUpdateToolbarHandler($updateToolbar);
 
   const applyStyleText = useCallback(
     (styles: Record<string, string>, skipHistoryStack?: boolean) => {
       activeEditor.update(
         () => {
-          const selection = $getSelection()
+          const selection = $getSelection();
           if (selection !== null) {
-            $patchStyleText(selection, styles)
+            $patchStyleText(selection, styles);
           }
         },
-        skipHistoryStack ? { tag: 'historic' } : {}
-      )
+        skipHistoryStack ? { tag: "historic" } : {},
+      );
     },
-    [activeEditor]
-  )
+    [activeEditor],
+  );
 
   const onBgColorSelect = useCallback(
     (value: string, skipHistoryStack: boolean) => {
-      applyStyleText({ 'background-color': value }, skipHistoryStack)
+      applyStyleText({ "background-color": value }, skipHistoryStack);
     },
-    [applyStyleText]
-  )
+    [applyStyleText],
+  );
 
   return (
     <ColorPicker
@@ -61,5 +59,5 @@ export function FontBackgroundToolbarPlugin() {
       onChange={onBgColorSelect}
       title="text background color"
     />
-  )
+  );
 }

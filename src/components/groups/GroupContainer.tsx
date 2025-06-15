@@ -1,8 +1,12 @@
+import { postGroupLike } from "@/apis/groupApi";
+import { useAccount } from "@/hooks/accountHooks";
+import { useGroupsUpdater } from "@/hooks/updaters/groupUpdaters";
+import { cn, secondConverter } from "@/lib/utils";
 import { Group } from "@/types/groupTypes";
 import { Ranking } from "@/types/rankingTypes";
-import { cn, secondConverter } from "@/lib/utils";
 import parser from "html-react-parser";
 import { Goal, Heart, Hourglass, Lock, UserRound } from "lucide-react";
+import { useRouter } from "next/navigation";
 import {
   ComponentProps,
   useCallback,
@@ -10,15 +14,12 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Badge } from "../ui/badge";
-import { useAccount } from "@/hooks/accountHooks";
-import { Button } from "../ui/button";
+
 import CopyLinkButton from "../buttons/CopyLinkButton";
-import { useJoinGroupModal } from "../structure/ModalProviders";
-import { useRouter } from "next/navigation";
-import { postGroupLike } from "@/apis/groupApi";
 import LikeButton from "../buttons/LikeButton/LikeButton";
-import { useGroupsUpdater } from "@/hooks/updaters/groupUpdaters";
+import { useJoinGroupModal } from "../structure/ModalProviders";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 
 interface GroupContainerProps extends ComponentProps<"div"> {
   group: Group;
@@ -45,11 +46,11 @@ export default function GroupContainer({
   const totalTime = useMemo(() => {
     if (!rankings || !group.members.length) return "0 h";
     const groupMembers = rankings.filter((user) =>
-      group.members.includes(user.user_id)
+      group.members.includes(user.user_id),
     );
     const totalTime = groupMembers.reduce(
       (partialTime, a) => partialTime + a.study_time,
-      0
+      0,
     );
     const membersAvg = Math.floor(totalTime / group.members.length);
     const formattedValue = secondConverter({ sec: membersAvg });
@@ -66,7 +67,7 @@ export default function GroupContainer({
     const shit = await updateGroups((prev) => {
       const newGroups = [...prev];
       const groupIndex = newGroups.findIndex(
-        (_group) => _group.group_id === group.group_id
+        (_group) => _group.group_id === group.group_id,
       );
       if (groupIndex === -1) return prev;
 
@@ -74,7 +75,7 @@ export default function GroupContainer({
         newGroups[groupIndex].likes.push(account.user_id);
       } else {
         newGroups[groupIndex].likes = newGroups[groupIndex].likes.filter(
-          (like) => like !== account.user_id
+          (like) => like !== account.user_id,
         );
       }
       return newGroups;
@@ -93,10 +94,9 @@ export default function GroupContainer({
     <div
       className={cn(
         "rounded-xl border-2 p-5 flex flex-col gap-2 bg-background",
-        className
+        className,
       )}
-      {...props}
-    >
+      {...props}>
       <h3 className="font-semibold truncate">{group.name}</h3>
       <div className="mb-5">{parser(group.description)}</div>
       <div className="flex gap-1 mt-auto">
@@ -136,8 +136,7 @@ export default function GroupContainer({
               className="absolute-center"
               onClick={() => {
                 router.push(`/dashboard/study?study_group=${group.group_id}`);
-              }}
-            >
+              }}>
               Join the session
             </Button>
           ) : (
@@ -149,8 +148,7 @@ export default function GroupContainer({
                   opened: true,
                   group_id: group.group_id,
                 }));
-              }}
-            >
+              }}>
               {!group.visibility && <Lock />}
               Join
             </Button>

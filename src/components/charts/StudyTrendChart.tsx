@@ -1,15 +1,6 @@
 "use client";
 
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  XAxis,
-  YAxis,
-} from "recharts";
-
-import {
   Card,
   CardContent,
   CardDescription,
@@ -22,12 +13,21 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { ComponentProps, useEffect, useState } from "react";
-import { ViewerType } from "@/types/othersTypes";
 import { cn, getDates, getDatesDisplay, secondConverter } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { ViewerType } from "@/types/othersTypes";
 import { GroupedSubjects } from "@/types/subjectTypes";
+import { useRouter } from "next/navigation";
+import { ComponentProps, useEffect, useState } from "react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
+
+import { Button } from "../ui/button";
 
 interface StudyTrendData {
   label: string;
@@ -102,8 +102,7 @@ export default function StudyTrendChart({
               }}
               effect={"hoverUnderline"}
               variant={"link"}
-              className="ml-auto"
-            >
+              className="ml-auto">
               View by subjects
             </Button>
           )}
@@ -116,8 +115,7 @@ export default function StudyTrendChart({
             data={data}
             margin={{
               top: 20,
-            }}
-          >
+            }}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="label"

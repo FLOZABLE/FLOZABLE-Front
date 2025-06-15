@@ -1,11 +1,11 @@
-import { PutSubjectResponse, SubjectsResponse } from "@/types/subjectTypes";
 import AxiosInstance from "@/lib/axiosInstance";
 import { getTimezone, requestHandler } from "@/lib/utils";
+import { PutSubjectResponse, SubjectsResponse } from "@/types/subjectTypes";
 
 export async function getSubjects(): Promise<SubjectsResponse> {
   const timezone = getTimezone();
   return requestHandler(
-    AxiosInstance.get(`/subject/all`, { params: { timezone } })
+    AxiosInstance.get(`/subject/all`, { params: { timezone } }),
   );
 }
 
@@ -21,7 +21,7 @@ export async function putSubject({
     AxiosInstance.put(`/subject`, {
       name,
       color,
-    })
+    }),
   );
 }
 
@@ -40,7 +40,7 @@ export async function patchSubject({
       subject_id: subjectId,
       name,
       color,
-    })
+    }),
   );
 }
 
@@ -48,7 +48,7 @@ export async function deleteSubjectsSubject(subjectId: string) {
   return requestHandler(
     AxiosInstance.delete(`/subject`, {
       data: { subject_id: subjectId },
-    })
+    }),
   );
 }
 
@@ -56,7 +56,7 @@ export async function getSubjectUsers(subjectId: string) {
   return requestHandler(
     AxiosInstance.get(`/subject/users`, {
       params: { subject_id: subjectId },
-    })
+    }),
   );
 }
 
@@ -72,7 +72,7 @@ export async function postSubjectShare({
     AxiosInstance.post(`/subject/share`, {
       subject_id: subjectId,
       users,
-    })
+    }),
   );
 }
 
@@ -87,6 +87,6 @@ export async function deleteSubjectShare({
   return requestHandler(
     AxiosInstance.delete(`/subject/share`, {
       data: { subject_id: subjectId, target_id: targetId },
-    })
+    }),
   );
 }

@@ -1,4 +1,6 @@
 import { BookOpen } from "lucide-react";
+import { useNextStep } from "nextstepjs";
+
 import { Button } from "../ui/button";
 import {
   SidebarMenu,
@@ -6,7 +8,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "../ui/sidebar";
-import { useNextStep } from "nextstepjs";
 
 export default function TutorialButton() {
   const { startNextStep } = useNextStep();
@@ -25,8 +26,7 @@ export default function TutorialButton() {
             setTimeout(() => {
               startNextStep("newUser");
             }, 1000);
-          }}
-        >
+          }}>
           <div className="">
             <BookOpen size={15} className="m-2" />
             <Button>Start Tutorial</Button>

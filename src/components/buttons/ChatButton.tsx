@@ -1,15 +1,16 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
-import { Button, ButtonProps } from "../ui/button";
-import { Userinfo } from "@/types/accountTypes";
-import { useChatModal } from "../structure/ModalProviders";
-import { useCallback, useMemo } from "react";
 import { postChatRequest } from "@/apis/chatApi";
-import { useChatRooms } from "@/hooks/chatHooks";
 import { useAccount } from "@/hooks/accountHooks";
-import { Badge } from "../ui/badge";
+import { useChatRooms } from "@/hooks/chatHooks";
 import { cn } from "@/lib/utils";
+import { Userinfo } from "@/types/accountTypes";
+import { MessageCircle } from "lucide-react";
+import { useCallback, useMemo } from "react";
+
+import { useChatModal } from "../structure/ModalProviders";
+import { Badge } from "../ui/badge";
+import { Button, ButtonProps } from "../ui/button";
 
 interface ChatButtonProps extends ButtonProps {
   userInfo?: Userinfo;
@@ -51,7 +52,7 @@ export default function ChatButton({
       const chatroom = chatrooms?.find(
         (chatroom) =>
           chatroom.members.sort().join() ===
-          [account?.user_id, userInfo?.user_id].sort().join()
+          [account?.user_id, userInfo?.user_id].sort().join(),
       );
       if (chatroom) {
         return chatroom?.unreads || 0;
@@ -59,13 +60,13 @@ export default function ChatButton({
     } else if (!groupId) {
       const count = chatrooms.reduce(
         (acc, chatroom) => acc + chatroom.unreads || 0,
-        0
+        0,
       );
       return count;
     }
 
     const chatroom = chatrooms.find(
-      (chatroom) => chatroom.chatroom_id === groupId
+      (chatroom) => chatroom.chatroom_id === groupId,
     );
     return chatroom?.unreads || 0;
   }, [chatrooms, groupId, userInfo]);
@@ -92,7 +93,7 @@ export default function ChatButton({
         const chatroom = chatrooms?.find(
           (chatroom) =>
             chatroom.members.sort().join() ===
-            [account?.user_id, userInfo?.user_id].sort().join()
+            [account?.user_id, userInfo?.user_id].sort().join(),
         );
 
         if (chatroom) {
@@ -105,14 +106,12 @@ export default function ChatButton({
         }
         chatRequest();
       }}
-      {...props}
-    >
+      {...props}>
       <MessageCircle />
       {!!count && (
         <Badge
           variant={"secondary"}
-          className="absolute right-[-7] bottom-[-7] py-0"
-        >
+          className="absolute right-[-7] bottom-[-7] py-0">
           {count}
         </Badge>
       )}

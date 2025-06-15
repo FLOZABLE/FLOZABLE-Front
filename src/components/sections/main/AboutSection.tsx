@@ -1,12 +1,12 @@
 "use client";
 
+import { fadeIn } from "@/components/animations/variants";
+import AppTrial from "@/components/others/AppTrial";
+import { IconApple, IconGoogle } from "@/components/others/Svgs";
+import { Button } from "@/components/ui/button";
+import { FlipWords } from "@/components/ui/flip-words";
 import { motion } from "framer-motion";
 import { ArrowRightIcon } from "lucide-react";
-import { FlipWords } from "@/components/ui/flip-words";
-import { Button } from "@/components/ui/button";
-import { IconApple, IconGoogle } from "@/components/others/Svgs";
-import AppTrial from "@/components/others/AppTrial";
-import { fadeIn } from "@/components/animations/variants";
 
 const words = ["Focus", "Learning", "Productivity"];
 
@@ -55,8 +55,7 @@ export default function AboutSection() {
             iconPlacement="right"
             onClick={() =>
               window.open("https://apps.apple.com/us/app/flozable/id6739476657")
-            }
-          >
+            }>
             <div className="download-button-inner">
               <IconApple className="icon-spacing" />
               <p>Download on the App Store</p>
@@ -70,8 +69,7 @@ export default function AboutSection() {
             iconPlacement="right"
             onClick={() => {
               window.open("https://play.google.com/store/apps");
-            }}
-          >
+            }}>
             <div className="download-button-inner">
               <IconGoogle className="icon-spacing" />
               <p>Download on the Google Play</p>

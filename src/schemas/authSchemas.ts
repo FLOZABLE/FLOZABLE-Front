@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { accountSchemas } from "./accountSchemas";
 
 export const postAuthSignupSchema = z.object({

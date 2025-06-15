@@ -3,7 +3,9 @@ import { Step as OriginalStep } from "nextstepjs"; // Assuming 'Step' is exporte
 declare module "nextstepjs" {
   // Extend the Step interface
   export interface Step extends OriginalStep {
-    nextDelay?: number;
     prevDelay?: number;
+    nextDelay?: number;
+    isPrevButton?: boolean;
+    isNextButton?: boolean;
   }
 }

@@ -1,5 +1,6 @@
 import { FriendStatus } from "@/types/friendTypes";
 import { useEffect, useState } from "react";
+
 import MemberTimer from "../groups/MemberTimer";
 
 interface FriendsViewerProps {

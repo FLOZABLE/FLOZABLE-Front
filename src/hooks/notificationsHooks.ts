@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { getNotifications } from "@/apis/notificationsApi";
+import { useQuery } from "@tanstack/react-query";
+
 import { useAccount } from "./accountHooks";
 
 export function useNotifications() {

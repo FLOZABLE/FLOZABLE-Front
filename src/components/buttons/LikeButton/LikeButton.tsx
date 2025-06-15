@@ -1,8 +1,13 @@
-import { Heart } from "lucide-react";
-import styles from "./LikeButton.module.css";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { Heart } from "lucide-react";
+
+import styles from "./LikeButton.module.css";
 
 interface LikeButtonProps {
   liked: boolean;
@@ -16,14 +21,13 @@ export default function LikeButton({ liked, onClick }: LikeButtonProps) {
         <Button
           className={cn(
             "relative",
-            liked && "!text-pink-400 border-current grayscale-0"
+            liked && "!text-pink-400 border-current grayscale-0",
           )}
           variant={"ghost"}
           onClick={(e) => {
             e.stopPropagation();
             onClick();
-          }}
-        >
+          }}>
           <div className={`${styles.likeIcon} ${liked ? styles.liked : ""}`}>
             <Heart className={cn("w-full h-full", liked && "fill-pink-400")} />
           </div>
@@ -37,14 +41,14 @@ export default function LikeButton({ liked, onClick }: LikeButtonProps) {
                 <Heart
                   className={cn(
                     "w-[0.75rem] h-[0.625rem] fill-pink-400",
-                    styles.heartAnimation1Before
+                    styles.heartAnimation1Before,
                   )}
                   fill="currentColor"
                 />
                 <Heart
                   className={cn(
                     "w-[0.75rem] h-[0.625rem] fill-pink-400",
-                    styles.heartAnimation1After
+                    styles.heartAnimation1After,
                   )}
                   fill="currentColor"
                 />
@@ -57,14 +61,14 @@ export default function LikeButton({ liked, onClick }: LikeButtonProps) {
                 <Heart
                   className={cn(
                     "w-[0.625rem] h-[0.5rem] fill-pink-400",
-                    styles.heartAnimation2Before
+                    styles.heartAnimation2Before,
                   )}
                   fill="currentColor"
                 />
                 <Heart
                   className={cn(
                     "w-[0.625rem] h-[0.5rem] fill-pink-400",
-                    styles.heartAnimation2After
+                    styles.heartAnimation2After,
                   )}
                   fill="currentColor"
                 />

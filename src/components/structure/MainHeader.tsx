@@ -1,8 +1,5 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
-
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,9 +10,12 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import * as React from "react";
+
 import AccountBtn from "../buttons/AccountButton";
 import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
-import { useRouter } from "next/navigation";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -62,7 +62,7 @@ export default function MainHeader() {
   return (
     <header className="fixed z-10 backdrop-blur-sm w-screen px-16 flex items-center justify-between h-15">
       <div className="invisible md:visible">
-        <Link href={"/"} >
+        <Link href={"/"}>
           <h1 className="text-3xl font-bold">FLOZABLE</h1>
         </Link>
       </div>
@@ -126,8 +126,7 @@ export default function MainHeader() {
             <NavigationMenuTrigger
               onClick={() => {
                 router.push("/dashboard");
-              }}
-            >
+              }}>
               Dashboard
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -136,8 +135,7 @@ export default function MainHeader() {
                   <ListItem
                     key={component.title}
                     title={component.title}
-                    href={component.href}
-                  >
+                    href={component.href}>
                     {component.description}
                   </ListItem>
                 ))}
@@ -165,10 +163,9 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
           )}
-          {...props}
-        >
+          {...props}>
           <div className="text-sm font-medium leading-none">{title}</div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}

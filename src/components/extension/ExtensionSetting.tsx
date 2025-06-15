@@ -1,4 +1,23 @@
+import {
+  deleteExtensionSetting,
+  patchExtensionSetting,
+  putExtensionSetting,
+} from "@/apis/extensionApi";
 import { useExtensionSettings } from "@/hooks/extensionHooks";
+import { useExtensionSettingsUpdater } from "@/hooks/updaters/extensionUpdaters";
+import { validateURL } from "@/lib/validate";
+import { WebsiteSettingMode } from "@/types/websiteTypes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AnimatePresence, motion } from "framer-motion";
+import { Trash } from "lucide-react";
+import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
+import { AlertDialogWrapper } from "../ui/alert-dialog";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
@@ -6,10 +25,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { z } from "zod";
-import { validateURL } from "@/lib/validate";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
@@ -17,22 +32,8 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { Button } from "../ui/button";
-import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
-import { useCallback, useState } from "react";
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
-import { Badge } from "../ui/badge";
-import {
-  deleteExtensionSetting,
-  patchExtensionSetting,
-  putExtensionSetting,
-} from "@/apis/extensionApi";
-import { WebsiteSettingMode } from "@/types/websiteTypes";
-import { useExtensionSettingsUpdater } from "@/hooks/updaters/extensionUpdaters";
-import { Trash } from "lucide-react";
-import { AlertDialogWrapper } from "../ui/alert-dialog";
-import { AnimatePresence, motion } from "framer-motion";
 
 const extensionSettingFormSchema = z.object({
   url: z
@@ -40,7 +41,7 @@ const extensionSettingFormSchema = z.object({
     .min(1, "Please provide URL")
     .refine(
       (value) => validateURL(value).isValid,
-      (value) => ({ message: validateURL(value).reason || "Invalid URL" })
+      (value) => ({ message: validateURL(value).reason || "Invalid URL" }),
     ),
 });
 
@@ -77,7 +78,7 @@ export default function ExtensionSetting() {
       });
       extensionSettingForm.reset();
     },
-    []
+    [],
   );
 
   const settingUpdate = useCallback(
@@ -87,7 +88,7 @@ export default function ExtensionSetting() {
 
       extensionSettingsUpdater((prev) => {
         const settingIndex = prev.findIndex(
-          (setting) => setting.website === website
+          (setting) => setting.website === website,
         );
         if (settingIndex === -1) return prev;
         const newSettings = [...prev];
@@ -95,7 +96,7 @@ export default function ExtensionSetting() {
         return newSettings;
       });
     },
-    []
+    [],
   );
 
   const settingDelete = useCallback(async () => {
@@ -105,7 +106,7 @@ export default function ExtensionSetting() {
 
     extensionSettingsUpdater((prev) => {
       const newSettings = [...prev].filter(
-        (setting) => setting.website !== confirmDeleteModal.website
+        (setting) => setting.website !== confirmDeleteModal.website,
       );
       return newSettings;
     });
@@ -133,8 +134,7 @@ export default function ExtensionSetting() {
         <Form {...extensionSettingForm}>
           <form
             onSubmit={extensionSettingForm.handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
+            className="space-y-4">
             <FormField
               control={extensionSettingForm.control}
               name="url"
@@ -179,8 +179,7 @@ export default function ExtensionSetting() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="flex"
-              >
+                className="flex">
                 <div className="flex-1/5 flex items-center justify-between">
                   <p className="truncate">{setting.website}</p>
                   <Button
@@ -191,8 +190,7 @@ export default function ExtensionSetting() {
                         open: true,
                         website: setting.website,
                       }));
-                    }}
-                  >
+                    }}>
                     <Trash />
                   </Button>
                 </div>

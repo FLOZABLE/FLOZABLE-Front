@@ -1,9 +1,11 @@
 import { Inter, Roboto } from "next/font/google";
+
 import "./globals.css";
-import { AppContainer } from "@/components/structure/Providers";
-import { Suspense } from "react";
+
 import AccountModal from "@/components/modals/AccountModal";
+import { AppContainer } from "@/components/structure/Providers";
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -12,14 +14,17 @@ import "react-calendar-heatmap/dist/styles.css";
 import "react-tooltip/dist/react-tooltip.css";
 import "react-vertical-timeline-component/style.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
+
 import PlanModal from "@/components/modals/PlanModal";
+
 //import "@schedule-x/theme-default/dist/index.css";
 import "@schedule-x/theme-shadcn/dist/index.css";
-import JoinGroupModal from "@/components/modals/JoinGroupModal";
+
 import ChatModal from "@/components/modals/ChatModal";
-import { GoogleAnalytics } from "@next/third-parties/google";
-import config from "@/lib/config";
 import CreateGroupModal from "@/components/modals/CreateGroupModal";
+import JoinGroupModal from "@/components/modals/JoinGroupModal";
+import config from "@/lib/config";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({
   subsets: ["latin"],

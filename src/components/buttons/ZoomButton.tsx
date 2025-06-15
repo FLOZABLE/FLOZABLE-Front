@@ -1,7 +1,8 @@
-import AnimatedSwitchButton from "./AnimatedSwitchButton";
+import { useFullscreen } from "@/hooks/otherHooks";
 import { exitFullscreen } from "@/lib/utils";
 import { Maximize2, Minimize2 } from "lucide-react";
-import { useFullscreen } from "@/hooks/otherHooks";
+
+import AnimatedSwitchButton from "./AnimatedSwitchButton";
 
 export default function ZoomButton() {
   const isFullScreen = useFullscreen();

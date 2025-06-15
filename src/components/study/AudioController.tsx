@@ -1,8 +1,9 @@
-import { ComponentProps } from "react";
-import AudioPlayer from "./AudioPlayer";
-import { Slider } from "../ui/slider";
-import { Badge } from "../ui/badge";
 import NumberFlow from "@number-flow/react";
+import { ComponentProps } from "react";
+
+import { Badge } from "../ui/badge";
+import { Slider } from "../ui/slider";
+import AudioPlayer from "./AudioPlayer";
 
 const audios = [
   {

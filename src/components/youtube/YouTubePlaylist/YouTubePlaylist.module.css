@@ -1,11 +1,11 @@
-.YouTubePlaylist  {
+.YouTubePlaylist {
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 30rem;
 }
 
-.YouTubePlaylist .playlists{
+.YouTubePlaylist .playlists {
   margin-top: 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, calc(50% - 0.55rem));

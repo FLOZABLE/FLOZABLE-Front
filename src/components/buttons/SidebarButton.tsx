@@ -1,12 +1,12 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import { PanelLeft, PanelLeftClose } from "lucide-react";
 import React from "react";
 
-import AnimatedSwitchButton from "./AnimatedSwitchButton";
-import { useSidebar } from "../ui/sidebar";
 import { ButtonProps } from "../ui/button";
-import { cn } from "@/lib/utils";
+import { useSidebar } from "../ui/sidebar";
+import AnimatedSwitchButton from "./AnimatedSwitchButton";
 
 export default function SidebarButton({ className, ...props }: ButtonProps) {
   const { open, setOpen } = useSidebar();

@@ -1,7 +1,6 @@
-import { Copy, Check } from "lucide-react";
-
 import { Button, ButtonProps } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Check, Copy } from "lucide-react";
 import { forwardRef, useEffect, useState } from "react";
 
 interface CopyButtonProps extends ButtonProps {
@@ -42,8 +41,7 @@ const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
         className={cn(className)}
         onClick={copyToClipboard}
         ref={ref}
-        {...props}
-      >
+        {...props}>
         {copied ? (
           <Check className="mr-2 h-4 w-4" />
         ) : (
@@ -53,7 +51,7 @@ const CopyButton = forwardRef<HTMLButtonElement, CopyButtonProps>(
         {copied ? "Copied" : "Copy"}
       </Button>
     );
-  }
+  },
 );
 
 CopyButton.displayName = "CopyButton";

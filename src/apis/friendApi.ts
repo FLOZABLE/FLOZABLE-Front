@@ -1,3 +1,5 @@
+import AxiosInstance from "@/lib/axiosInstance";
+import { getTimezone, requestHandler } from "@/lib/utils";
 import {
   FriendSearchResponse,
   FriendsResponse,
@@ -5,8 +7,6 @@ import {
   FriendsTrendsResponse,
   RecommendedFriendsResponse,
 } from "@/types/friendTypes";
-import AxiosInstance from "@/lib/axiosInstance";
-import { getTimezone, requestHandler } from "@/lib/utils";
 
 // Get all friends
 export async function getFriends(): Promise<FriendsResponse> {
@@ -18,7 +18,7 @@ export async function deleteFriend(friendId: string) {
   return requestHandler(
     AxiosInstance.delete("/friend", {
       data: { friend_id: friendId },
-    })
+    }),
   );
 }
 
@@ -29,12 +29,12 @@ export async function getRecommendedFriends(): Promise<RecommendedFriendsRespons
 
 // Search friends by query
 export async function searchFriends(
-  query: string
+  query: string,
 ): Promise<FriendSearchResponse> {
   return requestHandler(
     AxiosInstance.get("/friend/search", {
       params: { query },
-    })
+    }),
   );
 }
 
@@ -43,7 +43,7 @@ export async function getFriendTrends(): Promise<FriendsTrendsResponse> {
   return requestHandler(
     AxiosInstance.get("/friend/trends", {
       params: { timezone: getTimezone() },
-    })
+    }),
   );
 }
 
@@ -52,7 +52,7 @@ export async function getFriendStatus(): Promise<FriendsStatusResponse> {
   return requestHandler(
     AxiosInstance.get("/friend/status", {
       params: { timezone: getTimezone() },
-    })
+    }),
   );
 }
 
@@ -60,20 +60,20 @@ export async function sendFriendRequest(targetId: string) {
   return requestHandler(
     AxiosInstance.post("/friend/request", {
       target_id: targetId,
-    })
+    }),
   );
 }
 
 // Reply to friend request
 export async function replyToFriendRequest(
   notificationId: string,
-  accepted: boolean
+  accepted: boolean,
 ) {
   return requestHandler(
     AxiosInstance.post("/friend/request/reply", {
       notification_id: notificationId,
       accepted,
-    })
+    }),
   );
 }
 
@@ -82,6 +82,6 @@ export async function cancelFriendRequest(notificationId: string) {
   return requestHandler(
     AxiosInstance.delete("/friend/request", {
       data: { notification_id: notificationId },
-    })
+    }),
   );
 }

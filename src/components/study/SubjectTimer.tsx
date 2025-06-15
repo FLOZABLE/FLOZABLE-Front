@@ -1,10 +1,3 @@
-import { useSubjects } from "@/hooks/subjectsHooks";
-import { ReactNode, useEffect, useMemo, useState } from "react";
-import { cn, toTimer } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
-import socket from "@/lib/sockets/socket";
-import { OnMyStopStudying, OnMyStudying } from "@/types/socketTypes";
 import {
   Command,
   CommandGroup,
@@ -16,12 +9,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useWorkers } from "../structure/Providers";
-import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
+import { useSubjects } from "@/hooks/subjectsHooks";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
+import socket from "@/lib/sockets/socket";
+import { cn, toTimer } from "@/lib/utils";
+import { OnMyStopStudying, OnMyStudying } from "@/types/socketTypes";
+import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
+import { useNextStep } from "nextstepjs";
+import { ReactNode, useEffect, useMemo, useState } from "react";
+
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
 import { useAddSubjectModal } from "../structure/ModalProviders";
-import { useNextStep } from "nextstepjs";
+import { useWorkers } from "../structure/Providers";
+import { Button } from "../ui/button";
+import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
 
 export type SubjectOption = {
   value: string; // subject.subject_id
@@ -39,7 +40,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   const { subjects, subjectsRefetch } = useSubjects();
 
   const { setAddSubjectModal } = useAddSubjectModal();
-  const { currentStep, setCurrentStep } = useNextStep();
+  const { currentStep, setCurrentStep, currentTour } = useNextStep();
 
   const updateSubjects = useSubjectsUpdater();
 
@@ -57,7 +58,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
     return subjects
       .map((subject) => {
         const disp = toTimer(
-          subject.day.total[subject.day.total.length - 1]?.data || 0
+          subject.day.total[subject.day.total.length - 1]?.data || 0,
         );
         return {
           value: subject.subject_id,
@@ -110,7 +111,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
 
     const onMyStudyStart = ({ subject }: OnMyStudying) => {
       const subjectData = subjects.find(
-        (_subject) => _subject.subject_id === subject.subject_id
+        (_subject) => _subject.subject_id === subject.subject_id,
       );
       console.log("start", subjectData, subject);
       if (!subjectData) return;
@@ -143,7 +144,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
 
       updateSubjects((prev) => {
         const subjectIndex = prev.findIndex(
-          (subject) => subject.subject_id === stopped_subject_id
+          (subject) => subject.subject_id === stopped_subject_id,
         );
 
         if (subjectIndex === -1) {
@@ -159,7 +160,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
           total: currentSubject.day.total.map((totalItem, index) =>
             index === currentSubject.day.total.length - 1
               ? { ...totalItem, data: totalItem.data + duration }
-              : totalItem
+              : totalItem,
           ),
         };
 
@@ -229,23 +230,31 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
     };
   }, [selectedSubject.subject_id]);
 
+  useEffect(() => {
+    if (currentStep === 2 || currentStep === 3) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [currentStep]);
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-3">
         <Popover
-          open={open || (isPopup && (currentStep === 3 || currentStep === 2))}
-          onOpenChange={setOpen}
-          modal={true}
-        >
+          open={open}
+          onOpenChange={(open) => {
+            if (currentTour === "newUser") return;
+            setOpen(open);
+          }}
+          modal={currentTour !== "newUser"}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               role="combobox"
-              aria-expanded={
-                open || (isPopup && (currentStep === 3 || currentStep === 2))
-              }
+              aria-expanded={open}
               className="w-[200px] justify-between overflow-hidden"
-            >
+              id="tour1-step7">
               <div className="flex w-full items-center">
                 {selectedSubject.subject_id !== "" ? (
                   <>
@@ -265,7 +274,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
           <PopoverContent className="w-[200px] p-0 pointer-events-auto">
             <Command>
               <CommandList>
-                <CommandGroup id={isPopup ? "tour1-step4" : ""}>
+                <CommandGroup id={"tour1-step4"}>
                   {options.map((option) => {
                     const isSelected =
                       selectedSubject.subject_id === option.value;
@@ -275,7 +284,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
                         value={option.value}
                         onSelect={(subject_id) => {
                           const subject = subjects?.find(
-                            (subject) => subject.subject_id === subject_id
+                            (subject) => subject.subject_id === subject_id,
                           );
                           if (subject) {
                             setCurrentStep(4);
@@ -293,12 +302,11 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
                             socket.emit("study:stop");
                           }
                           setOpen(false);
-                        }}
-                      >
+                        }}>
                         <Check
                           className={cn(
                             "mr-2 h-4 w-4",
-                            isSelected ? "opacity-100" : "opacity-0"
+                            isSelected ? "opacity-100" : "opacity-0",
                           )}
                         />
                         {isSelected ? (
@@ -321,7 +329,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
           </PopoverContent>
         </Popover>
         <AnimatedSwitchButton
-          id={isPopup ? "tour1-step5-6" : ""}
+          id={"tour1-step5-6"}
           onIcon={<Pause />}
           offIcon={<Play />}
           onClick={() => {
@@ -354,8 +362,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
             setCurrentStep(2);
           }, 500);
         }}
-        id={isPopup ? "tour1-step2" : ""}
-      >
+        id={"tour1-step2"}>
         Or add one
       </Button>
     </div>

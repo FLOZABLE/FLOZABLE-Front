@@ -1,4 +1,27 @@
+import { useGroupMembers } from "@/hooks/groupHook";
+import { useGroupMembersUpdater } from "@/hooks/updaters/groupUpdaters";
+import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
+import mediaSocket from "@/lib/sockets/mediaSocket";
+import socket from "@/lib/sockets/socket";
+import { secondConverter } from "@/lib/utils";
 import { Group } from "@/types/groupTypes";
+import { ServerCreateTransportResponse } from "@/types/mediaSoupTypes";
+import { OnStopStudying, OnStudying } from "@/types/socketTypes";
+import { BookOpen, GraduationCap, LogOut, UserRound } from "lucide-react";
+import { Device } from "mediasoup-client";
+import {
+  RtpCapabilities,
+  RtpParameters,
+} from "mediasoup-client/lib/RtpParameters";
+import { DtlsParameters, Transport } from "mediasoup-client/lib/Transport";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
+
+import ChatButton from "../buttons/ChatButton";
+import { useCallOptions } from "../structure/Providers";
+import { Badge } from "../ui/badge";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
@@ -6,31 +29,9 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Badge } from "../ui/badge";
-import { BookOpen, GraduationCap, LogOut, UserRound } from "lucide-react";
-import { useGroupMembers } from "@/hooks/groupHook";
 import MemberContainer from "./MemberContainer";
-import Skeleton from "react-loading-skeleton";
-import { useCallback, useEffect, useState } from "react";
-import { OnStopStudying, OnStudying } from "@/types/socketTypes";
-import socket from "@/lib/sockets/socket";
-import { useCallOptions } from "../structure/Providers";
-import { secondConverter } from "@/lib/utils";
-import {
-  RtpCapabilities,
-  RtpParameters,
-} from "mediasoup-client/lib/RtpParameters";
-import { DtlsParameters, Transport } from "mediasoup-client/lib/Transport";
-import { Device } from "mediasoup-client";
-import mediaSocket from "@/lib/sockets/mediaSocket";
-import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
-import { ServerCreateTransportResponse } from "@/types/mediaSoupTypes";
-import { useGroupMembersUpdater } from "@/hooks/updaters/groupUpdaters";
-import ChatButton from "../buttons/ChatButton";
 import MembersStatusViewer from "./MembersStatusViewer";
-import { Button } from "../ui/button";
 import { setConfirmLeaveModalType } from "./MyGroupsViewer";
-import { useRouter } from "next/navigation";
 
 const videoParams = {
   encodings: [
@@ -77,7 +78,7 @@ export default function MyGroupContainer({
   const { isCam, isMic } = useCallOptions();
   const { groupMembersData, groupMembersIsLoading } = useGroupMembers(
     group.group_id,
-    isActive
+    isActive,
   );
 
   const [totalTime, setTotalTime] = useState("0 h");
@@ -89,7 +90,7 @@ export default function MyGroupContainer({
   const [device, setDevice] = useState<Device | null>(null);
   const [recvTransport, setRecvTransport] = useState<Transport | null>(null);
   const [producerTransport, setProducerTransport] = useState<Transport | null>(
-    null
+    null,
   );
 
   const updateGroupMembers = useGroupMembersUpdater(group.group_id);
@@ -100,7 +101,7 @@ export default function MyGroupContainer({
     if (!groupMembersData?.length) return;
     const totalTime = groupMembersData.reduce(
       (partialTime, a) => partialTime + a.study_time,
-      0
+      0,
     );
     const membersAvg = Math.floor(totalTime / groupMembersData.length);
     const formattedValue = secondConverter({ sec: membersAvg });
@@ -111,7 +112,7 @@ export default function MyGroupContainer({
     const onStudying = ({ userId, subject }: OnStudying) => {
       updateGroupMembers((prev) => {
         const memberIndex = prev.findIndex(
-          (member) => member.user_id === userId
+          (member) => member.user_id === userId,
         );
         if (memberIndex === -1) return prev;
 
@@ -128,7 +129,7 @@ export default function MyGroupContainer({
     const onStopStudying = ({ user_id, status, duration }: OnStopStudying) => {
       updateGroupMembers((prev) => {
         const memberIndex = prev.findIndex(
-          (member) => member.user_id === user_id
+          (member) => member.user_id === user_id,
         );
         if (memberIndex === -1) return prev;
 
@@ -171,7 +172,7 @@ export default function MyGroupContainer({
             } else {
               reject(new Error("Failed to get RTP capabilities"));
             }
-          }
+          },
         );
       });
     }, []);
@@ -212,7 +213,7 @@ export default function MyGroupContainer({
           async (
             { dtlsParameters }: { dtlsParameters: DtlsParameters },
             callback: () => void,
-            errback: (error: Error) => void
+            errback: (error: Error) => void,
           ) => {
             console.log("SFU: transport connect");
             try {
@@ -223,11 +224,11 @@ export default function MyGroupContainer({
             } catch (error: any) {
               errback(error);
             }
-          }
+          },
         );
 
         setRecvTransport(transport);
-      }
+      },
     );
   };
 
@@ -249,7 +250,7 @@ export default function MyGroupContainer({
           async (
             { dtlsParameters }: { dtlsParameters: DtlsParameters },
             callback: () => void,
-            errback: (error: Error) => void
+            errback: (error: Error) => void,
           ) => {
             try {
               await mediaSocket.emit("transport-connect", { dtlsParameters });
@@ -257,7 +258,7 @@ export default function MyGroupContainer({
             } catch (error: any) {
               errback(error);
             }
-          }
+          },
         );
 
         await transport.on(
@@ -265,7 +266,7 @@ export default function MyGroupContainer({
           async (
             parameters: { kind: string; rtpParameters: RtpParameters },
             callback: (response: { id: string }) => void,
-            errback: (error: Error) => void
+            errback: (error: Error) => void,
           ) => {
             const { kind, rtpParameters } = parameters;
 
@@ -275,16 +276,16 @@ export default function MyGroupContainer({
                 { kind, rtpParameters },
                 ({ id }: { id: string }) => {
                   callback({ id });
-                }
+                },
               );
             } catch (error: any) {
               errback(error);
             }
-          }
+          },
         );
 
         setProducerTransport(transport);
-      }
+      },
     );
   };
 
@@ -441,8 +442,7 @@ export default function MyGroupContainer({
                   open: true,
                   group,
                 }));
-              }}
-            >
+              }}>
               <LogOut />
             </Button>
             {!isStudy && (
@@ -451,8 +451,7 @@ export default function MyGroupContainer({
                   router.push(`/dashboard/study?study_group=${group.group_id}`);
                 }}
                 icon={GraduationCap}
-                iconPlacement="right"
-              >
+                iconPlacement="right">
                 Go Study
               </Button>
             )}

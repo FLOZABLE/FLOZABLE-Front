@@ -1,18 +1,15 @@
 "use client";
 
-import { EventPlan } from "@/types/planTypes";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import { Button } from "../ui/button";
-import { Pencil, Trash, X } from "lucide-react";
-import parser from "html-react-parser";
+import { deletePlan } from "@/apis/plansApi";
 import { useWindowSize } from "@/hooks/otherHooks";
+import { usePlans } from "@/hooks/plansHooks";
+import { cn, formatPlanDateRange } from "@/lib/utils";
+import { EventPlan } from "@/types/planTypes";
+import parser from "html-react-parser";
+import { Pencil, Trash, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
+
+import { usePlanModal } from "../structure/ModalProviders";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,10 +21,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import { deletePlan } from "@/apis/plansApi";
-import { usePlans } from "@/hooks/plansHooks";
-import { usePlanModal } from "../structure/ModalProviders";
-import { cn, formatPlanDateRange } from "@/lib/utils";
+import { Button } from "../ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 
 interface Position {
   top: number;
@@ -81,7 +82,7 @@ export default function PlanViewer({
       const target = event.target as HTMLElement;
 
       const isExceptionByClass = Array.from(target.classList).some(
-        (className) => className.startsWith("fc-event")
+        (className) => className.startsWith("fc-event"),
       );
 
       if (isExceptionByClass) return;
@@ -113,7 +114,7 @@ export default function PlanViewer({
           ...calendar,
           events: calendar.events.filter((prevPlan) => prevPlan.id !== plan.id),
         };
-      })
+      }),
     );
   }, [plan]);
 
@@ -123,11 +124,10 @@ export default function PlanViewer({
         `fixed z-50 transition-all duration-300 ease-in-out w-[${width}px]`,
         open
           ? "opacity-100 pointer-events-auto"
-          : "opacity-0 pointer-events-none"
+          : "opacity-0 pointer-events-none",
       )}
       style={adjustedPos}
-      ref={planViewerRef}
-    >
+      ref={planViewerRef}>
       <CardHeader>
         <CardTitle className="flex gap-2 ml-auto">
           {plan?.editable && (
@@ -140,8 +140,7 @@ export default function PlanViewer({
                     opened: true,
                     plan_id: plan.id,
                   }));
-                }}
-              >
+                }}>
                 <Pencil />
               </Button>
               <AlertDialog>
@@ -165,8 +164,7 @@ export default function PlanViewer({
                     <AlertDialogAction
                       onClick={() => {
                         onDeletePlan();
-                      }}
-                    >
+                      }}>
                       Continue
                     </AlertDialogAction>
                   </AlertDialogFooter>
@@ -178,8 +176,7 @@ export default function PlanViewer({
             variant={"ghost"}
             onClick={() => {
               setOpen(false);
-            }}
-          >
+            }}>
             <X />
           </Button>
         </CardTitle>

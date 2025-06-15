@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+
 import AvatarWrapper from "../ui/avatar";
 
 type ChatRoomCoverImageProps = {
@@ -21,8 +22,8 @@ export default function ChatRoomCoverImage({
               i === 0
                 ? "right-2 bottom-0 size-6"
                 : i === 2
-                ? "top-1 right-0 size-5"
-                : ""
+                  ? "top-1 right-0 size-5"
+                  : "",
             )}
           />
         );

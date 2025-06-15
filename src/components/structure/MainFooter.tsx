@@ -66,8 +66,7 @@ const MainFooter = ({}) => {
                   {section.links.map((link, linkIdx) => (
                     <li
                       key={linkIdx}
-                      className="font-medium hover:text-primary"
-                    >
+                      className="font-medium hover:text-primary">
                       <a href={link.href}>{link.name}</a>
                     </li>
                   ))}

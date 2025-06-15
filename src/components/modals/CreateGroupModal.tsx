@@ -1,17 +1,27 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { useCreateGroupModal } from "../structure/ModalProviders";
+import { putGroup } from "@/apis/groupApi";
 import {
-  Credenza,
-  CredenzaBody,
-  CredenzaHeader,
-  CredenzaContent,
-  CredenzaTitle,
-} from "../ui/credenza";
+  useGroupsUpdater,
+  useMyGroupsUpdater,
+} from "@/hooks/updaters/groupUpdaters";
 import { putGroupSchema, PutGroupSchemaValues } from "@/schemas/groupSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
+import { useForm } from "react-hook-form";
+
+import Editor from "../editor/Editor";
+import { ColorPicker } from "../inputs/ColorPicker";
+import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
+import { useCreateGroupModal } from "../structure/ModalProviders";
+import { Button } from "../ui/button";
+import {
+  Credenza,
+  CredenzaBody,
+  CredenzaContent,
+  CredenzaHeader,
+  CredenzaTitle,
+} from "../ui/credenza";
 import {
   Form,
   FormControl,
@@ -19,15 +29,6 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { Button } from "../ui/button";
-import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
-import Editor from "../editor/Editor";
-import { ColorPicker } from "../inputs/ColorPicker";
-import { putGroup } from "@/apis/groupApi";
-import {
-  useGroupsUpdater,
-  useMyGroupsUpdater,
-} from "@/hooks/updaters/groupUpdaters";
 
 export default function CreateGroupModal() {
   const { createGroupModal, setCreateGroupModal } = useCreateGroupModal();
@@ -86,8 +87,7 @@ export default function CreateGroupModal() {
       open={createGroupModal}
       onOpenChange={(opened) => {
         setCreateGroupModal(opened);
-      }}
-    >
+      }}>
       <CredenzaContent desktopClassName="!max-w-100">
         <CredenzaHeader className="justify-self-center justify-center items-center text-center">
           <CredenzaTitle className="text-2xl">Create group</CredenzaTitle>
@@ -96,8 +96,7 @@ export default function CreateGroupModal() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-6 flex flex-col px-3 py-2"
-            >
+              className="space-y-6 flex flex-col px-3 py-2">
               {/* Name */}
               <FormField
                 control={form.control}

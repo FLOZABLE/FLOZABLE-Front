@@ -11,20 +11,21 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import AccountViewer from "./AccountViewer";
-import Link from "next/link";
 import {
-  House,
-  ChartBar,
-  UsersRound,
   Calendar,
-  Trophy,
-  GraduationCap,
+  ChartBar,
   CircleUserRound,
+  GraduationCap,
+  House,
+  Trophy,
+  UsersRound,
 } from "lucide-react";
-import ChatButton from "../buttons/ChatButton";
+import Link from "next/link";
 import { useRef } from "react";
+
+import ChatButton from "../buttons/ChatButton";
 import TutorialButton from "../buttons/TutorialButton";
+import AccountViewer from "./AccountViewer";
 
 const items = [
   {
@@ -92,8 +93,7 @@ export default function AppSidebar() {
                 onClick={() => {
                   chatButtonRef.current?.click();
                 }}
-                className="cursor-pointer"
-              >
+                className="cursor-pointer">
                 <SidebarMenuButton asChild>
                   <div>
                     <ChatButton

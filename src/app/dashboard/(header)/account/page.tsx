@@ -62,7 +62,7 @@ export default function Account() {
 
       if (!response.success) return;
     },
-    []
+    [],
   );
 
   const onPasswordUpdate = useCallback(
@@ -73,7 +73,7 @@ export default function Account() {
 
       if (!response.success) return;
     },
-    []
+    [],
   );
 
   if (!account) return <div></div>;
@@ -101,8 +101,7 @@ export default function Account() {
               <Form {...profileForm}>
                 <form
                   onSubmit={profileForm.handleSubmit(onProfileUpdate)}
-                  className="space-y-6 flex flex-col h-full"
-                >
+                  className="space-y-6 flex flex-col h-full">
                   <FormField
                     control={profileForm.control}
                     name="name"
@@ -156,8 +155,7 @@ export default function Account() {
                     effect={"expandIcon"}
                     icon={UserRoundPen}
                     iconPlacement="right"
-                    className="w-fit"
-                  >
+                    className="w-fit">
                     Update profile
                   </Button>
                 </form>
@@ -172,8 +170,7 @@ export default function Account() {
               <Form {...passwordForm}>
                 <form
                   onSubmit={passwordForm.handleSubmit(onPasswordUpdate)}
-                  className="space-y-6 flex flex-col h-full"
-                >
+                  className="space-y-6 flex flex-col h-full">
                   <FormField
                     control={passwordForm.control}
                     name="password"
@@ -213,8 +210,7 @@ export default function Account() {
                     effect={"expandIcon"}
                     icon={Lock}
                     iconPlacement="right"
-                    className="mt-auto w-fit"
-                  >
+                    className="mt-auto w-fit">
                     Update Password
                   </Button>
                 </form>
@@ -234,7 +230,7 @@ export default function Account() {
                 <IconGoogleCalendar className="size-13" />
               </div>
               {!accountGoogleData?.scopes?.some((scope) =>
-                scope.includes("calendar")
+                scope.includes("calendar"),
               ) ? (
                 <p>
                   You haven&apos;t connected your Google Calendar yet or you
@@ -258,7 +254,7 @@ export default function Account() {
                 <IconYoutube className="size-13" />
               </div>
               {!accountGoogleData?.scopes?.some((scope) =>
-                scope.includes("youtube")
+                scope.includes("youtube"),
               ) ? (
                 <p>
                   You haven&apos;t connected your YouTube Account yet or you

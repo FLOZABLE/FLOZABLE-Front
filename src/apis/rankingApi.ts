@@ -1,12 +1,12 @@
-import { ViewerType } from "@/types/othersTypes";
-import { RankingsResponse, UserRankingsResponse } from "@/types/rankingTypes";
 import AxiosInstance from "@/lib/axiosInstance";
 import { getTimezone, requestHandler } from "@/lib/utils";
+import { ViewerType } from "@/types/othersTypes";
+import { RankingsResponse, UserRankingsResponse } from "@/types/rankingTypes";
 import { DateTime } from "luxon";
 
 export async function getRankings(
   viewer: ViewerType,
-  viewDate: Date
+  viewDate: Date,
 ): Promise<RankingsResponse> {
   const date = DateTime.fromJSDate(viewDate).toISODate();
   const timezone = getTimezone();
@@ -14,14 +14,14 @@ export async function getRankings(
   return requestHandler(
     AxiosInstance.get("/ranking", {
       params: { viewer, date, timezone },
-    })
+    }),
   );
 }
 
 export async function getUserRankings(
   userId: string,
   viewer: ViewerType,
-  viewDate: Date
+  viewDate: Date,
 ): Promise<UserRankingsResponse> {
   const date = DateTime.fromJSDate(viewDate).toISODate();
   const timezone = getTimezone();
@@ -29,6 +29,6 @@ export async function getUserRankings(
   return requestHandler(
     AxiosInstance.get(`/ranking/${userId}`, {
       params: { viewer, date, timezone },
-    })
+    }),
   );
 }

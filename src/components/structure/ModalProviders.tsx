@@ -1,4 +1,10 @@
 import {
+  ChatModalState,
+  JoinGroupModalState,
+  PlanModalState,
+} from "@/types/modalTypes";
+import { usePathname } from "next/navigation";
+import {
   createContext,
   useContext,
   useEffect,
@@ -6,12 +12,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { usePathname } from "next/navigation";
-import {
-  ChatModalState,
-  JoinGroupModalState,
-  PlanModalState,
-} from "@/types/modalTypes";
 
 // Helper type for context value
 type ModalContextValue<State, StateName extends string> = {
@@ -24,11 +24,11 @@ type ModalContextValue<State, StateName extends string> = {
 export function createModalProvider<State, StateName extends string>(
   initialState: State,
   stateName: StateName,
-  defaultResetOnPathChange = true
+  defaultResetOnPathChange = true,
 ) {
   type ContextValue = ModalContextValue<State, StateName>;
   const setStateName = `set${stateName[0].toUpperCase()}${stateName.slice(
-    1
+    1,
   )}` as const;
 
   const Context = createContext<ContextValue>({
@@ -57,7 +57,7 @@ export function createModalProvider<State, StateName extends string>(
         [stateName]: state,
         [setStateName]: setState,
       }),
-      [state]
+      [state],
     ) as ContextValue;
 
     return <Context.Provider value={value}>{children}</Context.Provider>;
@@ -67,7 +67,7 @@ export function createModalProvider<State, StateName extends string>(
     const context = useContext(Context);
     if (!context) {
       throw new Error(
-        `use${stateName}Context must be used within its provider`
+        `use${stateName}Context must be used within its provider`,
       );
     }
     return context;
@@ -92,7 +92,7 @@ export const { Provider: AccountModalProvider, useModal: useAccountModal } =
 export const { Provider: JoinGroupModalProvider, useModal: useJoinGroupModal } =
   createModalProvider<JoinGroupModalState, "joinGroupModal">(
     { opened: false, group_id: null, myGroupsSwiper: null },
-    "joinGroupModal"
+    "joinGroupModal",
   );
 
 export const {
@@ -119,13 +119,13 @@ export const { Provider: PlanModalProvider, useModal: usePlanModal } =
       calendarApi: null,
       viewDate: new Date(new Date().setHours(0, 0, 0, 0)),
     },
-    "planModal"
+    "planModal",
   );
 export const { Provider: ChatModalProvider, useModal: useChatModal } =
   createModalProvider<ChatModalState, "chatModal">(
     { chatroom_id: null, name: "", opened: false, totalNewMsg: 0 },
     "chatModal",
-    false
+    false,
   );
 export const {
   Provider: SearchUsersModalProvider,
@@ -150,6 +150,6 @@ const MODAL_PROVIDERS = [
 export default function ModalProviders({ children }: { children: ReactNode }) {
   return MODAL_PROVIDERS.reduce(
     (acc, Provider) => <Provider>{acc}</Provider>,
-    children
+    children,
   );
 }

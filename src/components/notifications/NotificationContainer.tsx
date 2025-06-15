@@ -1,6 +1,7 @@
-import AvatarWrapper from "../ui/avatar";
 import { Notification } from "@/types/notificationTypes";
 import Image from "next/image";
+
+import AvatarWrapper from "../ui/avatar";
 
 interface NotificationContainerProps {
   children?: React.ReactNode;
@@ -16,8 +17,7 @@ export default function NotificationContainer({
   return (
     <div
       className="flex gap-2 cursor-pointer hover:bg-accent p-2 rounded-lg transition"
-      onClick={onClick}
-    >
+      onClick={onClick}>
       {!notification.cover_image ? null : notification.cover_image ===
         "profile" ? (
         <AvatarWrapper

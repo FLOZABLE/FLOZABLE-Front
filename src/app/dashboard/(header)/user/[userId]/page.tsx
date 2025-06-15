@@ -15,7 +15,7 @@ export default function UserPage({ params }: UserPageProps) {
   const { userId } = use(params);
   const { accountProfile } = useAccountProfile(userId);
   const [viewDate, _setViewDate] = useState<Date>(
-    new Date(new Date().setHours(0, 0, 0, 0))
+    new Date(new Date().setHours(0, 0, 0, 0)),
   );
   const [viewer, _setViewer] = useState<ViewerType>("day");
 

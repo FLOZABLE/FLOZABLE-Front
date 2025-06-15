@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-
+import { useToolbarContext } from "@/components/editor/context/toolbar-context";
+import { useUpdateToolbarHandler } from "@/components/editor/editor-hooks/use-update-toolbar";
+import { Toggle } from "@/components/ui/toggle";
 import { $isTableSelection } from "@lexical/table";
 import {
   $isRangeSelection,
@@ -16,11 +17,7 @@ import {
   StrikethroughIcon,
   UnderlineIcon,
 } from "lucide-react";
-
-import { Toggle } from "@/components/ui/toggle";
-
-import { useToolbarContext } from "@/components/editor/context/toolbar-context";
-import { useUpdateToolbarHandler } from "@/components/editor/editor-hooks/use-update-toolbar";
+import { useState } from "react";
 
 const Icons: Partial<Record<TextFormatType, React.ElementType>> = {
   bold: BoldIcon,
@@ -60,10 +57,9 @@ export function FontFormatToolbarPlugin({
       onClick={() => {
         activeEditor.dispatchCommand(
           FORMAT_TEXT_COMMAND,
-          format as TextFormatType
+          format as TextFormatType,
         );
-      }}
-    >
+      }}>
       <Icon className="h-4 w-4" />
     </Toggle>
   );

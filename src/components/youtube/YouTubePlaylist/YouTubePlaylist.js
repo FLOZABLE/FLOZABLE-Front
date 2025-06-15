@@ -1,15 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
-import styles from "./YouTubePlaylist.module.css";
+import GoogleLoginBtn from "@/components/buttons/GoogleLoginBtn/GoogleLoginBtn";
+import CustomInput from "@/components/inputs/CustomInput/CustomInput";
+import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
 import {
   usePlaylistsYoutube,
   usePlaylistsYoutubeItems,
 } from "@/hooks/playlistHooks";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
-import GoogleLoginBtn from "@/components/buttons/GoogleLoginBtn/GoogleLoginBtn";
-import CustomInput from "@/components/inputs/CustomInput/CustomInput";
+
+import styles from "./YouTubePlaylist.module.css";
 
 function YouTubePlaylist({}) {
   const { playlistsYoutubeData, playlistsYoutubeIsLoading } =
@@ -27,7 +28,7 @@ function YouTubePlaylist({}) {
     setVideos(
       playlistsYoutubeItemsData?.data?.items
         .map((item) => item.snippet.resourceId.videoId)
-        .join()
+        .join(),
     );
   }, [playlistsYoutubeItemsData]);
 
@@ -73,8 +74,7 @@ function YouTubePlaylist({}) {
             width="100%"
             height="100%"
             src={`https://www.youtube.com/embed/VIDEO_ID?playlist=${videos}`}
-            allowFullScreen
-          ></iframe>
+            allowFullScreen></iframe>
         </div>
       ) : null}
       <div className={`customScroll ${styles.playlists}`}>
@@ -92,8 +92,7 @@ function YouTubePlaylist({}) {
                 backgroundSize: "cover",
                 backgroundPosition: "center center",
                 backgroundRepeat: "no-repeat",
-              }}
-            >
+              }}>
               <p className={`overflowDot ${styles.name}`}>{title}</p>
             </div>
           );
@@ -106,8 +105,7 @@ function YouTubePlaylist({}) {
         }}
         handleEnter={submitURL}
         placeHolder={"or Paste a playlist Link!"}
-        type={"text"}
-      >
+        type={"text"}>
         <FontAwesomeIcon icon={faLink} />
       </CustomInput>
     </div>

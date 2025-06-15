@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { useAccount } from "./accountHooks";
-import { calculateTimeToMidnight } from "@/lib/utils";
 import { getSubjects } from "@/apis/subjectApi";
+import { calculateTimeToMidnight } from "@/lib/utils";
 import { GroupedSubjects } from "@/types/subjectTypes";
+import { useQuery } from "@tanstack/react-query";
+
+import { useAccount } from "./accountHooks";
 
 const defaultGroupedSubjects: GroupedSubjects = {
   day: { timeline: [], total: [], focus: [] },

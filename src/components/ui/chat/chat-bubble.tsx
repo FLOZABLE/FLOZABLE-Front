@@ -1,9 +1,10 @@
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import MessageLoading from "./message-loading";
-import { Button, ButtonProps } from "../button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+import * as React from "react";
+
+import { Button, ButtonProps } from "../button";
+import MessageLoading from "./message-loading";
 
 // ChatBubble
 const chatBubbleVariant = cva(
@@ -38,8 +39,7 @@ const ChatBubble = React.forwardRef<HTMLDivElement, ChatBubbleProps>(
         "relative group",
       )}
       ref={ref}
-      {...props}
-    >
+      {...props}>
       {React.Children.map(children, (child) =>
         React.isValidElement(child) && typeof child.type !== "string"
           ? React.cloneElement(child, {
@@ -110,8 +110,7 @@ const ChatBubbleMessage = React.forwardRef<
         "break-words max-w-full whitespace-pre-wrap",
       )}
       ref={ref}
-      {...props}
-    >
+      {...props}>
       {isLoading ? (
         <div className="flex items-center space-x-2">
           <MessageLoading />
@@ -158,8 +157,7 @@ const ChatBubbleAction: React.FC<ChatBubbleActionProps> = ({
     size={size}
     className={className}
     onClick={onClick}
-    {...props}
-  >
+    {...props}>
     {icon}
   </Button>
 );
@@ -183,8 +181,7 @@ const ChatBubbleActionWrapper = React.forwardRef<
         : "-right-1 translate-x-full",
       className,
     )}
-    {...props}
-  >
+    {...props}>
     {children}
   </div>
 ));

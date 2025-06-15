@@ -1,4 +1,5 @@
 import { ApiResponse } from "./responseTypes";
+
 export type TimeRange = [number, number]; // [start, duration]
 
 export interface TimelineEntry {

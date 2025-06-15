@@ -13,7 +13,7 @@ export default function Groups() {
   const { groups } = useGroups();
   const { rankingsData } = useRankings(
     "day",
-    new Date(new Date().setHours(0, 0, 0, 0))
+    new Date(new Date().setHours(0, 0, 0, 0)),
   );
 
   const { setCreateGroupModal } = useCreateGroupModal();
@@ -32,8 +32,7 @@ export default function Groups() {
             icon={Plus}
             onClick={() => {
               setCreateGroupModal((prev) => !prev);
-            }}
-          >
+            }}>
             Create group
           </Button>
         </CardHeader>

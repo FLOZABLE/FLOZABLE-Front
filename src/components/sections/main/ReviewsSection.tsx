@@ -1,3 +1,5 @@
+import { fadeIn } from "@/components/animations/variants";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,13 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { useCallback, useRef } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import { motion } from "framer-motion";
-import { fadeIn } from "@/components/animations/variants";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const reviews = [
   {
@@ -117,8 +117,7 @@ export default function ReviewsSection() {
     <section className="section-container">
       <motion.div
         className="overflow-x-hidden overflow-y-auto w-full"
-        {...fadeIn({ once: true })}
-      >
+        {...fadeIn({ once: true })}>
         <div className="text-center">
           <h1 className="heading-lg">What Our Clients Say!</h1>
         </div>
@@ -150,8 +149,7 @@ export default function ReviewsSection() {
               slidesPerView: 3,
               spaceBetween: 30,
             },
-          }}
-        >
+          }}>
           {reviews.map((review, i) => {
             const name = `testimonial-${i + 1}.jpg`;
             return (

@@ -1,7 +1,5 @@
 "use client";
 
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -17,10 +15,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { ComponentProps, useMemo, useState } from "react";
-import { ViewerType } from "@/types/othersTypes";
 import { cn, getDates, getDatesDisplay, secondConverter } from "@/lib/utils";
+import { ViewerType } from "@/types/othersTypes";
 import { Subject } from "@/types/subjectTypes";
+import { ComponentProps, useMemo, useState } from "react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 type ChartDatum = {
   label: string;
@@ -58,7 +57,7 @@ export default function SubjectsTrendChart({
       subjects?.forEach((subject) => {
         data[subject.name] = 0;
         const matched = subject[viewer].total.find((day) =>
-          day.date.startsWith(target)
+          day.date.startsWith(target),
         );
         data[subject.name] = matched?.data ?? 0;
       });
@@ -102,8 +101,7 @@ export default function SubjectsTrendChart({
               left: 12,
               right: 12,
               top: 10,
-            }}
-          >
+            }}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="label"

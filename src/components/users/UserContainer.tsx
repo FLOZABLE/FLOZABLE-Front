@@ -1,7 +1,8 @@
+import { cn } from "@/lib/utils";
 import { Userinfo } from "@/types/accountTypes";
+
 import AvatarWrapper from "../ui/avatar";
 import CountryViewer from "./CountryViewer";
-import { cn } from "@/lib/utils";
 
 interface UserContainerProps {
   userinfo: Userinfo;
@@ -24,8 +25,7 @@ export default function UserContainer({
         <AvatarWrapper name={userinfo.name} userId={userinfo.user_id} />
         <div
           className="truncate text-base font-medium"
-          style={{ maxWidth: maxNameWidth }}
-        >
+          style={{ maxWidth: maxNameWidth }}>
           {userinfo.name}
         </div>
         <div className="ml-1">

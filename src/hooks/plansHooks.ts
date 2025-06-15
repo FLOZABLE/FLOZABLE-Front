@@ -1,9 +1,10 @@
 import { getPlans } from "@/apis/plansApi";
-import { useQuery } from "@tanstack/react-query";
-import { useAccount } from "./accountHooks";
-import { DateTime } from "luxon";
-import { useUpdater } from "./otherHooks";
 import { CalendarPlan } from "@/types/planTypes";
+import { useQuery } from "@tanstack/react-query";
+import { DateTime } from "luxon";
+
+import { useAccount } from "./accountHooks";
+import { useUpdater } from "./otherHooks";
 
 export function usePlans(date: Date) {
   const { account } = useAccount();
@@ -30,7 +31,7 @@ export function usePlans(date: Date) {
 
   const updatePlans = useUpdater<{ plans: CalendarPlan[] }, "plans">(
     ["plans", dateTime],
-    "plans"
+    "plans",
   );
 
   return {

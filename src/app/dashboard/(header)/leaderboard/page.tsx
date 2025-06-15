@@ -24,8 +24,8 @@ import UserContainer from "@/components/users/UserContainer";
 import { useAccount } from "@/hooks/accountHooks";
 import { useUpdateSearchParam } from "@/hooks/otherHooks";
 import { useRankings } from "@/hooks/rankingHooks";
-import { ViewerType } from "@/types/othersTypes";
 import { secondConverter } from "@/lib/utils";
+import { ViewerType } from "@/types/othersTypes";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,7 +34,7 @@ const PAGE_LENGTH = 30;
 
 export default function Leaderboard() {
   const [viewDate, setViewDate] = useState<Date>(
-    new Date(new Date().setHours(0, 0, 0, 0))
+    new Date(new Date().setHours(0, 0, 0, 0)),
   );
   const [viewer, setViewer] = useState<ViewerType>("day");
 
@@ -100,7 +100,7 @@ export default function Leaderboard() {
                           userinfo={rankingInfo}
                           onClick={() => {
                             router.push(
-                              `/dashboard/user/${rankingInfo.user_id}`
+                              `/dashboard/user/${rankingInfo.user_id}`,
                             );
                           }}
                         />

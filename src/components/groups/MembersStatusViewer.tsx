@@ -1,7 +1,9 @@
-import { Circle } from "lucide-react";
-import { Badge } from "../ui/badge";
-import { useMemo } from "react";
 import { GroupMember } from "@/types/groupTypes";
+import { Circle } from "lucide-react";
+import { useMemo } from "react";
+
+import { Badge } from "../ui/badge";
+
 type MembersStatusViewerProps = {
   members: GroupMember[] | undefined;
 };

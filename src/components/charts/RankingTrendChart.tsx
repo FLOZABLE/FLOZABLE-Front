@@ -1,7 +1,5 @@
 "use client";
 
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -16,11 +14,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { ComponentProps, useMemo } from "react";
-import { ViewerType } from "@/types/othersTypes";
 import { useRankingsUser } from "@/hooks/rankingHooks";
-import { DateTime } from "luxon";
 import { cn, getDatesDisplay } from "@/lib/utils";
+import { ViewerType } from "@/types/othersTypes";
+import { DateTime } from "luxon";
+import { ComponentProps, useMemo } from "react";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 const chartConfig = {
   data: {
@@ -76,8 +75,7 @@ export default function RankingTrendChart({
               left: 12,
               right: 12,
               top: 20,
-            }}
-          >
+            }}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="label"

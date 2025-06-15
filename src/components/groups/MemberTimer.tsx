@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
-import { useWorkers } from "../structure/Providers";
 import { toTimer } from "@/lib/utils";
+import { useEffect, useState } from "react";
+
+import { useWorkers } from "../structure/Providers";
 import { Badge, BadgeProps } from "../ui/badge";
 
 interface MemberTimerProps extends BadgeProps {

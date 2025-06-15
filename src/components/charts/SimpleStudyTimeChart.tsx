@@ -1,5 +1,5 @@
-import { GroupedSubjects } from "@/types/subjectTypes";
 import { cn } from "@/lib/utils";
+import { GroupedSubjects } from "@/types/subjectTypes";
 import { ComponentProps, useEffect, useMemo, useRef } from "react";
 
 type StreakDataType = {
@@ -53,8 +53,7 @@ export default function SimpleStudyTimeChart({
     <div className={cn("w-full overflow-hidden", className)}>
       <div
         className="w-full h-full flex items-end gap-3 overflow-auto pb-3"
-        ref={scrollContainerRef}
-      >
+        ref={scrollContainerRef}>
         {streakData.data.map((data, i) => {
           return (
             <div
@@ -62,9 +61,8 @@ export default function SimpleStudyTimeChart({
               style={{ height: (data.value / streakData.max) * 100 + "%" }}
               className={cn(
                 "w-[7px] min-h-2 rounded-sm h-fit shrink-0",
-                data.isStreak ? "bg-amber-500" : "bg-border"
-              )}
-            ></div>
+                data.isStreak ? "bg-amber-500" : "bg-border",
+              )}></div>
           );
         })}
       </div>

@@ -1,8 +1,5 @@
 "use client";
 
-import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,6 +15,8 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import * as React from "react";
 
 interface ComboboxProps
   extends React.ComponentProps<typeof PopoverPrimitive.Root> {
@@ -46,8 +45,7 @@ export default function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
+          className="w-[200px] justify-between">
           {value
             ? options.find((option) => option.value === value)?.label
             : placeholder}
@@ -67,12 +65,11 @@ export default function Combobox({
                     onSelect={(currentValue) => {
                       onChange(currentValue);
                       setOpen(false);
-                    }}
-                  >
+                    }}>
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        value === option.value ? "opacity-100" : "opacity-0"
+                        value === option.value ? "opacity-100" : "opacity-0",
                       )}
                     />
                     {option.label}

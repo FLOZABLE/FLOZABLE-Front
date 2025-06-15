@@ -33,8 +33,7 @@ function TutorialCard({
       <div className="mb-4 bg-gray-200 rounded-full h-2.5">
         <div
           style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
-          className="bg-blue-600 h-2.5 rounded-full"
-        ></div>
+          className="bg-blue-600 h-2.5 rounded-full"></div>
       </div>
       <div className="flex justify-between items-center gap-4 text-xs">
         <button
@@ -56,8 +55,7 @@ function TutorialCard({
                 : "hover:bg-gray-200"
             }
           `}
-          disabled={currentStep === 0}
-        >
+          disabled={currentStep === 0}>
           Previous
         </button>
         <span className="text-gray-600 whitespace-nowrap">
@@ -70,8 +68,7 @@ function TutorialCard({
               px-4 py-2 font-medium text-white bg-green-500 rounded-md cursor-pointer
               ${step.showControls ? "block" : "hidden"}
               hover:bg-green-600
-            `}
-          >
+            `}>
             Finish
           </button>
         ) : (
@@ -89,8 +86,7 @@ function TutorialCard({
               px-4 py-2 font-medium text-white bg-blue-600 rounded-md cursor-pointer
               ${step.showControls ? "block" : "hidden"}
               hover:bg-blue-700
-            `}
-          >
+            `}>
             Next
           </button>
         )}
@@ -106,8 +102,7 @@ function TutorialCard({
             mt-4 text-xs w-full px-4 py-2 font-medium text-gray-700 bg-gray-100 rounded-md cursor-pointer
             ${step.showSkip ? "block" : "hidden"}
             hover:bg-gray-200
-          `}
-        >
+          `}>
           Skip Tour
         </button>
       )}

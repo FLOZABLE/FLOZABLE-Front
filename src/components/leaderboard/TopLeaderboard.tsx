@@ -1,4 +1,3 @@
-import { ViewerType } from "@/types/othersTypes";
 import {
   Card,
   CardContent,
@@ -6,17 +5,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useRankings } from "@/hooks/rankingHooks";
-import UserContainer from "../users/UserContainer";
 import { useAccount } from "@/hooks/accountHooks";
-import { usePathname, useRouter } from "next/navigation";
-import { ArrowRight, Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useRankings } from "@/hooks/rankingHooks";
 import { getDatesDisplay, secondConverter } from "@/lib/utils";
+import { ViewerType } from "@/types/othersTypes";
+import { Ranking } from "@/types/rankingTypes";
+import { ArrowRight, Loader2 } from "lucide-react";
+import { DateTime } from "luxon";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { DateTime } from "luxon";
-import { Ranking } from "@/types/rankingTypes";
+import UserContainer from "../users/UserContainer";
 
 interface RankingContainerProps {
   title?: string;
@@ -44,7 +45,7 @@ function RankingContainer({
         .filter(
           (ranking) =>
             account.friends.includes(ranking.user_id) ||
-            ranking.user_id === account.user_id
+            ranking.user_id === account.user_id,
         )
         .slice(0, 3);
     } else {
@@ -60,14 +61,12 @@ function RankingContainer({
           <div
             key={i}
             className="flex gap-1 items-center"
-            style={{ zIndex: slicedRanking.length - i }}
-          >
+            style={{ zIndex: slicedRanking.length - i }}>
             <p className="text-sm">{i + 1}.</p>
             <UserContainer
               userinfo={user}
               onClick={() => router.push(`/dashboard/user/${user.user_id}`)}
-              className="w-full"
-            >
+              className="w-full">
               <Badge variant={"secondary"}>
                 {secondConverter({ sec: user.study_time })}
               </Badge>
@@ -106,8 +105,8 @@ export default function TopLeaderboard({
         viewer === "day"
           ? "Today"
           : viewer === "week"
-          ? "This week"
-          : "This month";
+            ? "This week"
+            : "This month";
     } else {
       label = getDatesDisplay({ date: viewDate, viewer });
     }
@@ -127,8 +126,7 @@ export default function TopLeaderboard({
               className="ml-auto"
               onClick={() => {
                 router.push("/dashboard/leaderboard");
-              }}
-            >
+              }}>
               View All
             </Button>
           )}

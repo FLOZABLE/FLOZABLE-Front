@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
 import parser from "html-react-parser";
+import Link from "next/link";
 
 const tocs = [
   { link: "#services", name: "OUR SERVICES" },

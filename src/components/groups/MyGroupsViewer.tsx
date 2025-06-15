@@ -1,7 +1,18 @@
+import { postGroupLeave } from "@/apis/groupApi";
+import { useAccount } from "@/hooks/accountHooks";
 import { useGroups, useMyGroups } from "@/hooks/groupHook";
-import { Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
-import MyGroupContainer from "./MyGroupContainer";
+import { useRemoveSearchParams } from "@/hooks/otherHooks";
+import {
+  useGroupsUpdater,
+  useMyGroupsUpdater,
+} from "@/hooks/updaters/groupUpdaters";
+import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
+import mediaSocket from "@/lib/sockets/mediaSocket";
+import socket from "@/lib/sockets/socket";
+import { cn } from "@/lib/utils";
+import { Group } from "@/types/groupTypes";
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   ComponentProps,
   useCallback,
@@ -10,23 +21,13 @@ import {
   useRef,
   useState,
 } from "react";
+import { Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { useDebounce } from "use-debounce";
-import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
-import { useAccount } from "@/hooks/accountHooks";
+
 import { useJoinGroupModal } from "../structure/ModalProviders";
-import socket from "@/lib/sockets/socket";
-import mediaSocket from "@/lib/sockets/mediaSocket";
-import { cn } from "@/lib/utils";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useRemoveSearchParams } from "@/hooks/otherHooks";
-import { Group } from "@/types/groupTypes";
-import {
-  useGroupsUpdater,
-  useMyGroupsUpdater,
-} from "@/hooks/updaters/groupUpdaters";
 import { AlertDialogWrapper } from "../ui/alert-dialog";
-import Link from "next/link";
-import { postGroupLeave } from "@/apis/groupApi";
+import MyGroupContainer from "./MyGroupContainer";
 
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
@@ -111,7 +112,7 @@ export default function MyGroupsViewer({
       localStorage.removeItem("swiperGroupId");
 
       const groupIndex = myGroups.findIndex(
-        (groupId) => groupId === swiperGroupId
+        (groupId) => groupId === swiperGroupId,
       );
       if (groupIndex === -1) return;
       myGroupsRef.current?.swiper.slideTo(groupIndex);
@@ -122,7 +123,7 @@ export default function MyGroupsViewer({
     if (!studyGroupId || !myGroups?.length) return;
     setTimeout(() => {
       const groupIndex = myGroups.findIndex(
-        (groupId) => groupId === studyGroupId
+        (groupId) => groupId === studyGroupId,
       );
       if (groupIndex === -1) return;
       myGroupsRef.current?.swiper.slideTo(groupIndex);
@@ -146,7 +147,7 @@ export default function MyGroupsViewer({
       newGroups[groupIndex] = {
         ...newGroups[groupIndex],
         members: newGroups[groupIndex].members.filter(
-          (memberId) => memberId !== account?.user_id
+          (memberId) => memberId !== account?.user_id,
         ),
       };
       return newGroups;
@@ -205,8 +206,7 @@ export default function MyGroupsViewer({
             const { realIndex } = swiperCore;
             setActiveIndex(realIndex);
           }}
-          ref={myGroupsRef}
-        >
+          ref={myGroupsRef}>
           {myGroupsInfo.map((group, i) => {
             return (
               <SwiperSlide key={i} className="h-screen">

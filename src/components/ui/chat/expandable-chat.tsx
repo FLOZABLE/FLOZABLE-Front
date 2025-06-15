@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { X, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { MessageCircle, X } from "lucide-react";
+import React, { useRef, useState } from "react";
 
 export type ChatPosition = "bottom-right" | "bottom-left";
 export type ChatSize = "sm" | "md" | "lg" | "xl" | "full";
@@ -53,8 +53,7 @@ const ExpandableChat: React.FC<ExpandableChatProps> = ({
   return (
     <div
       className={cn(`fixed ${chatConfig.positions[position]} z-50`, className)}
-      {...props}
-    >
+      {...props}>
       <div
         ref={chatRef}
         className={cn(
@@ -63,15 +62,13 @@ const ExpandableChat: React.FC<ExpandableChatProps> = ({
           chatConfig.dimensions[size],
           isOpen ? chatConfig.states.open : chatConfig.states.closed,
           className,
-        )}
-      >
+        )}>
         {children}
         <Button
           variant="ghost"
           size="icon"
           className="absolute top-2 right-2 sm:hidden"
-          onClick={toggleChat}
-        >
+          onClick={toggleChat}>
           <X className="h-4 w-4" />
         </Button>
       </div>
@@ -133,8 +130,7 @@ const ExpandableChatToggle: React.FC<ExpandableChatToggleProps> = ({
       "w-14 h-14 rounded-full shadow-md flex items-center justify-center hover:shadow-lg hover:shadow-black/30 transition-all duration-300",
       className,
     )}
-    {...props}
-  >
+    {...props}>
     {isOpen ? (
       <X className="h-6 w-6" />
     ) : (

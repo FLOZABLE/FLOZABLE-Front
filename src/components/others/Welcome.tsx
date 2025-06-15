@@ -6,9 +6,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useAccount } from "@/hooks/accountHooks";
-import StudyButton from "../buttons/StudyButton";
 import Image from "next/image";
 import { ComponentProps } from "react";
+
+import StudyButton from "../buttons/StudyButton";
 
 export default function Welcome({ ...props }: ComponentProps<"div">) {
   const { account } = useAccount();
