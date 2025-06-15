@@ -60,7 +60,7 @@ export default function Study() {
         title="Timer"
         className="top-5 left-5 z-10"
       >
-        <SubjectTimer unhookCleanup={true} />
+        <SubjectTimer />
       </StudyModalContainer>
 
       <StudyModalContainer

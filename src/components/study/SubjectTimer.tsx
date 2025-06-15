@@ -21,6 +21,7 @@ import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
 import { useAddSubjectModal } from "../structure/ModalProviders";
+import { useNextStep } from "nextstepjs";
 
 export type SubjectOption = {
   value: string; // subject.subject_id
@@ -30,16 +31,15 @@ export type SubjectOption = {
 };
 
 type SubjectTimerProps = {
-  unhookCleanup?: boolean;
+  isPopup?: boolean;
 };
 
-export default function SubjectTimer({
-  unhookCleanup = false,
-}: SubjectTimerProps) {
+export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   const { subjectTimerWorker } = useWorkers();
   const { subjects, subjectsRefetch } = useSubjects();
 
   const { setAddSubjectModal } = useAddSubjectModal();
+  const { setCurrentStep } = useNextStep();
 
   const updateSubjects = useSubjectsUpdater();
 
@@ -75,7 +75,7 @@ export default function SubjectTimer({
   }, [subjects]);
 
   useEffect(() => {
-    if (!unhookCleanup) return;
+    if (isPopup) return;
 
     return () => {
       socket.emit("study:stop");
@@ -92,7 +92,7 @@ export default function SubjectTimer({
         });
       }, 1500);
     };
-  }, [unhookCleanup]);
+  }, [isPopup]);
 
   useEffect(() => {
     if (!options?.length) return;
@@ -336,7 +336,9 @@ export default function SubjectTimer({
             socket.emit("study:stop");
           }
           setAddSubjectModal((prev) => ({ ...prev, opened: true }));
+          setCurrentStep(2);
         }}
+        id={isPopup ? "tour1-step2" : ""}
       >
         Or add one
       </Button>

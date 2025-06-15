@@ -137,7 +137,7 @@ export default function AddSubjectModal() {
         setAddSubjectModal((prev) => ({ ...prev, opened }));
       }}
     >
-      <CredenzaContent desktopClassName="!max-w-100">
+      <CredenzaContent desktopClassName="!max-w-100" id="tour1-step3">
         <CredenzaHeader className="justify-self-center">
           <CredenzaTitle className="text-2xl">Add Subject</CredenzaTitle>
         </CredenzaHeader>

@@ -13,6 +13,7 @@ import YoutubePlayer from "@/components/youtube/YouTubePlayer";
 import { ViewerType } from "@/types/othersTypes";
 import { Play } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useNextStep } from "nextstepjs";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
@@ -22,6 +23,7 @@ export default function Dashboard() {
   const [viewer, setViewer] = useState<ViewerType>("day");
 
   const router = useRouter();
+  const { setCurrentStep } = useNextStep();
 
   const { subjectTimerWorker } = useWorkers();
 
@@ -48,7 +50,11 @@ export default function Dashboard() {
             className="absolute left-[50%] bottom-10 translate-x-[-50%]"
             onClick={() => {
               router.push("/dashboard/study");
+              setTimeout(() => {
+                setCurrentStep(1);
+              }, 500);
             }}
+            id="tour1-step1"
           >
             <Play />
             Begin Study

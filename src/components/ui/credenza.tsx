@@ -38,6 +38,7 @@ interface CredenzaProps extends BaseProps {
   className?: string;
   desktopClassName?: string;
   asChild?: true;
+  id?: string;
 }
 
 const CredenzaContext = React.createContext<{ isDesktop: boolean }>({

@@ -3,8 +3,8 @@
 import config from "@/lib/config";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import ModalProviders from "./ModalProviders";
-import { NextStep, NextStepProvider, Tour } from "nextstepjs";
+import ModalProviders, { useAddSubjectModal } from "./ModalProviders";
+import { NextStep, NextStepProvider, useNextStep } from "nextstepjs";
 import {
   createContext,
   ReactNode,
@@ -59,11 +59,11 @@ const queryClient: QueryClient = new QueryClient({
   },
 });
 
-interface AppContainerProps {
+interface ProviderProps {
   children: ReactNode;
 }
 
-export function AppContainer({ children }: AppContainerProps) {
+export function AppContainer({ children }: ProviderProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <GoogleOAuthProvider clientId={config.google_client_id}>
@@ -95,6 +95,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 }
 
 import type { CardComponentProps } from "nextstepjs";
+import steps from "@/lib/steps";
 
 export const CustomCard = ({
   step,
@@ -122,49 +123,7 @@ export const CustomCard = ({
   );
 };
 
-const steps: Tour[] = [
-  {
-    tour: "newUser",
-    steps: [
-      {
-        icon: <>👋</>,
-        title: "Tour 1, Step 1",
-        content: <>First tour, first step</>,
-        side: "top",
-        showControls: true,
-        showSkip: true,
-        pointerPadding: 10,
-        pointerRadius: 10,
-        nextRoute: "/dashboard/study",
-        prevRoute: "/dashboard",
-      },
-      {
-        icon: <>🎉</>,
-        title: "Tour 1, Step 2",
-        content: <>First tour, second step</>,
-        selector: "#tour1-step2",
-        side: "top",
-        showControls: true,
-        showSkip: true,
-        pointerPadding: 10,
-        pointerRadius: 10,
-        viewportID: "scrollable-viewport",
-      },
-    ],
-  },
-  {
-    tour: "secondTour",
-    steps: [
-      // Step objects
-    ],
-  },
-];
-
-interface AppProviderProps {
-  children: ReactNode;
-}
-
-function AppProvider({ children }: AppProviderProps) {
+function AppProvider({ children }: ProviderProps) {
   const { account } = useAccount();
 
   useEffect(() => {
@@ -269,30 +228,15 @@ function AppProvider({ children }: AppProviderProps) {
 
   return (
     <WorkersProvider>
-      <NextStepProvider>
-        <NextStep
-          steps={steps}
-          showNextStep={true}
-          shadowRgb="55,48,163"
-          shadowOpacity="0.8"
-          cardComponent={CustomCard}
-          cardTransition={{ duration: 0.5, type: "spring" }}
-          onStepChange={(step, tourName) =>
-            console.log(`Step changed to ${step} in ${tourName}`)
-          }
-          onComplete={(tourName) => console.log(`Tour completed: ${tourName}`)}
-          onSkip={(step, tourName) =>
-            console.log(`Tour skipped: ${step} in ${tourName}`)
-          }
-          clickThroughOverlay={false}
-        >
-          <ModalProviders>
-            <CallOptionsProvider>
-              <ThemesProvider>{children}</ThemesProvider>
-            </CallOptionsProvider>
-          </ModalProviders>
-        </NextStep>
-      </NextStepProvider>
+      <ModalProviders>
+        <CallOptionsProvider>
+          <ThemesProvider>
+            <NextStepProvider>
+              <TutorialProvider>{children}</TutorialProvider>
+            </NextStepProvider>
+          </ThemesProvider>
+        </CallOptionsProvider>
+      </ModalProviders>
     </WorkersProvider>
   );
 }
@@ -305,11 +249,7 @@ export const WorkersContext = createContext<WorkersContextType>({
   getWorker: () => null,
 });
 
-interface WorkersProviderProps {
-  children: ReactNode;
-}
-
-export function WorkersProvider({ children }: WorkersProviderProps) {
+export function WorkersProvider({ children }: ProviderProps) {
   const membersTimerWorkerRef = useRef<Worker | null>(null);
   const subjectTimerWorkerRef = useRef<Worker | null>(null);
 
@@ -434,33 +374,39 @@ function ThemesProvider({ children }: { children: ReactNode }) {
   );
 }
 
-/* function ViewerProvider({ children }: { children: ReactNode }) {
-  const [viewer, setViewer] = useState<ViewerType>("day");
+function TutorialProvider({ children }: ProviderProps) {
+  const { setAddSubjectModal } = useAddSubjectModal();
+  const { setCurrentStep } = useNextStep();
 
   return (
-    <ViewerContext.Provider value={{ viewer, setViewer }}>
+    <NextStep
+      steps={steps}
+      showNextStep={true}
+      shadowRgb="55,48,163"
+      shadowOpacity="0.8"
+      cardTransition={{ duration: 0.5, type: "spring" }}
+      onStepChange={(step, tourName) => {
+        console.log(`Step changed to ${step} in ${tourName}`);
+        if (tourName === "newUser") {
+          switch (step) {
+            case 0:
+              break;
+            case 1:
+              break;
+            case 2:
+              setAddSubjectModal((prev) => ({ ...prev, opened: true }));
+              break;
+            default:
+          }
+        }
+      }}
+      onComplete={(tourName) => console.log(`Tour completed: ${tourName}`)}
+      onSkip={(step, tourName) =>
+        console.log(`Tour skipped: ${step} in ${tourName}`)
+      }
+      clickThroughOverlay={false}
+    >
       {children}
-    </ViewerContext.Provider>
+    </NextStep>
   );
 }
-
-export function useViewer() {
-  return useContext(ViewerContext);
-}
-
-function ViewDateProvider({ children }: { children: ReactNode }) {
-  const [viewDate, setViewDate] = useState(
-    new Date(new Date().setHours(0, 0, 0, 0))
-  );
-
-  return (
-    <ViewDateContext.Provider value={{ viewDate, setViewDate }}>
-      {children}
-    </ViewDateContext.Provider>
-  );
-}
-
-export function useViewDate() {
-  return useContext(ViewDateContext);
-}
- */

@@ -1,10 +1,17 @@
 import { BookOpen } from "lucide-react";
 import { Button } from "../ui/button";
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "../ui/sidebar";
 import { useNextStep } from "nextstepjs";
 
 export default function TutorialButton() {
   const { startNextStep } = useNextStep();
+
+  const { setOpen } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -14,8 +21,10 @@ export default function TutorialButton() {
           size="lg"
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           onClick={() => {
-            startNextStep("newUser");
-            console.log("start tutorial")
+            setOpen(false);
+            setTimeout(() => {
+              startNextStep("newUser");
+            }, 1000);
           }}
         >
           <div className="">
