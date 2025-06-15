@@ -32,10 +32,6 @@ import {
   WorkersContextType,
 } from "@/types/contextTypes";
 import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
-//import { ViewerType } from "@/types/others";
-
-/* export const ViewDateContext = createContext({});
-export const ViewerContext = createContext({}); */
 
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
@@ -96,6 +92,7 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
 
 import type { CardComponentProps } from "nextstepjs";
 import steps from "@/lib/steps";
+import TutorialCard from "../tutorial/TutorialCard";
 
 export const CustomCard = ({
   step,
@@ -232,7 +229,9 @@ function AppProvider({ children }: ProviderProps) {
         <CallOptionsProvider>
           <ThemesProvider>
             <NextStepProvider>
-              <TutorialProvider>{children}</TutorialProvider>
+              <TutorialProvider>
+                <DevelopmentProvider>{children}</DevelopmentProvider>
+              </TutorialProvider>
             </NextStepProvider>
           </ThemesProvider>
         </CallOptionsProvider>
@@ -376,7 +375,6 @@ function ThemesProvider({ children }: { children: ReactNode }) {
 
 function TutorialProvider({ children }: ProviderProps) {
   const { setAddSubjectModal } = useAddSubjectModal();
-  const { setCurrentStep } = useNextStep();
 
   return (
     <NextStep
@@ -405,8 +403,22 @@ function TutorialProvider({ children }: ProviderProps) {
         console.log(`Tour skipped: ${step} in ${tourName}`)
       }
       clickThroughOverlay={false}
+      cardComponent={TutorialCard}
     >
       {children}
     </NextStep>
   );
+}
+
+function DevelopmentProvider({ children }: ProviderProps) {
+  const { setCurrentStep, startNextStep } = useNextStep();
+
+  /* useEffect(() => {
+    setTimeout(() => {
+      startNextStep("newUser");
+      setCurrentStep(3);
+    }, 5000);
+  }, []); */
+
+  return children;
 }

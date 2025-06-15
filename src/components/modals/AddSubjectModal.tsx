@@ -29,8 +29,11 @@ import {
   PutSubjectSchemaValues,
 } from "@/schemas/subjectSchemas";
 import { Subject } from "@/types/subjectTypes";
+import { useNextStep } from "nextstepjs";
 
 export default function AddSubjectModal() {
+  const { setCurrentStep } = useNextStep();
+
   const { addSubjectModal, setAddSubjectModal } = useAddSubjectModal();
 
   const form = useForm<PutSubjectSchemaValues>({
@@ -49,6 +52,8 @@ export default function AddSubjectModal() {
     if (!response.success || !response.data?.subject) return;
 
     setAddSubjectModal((prev) => ({ ...prev, opened: false }));
+
+    setCurrentStep(3);
 
     form.reset();
 

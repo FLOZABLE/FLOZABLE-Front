@@ -39,7 +39,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   const { subjects, subjectsRefetch } = useSubjects();
 
   const { setAddSubjectModal } = useAddSubjectModal();
-  const { setCurrentStep } = useNextStep();
+  const { currentStep, setCurrentStep } = useNextStep();
 
   const updateSubjects = useSubjectsUpdater();
 
@@ -232,12 +232,18 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex gap-3">
-        <Popover open={open} onOpenChange={setOpen} modal={true}>
+        <Popover
+          open={open || (isPopup && (currentStep === 3 || currentStep === 2))}
+          onOpenChange={setOpen}
+          modal={true}
+        >
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               role="combobox"
-              aria-expanded={open}
+              aria-expanded={
+                open || (isPopup && (currentStep === 3 || currentStep === 2))
+              }
               className="w-[200px] justify-between overflow-hidden"
             >
               <div className="flex w-full items-center">
@@ -256,10 +262,10 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
               </div>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0 pointer-events-auto ">
+          <PopoverContent className="w-[200px] p-0 pointer-events-auto">
             <Command>
               <CommandList>
-                <CommandGroup>
+                <CommandGroup id={isPopup ? "tour1-step4" : ""}>
                   {options.map((option) => {
                     const isSelected =
                       selectedSubject.subject_id === option.value;
@@ -272,6 +278,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
                             (subject) => subject.subject_id === subject_id
                           );
                           if (subject) {
+                            setCurrentStep(4);
                             setSelectedSubject((prev) => ({
                               ...prev,
                               subject_id,
@@ -314,6 +321,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
           </PopoverContent>
         </Popover>
         <AnimatedSwitchButton
+          id={isPopup ? "tour1-step5-6" : ""}
           onIcon={<Pause />}
           offIcon={<Play />}
           onClick={() => {
@@ -321,6 +329,12 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
               socket.emit("study:stop");
             } else {
               socket.emit("study:start", selectedSubject.subject_id);
+            }
+
+            if (currentStep === 4) {
+              setCurrentStep(5);
+            } else if (currentStep === 5) {
+              setCurrentStep(6);
             }
           }}
           clicked={selectedSubject.active}
@@ -336,7 +350,9 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
             socket.emit("study:stop");
           }
           setAddSubjectModal((prev) => ({ ...prev, opened: true }));
-          setCurrentStep(2);
+          setTimeout(() => {
+            setCurrentStep(2);
+          }, 500);
         }}
         id={isPopup ? "tour1-step2" : ""}
       >

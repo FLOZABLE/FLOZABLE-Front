@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/otherHooks";
 import { cn } from "@/lib/utils";
+import { useNextStep } from "nextstepjs";
 
 interface BaseProps {
   children: React.ReactNode;
@@ -55,13 +56,19 @@ const useCredenzaContext = () => {
   return context;
 };
 
-const Credenza = ({ children, ...props }: RootCredenzaProps) => {
+const Credenza = ({ children, onOpenChange, ...props }: RootCredenzaProps) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const Credenza = isDesktop ? Dialog : Drawer;
 
+  const { currentTour } = useNextStep();
+
   return (
     <CredenzaContext.Provider value={{ isDesktop }}>
-      <Credenza {...props} {...(!isDesktop && { autoFocus: true })}>
+      <Credenza
+        {...props}
+        {...(!isDesktop && { autoFocus: true })}
+        onOpenChange={currentTour === "newUser" ? () => {} : onOpenChange}
+      >
         {children}
       </Credenza>
     </CredenzaContext.Provider>
