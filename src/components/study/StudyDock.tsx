@@ -44,10 +44,10 @@ export default function StudyDock({
         <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       onClick: () => {
-        if (currentStep === 7) return;
+        if (currentStep === 8) return;
 
         router.push("/dashboard");
-        setCurrentStep(9);
+        setCurrentStep(10);
       },
       id: "tour1-step9",
     },

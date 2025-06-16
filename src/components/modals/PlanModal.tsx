@@ -235,7 +235,7 @@ export default function PlanModal() {
                     form.setValue("start", newStart.toISO() || "");
                     form.setValue("end", newEnd.toISO() || "");
                   }}
-                  align="start"
+                  contentProps={{ align: "start" }}
                   viewer={viewer}
                 />
 

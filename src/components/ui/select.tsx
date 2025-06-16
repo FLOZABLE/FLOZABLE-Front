@@ -164,25 +164,36 @@ function SelectScrollDownButton({
     </SelectPrimitive.ScrollDownButton>
   );
 }
-interface SelectorProps<T> {
+
+interface SelectorWrapperProps<T> {
   options: { label: string; value: T }[];
   value: T;
   onChange: (value: T) => void;
   placeholder?: string;
+  selectProps?: Omit<
+    React.ComponentProps<typeof SelectPrimitive.Root>,
+    "value" | "onValueChange"
+  >;
+  contentProps?: React.ComponentProps<typeof SelectPrimitive.Content>;
 }
 
-const SelectorWrapper = <T,>({
+const SelectorWrapper = <T extends string | number>({
   options,
   value,
   onChange,
   placeholder,
-}: SelectorProps<T>) => {
+  selectProps,
+  contentProps,
+}: SelectorWrapperProps<T>) => {
   return (
-    <Select onValueChange={(val) => onChange(val as T)} value={String(value)}>
+    <Select
+      value={String(value)}
+      onValueChange={(val) => onChange(val as T)}
+      {...selectProps}>
       <SelectTrigger className="bg-background">
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent {...contentProps}>
         <ScrollArea className="max-h-[15rem]">
           {options.map((option) => (
             <SelectItem key={String(option.value)} value={String(option.value)}>

@@ -22,10 +22,11 @@ import { DateTime } from "luxon";
 import { useEffect, useState } from "react";
 
 interface DatePickerProps
-  extends React.ComponentProps<typeof PopoverPrimitive.Content> {
+  extends React.ComponentProps<typeof PopoverPrimitive.Root> {
   viewDate: Date;
   setViewDate: (date: Date) => void;
   viewer: ViewerType;
+  contentProps?: React.ComponentProps<typeof PopoverPrimitive.Content>;
 }
 
 export function DatePicker({
@@ -93,7 +94,7 @@ export function DatePicker({
   }, [viewer]);
 
   return (
-    <Popover>
+    <Popover {...props}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
@@ -110,7 +111,6 @@ export function DatePicker({
         {...props}
         className={cn(
           "z-50 pointer-events-auto flex w-auto flex-col space-y-2 p-2",
-          props.className,
         )}>
         <Select
           onValueChange={(value) => {

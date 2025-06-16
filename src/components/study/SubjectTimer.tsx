@@ -231,12 +231,14 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   }, [selectedSubject.subject_id]);
 
   useEffect(() => {
-    if (currentStep === 2 || currentStep === 3) {
+    if (currentTour !== "newUser") return;
+
+    if (currentStep === 3 || currentStep === 4) {
       setOpen(true);
     } else {
       setOpen(false);
     }
-  }, [currentStep]);
+  }, [currentStep, currentTour]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -289,7 +291,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
                             (subject) => subject.subject_id === subject_id,
                           );
                           if (subject) {
-                            setCurrentStep(4);
+                            setCurrentStep(5);
                             setSelectedSubject((prev) => ({
                               ...prev,
                               subject_id,
@@ -341,10 +343,10 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
               socket.emit("study:start", selectedSubject.subject_id);
             }
 
-            if (currentStep === 4) {
-              setCurrentStep(5);
-            } else if (currentStep === 5) {
+            if (currentStep === 5) {
               setCurrentStep(6);
+            } else if (currentStep === 6) {
+              setCurrentStep(7);
             }
           }}
           clicked={selectedSubject.active}
@@ -361,7 +363,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
           }
           setAddSubjectModal((prev) => ({ ...prev, opened: true }));
           setTimeout(() => {
-            setCurrentStep(2);
+            setCurrentStep(3);
           }, 500);
         }}
         id={"tour1-step2"}>

@@ -10,7 +10,7 @@ import {
 import { Subject } from "@/types/subjectTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DateTime } from "luxon";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import { ColorPicker } from "../inputs/ColorPicker";
@@ -33,7 +33,7 @@ import {
 } from "../ui/form";
 
 export default function AddSubjectModal() {
-  const { setCurrentStep } = useTutorial();
+  const { currentTour, currentStep, setCurrentStep } = useTutorial();
 
   const { addSubjectModal, setAddSubjectModal } = useAddSubjectModal();
 
@@ -55,7 +55,7 @@ export default function AddSubjectModal() {
 
       setAddSubjectModal((prev) => ({ ...prev, opened: false }));
 
-      setCurrentStep(3);
+      setCurrentStep(4);
 
       form.reset();
 
@@ -138,6 +138,12 @@ export default function AddSubjectModal() {
     },
     [setCurrentStep],
   );
+
+  useEffect(() => {
+    if (currentTour === "newUser" && currentStep !== 3) {
+      setAddSubjectModal((prev) => ({ ...prev, opened: false }));
+    }
+  }, [currentStep, currentTour]);
 
   return (
     <Credenza

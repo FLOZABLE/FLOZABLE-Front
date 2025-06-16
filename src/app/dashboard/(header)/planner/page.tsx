@@ -330,8 +330,8 @@ export default function Planner() {
             />
             <SelectorWrapper
               value={viewer}
-              onChange={(viewer: ViewerType) => {
-                setViewer(viewer);
+              onChange={(viewer: string) => {
+                setViewer(viewer as ViewerType);
               }}
               options={[
                 { value: "day", label: "Day" },

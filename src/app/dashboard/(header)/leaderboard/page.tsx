@@ -24,7 +24,8 @@ import UserContainer from "@/components/users/UserContainer";
 import { useAccount } from "@/hooks/accountHooks";
 import { useUpdateSearchParam } from "@/hooks/otherHooks";
 import { useRankings } from "@/hooks/rankingHooks";
-import { secondConverter } from "@/lib/utils";
+import { useTutorial } from "@/hooks/tutorialHooks";
+import { cn, secondConverter } from "@/lib/utils";
 import { ViewerType } from "@/types/othersTypes";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -38,10 +39,14 @@ export default function Leaderboard() {
   );
   const [viewer, setViewer] = useState<ViewerType>("day");
 
+  const [openCalendar, setOpenCalendar] = useState(false);
+  const [openViewer, setOpenViewer] = useState(false);
+
   const { account } = useAccount();
   const { rankingsData, rankingsIsLoading } = useRankings(viewer, viewDate);
 
   const router = useRouter();
+  const { currentStep, currentTour } = useTutorial();
 
   const searchParams = useSearchParams();
   const page: number = parseInt(searchParams.get("page") || "1");
@@ -56,11 +61,22 @@ export default function Leaderboard() {
     <main className="p-5">
       <div className="flex justify-between w-full items-center mb-5 z-10">
         <h1 className="text-2xl font-semibold">Leaderboard</h1>
-        <div className="flex gap-3 fixed right-8 top-3 z-10">
+        <div
+          className={cn(
+            "flex gap-3 fixed right-8 top-3 z-10",
+            currentStep === 17 && currentTour === "newUser" && openCalendar
+              ? "h-96 pl-42"
+              : openViewer
+                ? "h-36"
+                : "",
+          )}
+          id="tour1-step17">
           <DatePicker
             viewDate={viewDate}
             setViewDate={setViewDate}
             viewer={viewer}
+            open={openCalendar}
+            onOpenChange={setOpenCalendar}
           />
           <SelectorWrapper
             value={viewer}
@@ -72,6 +88,11 @@ export default function Leaderboard() {
               { value: "week", label: "Week" },
               { value: "month", label: "Month" },
             ]}
+            selectProps={{
+              open: openViewer,
+              onOpenChange: setOpenViewer,
+            }}
+            contentProps={{ align: "end" }}
           />
         </div>
       </div>
@@ -83,7 +104,7 @@ export default function Leaderboard() {
             userId={account?.user_id}
             className="h-[30rem]"
           />
-          <Card className="">
+          <Card className="" id="tour1-step16">
             <CardHeader>
               <CardTitle>Study Leaderboard</CardTitle>
             </CardHeader>

@@ -9,13 +9,16 @@ export const useTutorial = (tutorialName: string = steps[0].tour) => {
     (step: number, delay?: number) => {
       //console.log("shit shit", step, tutorialName, nextStep.currentTour);
       if (tutorialName !== nextStep.currentTour) return;
-      nextStep.setCurrentStep(step, delay);
+      nextStep.setCurrentStep(step - 1, delay);
     },
     [tutorialName, nextStep],
   );
 
+  const currentStep = nextStep.currentStep + 1;
+
   return {
     ...nextStep,
+    currentStep,
     setCurrentStep,
   };
 };

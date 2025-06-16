@@ -32,7 +32,7 @@ const greenScaleMap: Record<number, string> = {
   8: "!fill-green-800",
   9: "!fill-green-900",
 };
-interface StudyHeatMapProps {
+interface StudyHeatMapProps extends React.ComponentProps<"div"> {
   viewDate: Date;
   groupedSubjects: GroupedSubjects | undefined;
 }
@@ -40,6 +40,7 @@ interface StudyHeatMapProps {
 export default function StudyHeatMap({
   viewDate,
   groupedSubjects,
+  ...props
 }: StudyHeatMapProps) {
   const [tooltipData, setTooltipData] = useState<{
     x: number;
@@ -69,7 +70,7 @@ export default function StudyHeatMap({
   };
 
   return (
-    <Card>
+    <Card {...props}>
       <CardHeader>
         <CardTitle>Study Time Heatmap</CardTitle>
         <CardDescription>

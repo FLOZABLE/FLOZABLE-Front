@@ -35,7 +35,7 @@ import {
 import { toast } from "react-toastify";
 
 import TutorialCard from "../tutorial/TutorialCard";
-import ModalProviders, { useAddSubjectModal } from "./ModalProviders";
+import ModalProviders from "./ModalProviders";
 
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
@@ -344,9 +344,6 @@ function ThemesProvider({ children }: { children: ReactNode }) {
 }
 
 function TutorialProvider({ children }: ProviderProps) {
-  const { setAddSubjectModal } = useAddSubjectModal();
-  const { setCurrentStep } = useTutorial();
-
   return (
     <NextStep
       steps={steps}
@@ -354,26 +351,6 @@ function TutorialProvider({ children }: ProviderProps) {
       shadowRgb="55,48,163"
       shadowOpacity="0.8"
       cardTransition={{ duration: 0.5, type: "spring" }}
-      onStepChange={(step, tourName) => {
-        console.log(`Step changed to ${step} in ${tourName}`);
-        if (tourName === "newUser") {
-          switch (step) {
-            case 0:
-              break;
-            case 1:
-              break;
-            case 2:
-              setAddSubjectModal((prev) => ({ ...prev, opened: true }));
-              break;
-            case 7:
-              setTimeout(() => {
-                setCurrentStep(8);
-              }, 3000);
-              break;
-            default:
-          }
-        }
-      }}
       onComplete={(tourName) => console.log(`Tour completed: ${tourName}`)}
       onSkip={(step, tourName) =>
         console.log(`Tour skipped: ${step} in ${tourName}`)
@@ -392,10 +369,10 @@ function DevelopmentProvider({ children }: ProviderProps) {
     setTimeout(() => {
       console.log("shit");
       startNextStep("newUser");
-    }, 5000);
+    }, 1000);
     setTimeout(() => {
-      setCurrentStep(8);
-    }, 7000);
+      setCurrentStep(17);
+    }, 1500);
   }, [currentTour]); */
 
   return children;

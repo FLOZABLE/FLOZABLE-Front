@@ -49,14 +49,20 @@ export default function Stats() {
           viewer={viewer}
           subjects={subjects}
           className="h-[30rem]"
+          id="tour1-step11"
         />
         <RankingTrendChart
           viewDate={viewDate}
           viewer={viewer}
           userId={account?.user_id}
           className="h-[30rem]"
+          id="tour1-step12"
         />
-        <StudyHeatMap viewDate={viewDate} groupedSubjects={groupedSubjects} />
+        <StudyHeatMap
+          viewDate={viewDate}
+          groupedSubjects={groupedSubjects}
+          id="tour1-step13"
+        />
       </div>
     </main>
   );

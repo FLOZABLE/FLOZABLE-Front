@@ -153,6 +153,7 @@ function Sidebar({
   side = "left",
   variant = "sidebar",
   collapsible = "offcanvas",
+  mouseEvent,
   className,
   children,
   ...props
@@ -160,6 +161,7 @@ function Sidebar({
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
+  mouseEvent?: boolean;
 }) {
   const { isMobile, state, openMobile, setOpenMobile, setOpen } = useSidebar();
 
@@ -210,9 +212,11 @@ function Sidebar({
       data-side={side}
       data-slot="sidebar"
       onMouseEnter={() => {
+        if (!mouseEvent) return;
         setOpen(true);
       }}
       onMouseLeave={() => {
+        if (!mouseEvent) return;
         setOpen(false);
       }}>
       {/* This is what handles the sidebar gap on desktop */}

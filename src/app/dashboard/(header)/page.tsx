@@ -50,7 +50,7 @@ export default function Dashboard() {
             className="absolute left-[50%] bottom-10 translate-x-[-50%]"
             onClick={() => {
               router.push("/dashboard/study");
-              setCurrentStep(1, 500);
+              setCurrentStep(2, 500);
             }}
             id="tour1-step1">
             <Play />

@@ -11,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useTutorial } from "@/hooks/tutorialHooks";
 import {
   Calendar,
   ChartBar,
@@ -28,49 +29,72 @@ import { ThemeToggleButton } from "../buttons/ThemeToggleButton";
 import TutorialButton from "../buttons/TutorialButton";
 import AccountViewer from "./AccountViewer";
 
-const items = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: <House />,
-  },
-  {
-    title: "Stats",
-    url: "/dashboard/stats",
-    icon: <ChartBar />,
-  },
-  {
-    title: "Groups",
-    url: "/dashboard/groups",
-    icon: <UsersRound />,
-  },
-  {
-    title: "Planner",
-    url: "/dashboard/planner",
-    icon: <Calendar />,
-  },
-  {
-    title: "Leaderboard",
-    url: "/dashboard/leaderboard",
-    icon: <Trophy />,
-  },
-  {
-    title: "Study",
-    url: "/dashboard/study",
-    icon: <GraduationCap />,
-  },
-  {
-    title: "Account",
-    url: "/dashboard/account",
-    icon: <CircleUserRound />,
-  },
-];
+interface Item extends React.ComponentProps<"li"> {
+  title: string;
+  url: string;
+  icon: React.ReactNode;
+}
 
 export default function AppSidebar() {
   const chatButtonRef = useRef<HTMLButtonElement>(null);
 
+  const { currentTour, setCurrentStep } = useTutorial();
+
+  const items: Item[] = [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: <House />,
+    },
+    {
+      title: "Stats",
+      url: "/dashboard/stats",
+      icon: <ChartBar />,
+      id: "tour1-step10",
+      onClick: () => {
+        setCurrentStep(11);
+      },
+    },
+    {
+      title: "Groups",
+      url: "/dashboard/groups",
+      icon: <UsersRound />,
+      id: "tour1-step18",
+      onClick: () => {
+        setCurrentStep(19);
+      },
+    },
+    {
+      title: "Planner",
+      url: "/dashboard/planner",
+      icon: <Calendar />,
+    },
+    {
+      title: "Leaderboard",
+      url: "/dashboard/leaderboard",
+      icon: <Trophy />,
+      id: "tour1-step15",
+      onClick: () => {
+        setCurrentStep(15);
+      },
+    },
+    {
+      title: "Study",
+      url: "/dashboard/study",
+      icon: <GraduationCap />,
+    },
+    {
+      title: "Account",
+      url: "/dashboard/account",
+      icon: <CircleUserRound />,
+    },
+  ];
+
   return (
-    <Sidebar variant="floating" collapsible="icon">
+    <Sidebar
+      variant="floating"
+      collapsible="icon"
+      mouseEvent={currentTour !== "newUser"}>
       <SidebarHeader>
         {/* <SidebarButton className="absolute right-[-2rem]" /> */}
         <AccountViewer />
@@ -79,12 +103,12 @@ export default function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {items.map(({ title, url, icon, ...props }) => (
+                <SidebarMenuItem key={title} {...props}>
                   <SidebarMenuButton asChild>
-                    <Link href={item.url}>
-                      {item.icon}
-                      <span>{item.title}</span>
+                    <Link href={url}>
+                      {icon}
+                      <span>{title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
