@@ -9,11 +9,11 @@ import StudyDock from "@/components/study/StudyDock";
 import StudyModalContainer from "@/components/study/StudyModalContainer";
 import SubjectTimer from "@/components/study/SubjectTimer";
 import { Button } from "@/components/ui/button";
+import { useTutorial } from "@/hooks/tutorialHooks";
 import socket from "@/lib/sockets/socket";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import dynamic from "next/dynamic";
-import { useNextStep } from "nextstepjs";
 import { useEffect, useState } from "react";
 
 const YoutubePlayer = dynamic(
@@ -35,7 +35,7 @@ export default function Study() {
 
   const [studyModal, setStudyModal] = useState(true);
 
-  const { currentTour } = useNextStep();
+  const { currentTour } = useTutorial();
 
   useEffect(() => {
     const onMyStudyStart = () => {

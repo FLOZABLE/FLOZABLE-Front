@@ -10,12 +10,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useSubjects } from "@/hooks/subjectsHooks";
+import { useTutorial } from "@/hooks/tutorialHooks";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
 import socket from "@/lib/sockets/socket";
 import { cn, toTimer } from "@/lib/utils";
 import { OnMyStopStudying, OnMyStudying } from "@/types/socketTypes";
 import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
-import { useNextStep } from "nextstepjs";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
@@ -40,7 +40,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   const { subjects, subjectsRefetch } = useSubjects();
 
   const { setAddSubjectModal } = useAddSubjectModal();
-  const { currentStep, setCurrentStep, currentTour } = useNextStep();
+  const { currentStep, setCurrentStep, currentTour } = useTutorial();
 
   const updateSubjects = useSubjectsUpdater();
 
@@ -271,10 +271,12 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
               </div>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0 pointer-events-auto">
+          <PopoverContent
+            className="w-[200px] p-0 pointer-events-auto"
+            id={"tour1-step4"}>
             <Command>
               <CommandList>
-                <CommandGroup id={"tour1-step4"}>
+                <CommandGroup>
                   {options.map((option) => {
                     const isSelected =
                       selectedSubject.subject_id === option.value;

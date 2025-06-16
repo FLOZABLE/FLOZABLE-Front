@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 import ChatButton from "../buttons/ChatButton";
 import NotificationsButton from "../buttons/NotificationsButton";
-import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
+import { ThemeToggleButton } from "../buttons/ThemeToggleButton";
 import AvatarWrapper from "../ui/avatar";
 import { Button } from "../ui/button";
 
@@ -46,7 +46,7 @@ export default function Header() {
         )}
         <ChatButton variant={"outline"} className="aspect-square w-10 h-10" />
         <NotificationsButton />
-        <ThemeToggleBtn />
+        <ThemeToggleButton />
         <AvatarWrapper
           name={account?.name || ""}
           userId={account?.user_id}

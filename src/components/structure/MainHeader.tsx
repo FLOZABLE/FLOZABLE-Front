@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 
 import AccountBtn from "../buttons/AccountButton";
-import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
+import { ThemeToggleButton } from "../buttons/ThemeToggleButton";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -146,7 +146,7 @@ export default function MainHeader() {
       </NavigationMenu>
       <div className="flex gap-2 justify-center invisible md:visible">
         <AccountBtn />
-        <ThemeToggleBtn />
+        <ThemeToggleButton />
       </div>
     </header>
   );

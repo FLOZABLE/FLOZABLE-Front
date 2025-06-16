@@ -1,6 +1,7 @@
 "use client";
 
 import { putSubject } from "@/apis/subjectApi";
+import { useTutorial } from "@/hooks/tutorialHooks";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
 import {
   putSubjectSchema,
@@ -9,7 +10,6 @@ import {
 import { Subject } from "@/types/subjectTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DateTime } from "luxon";
-import { useNextStep } from "nextstepjs";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
@@ -33,7 +33,7 @@ import {
 } from "../ui/form";
 
 export default function AddSubjectModal() {
-  const { setCurrentStep } = useNextStep();
+  const { setCurrentStep } = useTutorial();
 
   const { addSubjectModal, setAddSubjectModal } = useAddSubjectModal();
 
@@ -48,93 +48,96 @@ export default function AddSubjectModal() {
 
   const updateSubjects = useSubjectsUpdater();
 
-  const onSubmit = useCallback(async (values: PutSubjectSchemaValues) => {
-    const response = await putSubject(values);
-    if (!response.success || !response.data?.subject) return;
+  const onSubmit = useCallback(
+    async (values: PutSubjectSchemaValues) => {
+      const response = await putSubject(values);
+      if (!response.success || !response.data?.subject) return;
 
-    setAddSubjectModal((prev) => ({ ...prev, opened: false }));
+      setAddSubjectModal((prev) => ({ ...prev, opened: false }));
 
-    setCurrentStep(3);
+      setCurrentStep(3);
 
-    form.reset();
+      form.reset();
 
-    updateSubjects((prev) => {
-      const newSubjects = [...prev];
-      const subjectStart = newSubjects.toSorted(
-        (a, b) => a.created_at - b.created_at,
-      )[0].created_at;
+      updateSubjects((prev) => {
+        const newSubjects = [...prev];
+        const subjectStart = newSubjects.toSorted(
+          (a, b) => a.created_at - b.created_at,
+        )[0].created_at;
 
-      const dayStart = DateTime.fromSeconds(subjectStart).startOf("day");
-      const weekStart = dayStart.startOf("week");
-      const monthStart = dayStart.startOf("month");
+        const dayStart = DateTime.fromSeconds(subjectStart).startOf("day");
+        const weekStart = dayStart.startOf("week");
+        const monthStart = dayStart.startOf("month");
 
-      const now = DateTime.now().startOf("day");
+        const now = DateTime.now().startOf("day");
 
-      const daysLength = now.diff(dayStart, "days").days + 1;
-      const weeksLength =
-        now.startOf("week").diff(weekStart, "weeks").weeks + 1;
-      const monthsLength =
-        now.startOf("month").diff(monthStart, "months").months + 1;
+        const daysLength = now.diff(dayStart, "days").days + 1;
+        const weeksLength =
+          now.startOf("week").diff(weekStart, "weeks").weeks + 1;
+        const monthsLength =
+          now.startOf("month").diff(monthStart, "months").months + 1;
 
-      const dailyArray = [];
-      for (let i = 0; i < daysLength; i++) {
-        dailyArray.push({
-          date: dayStart.plus({ day: i }).toISODate(),
-          data: 0,
-        });
-      }
+        const dailyArray = [];
+        for (let i = 0; i < daysLength; i++) {
+          dailyArray.push({
+            date: dayStart.plus({ day: i }).toISODate(),
+            data: 0,
+          });
+        }
 
-      const weeklyArray = [];
-      for (let i = 0; i < weeksLength; i++) {
-        weeklyArray.push({
-          date: weekStart.plus({ week: i }).toISODate(),
-          data: 0,
-        });
-      }
+        const weeklyArray = [];
+        for (let i = 0; i < weeksLength; i++) {
+          weeklyArray.push({
+            date: weekStart.plus({ week: i }).toISODate(),
+            data: 0,
+          });
+        }
 
-      const monthlyArray = [];
-      for (let i = 0; i < monthsLength; i++) {
-        monthlyArray.push({
-          date: monthStart.plus({ month: i }).toISODate(),
-          data: 0,
-        });
-      }
+        const monthlyArray = [];
+        for (let i = 0; i < monthsLength; i++) {
+          monthlyArray.push({
+            date: monthStart.plus({ month: i }).toISODate(),
+            data: 0,
+          });
+        }
 
-      const day = {
-        timeline: structuredClone(
-          dailyArray.map((val) => ({ ...val, data: [] })),
-        ),
-        total: structuredClone(dailyArray),
-        focus: structuredClone(dailyArray),
-      };
+        const day = {
+          timeline: structuredClone(
+            dailyArray.map((val) => ({ ...val, data: [] })),
+          ),
+          total: structuredClone(dailyArray),
+          focus: structuredClone(dailyArray),
+        };
 
-      const week = {
-        timeline: structuredClone(
-          weeklyArray.map((val) => ({ ...val, data: [] })),
-        ),
-        total: structuredClone(weeklyArray),
-        focus: structuredClone(weeklyArray),
-      };
+        const week = {
+          timeline: structuredClone(
+            weeklyArray.map((val) => ({ ...val, data: [] })),
+          ),
+          total: structuredClone(weeklyArray),
+          focus: structuredClone(weeklyArray),
+        };
 
-      const month = {
-        timeline: structuredClone(
-          monthlyArray.map((val) => ({ ...val, data: [] })),
-        ),
-        total: structuredClone(monthlyArray),
-        focus: structuredClone(monthlyArray),
-      };
+        const month = {
+          timeline: structuredClone(
+            monthlyArray.map((val) => ({ ...val, data: [] })),
+          ),
+          total: structuredClone(monthlyArray),
+          focus: structuredClone(monthlyArray),
+        };
 
-      const newSubject: Subject = {
-        ...response.data!.subject,
-        timeline: [],
-        day,
-        week,
-        month,
-      };
-      newSubjects.push(newSubject);
-      return newSubjects;
-    });
-  }, []);
+        const newSubject: Subject = {
+          ...response.data!.subject,
+          timeline: [],
+          day,
+          week,
+          month,
+        };
+        newSubjects.push(newSubject);
+        return newSubjects;
+      });
+    },
+    [setCurrentStep],
+  );
 
   return (
     <Credenza

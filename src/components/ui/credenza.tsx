@@ -21,8 +21,8 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/otherHooks";
+import { useTutorial } from "@/hooks/tutorialHooks";
 import { cn } from "@/lib/utils";
-import { useNextStep } from "nextstepjs";
 import React from "react";
 
 interface BaseProps {
@@ -59,7 +59,7 @@ const Credenza = ({ children, onOpenChange, ...props }: RootCredenzaProps) => {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const Credenza = isDesktop ? Dialog : Drawer;
 
-  const { currentTour } = useNextStep();
+  const { currentTour } = useTutorial();
 
   return (
     <CredenzaContext.Provider value={{ isDesktop }}>

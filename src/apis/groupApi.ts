@@ -47,7 +47,6 @@ export async function postGroupJoin(
   groupId: string,
   password?: string,
 ): Promise<PostGroupJoin> {
-  console.log("shit");
   return requestHandler(
     AxiosInstance.post(`/group/${groupId}/join`, {
       password,

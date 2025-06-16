@@ -64,7 +64,7 @@ export default function GroupContainer({
     const response = await postGroupLike(group.group_id, like);
     if (!response.success) return;
 
-    const shit = await updateGroups((prev) => {
+    const updatedGroups = await updateGroups((prev) => {
       const newGroups = [...prev];
       const groupIndex = newGroups.findIndex(
         (_group) => _group.group_id === group.group_id,
@@ -80,7 +80,9 @@ export default function GroupContainer({
       }
       return newGroups;
     });
-    const newGroup = shit?.find((_group) => _group.group_id === group.group_id);
+    const newGroup = updatedGroups?.find(
+      (_group) => _group.group_id === group.group_id,
+    );
     if (newGroup?.likes) {
       setLiked([...newGroup.likes]);
     }

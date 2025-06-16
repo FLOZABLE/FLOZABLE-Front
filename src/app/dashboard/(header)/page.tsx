@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import SelectorWrapper from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import YoutubePlayer from "@/components/youtube/YouTubePlayer";
+import { useTutorial } from "@/hooks/tutorialHooks";
 import { ViewerType } from "@/types/othersTypes";
 import { Play } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useNextStep } from "nextstepjs";
 import { useEffect, useState } from "react";
 
 export default function Dashboard() {
@@ -23,7 +23,7 @@ export default function Dashboard() {
   const [viewer, setViewer] = useState<ViewerType>("day");
 
   const router = useRouter();
-  const { setCurrentStep } = useNextStep();
+  const { setCurrentStep } = useTutorial();
 
   const { subjectTimerWorker } = useWorkers();
 
@@ -50,9 +50,7 @@ export default function Dashboard() {
             className="absolute left-[50%] bottom-10 translate-x-[-50%]"
             onClick={() => {
               router.push("/dashboard/study");
-              setTimeout(() => {
-                setCurrentStep(1);
-              }, 500);
+              setCurrentStep(1, 500);
             }}
             id="tour1-step1">
             <Play />

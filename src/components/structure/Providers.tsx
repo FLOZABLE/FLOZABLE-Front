@@ -2,6 +2,7 @@
 
 import { useAccount } from "@/hooks/accountHooks";
 import { useThemes, useThemesUser } from "@/hooks/themesHooks";
+import { useTutorial } from "@/hooks/tutorialHooks";
 import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
 import config from "@/lib/config";
 import mediaSocket from "@/lib/sockets/mediaSocket";
@@ -21,7 +22,7 @@ import {
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { NextStep, NextStepProvider, useNextStep } from "nextstepjs";
+import { NextStep, NextStepProvider } from "nextstepjs";
 import {
   createContext,
   ReactNode,
@@ -344,6 +345,7 @@ function ThemesProvider({ children }: { children: ReactNode }) {
 
 function TutorialProvider({ children }: ProviderProps) {
   const { setAddSubjectModal } = useAddSubjectModal();
+  const { setCurrentStep } = useTutorial();
 
   return (
     <NextStep
@@ -363,6 +365,11 @@ function TutorialProvider({ children }: ProviderProps) {
             case 2:
               setAddSubjectModal((prev) => ({ ...prev, opened: true }));
               break;
+            case 7:
+              setTimeout(() => {
+                setCurrentStep(8);
+              }, 3000);
+              break;
             default:
           }
         }
@@ -379,14 +386,17 @@ function TutorialProvider({ children }: ProviderProps) {
 }
 
 function DevelopmentProvider({ children }: ProviderProps) {
-  const { setCurrentStep, startNextStep } = useNextStep();
+  /* const { setCurrentStep, startNextStep, currentTour } = useTutorial();
 
-  /* useEffect(() => {
-    startNextStep("newUser");
+  useEffect(() => {
     setTimeout(() => {
-      setCurrentStep(3);
+      console.log("shit");
+      startNextStep("newUser");
     }, 5000);
-  }, []); */
+    setTimeout(() => {
+      setCurrentStep(8);
+    }, 7000);
+  }, [currentTour]); */
 
   return children;
 }

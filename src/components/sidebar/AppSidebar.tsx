@@ -24,6 +24,7 @@ import Link from "next/link";
 import { useRef } from "react";
 
 import ChatButton from "../buttons/ChatButton";
+import { ThemeToggleButton } from "../buttons/ThemeToggleButton";
 import TutorialButton from "../buttons/TutorialButton";
 import AccountViewer from "./AccountViewer";
 
@@ -111,6 +112,23 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              size="lg"
+              className="!bg-transparent justify-center">
+              <div>
+                <ThemeToggleButton
+                  size={"icon"}
+                  variant={"ghost"}
+                  className="mr-auto"
+                  contentProps={{ side: "left" }}
+                />
+              </div>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
         <TutorialButton />
       </SidebarFooter>
     </Sidebar>

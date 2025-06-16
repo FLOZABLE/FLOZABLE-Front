@@ -1,4 +1,5 @@
 import { DockItem, FloatingDock } from "@/components/ui/floating-dock";
+import { useTutorial } from "@/hooks/tutorialHooks";
 import { cn } from "@/lib/utils";
 import {
   IconHeadphones,
@@ -11,7 +12,7 @@ import { useRouter } from "next/navigation";
 import React, { ComponentProps } from "react";
 
 import ChatButton from "../buttons/ChatButton";
-import { ThemeToggleBtn } from "../buttons/ThemeToggleBtn";
+import { ThemeToggleButton } from "../buttons/ThemeToggleButton";
 import ZoomButton from "../buttons/ZoomButton";
 
 type StudyOptions = {
@@ -34,6 +35,8 @@ export default function StudyDock({
 }: StudyDockProps) {
   const router = useRouter();
 
+  const { currentStep, setCurrentStep } = useTutorial();
+
   const links: DockItem[] = [
     {
       title: "Home",
@@ -41,8 +44,12 @@ export default function StudyDock({
         <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       onClick: () => {
+        if (currentStep === 7) return;
+
         router.push("/dashboard");
+        setCurrentStep(9);
       },
+      id: "tour1-step9",
     },
 
     {
@@ -104,11 +111,13 @@ export default function StudyDock({
     },
     {
       title: "Theme",
-      icon: <ThemeToggleBtn />,
+      icon: <ThemeToggleButton />,
     },
   ];
   return (
-    <div className={cn("flex items-center justify-center z-20", className)}>
+    <div
+      className={cn("flex items-center justify-center z-20", className)}
+      id="tour1-step8">
       <FloatingDock items={links} />
     </div>
   );

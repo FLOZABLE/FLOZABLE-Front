@@ -1,5 +1,5 @@
+import { useTutorial } from "@/hooks/tutorialHooks";
 import { BookOpen } from "lucide-react";
-import { useNextStep } from "nextstepjs";
 
 import { Button } from "../ui/button";
 import {
@@ -10,7 +10,7 @@ import {
 } from "../ui/sidebar";
 
 export default function TutorialButton() {
-  const { startNextStep } = useNextStep();
+  const { startNextStep } = useTutorial();
 
   const { setOpen } = useSidebar();
 

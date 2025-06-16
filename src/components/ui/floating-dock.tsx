@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { IconLayoutNavbarCollapse } from "@tabler/icons-react";
 import {
   AnimatePresence,
+  HTMLMotionProps,
   motion,
   MotionValue,
   useMotionValue,
@@ -16,7 +17,7 @@ import {
 } from "motion/react";
 import { useRef, useState } from "react";
 
-export interface DockItem {
+export interface DockItem extends Omit<HTMLMotionProps<"div">, "ref"> {
   title: string;
   icon: React.ReactNode;
   onClick?: () => void;
