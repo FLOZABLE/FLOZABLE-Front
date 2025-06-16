@@ -47,7 +47,8 @@ export default function StudyDock({
         if (currentStep === 8) return;
 
         router.push("/dashboard");
-        setCurrentStep(10);
+
+        setCurrentStep(10, 500);
       },
       id: "tour1-step9",
     },

@@ -52,7 +52,7 @@ export default function AppSidebar() {
       icon: <ChartBar />,
       id: "tour1-step10",
       onClick: () => {
-        setCurrentStep(11);
+        setCurrentStep(11, 500);
       },
     },
     {
@@ -61,7 +61,7 @@ export default function AppSidebar() {
       icon: <UsersRound />,
       id: "tour1-step18",
       onClick: () => {
-        setCurrentStep(19);
+        setCurrentStep(19, 500);
       },
     },
     {
@@ -75,7 +75,7 @@ export default function AppSidebar() {
       icon: <Trophy />,
       id: "tour1-step15",
       onClick: () => {
-        setCurrentStep(15);
+        setCurrentStep(16, 500);
       },
     },
     {

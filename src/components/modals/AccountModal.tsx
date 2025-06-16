@@ -2,6 +2,7 @@
 
 import { postAuthSignin, postAuthSignup } from "@/apis/authApi";
 import { useAccount } from "@/hooks/accountHooks";
+import { useTutorial } from "@/hooks/tutorialHooks";
 import { getTimezone } from "@/lib/utils";
 import {
   postAuthSigninSchema,
@@ -49,6 +50,8 @@ export default function AccountModal() {
 
   const [isShowPassword, setIsShowPassword] = useState(false);
 
+  const { startNextStep } = useTutorial();
+
   const signInForm = useForm<PostAuthSigninSchemaValues>({
     resolver: zodResolver(postAuthSigninSchema),
     defaultValues: {
@@ -95,11 +98,7 @@ export default function AccountModal() {
         isSignIn: true,
       }));
 
-      const newSearchParams = new URLSearchParams(searchParams);
-      newSearchParams.set("welcome", "true");
-      router.replace(`/dashboard?${newSearchParams.toString()}`, {
-        scroll: false,
-      });
+      startNextStep("newUser");
     },
     [accountRefetch, setAccountModal, searchParams, router],
   );

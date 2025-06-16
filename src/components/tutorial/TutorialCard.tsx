@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Step } from "nextstepjs";
 import React, { JSX, useCallback, useEffect } from "react";
+import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
 
 import { useAddSubjectModal } from "../structure/ModalProviders";
 import { Button } from "../ui/button";
@@ -22,8 +23,6 @@ interface CardComponentProps {
 function TutorialCard({
   step,
   totalSteps,
-  nextStep,
-  prevStep,
   skipTour,
   arrow,
 }: CardComponentProps) {
@@ -43,13 +42,6 @@ function TutorialCard({
         case 3:
           setAddSubjectModal((prev) => ({ ...prev, opened: true }));
           break;
-        /* case 8:
-          setTimeout(() => {
-            console.log("current", currentStep);
-            if (currentStep !== 8) return;
-            setCurrentStep(9);
-          }, 5000);
-          break; */
         default:
           break;
       }
@@ -102,26 +94,7 @@ function TutorialCard({
       <div className="flex justify-between items-center gap-4 text-xs relative">
         <Button
           onClick={() => {
-            if (currentTour === "newUser") {
-              switch (currentStep - 1) {
-                case 2:
-                  setAddSubjectModal((prev) => ({ ...prev, opened: false }));
-                  break;
-                case 3:
-                  setAddSubjectModal((prev) => ({ ...prev, opened: true }));
-                  break;
-                case 8:
-                  setTimeout(() => {
-                    setCurrentStep(9);
-                  }, 5000);
-                  break;
-                default:
-              }
-            }
-
-            setTimeout(() => {
-              prevStep();
-            }, step.prevDelay || 0);
+            handleStepChange("prev");
           }}
           className={cn(
             step.isPrevButton ? "block" : "opacity-0 pointer-events-none",
@@ -141,23 +114,7 @@ function TutorialCard({
         ) : (
           <Button
             onClick={() => {
-              if (currentTour === "newUser") {
-                switch (currentStep + 1) {
-                  case 3:
-                    setAddSubjectModal((prev) => ({ ...prev, opened: true }));
-                    break;
-                  case 8:
-                    setTimeout(() => {
-                      setCurrentStep(9);
-                    }, 5000);
-                    break;
-                  default:
-                }
-              }
-
-              setTimeout(() => {
-                nextStep();
-              }, step.nextDelay || 0);
+              handleStepChange("next");
             }}
             className={cn(step.isNextButton ? "block" : "hidden")}>
             Next
@@ -175,6 +132,12 @@ function TutorialCard({
           variant={"secondary"}>
           Skip Tour
         </Button>
+      )}
+      {currentTour === "newUser" && currentStep === totalSteps && (
+        <Fireworks
+          autorun={{ speed: 1 }}
+          className="w-screen h-screen absolute pointer-events-none"
+        />
       )}
     </div>
   );

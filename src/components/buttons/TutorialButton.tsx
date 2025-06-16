@@ -1,5 +1,6 @@
 import { useTutorial } from "@/hooks/tutorialHooks";
 import { BookOpen } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import { Button } from "../ui/button";
 import {
@@ -14,6 +15,8 @@ export default function TutorialButton() {
 
   const { setOpen } = useSidebar();
 
+  const rotuer = useRouter();
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -23,6 +26,9 @@ export default function TutorialButton() {
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           onClick={() => {
             setOpen(false);
+            
+            rotuer.push("/dashboard");
+
             setTimeout(() => {
               startNextStep("newUser");
             }, 1000);

@@ -4,17 +4,40 @@ import GroupContainer from "@/components/groups/GroupContainer";
 import MyGroupsViewer from "@/components/groups/MyGroupsViewer";
 import { useCreateGroupModal } from "@/components/structure/ModalProviders";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useGroups } from "@/hooks/groupHook";
 import { useRankings } from "@/hooks/rankingHooks";
-import { Plus } from "lucide-react";
+import { useTutorial } from "@/hooks/tutorialHooks";
+import { Loader2, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
+
+const PAGE_LENGTH = 20;
 
 export default function Groups() {
-  const { groups } = useGroups();
+  const { groups, groupsIsLoading } = useGroups();
   const { rankingsData } = useRankings(
     "day",
     new Date(new Date().setHours(0, 0, 0, 0)),
   );
+
+  const { currentStep, currentTour } = useTutorial();
+
+  const [page, setPage] = useState(1);
 
   const { setCreateGroupModal } = useCreateGroupModal();
 
@@ -23,7 +46,7 @@ export default function Groups() {
       <Card className="p-6">
         <MyGroupsViewer />
       </Card>
-      <Card className="mt-10">
+      <Card className="mt-10 mb-32" id="tour1-step19">
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Groups</CardTitle>
           <Button
@@ -37,12 +60,56 @@ export default function Groups() {
           </Button>
         </CardHeader>
         <CardContent>
+          {groupsIsLoading && <Loader2 className="animate-spin" />}
           <div className="grid grid-cols-[repeat(auto-fill,_20rem)] gap-4 justify-center">
-            {groups?.map((group, i) => (
-              <GroupContainer key={i} group={group} rankings={rankingsData} />
-            ))}
+            {groups?.length ? (
+              groups
+                .slice((page - 1) * PAGE_LENGTH, page * PAGE_LENGTH)
+                .map((group, i) => {
+                  return (
+                    <GroupContainer
+                      key={i}
+                      group={group}
+                      rankings={rankingsData}
+                    />
+                  );
+                })
+            ) : (
+              <div className="w-full h-full flex justify-center items-center">
+                <p>
+                  No data available for this date. Start studying to get on the
+                  leaderboard!
+                </p>
+              </div>
+            )}
           </div>
         </CardContent>
+        <CardFooter>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => {
+                    if (page <= 1) return;
+                    setPage(page - 1);
+                  }}
+                />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink isActive>{page}</PaginationLink>
+                {/* <PaginationLink href="#">1</PaginationLink> */}
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => {
+                    if (page * PAGE_LENGTH >= (groups?.length || 0)) return;
+                    setPage(page + 1);
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </CardFooter>
       </Card>
     </main>
   );
