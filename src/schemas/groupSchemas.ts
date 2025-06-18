@@ -11,7 +11,7 @@ export const groupSchemas = {
   name: z
     .string()
     .min(2, { message: "Group name must be at least 2 characters long." })
-    .max(10, { message: "Group name cannot exceed 10 characters." })
+    .max(20, { message: "Group name cannot exceed 20 characters." })
     .refine((val) => val.trim() !== "", {
       message: "Group name cannot be empty.",
     }),
@@ -70,7 +70,7 @@ export type PostGroupJoinSchemaValues = z.infer<
 export const putGroupSchema = z
   .object({
     name: groupSchemas.name,
-    password: z.string().optional(), // start as optional
+    password: z.string().optional(),
     description: groupSchemas.description,
     max_members: groupSchemas.max_members,
     tags: groupSchemas.tags,
@@ -79,12 +79,16 @@ export const putGroupSchema = z
     visibility: groupSchemas.visibility,
   })
   .superRefine((data, ctx) => {
-    if (!data.visibility && (!data.password || data.password.trim() === "")) {
-      ctx.addIssue({
-        path: ["password"],
-        code: z.ZodIssueCode.custom,
-        message: "Please provide a password when the group is private.",
-      });
+    if (!data.visibility) {
+      const result = groupSchemas.password.safeParse(data.password);
+      if (!result.success) {
+        for (const issue of result.error.issues) {
+          ctx.addIssue({
+            ...issue,
+            path: ["password"],
+          });
+        }
+      }
     }
   });
 

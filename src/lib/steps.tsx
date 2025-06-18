@@ -85,6 +85,7 @@ const steps: Tour[] = [
         side: "top",
         prevRoute: "/dashboard/study",
         nextRoute: "/dashboard",
+        pointerPadding: 15,
       }),
       createStep({
         icon: <>📊</>,

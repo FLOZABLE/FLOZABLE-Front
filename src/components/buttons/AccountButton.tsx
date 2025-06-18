@@ -1,4 +1,4 @@
-import { getAuthLogout } from "@/apis/authApi";
+import { postAuthLogout } from "@/apis/authApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { LogIn, LogOut } from "lucide-react";
 
@@ -24,7 +24,7 @@ export default function AccountButton({
           icon={LogOut}
           iconPlacement="right"
           onClick={async () => {
-            const response = await getAuthLogout();
+            const response = await postAuthLogout();
             if (response.success) {
               clearAccountData();
               setTimeout(() => {

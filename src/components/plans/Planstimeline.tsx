@@ -13,7 +13,7 @@ import {
   useState,
 } from "react";
 
-import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
+import GoogleLoginButton from "../buttons/GoogleLoginButton";
 import { usePlanModal } from "../structure/ModalProviders";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -118,7 +118,7 @@ export default function Planstimeline({
               {`You're not connected to Google Calendar. Please sign in to
               authorize access.`}
             </p>
-            <GoogleLoginBtn
+            <GoogleLoginButton
               className="w-fit"
               scope={"email profile https://www.googleapis.com/auth/calendar"}
               required="calendar"

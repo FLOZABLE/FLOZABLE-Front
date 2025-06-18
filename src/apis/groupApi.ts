@@ -35,8 +35,7 @@ export async function getGroupMembers(
 // POST /group/like – Like or unlike a group
 export async function postGroupLike(groupId: string, like: boolean) {
   return requestHandler(
-    AxiosInstance.post("/group/like", {
-      group_id: groupId,
+    AxiosInstance.post(`/group/${groupId}/like`, {
       like,
     }),
   );

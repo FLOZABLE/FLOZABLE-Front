@@ -3,8 +3,8 @@ import { requestHandler } from "@/lib/utils";
 import { PostAuthVerifyResponse } from "@/types/authTypes";
 import { SuccessResponse } from "@/types/responseTypes";
 
-export async function getAuthLogout(): Promise<SuccessResponse> {
-  return requestHandler(AxiosInstance.get(`/auth/logout`));
+export async function postAuthLogout(): Promise<SuccessResponse> {
+  return requestHandler(AxiosInstance.post(`/auth/logout`));
 }
 
 export async function postAuthVerify(): Promise<PostAuthVerifyResponse> {

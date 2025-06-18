@@ -5,7 +5,7 @@ import { Clock } from "lucide-react";
 import { DateTime } from "luxon";
 import { useMemo } from "react";
 
-import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
+import GoogleLoginButton from "../buttons/GoogleLoginButton";
 import { Badge } from "../ui/badge";
 
 interface PlanContainerProps extends React.HTMLProps<HTMLDivElement> {
@@ -115,7 +115,7 @@ export default function UpcomingPlansViewer({
             {`You're not connected to Google Calendar. Please sign in to
               authorize access.`}
           </p>
-          <GoogleLoginBtn
+          <GoogleLoginButton
             className="w-fit"
             scope={"email profile https://www.googleapis.com/auth/calendar"}
             required="calendar"

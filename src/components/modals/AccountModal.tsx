@@ -17,7 +17,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import GoogleLoginBtn from "../buttons/GoogleLoginBtn";
+import GoogleLoginButton from "../buttons/GoogleLoginButton";
 import ShowPasswordBtn from "../buttons/ShowPasswordBtn";
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { useAccountModal } from "../structure/ModalProviders";
@@ -192,7 +192,7 @@ export default function AccountModal() {
                     className="w-full">
                     Login
                   </Button>
-                  <GoogleLoginBtn
+                  <GoogleLoginButton
                     scope={"email profile"}
                     required={"email"}
                     className="w-full"
@@ -267,7 +267,7 @@ export default function AccountModal() {
                   className="w-full">
                   Sign up
                 </Button>
-                <GoogleLoginBtn
+                <GoogleLoginButton
                   scope={"email profile"}
                   required={"email"}
                   className="w-full"

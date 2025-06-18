@@ -1,4 +1,4 @@
-import GoogleLoginBtn from "@/components/buttons/GoogleLoginBtn/GoogleLoginBtn";
+import GoogleLoginButton from "@/components/buttons/GoogleLoginButton/GoogleLoginButton";
 import CustomInput from "@/components/inputs/CustomInput/CustomInput";
 import CircularLoading from "@/components/loadings/CircularLoading/CircularLoading";
 import {
@@ -55,7 +55,7 @@ function YouTubePlaylist({}) {
 
   if (!playlistsYoutubeData?.success) {
     return (
-      <GoogleLoginBtn
+      <GoogleLoginButton
         scope="https://www.googleapis.com/auth/youtube.readonly"
         required="youtube"
       />

@@ -7,20 +7,20 @@ import { ArrowRightIcon, Loader2 } from "lucide-react";
 import { IconGoogle } from "../others/Svgs";
 import { Button } from "../ui/button";
 
-const redirect_uri = config.server + "/auth/signin/google";
+const redirect_uri = config.server + "/auth/google/callback";
 
-type GoogleLoginBtnProps = {
+type GoogleLoginButtonProps = {
   scope: string;
   required: string;
   className?: string;
 };
 
-export default function GoogleLoginBtn({
+export default function GoogleLoginButton({
   scope,
   required,
   className,
   ...props
-}: GoogleLoginBtnProps) {
+}: GoogleLoginButtonProps) {
   const { accountGoogleData, accountGoogleIsLoading } = useAccountGoogle();
 
   const timezone = getTimezone();

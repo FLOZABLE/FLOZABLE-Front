@@ -350,7 +350,12 @@ function TutorialProvider({ children }: ProviderProps) {
       showNextStep={true}
       shadowRgb="125, 125, 125"
       shadowOpacity="0.7"
-      cardTransition={{ duration: 0.5, type: "spring" }}
+      cardTransition={{
+        duration: 0.3,
+        type: "spring",
+        stiffness: 200,
+        damping: 20,
+      }}
       onComplete={(tourName) => console.log(`Tour completed: ${tourName}`)}
       onSkip={(step, tourName) =>
         console.log(`Tour skipped: ${step} in ${tourName}`)

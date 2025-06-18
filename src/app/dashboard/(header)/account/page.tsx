@@ -1,7 +1,7 @@
 "use client";
 
 import { patchAccountInfo, patchAccountPassword } from "@/apis/accountApi";
-import GoogleLoginBtn from "@/components/buttons/GoogleLoginBtn";
+import GoogleLoginButton from "@/components/buttons/GoogleLoginButton";
 import ExtensionSetting from "@/components/extension/ExtensionSetting";
 import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
 import { IconGoogleCalendar, IconYoutube } from "@/components/others/Svgs";
@@ -243,7 +243,7 @@ export default function Account() {
                   {`You've successfully connected your Google Calendar! Our app now has access to your calendar events, allowing you to seamlessly integrate your schedule with our platform.`}
                 </p>
               )}
-              <GoogleLoginBtn
+              <GoogleLoginButton
                 scope={"email profile https://www.googleapis.com/auth/calendar"}
                 required="calendar"
                 className="ml-auto"
@@ -266,7 +266,7 @@ export default function Account() {
                   {`Your YouTube account is now connected! You can now access your playlists directly within our app to enhance your experience with personalized content.`}
                 </p>
               )}
-              <GoogleLoginBtn
+              <GoogleLoginButton
                 scope="https://www.googleapis.com/auth/youtube.readonly"
                 required="youtube"
                 className="ml-auto"
@@ -288,7 +288,7 @@ export default function Account() {
                   our app and set the perfect mood for your tasks.
                 </p>
               )}
-              <GoogleLoginBtn
+              <GoogleLoginButton
                 scope={"email profile https://www.googleapis.com/auth/calendar"}
                 required="calendar"
               />

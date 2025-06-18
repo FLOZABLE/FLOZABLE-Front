@@ -21,10 +21,8 @@ import {
 } from "@/components/ui/pagination";
 import { useGroups } from "@/hooks/groupHook";
 import { useRankings } from "@/hooks/rankingHooks";
-import { useTutorial } from "@/hooks/tutorialHooks";
 import { Loader2, Plus } from "lucide-react";
-import { useEffect, useState } from "react";
-import Fireworks from "react-canvas-confetti/dist/presets/fireworks";
+import { useState } from "react";
 
 const PAGE_LENGTH = 20;
 
@@ -34,8 +32,6 @@ export default function Groups() {
     "day",
     new Date(new Date().setHours(0, 0, 0, 0)),
   );
-
-  const { currentStep, currentTour } = useTutorial();
 
   const [page, setPage] = useState(1);
 
@@ -76,10 +72,7 @@ export default function Groups() {
                 })
             ) : (
               <div className="w-full h-full flex justify-center items-center">
-                <p>
-                  No data available for this date. Start studying to get on the
-                  leaderboard!
-                </p>
+                <p>No data available!</p>
               </div>
             )}
           </div>
