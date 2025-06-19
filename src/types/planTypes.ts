@@ -74,7 +74,7 @@ export const convertToEventPlan = (event: EventApi): EventPlan => {
 };
 
 // GET /plans
-export type PlansResponse = ApiResponse<{ plans: CalendarPlan[] }>;
+export type PlanAllResponse = ApiResponse<{ plans: CalendarPlan[] }>;
 
 // PUT /plans/plan
 export type PutPlanResponse = ApiResponse<{ plan: EventPlan }>;

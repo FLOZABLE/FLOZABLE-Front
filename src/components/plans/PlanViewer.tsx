@@ -1,8 +1,8 @@
 "use client";
 
-import { deletePlan } from "@/apis/plansApi";
+import { deletePlan } from "@/apis/planApi";
 import { useWindowSize } from "@/hooks/otherHooks";
-import { usePlans } from "@/hooks/plansHooks";
+import { usePlans } from "@/hooks/planHooks";
 import { cn, formatPlanDateRange } from "@/lib/utils";
 import { EventPlan } from "@/types/planTypes";
 import parser from "html-react-parser";

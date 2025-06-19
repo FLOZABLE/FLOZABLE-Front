@@ -1,5 +1,5 @@
 import { useAccountGoogle } from "@/hooks/accountHooks";
-import { usePlans } from "@/hooks/plansHooks";
+import { usePlans } from "@/hooks/planHooks";
 import { cn } from "@/lib/utils";
 import { ViewerType } from "@/types/othersTypes";
 import { EventInput } from "@fullcalendar/core";

@@ -1,4 +1,4 @@
-import { getPlans } from "@/apis/plansApi";
+import { getPlanAll } from "@/apis/planApi";
 import { CalendarPlan } from "@/types/planTypes";
 import { useQuery } from "@tanstack/react-query";
 import { DateTime } from "luxon";
@@ -17,7 +17,7 @@ export function usePlans(date: Date) {
 
   const queryResult = useQuery({
     queryKey: [`plans`, dateTime],
-    queryFn: () => getPlans(dateTime || ""),
+    queryFn: () => getPlanAll(dateTime || ""),
     staleTime: 1000 * 60 * 10,
     enabled: !!account && !!dateTime,
     select: (response) => response.data?.plans || [],

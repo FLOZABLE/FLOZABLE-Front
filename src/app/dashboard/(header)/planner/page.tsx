@@ -1,6 +1,6 @@
 "use client";
 
-import { patchPlan } from "@/apis/plansApi";
+import { patchPlan } from "@/apis/planApi";
 import { DatePicker } from "@/components/buttons/DatePicker";
 import PlanViewer from "@/components/plans/PlanViewer";
 import UpcomingPlansViewer from "@/components/plans/UpcomingPlansViewer";
@@ -8,7 +8,7 @@ import { usePlanModal } from "@/components/structure/ModalProviders";
 import { Button } from "@/components/ui/button";
 import SelectorWrapper from "@/components/ui/select";
 import { useWindowSize } from "@/hooks/otherHooks";
-import { usePlans } from "@/hooks/plansHooks";
+import { usePlans } from "@/hooks/planHooks";
 import { ViewerType } from "@/types/othersTypes";
 import { convertToEventPlan, EventPlan } from "@/types/planTypes";
 import newStyled from "@emotion/styled";
@@ -230,15 +230,12 @@ export default function Planner() {
 
     //min top set to 100
     const top = element.y > 100 ? element.y : 200;
-    console.log(element.x, windowSize.width / 2);
     const left =
-      element.x < windowSize.width / 2
+      element.x < windowSize.width / 2 + 50 && viewer !== "day"
         ? element.x + element.width
         : element.x - planViewerWidth - 10;
     setPlanViewerPos({ top, left });
-  }, [windowSize.width]);
-
-  console.log(windowSize);
+  }, [windowSize.width, viewer]);
 
   const onUpcomingPlanClick = useCallback((plan: EventInput) => {
     const api = calendarRef.current?.getApi();

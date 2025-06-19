@@ -1,7 +1,7 @@
 "use client";
 
-import { patchPlan, putPlan } from "@/apis/plansApi";
-import { usePlans } from "@/hooks/plansHooks";
+import { patchPlan, putPlan } from "@/apis/planApi";
+import { usePlans } from "@/hooks/planHooks";
 import { ViewerType } from "@/types/othersTypes";
 import { defaultPlan, EventPlan } from "@/types/planTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -127,8 +127,6 @@ export default function PlanModal() {
       .map((plan) => {
         return {
           ...plan,
-          backgroundColor: plan.background_color,
-          borderColor: plan.background_color,
         };
       });
     setPlans(plans);
