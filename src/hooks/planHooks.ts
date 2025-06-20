@@ -3,11 +3,11 @@ import { CalendarPlan } from "@/types/planTypes";
 import { useQuery } from "@tanstack/react-query";
 import { DateTime } from "luxon";
 
-import { useAccount } from "./accountHooks";
+import { useAccountGoogle } from "./accountHooks";
 import { useUpdater } from "./otherHooks";
 
 export function usePlans(date: Date) {
-  const { account } = useAccount();
+  const { accountGoogleData } = useAccountGoogle();
 
   const dateTime = DateTime.fromJSDate(date)
     .startOf("day")
@@ -19,7 +19,10 @@ export function usePlans(date: Date) {
     queryKey: [`plans`, dateTime],
     queryFn: () => getPlanAll(dateTime || ""),
     staleTime: 1000 * 60 * 10,
-    enabled: !!account && !!dateTime,
+    enabled:
+      !!accountGoogleData?.scopes?.some((scope) =>
+        scope.includes("calendar"),
+      ) && !!dateTime,
     select: (response) => response.data?.plans || [],
   });
 
