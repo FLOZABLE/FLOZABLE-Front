@@ -57,11 +57,7 @@ export async function getFriendStatus(): Promise<FriendsStatusResponse> {
 }
 
 export async function sendFriendRequest(targetId: string) {
-  return requestHandler(
-    AxiosInstance.post("/friend/request", {
-      target_id: targetId,
-    }),
-  );
+  return requestHandler(AxiosInstance.post(`/friend/${targetId}/request`));
 }
 
 // Reply to friend request

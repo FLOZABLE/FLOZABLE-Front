@@ -1,4 +1,4 @@
-import { getNotifications } from "@/apis/notificationsApi";
+import { getNotifications } from "@/apis/notificationApi";
 import { useQuery } from "@tanstack/react-query";
 
 import { useAccount } from "./accountHooks";
@@ -21,18 +21,3 @@ export function useNotifications() {
     ...queryResult,
   };
 }
-
-/* function useVapidKeys() {
-  const queryResult = useQuery({
-    queryKey: [`vapidKeys`],
-    queryFn: getVapidKeys,
-    staleTime: 1000 * 60 * 60,
-  });
-
-  const { data: vapidKeysData } = queryResult;
-
-  return {
-    vapidKeysData,
-    ...queryResult,
-  };
-} */

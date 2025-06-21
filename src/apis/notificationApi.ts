@@ -3,11 +3,7 @@ import { requestHandler } from "@/lib/utils";
 import { NotificationsResponse } from "@/types/notificationTypes";
 
 async function getNotifications(): Promise<NotificationsResponse> {
-  return requestHandler(AxiosInstance.get(`/notifications`));
-}
-
-async function getVapidKeys() {
-  return requestHandler(AxiosInstance.get(`/notifications/vapidkeys`));
+  return requestHandler(AxiosInstance.get(`/notification/all`));
 }
 
 async function postNotificationsSubscribe(endpoint: string, keys: string[]) {
@@ -26,9 +22,4 @@ async function deleteNotification(notificationId: string) {
   );
 }
 
-export {
-  getNotifications,
-  getVapidKeys,
-  postNotificationsSubscribe,
-  deleteNotification,
-};
+export { getNotifications, postNotificationsSubscribe, deleteNotification };

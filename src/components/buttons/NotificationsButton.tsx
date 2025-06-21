@@ -1,8 +1,8 @@
 import { postChatRequestReply } from "@/apis/chatApi";
 import { replyToFriendRequest } from "@/apis/friendApi";
-import { deleteNotification } from "@/apis/notificationsApi";
+import { deleteNotification } from "@/apis/notificationApi";
 import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendHooks";
-import { useNotifications } from "@/hooks/notificationsHooks";
+import { useNotifications } from "@/hooks/notificationHooks";
 import { useNotificationsUpdater } from "@/hooks/updaters/notificationsUpdaters";
 import { cn } from "@/lib/utils";
 import { Notification } from "@/types/notificationTypes";
