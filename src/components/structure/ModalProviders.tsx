@@ -121,16 +121,19 @@ export const { Provider: PlanModalProvider, useModal: usePlanModal } =
     },
     "planModal",
   );
+
 export const { Provider: ChatModalProvider, useModal: useChatModal } =
   createModalProvider<ChatModalState, "chatModal">(
     { chatroom_id: null, name: "", opened: false, totalNewMsg: 0 },
     "chatModal",
     false,
   );
+
 export const {
   Provider: SearchUsersModalProvider,
   useModal: useSearchUsersModal,
 } = createModalProvider({ opened: false, onClick: null }, "searchUsersModal");
+
 export const { Provider: WelcomeModalProvider, useModal: useWelcomeModal } =
   createModalProvider(false, "isWelcomeModal", false);
 
