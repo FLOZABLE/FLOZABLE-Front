@@ -1,9 +1,9 @@
 import { GraduationCap } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { Button } from "../ui/button";
+import { Button, ButtonProps } from "../ui/button";
 
-export default function StudyButton() {
+export default function StudyButton({ ...props }: ButtonProps) {
   const router = useRouter();
 
   return (
@@ -13,7 +13,8 @@ export default function StudyButton() {
       iconPlacement="right"
       onClick={() => {
         router.push("/dashboard/study");
-      }}>
+      }}
+      {...props}>
       Go Study!
     </Button>
   );

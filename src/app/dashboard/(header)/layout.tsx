@@ -1,4 +1,5 @@
 //import Header from "@/components/structure/Header";
+import WelcomeModal from "@/components/modals/WelcomeModal";
 import AppSidebar from "@/components/sidebar/AppSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 
@@ -52,6 +53,8 @@ export default function DashboardLayout({
     <div className="flex w-screen dark:border-neutral-700 dark:bg-neutral-800 overflow-x-hidden">
       {/* <SidebarWrapper /> */}
       <SidebarProvider defaultOpen={false}>
+        <WelcomeModal />
+
         <AppSidebar />
         <div>
           <div style={{ width: `calc(100vw - 4rem)` }}>{children}</div>

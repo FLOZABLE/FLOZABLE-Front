@@ -130,7 +130,7 @@ function TutorialCard({
           onClick={skipTour}
           className={cn("w-full")}
           variant={"secondary"}>
-          Skip Tour
+          Skip Tutorial
         </Button>
       )}
       {currentTour === "newUser" && currentStep === totalSteps && (
