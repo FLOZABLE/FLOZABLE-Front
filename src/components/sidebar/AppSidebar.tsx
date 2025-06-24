@@ -94,7 +94,7 @@ export default function AppSidebar() {
     <Sidebar
       variant="floating"
       collapsible="icon"
-      mouseEvent={currentTour !== "newUser"}>
+      defaultMouseEvent={currentTour !== "newUser"}>
       <SidebarHeader>
         {/* <SidebarButton className="absolute right-[-2rem]" /> */}
         <AccountViewer />

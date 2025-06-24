@@ -26,7 +26,7 @@ export default function TutorialButton() {
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           onClick={() => {
             setOpen(false);
-            
+
             rotuer.push("/dashboard");
 
             setTimeout(() => {

@@ -39,6 +39,8 @@ type SidebarContextProps = {
   setOpenMobile: (open: boolean) => void;
   isMobile: boolean;
   toggleSidebar: () => void;
+  isMouseEvent: boolean;
+  setIsMouseEvent: (boolean: boolean) => void;
 };
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
@@ -67,6 +69,7 @@ function SidebarProvider({
 }) {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
+  const [isMouseEvent, setIsMouseEvent] = React.useState(true);
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -121,8 +124,20 @@ function SidebarProvider({
       openMobile,
       setOpenMobile,
       toggleSidebar,
+      isMouseEvent,
+      setIsMouseEvent,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
+    [
+      state,
+      open,
+      setOpen,
+      isMobile,
+      openMobile,
+      setOpenMobile,
+      toggleSidebar,
+      isMouseEvent,
+      setIsMouseEvent,
+    ],
   );
 
   return (
@@ -153,7 +168,7 @@ function Sidebar({
   side = "left",
   variant = "sidebar",
   collapsible = "offcanvas",
-  mouseEvent,
+  defaultMouseEvent = true,
   className,
   children,
   ...props
@@ -161,9 +176,21 @@ function Sidebar({
   side?: "left" | "right";
   variant?: "sidebar" | "floating" | "inset";
   collapsible?: "offcanvas" | "icon" | "none";
-  mouseEvent?: boolean;
+  defaultMouseEvent?: boolean;
 }) {
-  const { isMobile, state, openMobile, setOpenMobile, setOpen } = useSidebar();
+  const {
+    isMobile,
+    state,
+    openMobile,
+    setOpenMobile,
+    setOpen,
+    isMouseEvent,
+    setIsMouseEvent,
+  } = useSidebar();
+
+  React.useEffect(() => {
+    setIsMouseEvent(defaultMouseEvent);
+  }, [defaultMouseEvent]);
 
   if (collapsible === "none") {
     return (
@@ -212,11 +239,11 @@ function Sidebar({
       data-side={side}
       data-slot="sidebar"
       onMouseEnter={() => {
-        if (!mouseEvent) return;
+        if (!isMouseEvent) return;
         setOpen(true);
       }}
       onMouseLeave={() => {
-        if (!mouseEvent) return;
+        if (!isMouseEvent) return;
         setOpen(false);
       }}>
       {/* This is what handles the sidebar gap on desktop */}

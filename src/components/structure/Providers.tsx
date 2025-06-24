@@ -2,17 +2,17 @@
 
 import { useAccount } from "@/hooks/accountHooks";
 import { useThemes, useThemesUser } from "@/hooks/themesHooks";
-import { useTutorial } from "@/hooks/tutorialHooks";
 import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
+import { useNotificationsUpdater } from "@/hooks/updaters/notificationUpdaters";
 import config from "@/lib/config";
 import mediaSocket from "@/lib/sockets/mediaSocket";
 import socket from "@/lib/sockets/socket";
 import steps from "@/lib/steps";
-import { updateQueryData } from "@/lib/utils";
 import {
   CallOptionsContextType,
   WorkersContextType,
 } from "@/types/contextTypes";
+import { Notification } from "@/types/notificationTypes";
 import {
   OnActiveGroup,
   OnDeActiveGroup,
@@ -26,7 +26,6 @@ import { NextStep, NextStepProvider } from "nextstepjs";
 import {
   createContext,
   ReactNode,
-  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -123,11 +122,7 @@ function AppProvider({ children }: ProviderProps) {
     []
   ); */
 
-  const updateNotificationsData = useCallback(async (newData: any) => {
-    await queryClient.setQueryData(["useNotifications"], (oldData: any) => {
-      return updateQueryData(oldData, newData, "notifications");
-    });
-  }, []);
+  const updateNotifications = useNotificationsUpdater();
 
   useEffect(() => {
     const onStudying = ({ userId, subject }: OnStudying) => {
@@ -176,9 +171,10 @@ function AppProvider({ children }: ProviderProps) {
       });
     };
 
-    const onNotification = (notification: any) => {
-      updateNotificationsData((prev: any[]) => [...prev, notification]);
-      toast.info(notification.message?.title);
+    const onNotification = (notification: Notification) => {
+      console.log("new notification", notification);
+      updateNotifications((prev) => [...prev, notification]);
+      toast.info(notification.title);
     };
 
     socket.on("study:start", onStudying);
@@ -356,7 +352,9 @@ function TutorialProvider({ children }: ProviderProps) {
         stiffness: 200,
         damping: 20,
       }}
-      onComplete={(tourName) => console.log(`Tour completed: ${tourName}`)}
+      onComplete={(tourName) => {
+        console.log(`Tour completed: ${tourName}`);
+      }}
       onSkip={(step, tourName) =>
         console.log(`Tour skipped: ${step} in ${tourName}`)
       }

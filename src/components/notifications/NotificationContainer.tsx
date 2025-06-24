@@ -21,8 +21,8 @@ export default function NotificationContainer({
       {!notification.cover_image ? null : notification.cover_image ===
         "profile" ? (
         <AvatarWrapper
-          name={notification.userinfo.name}
-          userId={notification.userinfo.user_id}
+          name={notification.sender.name}
+          userId={notification.sender.user_id}
         />
       ) : (
         <Image

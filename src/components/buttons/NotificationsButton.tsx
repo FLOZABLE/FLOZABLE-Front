@@ -3,7 +3,7 @@ import { replyToFriendRequest } from "@/apis/friendApi";
 import { deleteNotification } from "@/apis/notificationApi";
 import { useFriendsStatus, useFriendsTrends } from "@/hooks/friendHooks";
 import { useNotifications } from "@/hooks/notificationHooks";
-import { useNotificationsUpdater } from "@/hooks/updaters/notificationsUpdaters";
+import { useNotificationsUpdater } from "@/hooks/updaters/notificationUpdaters";
 import { cn } from "@/lib/utils";
 import { Notification } from "@/types/notificationTypes";
 import { Bell, Dot } from "lucide-react";
@@ -19,6 +19,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useSidebar } from "../ui/sidebar";
 
 interface NotificationsButton extends ButtonProps {
   buttonRef?: React.Ref<HTMLButtonElement>;
@@ -29,6 +30,8 @@ export default function NotificationsButton({
   buttonRef,
   ...props
 }: NotificationsButton) {
+  const { setOpen: setSidebarOpen, setIsMouseEvent } = useSidebar();
+
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -103,7 +106,7 @@ export default function NotificationsButton({
             </Button>,
           ],
           onClick: () =>
-            router.push(`/dashboard/user/${notification.userinfo.user_id}`),
+            router.push(`/dashboard/user/${notification.sender.user_id}`),
         };
       case "friend_request_accepted":
         return {
@@ -119,7 +122,7 @@ export default function NotificationsButton({
             </Button>,
           ],
           onClick: () =>
-            router.push(`/dashboard/user/${notification.userinfo.user_id}`),
+            router.push(`/dashboard/user/${notification.sender.user_id}`),
         };
       case "chat_request":
         return {
@@ -150,7 +153,14 @@ export default function NotificationsButton({
   }, []);
 
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
+    <DropdownMenu
+      open={open}
+      /* modal={true} */
+      onOpenChange={(open) => {
+        setSidebarOpen(open);
+        setIsMouseEvent(!open);
+        setOpen(open);
+      }}>
       <DropdownMenuTrigger asChild>
         <Button
           className={cn("aspect-square h-10 w-10 relative", className)}
@@ -171,8 +181,8 @@ export default function NotificationsButton({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        side="left"
-        align="start"
+        side="right"
+        align="end"
         className="p-0 max-h-[70vh]">
         <DropdownMenuLabel className="sticky top-0 z-10 bg-background border-b-2 p-3">
           Notifications

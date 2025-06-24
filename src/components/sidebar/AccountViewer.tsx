@@ -6,9 +6,16 @@ import Image from "next/image";
 import AccountButton from "../buttons/AccountButton";
 import NotificationsButton from "../buttons/NotificationsButton";
 import AvatarWrapper from "../ui/avatar";
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "../ui/sidebar";
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "../ui/sidebar";
 
 export default function AccountViewer() {
+  const { open } = useSidebar();
+
   const { account } = useAccount();
 
   return (
@@ -34,7 +41,7 @@ export default function AccountViewer() {
                 <span className="truncate font-medium px-3">
                   {account ? account.name : "FLOZABLE"}
                 </span>
-                <NotificationsButton className="ml-auto" />
+                {open && <NotificationsButton className="ml-auto" />}
               </div>
               <AccountButton
                 variant={"default"}
