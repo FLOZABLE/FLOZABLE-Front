@@ -3,19 +3,23 @@ import { ApiResponse } from "./responseTypes";
 
 export type NotificationType =
   | "friend_request"
-  | "friend_request_sent"
-  | "friend_request_accepted"
-  | "chat_request";
+  | "friend_accepted"
+  | "group_invite"
+  | "chat_request"
+  | "global";
 
 export interface Notification {
   notification_id: string;
   type: NotificationType;
-  from_user_id: string;
-  sent_at: string;
-  sender: Userinfo;
+  sender_id: string | null;
+  group_id: string | null;
+  friend_request_id: string | null;
+  sent_at: number;
   title: string;
-  contents: string;
-  cover_image?: string;
+  sender: Userinfo | null;
+  is_read: boolean;
+  group: { name: string; group_id: string } | null;
+  message: string;
 }
 
 // get /notifications

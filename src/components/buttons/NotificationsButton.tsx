@@ -51,8 +51,8 @@ export default function NotificationsButton({
   }, []);
 
   const friendRequestReply = useCallback(
-    async (notificationId: string, accepted: boolean) => {
-      const response = await replyToFriendRequest(notificationId, accepted);
+    async (notificationId: string, friendshipId: string, accepted: boolean) => {
+      const response = await replyToFriendRequest(friendshipId, accepted);
 
       filterNotification(notificationId);
 
@@ -91,7 +91,11 @@ export default function NotificationsButton({
               variant="outline"
               onClick={(e) => {
                 e.stopPropagation();
-                friendRequestReply(notification_id, true);
+                friendRequestReply(
+                  notification_id,
+                  notification.friend_request_id!,
+                  true,
+                );
               }}>
               Accept
             </Button>,
@@ -100,15 +104,19 @@ export default function NotificationsButton({
               variant="destructive"
               onClick={(e) => {
                 e.stopPropagation();
-                friendRequestReply(notification_id, false);
+                friendRequestReply(
+                  notification_id,
+                  notification.friend_request_id!,
+                  false,
+                );
               }}>
               Decline
             </Button>,
           ],
           onClick: () =>
-            router.push(`/dashboard/user/${notification.sender.user_id}`),
+            router.push(`/dashboard/user/${notification.sender?.user_id}`),
         };
-      case "friend_request_accepted":
+      case "friend_accepted":
         return {
           buttons: [
             <Button
@@ -122,7 +130,7 @@ export default function NotificationsButton({
             </Button>,
           ],
           onClick: () =>
-            router.push(`/dashboard/user/${notification.sender.user_id}`),
+            router.push(`/dashboard/user/${notification.sender?.user_id}`),
         };
       case "chat_request":
         return {
@@ -183,23 +191,29 @@ export default function NotificationsButton({
       <DropdownMenuContent
         side="right"
         align="end"
-        className="p-0 max-h-[70vh]">
+        className="p-0 max-h-[70vh] min-w-80">
         <DropdownMenuLabel className="sticky top-0 z-10 bg-background border-b-2 p-3">
           Notifications
         </DropdownMenuLabel>
-        {notifications?.map((notification, i) => {
-          const { buttons, onClick } = getNotificationProps(notification);
+        {notifications?.length ? (
+          notifications.map((notification, i) => {
+            const { buttons, onClick } = getNotificationProps(notification);
 
-          return (
-            <DropdownMenuItem key={i}>
-              <NotificationContainer
-                notification={notification}
-                onClick={onClick}>
-                {buttons}
-              </NotificationContainer>
-            </DropdownMenuItem>
-          );
-        })}
+            return (
+              <DropdownMenuItem key={i}>
+                <NotificationContainer
+                  notification={notification}
+                  onClick={onClick}>
+                  {buttons}
+                </NotificationContainer>
+              </DropdownMenuItem>
+            );
+          })
+        ) : (
+          <DropdownMenuItem>
+            <p>You got no notifications</p>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

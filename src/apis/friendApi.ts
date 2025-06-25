@@ -62,12 +62,11 @@ export async function sendFriendRequest(targetId: string) {
 
 // Reply to friend request
 export async function replyToFriendRequest(
-  notificationId: string,
+  friendshipId: string,
   accepted: boolean,
 ) {
   return requestHandler(
-    AxiosInstance.post("/friend/request/reply", {
-      notification_id: notificationId,
+    AxiosInstance.post(`/friend/request/${friendshipId}/reply`, {
       accepted,
     }),
   );
