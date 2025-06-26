@@ -27,7 +27,7 @@ export interface FriendTrend {
 // --- API Response Types ---
 
 // GET /friend/all
-export type FriendsResponse = ApiResponse<{ friends: Friend[] }>;
+export type FriendsResponse = ApiResponse<{ friends: string[] }>;
 
 // GET /friend/search
 export type FriendSearchResponse = ApiResponse<{ users: Userinfo[] }>;

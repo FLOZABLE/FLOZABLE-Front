@@ -3,7 +3,7 @@ import { ActiveGroup } from "./groupTypes";
 import { ActiveSubject } from "./subjectTypes";
 
 export interface OnStudying {
-  userId: string;
+  user_id: string;
   subject: ActiveSubject;
 }
 

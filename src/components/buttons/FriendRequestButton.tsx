@@ -41,7 +41,7 @@ export default function FriendRequestButton({
   }, [userInfo]);
 
   const isFriend = friendsData?.find(
-    (friend) => friend.user_id === userInfo.user_id,
+    (friendId) => friendId === userInfo.user_id,
   );
 
   return (

@@ -15,11 +15,7 @@ export async function getFriends(): Promise<FriendsResponse> {
 
 // Delete a friend
 export async function deleteFriend(friendId: string) {
-  return requestHandler(
-    AxiosInstance.delete("/friend", {
-      data: { friend_id: friendId },
-    }),
-  );
+  return requestHandler(AxiosInstance.delete(`/friend/${friendId}`));
 }
 
 // Get recommended friends
@@ -50,7 +46,7 @@ export async function getFriendTrends(): Promise<FriendsTrendsResponse> {
 // Get friend status with timezone
 export async function getFriendStatus(): Promise<FriendsStatusResponse> {
   return requestHandler(
-    AxiosInstance.get("/friend/status", {
+    AxiosInstance.get("/friend/all/status", {
       params: { timezone: getTimezone() },
     }),
   );

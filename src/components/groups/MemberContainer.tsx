@@ -44,6 +44,7 @@ export default function MemberContainer({
       timer.start = member.status?.start_time;
       timer.name = `Studying ${member.status.name}`;
     }
+    console.log("time", timer);
     setSubjectTimer(timer);
   }, [member]);
 

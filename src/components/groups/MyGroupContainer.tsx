@@ -109,10 +109,10 @@ export default function MyGroupContainer({
   }, [groupMembersData]);
 
   useEffect(() => {
-    const onStudying = ({ userId, subject }: OnStudying) => {
+    const onStudying = ({ user_id, subject }: OnStudying) => {
       updateGroupMembers((prev) => {
         const memberIndex = prev.findIndex(
-          (member) => member.user_id === userId,
+          (member) => member.user_id === user_id,
         );
         if (memberIndex === -1) return prev;
 
