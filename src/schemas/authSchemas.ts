@@ -6,7 +6,6 @@ export const postAuthSignupSchema = z.object({
   email: accountSchemas.email,
   name: accountSchemas.name,
   password: accountSchemas.password,
-  timezone: accountSchemas.timezone,
 });
 export type PostAuthSignupSchemaValues = z.infer<typeof postAuthSignupSchema>;
 

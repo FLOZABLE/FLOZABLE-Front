@@ -2,7 +2,6 @@
 
 import { postAuthSignin, postAuthSignup } from "@/apis/authApi";
 import { useAccount } from "@/hooks/accountHooks";
-import { useTutorial } from "@/hooks/tutorialHooks";
 import { getTimezone } from "@/lib/utils";
 import {
   postAuthSigninSchema,
@@ -50,8 +49,6 @@ export default function AccountModal() {
 
   const [isShowPassword, setIsShowPassword] = useState(false);
 
-  const { startNextStep } = useTutorial();
-
   const signInForm = useForm<PostAuthSigninSchemaValues>({
     resolver: zodResolver(postAuthSigninSchema),
     defaultValues: {
@@ -98,7 +95,7 @@ export default function AccountModal() {
         isSignIn: true,
       }));
 
-      startNextStep("newUser");
+      router.push("/dashboard?welcome=true");
     },
     [accountRefetch, setAccountModal, searchParams, router],
   );
@@ -203,7 +200,11 @@ export default function AccountModal() {
           ) : (
             <Form {...signUpForm}>
               <form
-                onSubmit={signUpForm.handleSubmit(onSignUp)}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  console.log("Form submitted");
+                  signUpForm.handleSubmit(onSignUp)(e);
+                }}
                 className="space-y-6">
                 <FormField
                   control={signUpForm.control}
