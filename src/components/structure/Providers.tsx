@@ -125,9 +125,9 @@ function AppProvider({ children }: ProviderProps) {
   const updateNotifications = useNotificationsUpdater();
 
   useEffect(() => {
-    const onStudying = ({ userId, subject }: OnStudying) => {
+    const onStudying = ({ user_id, subject }: OnStudying) => {
       updateFriendsStatus((prev) => {
-        const index = prev.findIndex((f) => f.user_id === userId);
+        const index = prev.findIndex((f) => f.user_id === user_id);
         if (index === -1) return prev;
         const copy = [...prev];
         copy[index] = { ...copy[index], status: subject };
