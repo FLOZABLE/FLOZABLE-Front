@@ -7,7 +7,7 @@ import SubjectsTrendChart from "@/components/charts/SubjectsTrendChart";
 import SelectorWrapper from "@/components/ui/select";
 import { useAccount } from "@/hooks/accountHooks";
 import { useSubjects } from "@/hooks/subjectsHooks";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { useState } from "react";
 
 export default function Stats() {

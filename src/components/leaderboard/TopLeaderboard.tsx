@@ -8,7 +8,7 @@ import {
 import { useAccount } from "@/hooks/accountHooks";
 import { useRankings } from "@/hooks/rankingHooks";
 import { getDatesDisplay, secondConverter } from "@/lib/utils";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { Ranking } from "@/types/rankingTypes";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { DateTime } from "luxon";

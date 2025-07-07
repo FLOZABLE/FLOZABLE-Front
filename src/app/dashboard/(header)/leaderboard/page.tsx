@@ -26,7 +26,7 @@ import { useUpdateSearchParam } from "@/hooks/otherHooks";
 import { useRankings } from "@/hooks/rankingHooks";
 import { useTutorial } from "@/hooks/tutorialHooks";
 import { cn, secondConverter } from "@/lib/utils";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";

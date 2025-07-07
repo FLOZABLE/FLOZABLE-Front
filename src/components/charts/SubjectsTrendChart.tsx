@@ -16,7 +16,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { cn, getDates, getDatesDisplay, secondConverter } from "@/lib/utils";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { Subject } from "@/types/subjectTypes";
 import { ComponentProps, useMemo, useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";

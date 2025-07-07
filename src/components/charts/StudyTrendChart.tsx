@@ -14,7 +14,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { cn, getDates, getDatesDisplay, secondConverter } from "@/lib/utils";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { GroupedSubjects } from "@/types/subjectTypes";
 import { useRouter } from "next/navigation";
 import { ComponentProps, useEffect, useState } from "react";

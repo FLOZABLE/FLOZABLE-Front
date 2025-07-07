@@ -2,7 +2,7 @@
 
 import { patchPlan, putPlan } from "@/apis/planApi";
 import { usePlans } from "@/hooks/planHooks";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { defaultPlan, EventPlan } from "@/types/planTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon } from "lucide-react";

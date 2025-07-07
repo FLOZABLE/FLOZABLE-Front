@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/chart";
 import { useRankingsUser } from "@/hooks/rankingHooks";
 import { cn, getDatesDisplay } from "@/lib/utils";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { DateTime } from "luxon";
 import { ComponentProps, useMemo } from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";

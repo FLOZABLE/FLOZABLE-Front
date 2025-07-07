@@ -11,7 +11,7 @@ import SelectorWrapper from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import YoutubePlayer from "@/components/youtube/YouTubePlayer";
 import { useTutorial } from "@/hooks/tutorialHooks";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { Play } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

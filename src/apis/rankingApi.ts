@@ -1,6 +1,6 @@
 import AxiosInstance from "@/lib/axiosInstance";
 import { getTimezone, requestHandler } from "@/lib/utils";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { RankingsResponse, UserRankingsResponse } from "@/types/rankingTypes";
 import { DateTime } from "luxon";
 

@@ -1,7 +1,7 @@
 import { useAccountGoogle } from "@/hooks/accountHooks";
 import { usePlans } from "@/hooks/planHooks";
 import { cn } from "@/lib/utils";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { EventInput } from "@fullcalendar/core";
 import { CirclePlus } from "lucide-react";
 import { DateTime } from "luxon";

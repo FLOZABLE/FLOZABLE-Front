@@ -8,7 +8,7 @@ import {
 } from "@/types/chatTypes";
 
 export async function getChatRooms(): Promise<ChatRoomsResponse> {
-  return requestHandler(AxiosInstance.get(`/chat/rooms`));
+  return requestHandler(AxiosInstance.get(`/chat/room/all`));
 }
 
 export async function getChatMessages(

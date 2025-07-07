@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import SelectorWrapper from "@/components/ui/select";
 import { useWindowSize } from "@/hooks/otherHooks";
 import { usePlans } from "@/hooks/planHooks";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { convertToEventPlan, EventPlan } from "@/types/planTypes";
 import newStyled from "@emotion/styled";
 import {

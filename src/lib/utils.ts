@@ -1,4 +1,4 @@
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { ApiResponse } from "@/types/responseTypes";
 import { GroupedSubjects } from "@/types/subjectTypes";
 import { AxiosError, AxiosResponse } from "axios";

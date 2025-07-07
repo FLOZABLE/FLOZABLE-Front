@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn, getDatesDisplay } from "@/lib/utils";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateTime } from "luxon";

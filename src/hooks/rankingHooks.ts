@@ -1,5 +1,5 @@
 import { getRankings, getUserRankings } from "@/apis/rankingApi";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { useQuery } from "@tanstack/react-query";
 
 export function useRankings(viewer: ViewerType, viewDate: Date) {

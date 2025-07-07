@@ -4,7 +4,7 @@ import RankingTrendChart from "@/components/charts/RankingTrendChart";
 import StudyTrendChart from "@/components/charts/StudyTrendChart";
 import ProfileCard from "@/components/users/ProfileCard";
 import { useAccountProfile } from "@/hooks/accountHooks";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { use, useState } from "react";
 
 type UserPageProps = {

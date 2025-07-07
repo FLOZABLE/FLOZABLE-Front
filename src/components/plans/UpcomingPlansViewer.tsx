@@ -1,5 +1,5 @@
 import { useAccountGoogle } from "@/hooks/accountHooks";
-import { ViewerType } from "@/types/othersTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { EventInput } from "@fullcalendar/core";
 import { Clock } from "lucide-react";
 import { DateTime } from "luxon";
