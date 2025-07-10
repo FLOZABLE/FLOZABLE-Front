@@ -71,16 +71,22 @@ export default function NotificationsButton({
   }, []);
 
   const chatRequestReply = useCallback(
-    async (notificationId: string, accepted: boolean) => {
+    async (
+      notificationId: string,
+      userId: string | undefined,
+      accepted: boolean,
+    ) => {
       filterNotification(notificationId);
 
-      postChatRequestReply(notificationId, accepted);
+      postChatRequestReply(userId, accepted);
     },
     [],
   );
 
   const getNotificationProps = useCallback((notification: Notification) => {
     const { type, notification_id } = notification;
+
+    const senderId = notification.sender?.user_id;
 
     switch (type) {
       case "friend_request":
@@ -113,8 +119,7 @@ export default function NotificationsButton({
               Decline
             </Button>,
           ],
-          onClick: () =>
-            router.push(`/dashboard/user/${notification.sender?.user_id}`),
+          onClick: () => router.push(`/dashboard/user/${senderId}`),
         };
       case "friend_accepted":
         return {
@@ -129,8 +134,7 @@ export default function NotificationsButton({
               Got it
             </Button>,
           ],
-          onClick: () =>
-            router.push(`/dashboard/user/${notification.sender?.user_id}`),
+          onClick: () => router.push(`/dashboard/user/${senderId}`),
         };
       case "chat_request":
         return {
@@ -140,7 +144,7 @@ export default function NotificationsButton({
               variant="outline"
               onClick={(e) => {
                 e.stopPropagation();
-                chatRequestReply(notification_id, true);
+                chatRequestReply(notification_id, senderId, true);
               }}>
               Accept
             </Button>,
@@ -149,7 +153,7 @@ export default function NotificationsButton({
               variant="destructive"
               onClick={(e) => {
                 e.stopPropagation();
-                chatRequestReply(notification_id, false);
+                chatRequestReply(notification_id, senderId, false);
               }}>
               Decline
             </Button>,

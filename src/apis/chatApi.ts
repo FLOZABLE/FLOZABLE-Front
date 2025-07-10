@@ -17,9 +17,8 @@ export async function getChatMessages(
   length: number,
 ): Promise<ChatMessagesResponse> {
   return requestHandler(
-    AxiosInstance.get(`/chat/messages`, {
+    AxiosInstance.get(`/chat/room/${chatroomId}/messages`, {
       params: {
-        chatroom_id: chatroomId,
         offset: pageParam,
         length,
       },
@@ -30,13 +29,7 @@ export async function getChatMessages(
 export async function getChatMembers(
   chatroomId: string,
 ): Promise<ChatMembersResponse> {
-  return requestHandler(
-    AxiosInstance.get(`/chat/members`, {
-      params: {
-        chatroom_id: chatroomId,
-      },
-    }),
-  );
+  return requestHandler(AxiosInstance.get(`/chat/room/${chatroomId}/members`));
 }
 
 export async function postChatRequest(
@@ -50,12 +43,12 @@ export async function postChatRequest(
 }
 
 export async function postChatRequestReply(
-  notificationId: string,
+  userId: string | undefined,
   accepted: boolean,
 ) {
   return requestHandler(
     AxiosInstance.post(`/chat/request/reply`, {
-      notification_id: notificationId,
+      target_id: userId,
       accepted,
     }),
   );

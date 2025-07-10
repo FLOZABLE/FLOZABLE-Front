@@ -166,16 +166,16 @@ export default function ChatModal() {
 
     const onChatMessage = async ({
       message,
-      chatroomId,
+      chatroom_id,
     }: {
       message: Message;
-      chatroomId: string;
+      chatroom_id: string;
     }) => {
-      console.log(message, chatroomId, "new message");
+      console.log(message, chatroom_id, "new message");
       const updatedChatrooms = await updateChatrooms((prev) => {
         const newChatrooms = [...prev];
         const chatroomIndex = newChatrooms.findIndex(
-          (chatroom) => chatroom.chatroom_id === chatroomId,
+          (chatroom) => chatroom.chatroom_id === chatroom_id,
         );
 
         if (chatroomIndex === -1) return [...prev];
@@ -184,11 +184,11 @@ export default function ChatModal() {
           ...newChatrooms[chatroomIndex],
           last_message: message,
           unreads:
-            chatModal.chatroom_id === chatroomId
+            chatModal.chatroom_id === chatroom_id
               ? 0
               : newChatrooms[chatroomIndex].unreads + 1,
           last_read:
-            chatModal.chatroom_id === chatroomId
+            chatModal.chatroom_id === chatroom_id
               ? message.message_id
               : newChatrooms[chatroomIndex].last_read,
         };
@@ -202,7 +202,7 @@ export default function ChatModal() {
         return updatedChatrooms;
       });
 
-      if (chatModal.chatroom_id === chatroomId) {
+      if (chatModal.chatroom_id === chatroom_id) {
         setMessages((prev) => [...prev, message]);
         socket.emit("chat:read", chatModal.chatroom_id);
       } else {
@@ -211,7 +211,7 @@ export default function ChatModal() {
         }
 
         const chatroom = updatedChatrooms?.find(
-          (chatroom) => chatroom.chatroom_id === chatroomId,
+          (chatroom) => chatroom.chatroom_id === chatroom_id,
         );
         toast.info(
           <div>
@@ -225,7 +225,7 @@ export default function ChatModal() {
                 setChatModal((prev) => ({
                   ...prev,
                   opened: true,
-                  chatroom_id: chatroomId,
+                  chatroom_id: chatroom_id,
                 })),
             },
           },
