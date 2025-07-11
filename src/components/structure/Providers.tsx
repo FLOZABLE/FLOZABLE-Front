@@ -151,7 +151,7 @@ function AppProvider({ children }: ProviderProps) {
       //updateProfileStatus(userId, "status", status);
     };
 
-    const onActiveGroup = ({ userId, group }: OnActiveGroup) => {
+    const onActiveGroup = ({ user_id: userId, group }: OnActiveGroup) => {
       updateFriendsStatus((prev) => {
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;
@@ -161,7 +161,7 @@ function AppProvider({ children }: ProviderProps) {
       });
     };
 
-    const onDeActiveGroup = ({ userId }: OnDeActiveGroup) => {
+    const onDeActiveGroup = ({ user_id: userId }: OnDeActiveGroup) => {
       updateFriendsStatus((prev) => {
         const index = prev.findIndex((f) => f.user_id === userId);
         if (index === -1) return prev;

@@ -23,10 +23,10 @@ export interface OnMyStopStudying {
 }
 
 export interface OnActiveGroup {
-  userId: string;
+  user_id: string;
   group: ActiveGroup;
 }
 
 export interface OnDeActiveGroup {
-  userId: string;
+  user_id: string;
 }

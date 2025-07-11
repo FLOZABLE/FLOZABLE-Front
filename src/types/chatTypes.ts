@@ -18,6 +18,7 @@ export interface ChatRoom {
   last_read: string | null;
   unreads: number;
   name: string;
+  group_id?: string;
 }
 
 export interface UseChatMessagesParams {

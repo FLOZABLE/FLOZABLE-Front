@@ -77,11 +77,17 @@ export default function ChatButton({
       className={cn("relative", className)}
       onClick={() => {
         if (groupId) {
-          setChatModal((prev) => ({
-            ...prev,
-            chatroom_id: groupId,
-            opened: true,
-          }));
+          const chatroom = chatrooms?.find(
+            (chatroom) => chatroom.group_id === groupId,
+          );
+
+          if (chatroom) {
+            setChatModal((prev) => ({
+              ...prev,
+              chatroom_id: chatroom.chatroom_id,
+              opened: true,
+            }));
+          }
         } else if (!userInfo) {
           return setChatModal((prev) => ({
             ...prev,

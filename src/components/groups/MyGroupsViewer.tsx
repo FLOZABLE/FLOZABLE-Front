@@ -2,6 +2,7 @@ import { postGroupLeave } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { useGroups, useMyGroups } from "@/hooks/groupHook";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
+import { useChatroomsUpdater } from "@/hooks/updaters/chatUpdaters";
 import {
   useGroupsUpdater,
   useMyGroupsUpdater,
@@ -25,7 +26,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { useDebounce } from "use-debounce";
 
-import { useJoinGroupModal } from "../structure/ModalProviders";
+import { useChatModal, useJoinGroupModal } from "../structure/ModalProviders";
 import { AlertDialogWrapper } from "../ui/alert-dialog";
 import MyGroupContainer from "./MyGroupContainer";
 
@@ -51,6 +52,7 @@ export default function MyGroupsViewer({
   const { account } = useAccount();
 
   const { setJoinGroupModal } = useJoinGroupModal();
+  const { setChatModal } = useChatModal();
 
   const [activeIndex, setActiveIndex] = useState(-1);
 
@@ -63,6 +65,7 @@ export default function MyGroupsViewer({
 
   const updateMyGroups = useMyGroupsUpdater();
   const updateGroups = useGroupsUpdater();
+  const updateChatrooms = useChatroomsUpdater();
 
   const [confirmLeaveModal, setConfirmLeaveModal] =
     useState<setConfirmLeaveModalType>({
@@ -151,6 +154,25 @@ export default function MyGroupsViewer({
         ),
       };
       return newGroups;
+    });
+
+    updateChatrooms((prev) => {
+      const chatroomIndex = prev.findIndex(
+        (chatroom) => chatroom.group_id === groupId,
+      );
+
+      if (chatroomIndex === -1) return prev;
+
+      setChatModal((prevModal) => {
+        if (prevModal.chatroom_id === prev[chatroomIndex].chatroom_id) {
+          return { ...prevModal, chatroom_id: null };
+        } else {
+          return prevModal;
+        }
+      });
+
+      prev.splice(chatroomIndex, 1);
+      return prev;
     });
   }, [myGroups, confirmLeaveModal, account]);
 

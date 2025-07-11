@@ -2,6 +2,7 @@
 
 import { postGroupJoin } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
+import { useChatRooms } from "@/hooks/chatHooks";
 import { useGroups } from "@/hooks/groupHook";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { useRankings } from "@/hooks/rankingHooks";
@@ -55,6 +56,7 @@ export default function JoinGroupModal() {
     "day",
     new Date(new Date().setHours(0, 0, 0, 0)),
   );
+  const { chatroomsRefetch } = useChatRooms();
 
   const group: Group | null = useMemo(() => {
     const group = groups?.find(
@@ -99,6 +101,8 @@ export default function JoinGroupModal() {
         const newGroups = [...prev, joinedGroup.group_id];
         return newGroups;
       });
+
+      chatroomsRefetch();
 
       const myGroupsViewer = document.querySelector("#myGroupsViewer");
       myGroupsViewer?.scrollIntoView({
