@@ -116,7 +116,7 @@ export default function Leaderboard() {
                   .map((rankingInfo, i) => {
                     return (
                       <div key={i} className="flex items-center">
-                        {rankingInfo.ranking}
+                        {rankingInfo.rank}
                         <UserContainer
                           userinfo={rankingInfo}
                           onClick={() => {

@@ -4,7 +4,7 @@ import { ApiResponse } from "./responseTypes";
 // Ranking for a user on a specific day
 export interface Ranking
   extends Pick<Userinfo, "user_id" | "name" | "timezone" | "created_at"> {
-  ranking: number;
+  rank: number;
   study_time: number;
   date: string;
 }
