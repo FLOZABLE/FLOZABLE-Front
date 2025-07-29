@@ -50,13 +50,13 @@ export default function MemberContainer({
 
   return (
     <div
-      className="bg-muted/50 h-32 !rounded-xl relative p-3"
+      className="bg-muted/50 h-32 !rounded-xl relative p-3 overflow-hidden"
       onClick={() => {
         router.push(`/dashboard/user/${member.user_id}`);
       }}>
       <p className="truncate">{member.name}</p>
       <AvatarWrapper
-        className="absolute bottom-[-0.5rem] left-[-0.5rem]"
+        className="absolute bottom-[0.5rem] left-[0.5rem] z-10"
         name={member.name}
         userId={member.user_id}
       />

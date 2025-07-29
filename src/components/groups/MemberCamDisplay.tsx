@@ -128,8 +128,8 @@ export default function MemberCamDisplay({
   }, [isHeadphone]);
 
   return (
-    <div className="absolute w-full h-full left-0 top-0 pointer-events-none">
-      <video muted={true} ref={videoRef} autoPlay playsInline />
+    <div className="w-full h-full pointer-events-none">
+      <video muted={true} ref={videoRef} className="absolute-center" autoPlay playsInline />
       <audio ref={audioRef} />
       <div className="flex absolute gap-2 bottom-2 right-2">
         <Badge variant="outline">
