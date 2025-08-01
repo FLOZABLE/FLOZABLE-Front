@@ -2,6 +2,7 @@
 
 import { useAccount } from "@/hooks/accountHooks";
 import Image from "next/image";
+import Link from "next/link";
 
 import AccountButton from "../buttons/AccountButton";
 import NotificationsButton from "../buttons/NotificationsButton";
@@ -38,9 +39,11 @@ export default function AccountViewer() {
             )}
             <div className="grid flex-1 text-left text-sm leading-tight gap-2">
               <div className="flex justify-between items-center ">
-                <span className="truncate font-medium px-3">
+                <Link
+                  href={"/dashboard/account"}
+                  className="truncate font-medium px-3">
                   {account ? account.name : "FLOZABLE"}
-                </span>
+                </Link>
                 {open && <NotificationsButton className="ml-auto" />}
               </div>
               <AccountButton

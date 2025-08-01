@@ -47,7 +47,7 @@ export async function patchAccountInfo({
   email,
 }: PatchAccountInfoParams): Promise<AccountPatchResponse> {
   return requestHandler(
-    AxiosInstance.patch(`/account`, {
+    AxiosInstance.patch(`/account/info`, {
       name,
       email,
     }),
