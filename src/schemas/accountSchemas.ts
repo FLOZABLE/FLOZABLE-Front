@@ -52,7 +52,7 @@ export type PatchAccountProfileSchemaValues = z.infer<
 
 export const patchAccountPasswordSchema = z
   .object({
-    password: accountSchemas.email,
+    password: accountSchemas.password,
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {

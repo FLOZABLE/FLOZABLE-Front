@@ -29,7 +29,7 @@ import {
   PatchAccountProfileSchemaValues,
 } from "@/schemas/accountSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Lock, UserRoundPen } from "lucide-react";
+import { Camera, Lock, UserRoundPen } from "lucide-react";
 import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 
@@ -85,11 +85,16 @@ export default function Account() {
       </div>
       <div className="flex flex-col gap-5">
         <div className="flex flex-col items-center">
-          <AvatarWrapper
-            userId={account.user_id}
-            name={account.name}
-            className="size-50"
-          />
+          <div className="relative ">
+            <AvatarWrapper
+              userId={account.user_id}
+              name={account.name}
+              className="size-50"
+            />
+            <Camera className="absolute right-0 bottom-0 opacity-50 transition-opacity hover:opacity-100" onClick={() => {
+              
+            }}/>
+          </div>
           <p className="text-2xl font-semibold">Welcome, {account.name}</p>
         </div>
         <div className="flex gap-5">
