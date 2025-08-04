@@ -1,6 +1,10 @@
 "use client";
 
-import { patchAccountInfo, patchAccountPassword } from "@/apis/accountApi";
+import {
+  patchAccountInfo,
+  patchAccountPassword,
+  putAccountProfileImage,
+} from "@/apis/accountApi";
 import GoogleLoginButton from "@/components/buttons/GoogleLoginButton";
 import ExtensionSetting from "@/components/extension/ExtensionSetting";
 import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
@@ -30,7 +34,7 @@ import {
 } from "@/schemas/accountSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Camera, Lock, UserRoundPen } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Account() {
@@ -76,6 +80,32 @@ export default function Account() {
     [],
   );
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const file = files[0];
+
+    // use the file
+    console.log(file.name);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await putAccountProfileImage({ formData });
+
+    console.log(response);
+  };
+
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!inputRef || !inputRef.current) return;
+
+    inputRef.current.click();
+  };
+
   if (!account) return <div></div>;
 
   return (
@@ -91,9 +121,17 @@ export default function Account() {
               name={account.name}
               className="size-50"
             />
-            <Camera className="absolute right-0 bottom-0 opacity-50 transition-opacity hover:opacity-100" onClick={() => {
-              
-            }}/>
+            <button
+              className="absolute right-0 bottom-0 opacity-50 transition-opacity hover:opacity-100"
+              onClick={handleButtonClick}>
+              <Camera />
+            </button>
+            <input
+              ref={inputRef}
+              type="file"
+              hidden
+              onChange={handleFileUpload}
+            />
           </div>
           <p className="text-2xl font-semibold">Welcome, {account.name}</p>
         </div>

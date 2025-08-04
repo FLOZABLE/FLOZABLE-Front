@@ -78,3 +78,18 @@ export async function patchAccountPassword({
     }),
   );
 }
+
+type PutAccountProfileImage = {
+  formData: FormData;
+};
+export async function putAccountProfileImage({
+  formData,
+}: PutAccountProfileImage): Promise<SuccessResponse> {
+  return requestHandler(
+    AxiosInstance.put(`/account/profile/iamge`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }),
+  );
+}
