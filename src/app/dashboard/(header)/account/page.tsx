@@ -9,7 +9,7 @@ import GoogleLoginButton from "@/components/buttons/GoogleLoginButton";
 import ExtensionSetting from "@/components/extension/ExtensionSetting";
 import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
 import { IconGoogleCalendar, IconYoutube } from "@/components/others/Svgs";
-import AvatarWrapper from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,6 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useAccount, useAccountGoogle } from "@/hooks/accountHooks";
+import config from "@/lib/config";
 import {
   patchAccountPasswordSchema,
   PatchAccountPasswordSchemaValues,
@@ -34,12 +35,16 @@ import {
 } from "@/schemas/accountSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Camera, Lock, UserRoundPen } from "lucide-react";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Account() {
   const { account } = useAccount();
   const { accountGoogleData } = useAccountGoogle();
+
+  const [profileUrl, setProfileUrl] = useState(
+    `${config.static_server}/img/profile-images/${account?.user_id}.jpeg`,
+  );
 
   const profileForm = useForm<PatchAccountProfileSchemaValues>({
     resolver: zodResolver(patchAccountProfileSchema),
@@ -88,15 +93,18 @@ export default function Account() {
 
     const file = files[0];
 
-    // use the file
-    console.log(file.name);
-
     const formData = new FormData();
     formData.append("file", file);
 
     const response = await putAccountProfileImage({ formData });
 
-    console.log(response);
+    if (!response.success) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setProfileUrl(reader.result as string);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -116,11 +124,12 @@ export default function Account() {
       <div className="flex flex-col gap-5">
         <div className="flex flex-col items-center">
           <div className="relative ">
-            <AvatarWrapper
-              userId={account.user_id}
-              name={account.name}
-              className="size-50"
-            />
+            <Avatar data-slot="avatar" className="size-50">
+              <AvatarImage src={profileUrl} alt={account.name} />
+              <AvatarFallback>
+                {account.name.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
             <button
               className="absolute right-0 bottom-0 opacity-50 transition-opacity hover:opacity-100"
               onClick={handleButtonClick}>

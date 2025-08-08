@@ -86,7 +86,7 @@ export async function putAccountProfileImage({
   formData,
 }: PutAccountProfileImage): Promise<SuccessResponse> {
   return requestHandler(
-    AxiosInstance.put(`/account/profile/iamge`, formData, {
+    AxiosInstance.put(`/account/profile/image`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
