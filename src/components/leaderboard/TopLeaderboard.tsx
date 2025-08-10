@@ -117,7 +117,7 @@ export default function TopLeaderboard({
     <Card className={className}>
       <CardHeader>
         <CardTitle className="flex items-center">
-          Top Leadeboard
+          Top Leaderboard
           {pathname !== "/dashboard/leaderboard" && (
             <Button
               effect={"expandIcon"}

@@ -86,7 +86,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${roboto.variable}`}>
+      <body
+        className={`${inter.variable} ${roboto.variable} overflow-x-hidden`}>
         <Suspense>
           <AppContainer>
             <AccountModal />
