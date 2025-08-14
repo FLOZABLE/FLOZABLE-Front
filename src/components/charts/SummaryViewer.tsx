@@ -1,5 +1,5 @@
 import { useExtensionUsage } from "@/hooks/extensionHooks";
-import { useSubjects } from "@/hooks/subjectsHooks";
+import { useSubjects } from "@/hooks/subjectHooks";
 import {
   cn,
   DynamicTimeParts,

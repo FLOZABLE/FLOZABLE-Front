@@ -9,7 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useSubjects } from "@/hooks/subjectsHooks";
+import { useSubjects } from "@/hooks/subjectHooks";
 import { useTutorial } from "@/hooks/tutorialHooks";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
 import socket from "@/lib/sockets/socket";

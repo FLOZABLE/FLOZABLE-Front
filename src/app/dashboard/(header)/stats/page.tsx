@@ -6,7 +6,7 @@ import StudyHeatMap from "@/components/charts/StudyHeatMap";
 import SubjectsTrendChart from "@/components/charts/SubjectsTrendChart";
 import SelectorWrapper from "@/components/ui/select";
 import { useAccount } from "@/hooks/accountHooks";
-import { useSubjects } from "@/hooks/subjectsHooks";
+import { useSubjects } from "@/hooks/subjectHooks";
 import { ViewerType } from "@/types/otherTypes";
 import { useState } from "react";
 

@@ -70,7 +70,7 @@ export default function CreateGroupModal() {
     });
 
     updateMyGroups((prev) => {
-      const newGroups = [...prev, newGroup.group_id];
+      const newGroups = [...prev, newGroup];
       return newGroups;
     });
 

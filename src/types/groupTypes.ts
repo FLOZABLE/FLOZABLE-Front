@@ -30,7 +30,7 @@ export interface GroupMember extends Pick<Userinfo, "user_id" | "name"> {
 export type AllGroupsResponse = ApiResponse<{ groups: Group[] }>;
 
 // GET /group/mine
-export type MyGroupsResponse = ApiResponse<{ groups: string[] }>;
+export type MyGroupsResponse = ApiResponse<{ groups: Group[] }>;
 
 // GET /group/:GROUP_ID/members
 export type GroupMembersResponse = ApiResponse<{ members: GroupMember[] }>;

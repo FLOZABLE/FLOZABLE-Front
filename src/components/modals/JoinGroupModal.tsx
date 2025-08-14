@@ -98,7 +98,7 @@ export default function JoinGroupModal() {
       });
 
       updateMyGroups((prev) => {
-        const newGroups = [...prev, joinedGroup.group_id];
+        const newGroups = [...prev, joinedGroup];
         return newGroups;
       });
 

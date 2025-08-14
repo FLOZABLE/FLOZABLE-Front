@@ -92,7 +92,7 @@ export default function MyGroupsViewer({
   useEffect(() => {
     if (debouncedIndex === -1 || !myGroups) return;
 
-    const groupId = myGroups[debouncedIndex];
+    const groupId = myGroups[debouncedIndex]?.group_id;
     if (!groupId) return;
 
     localStorage.setItem("swiperGroupId", groupId);
@@ -115,7 +115,7 @@ export default function MyGroupsViewer({
       localStorage.removeItem("swiperGroupId");
 
       const groupIndex = myGroups.findIndex(
-        (groupId) => groupId === swiperGroupId,
+        (group) => group.group_id === swiperGroupId,
       );
       if (groupIndex === -1) return;
       myGroupsRef.current?.swiper.slideTo(groupIndex);
@@ -126,7 +126,7 @@ export default function MyGroupsViewer({
     if (!studyGroupId || !myGroups?.length) return;
     setTimeout(() => {
       const groupIndex = myGroups.findIndex(
-        (groupId) => groupId === studyGroupId,
+        (group) => group.group_id === studyGroupId,
       );
       if (groupIndex === -1) return;
       myGroupsRef.current?.swiper.slideTo(groupIndex);
@@ -141,7 +141,9 @@ export default function MyGroupsViewer({
     const response = await postGroupLeave(groupId);
     if (!response.success) return;
 
-    updateMyGroups((prev) => prev.filter((_groupId) => _groupId !== groupId));
+    updateMyGroups((prev) =>
+      prev.filter((group) => group.group_id !== groupId),
+    );
     updateGroups((prev) => {
       const groupIndex = prev.findIndex((group) => group.group_id === groupId);
       if (groupIndex === -1) return prev;
@@ -183,7 +185,7 @@ export default function MyGroupsViewer({
     const groupMap = new Map(groups.map((g) => [g.group_id, g]));
 
     return myGroups
-      .map((id) => groupMap.get(id))
+      .map((group) => groupMap.get(group.group_id))
       .filter((group): group is Group => group !== undefined);
   }, [groups, myGroups]);
 

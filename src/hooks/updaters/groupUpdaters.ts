@@ -7,7 +7,7 @@ export function useGroupsUpdater() {
 }
 
 export function useMyGroupsUpdater() {
-  return useUpdater<{ groups: string[] }, "groups">(["myGroups"], "groups");
+  return useUpdater<{ groups: Group[] }, "groups">(["myGroups"], "groups");
 }
 
 export function useGroupMembersUpdater(groupId: string) {
