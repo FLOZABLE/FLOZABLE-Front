@@ -1,8 +1,11 @@
 import { useFriendsStatus } from "@/hooks/friendHooks";
 import { useRankings } from "@/hooks/rankingHooks";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import ChatButton from "../buttons/ChatButton";
+import { useSearchUsersModal } from "../structure/ModalProviders";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
@@ -26,11 +29,19 @@ export default function FriendsViewer({
     new Date(new Date().setHours(0, 0, 0, 0)),
   );
 
+  const { setSearchUsersModal } = useSearchUsersModal();
+
   return (
     <Card className={className} {...props}>
       <CardHeader>
         <CardTitle>Friends</CardTitle>
         <CardDescription>See what your friends are doing</CardDescription>
+        <Button
+          onClick={() => {
+            setSearchUsersModal((prev) => ({ ...prev, opened: !prev.opened }));
+          }}>
+          <Search />
+        </Button>
       </CardHeader>
       <CardContent className="overflow-auto">
         {friendsStatus?.map((friend, i) => {

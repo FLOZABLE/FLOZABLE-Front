@@ -2,6 +2,7 @@ import {
   ChatModalState,
   JoinGroupModalState,
   PlanModalState,
+  SearchUsersModalState,
 } from "@/types/modalTypes";
 import { usePathname } from "next/navigation";
 import {
@@ -132,7 +133,10 @@ export const { Provider: ChatModalProvider, useModal: useChatModal } =
 export const {
   Provider: SearchUsersModalProvider,
   useModal: useSearchUsersModal,
-} = createModalProvider({ opened: false, onClick: null }, "searchUsersModal");
+} = createModalProvider<SearchUsersModalState, "searchUsersModal">(
+  { opened: false },
+  "searchUsersModal",
+);
 
 export const { Provider: WelcomeModalProvider, useModal: useWelcomeModal } =
   createModalProvider(false, "isWelcomeModal", false);

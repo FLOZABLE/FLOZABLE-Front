@@ -24,3 +24,7 @@ export type ChatModalState = {
   opened: boolean;
   totalNewMsg: number;
 };
+
+export type SearchUsersModalState = {
+  opened: boolean;
+};

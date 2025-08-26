@@ -87,6 +87,7 @@ export default function ChatButton({
               chatroom_id: chatroom.chatroom_id,
               opened: true,
             }));
+            return;
           }
         } else if (!userInfo) {
           return setChatModal((prev) => ({
