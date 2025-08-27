@@ -6,9 +6,11 @@ import {
   getFriendSearchSchemaSchemaValues,
 } from "@/schemas/friendSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import FriendRequestButton from "../buttons/FriendRequestButton";
 import { FloatingLabelInput } from "../inputs/FloatingLabelInput";
 import { useSearchUsersModal } from "../structure/ModalProviders";
 import { Button } from "../ui/button";
@@ -41,6 +43,8 @@ export default function SearchUsersModal() {
   const [fetchedQuery, setFetchedQuery] = useState("");
 
   const { friendsSearchData } = useFriendSearch(fetchedQuery);
+
+  const router = useRouter();
 
   const onSubmit = useCallback(
     async (data: getFriendSearchSchemaSchemaValues) => {
@@ -89,7 +93,13 @@ export default function SearchUsersModal() {
             <div className="max-h-40 overflow-auto">
               {friendsSearchData?.map((friend) => (
                 <div key={friend.user_id}>
-                  <UserContainer userinfo={friend} />
+                  <UserContainer
+                    userinfo={friend}
+                    onClick={() => {
+                      router.push(`/dashboard/user/${friend.user_id}`);
+                    }}>
+                    <FriendRequestButton userInfo={friend} />
+                  </UserContainer>
                 </div>
               ))}
             </div>

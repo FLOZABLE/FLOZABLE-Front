@@ -23,6 +23,7 @@ export const groupSchemas = {
     .refine((val) => val !== "", {
       message: "Please provide a password.",
     }),
+
   description: z
     .string()
     .max(1000, { message: "Description cannot exceed 1000 characters." })

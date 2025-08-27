@@ -20,6 +20,7 @@ import {
   House,
   Trophy,
   UsersRound,
+  Wallpaper,
 } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
@@ -87,6 +88,11 @@ export default function AppSidebar() {
       title: "Account",
       url: "/dashboard/account",
       icon: <CircleUserRound />,
+    },
+    {
+      title: "Themes",
+      url: "/dashboard/themes",
+      icon: <Wallpaper />,
     },
   ];
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useAccount } from "@/hooks/accountHooks";
-import { useThemes, useThemesUser } from "@/hooks/themesHooks";
 import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
 import { useNotificationsUpdater } from "@/hooks/updaters/notificationUpdaters";
 import config from "@/lib/config";
@@ -316,10 +315,7 @@ function ThemesProvider({ children }: { children: ReactNode }) {
   const [themes, setThemes] = useState<any[]>([]);
   const [userThemes, setUserThemes] = useState<any[]>([]);
 
-  const { themesData } = useThemes();
-  const { themesUserData } = useThemesUser();
-
-  useEffect(() => {
+  /* useEffect(() => {
     if (themesData?.success) {
       setThemes(themesData.data.themes);
     }
@@ -329,7 +325,7 @@ function ThemesProvider({ children }: { children: ReactNode }) {
     if (themesUserData?.success) {
       setUserThemes(themesUserData.data.themes);
     }
-  }, [themesUserData]);
+  }, [themesUserData]); */
 
   return (
     <ThemesContext.Provider

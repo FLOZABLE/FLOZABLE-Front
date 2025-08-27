@@ -489,3 +489,16 @@ export function formatPlanDateRange(
 
   return `${weekdayDate} ${startTime} - ${endTime}`;
 }
+
+/**
+ * Extracts the 11-character video ID from a YouTube URL.
+ * Supports various formats including watch, shortened, embed, and shorts URLs.
+ * @param {string} url The YouTube video URL.
+ * @returns {string | null} The video ID, or null if no ID is found.
+ */
+export function getYouTubeId(url: string) {
+  const regex =
+    /(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|live\/))([\w-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}

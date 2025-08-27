@@ -138,6 +138,14 @@ export const {
   "searchUsersModal",
 );
 
+export const {
+  Provider: CreateThemeModalProvider,
+  useModal: useCreateThemeModal,
+} = createModalProvider<SearchUsersModalState, "createThemeModal">(
+  { opened: false },
+  "createThemeModal",
+);
+
 export const { Provider: WelcomeModalProvider, useModal: useWelcomeModal } =
   createModalProvider(false, "isWelcomeModal", false);
 
@@ -152,6 +160,7 @@ const MODAL_PROVIDERS = [
   ChatModalProvider,
   SearchUsersModalProvider,
   WelcomeModalProvider,
+  CreateThemeModalProvider,
 ];
 
 export default function ModalProviders({ children }: { children: ReactNode }) {
