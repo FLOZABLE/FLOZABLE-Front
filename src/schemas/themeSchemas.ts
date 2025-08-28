@@ -3,6 +3,13 @@ import { z } from "zod";
 import { otherSchemas } from "./otherSchemas";
 
 export const themeSchemas = {
+  theme_id: z
+    .string()
+    .length(10, { message: "Theme id must be exactly 10 characters." })
+    .refine((val) => val.trim() !== "", {
+      message: "Theme id cannot be empty.",
+    }),
+
   name: z
     .string()
     .min(2, { message: "Name must be at least 2 characters long." })
@@ -28,6 +35,10 @@ export const putThemeSchema = z.object({
   description: themeSchemas.description,
   tags: themeSchemas.tags,
   youtube_video_id: otherSchemas.youtube_video_id,
+});
+
+export const postThemeSaveSchema = z.object({
+  theme_id: themeSchemas.theme_id,
 });
 
 export type putThemeSchemaSchemaValues = z.infer<typeof putThemeSchema>;

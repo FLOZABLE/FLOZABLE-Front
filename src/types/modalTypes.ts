@@ -1,14 +1,18 @@
 import { CalendarApi } from "@fullcalendar/core";
 import { Swiper } from "swiper/types";
 
-export type JoinGroupModalState = {
+import { Theme } from "./themeTypes";
+
+export interface DefaultModalState {
   opened: boolean;
+}
+
+export interface JoinGroupModalState extends DefaultModalState {
   group_id: null | string;
   myGroupsSwiper: null | Swiper;
-};
+}
 
-export type PlanModalState = {
-  opened: boolean;
+export interface PlanModalState extends DefaultModalState {
   plan_id: string | null;
   calendarApi?: CalendarApi | null;
   viewDate: Date;
@@ -16,15 +20,14 @@ export type PlanModalState = {
     start: Date;
     end: Date;
   } | null;
-};
+}
 
-export type ChatModalState = {
+export interface ChatModalState extends DefaultModalState {
   chatroom_id: string | null;
   name: string;
-  opened: boolean;
   totalNewMsg: number;
-};
+}
 
-export type SearchUsersModalState = {
-  opened: boolean;
-};
+export interface ThemeModalState extends DefaultModalState {
+  theme: Theme | null;
+}

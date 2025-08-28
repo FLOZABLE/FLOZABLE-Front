@@ -38,11 +38,6 @@ export default function Themes() {
           </Button>
         </div>
       </div>
-      <div>
-        {themesData?.map((theme) => {
-          return <ThemeContainer key={theme.theme_id} theme={theme} />;
-        })}
-      </div>
       <Card className="mt-10 mb-32" id="tour1-step19">
         <CardContent>
           {themesIsLoading && <Loader2 className="animate-spin" />}

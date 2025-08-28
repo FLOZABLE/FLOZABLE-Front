@@ -13,3 +13,8 @@ export interface Theme {
 export type GetThemeAllResponse = ApiResponse<{
   themes: Theme[];
 }>;
+
+// GET /theme/mine
+export type GetThemeMineResponse = ApiResponse<{
+  themes: Theme[];
+}>;

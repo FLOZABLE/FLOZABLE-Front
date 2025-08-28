@@ -1,8 +1,9 @@
 import {
   ChatModalState,
+  DefaultModalState,
   JoinGroupModalState,
   PlanModalState,
-  SearchUsersModalState,
+  ThemeModalState,
 } from "@/types/modalTypes";
 import { usePathname } from "next/navigation";
 import {
@@ -133,7 +134,7 @@ export const { Provider: ChatModalProvider, useModal: useChatModal } =
 export const {
   Provider: SearchUsersModalProvider,
   useModal: useSearchUsersModal,
-} = createModalProvider<SearchUsersModalState, "searchUsersModal">(
+} = createModalProvider<DefaultModalState, "searchUsersModal">(
   { opened: false },
   "searchUsersModal",
 );
@@ -141,10 +142,16 @@ export const {
 export const {
   Provider: CreateThemeModalProvider,
   useModal: useCreateThemeModal,
-} = createModalProvider<SearchUsersModalState, "createThemeModal">(
+} = createModalProvider<DefaultModalState, "createThemeModal">(
   { opened: false },
   "createThemeModal",
 );
+
+export const { Provider: ThemeModalProvider, useModal: useThemeModal } =
+  createModalProvider<ThemeModalState, "themeModal">(
+    { opened: false, theme: null },
+    "themeModal",
+  );
 
 export const { Provider: WelcomeModalProvider, useModal: useWelcomeModal } =
   createModalProvider(false, "isWelcomeModal", false);
@@ -161,6 +168,7 @@ const MODAL_PROVIDERS = [
   SearchUsersModalProvider,
   WelcomeModalProvider,
   CreateThemeModalProvider,
+  ThemeModalProvider,
 ];
 
 export default function ModalProviders({ children }: { children: ReactNode }) {

@@ -1,6 +1,7 @@
 import AddSubjectModal from "@/components/modals/AddSubjectModal";
 import CreateThemeModal from "@/components/modals/CreateThemeModal";
 import SearchUsersModal from "@/components/modals/SearchUsersModal";
+import ThemeModal from "@/components/modals/ThemeModal";
 import RedirectOnMobile from "@/components/others/RedirectOnMobile";
 
 export default function DashboardLayout({
@@ -14,7 +15,8 @@ export default function DashboardLayout({
       <AddSubjectModal />
       <SearchUsersModal />
       <CreateThemeModal />
-      
+      <ThemeModal />
+
       {children}
     </>
   );
