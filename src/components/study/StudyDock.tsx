@@ -7,7 +7,7 @@ import {
   IconPhone,
   IconUsersGroup,
 } from "@tabler/icons-react";
-import { Calendar, Hourglass } from "lucide-react";
+import { Calendar, Hourglass, Wallpaper } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { ComponentProps } from "react";
 
@@ -23,6 +23,7 @@ type StudyOptions = {
   media: boolean;
   zoom: boolean;
   timeline: boolean;
+  themeController: boolean;
 };
 
 export interface StudyDockProps extends ComponentProps<"div"> {
@@ -103,6 +104,18 @@ export default function StudyDock({
       },
     },
     {
+      title: "Study Theme",
+      icon: (
+        <Wallpaper className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+      ),
+      onClick: () => {
+        setStudyOptions((prev) => ({
+          ...prev,
+          themeController: !prev.themeController,
+        }));
+      },
+    },
+    {
       title: "Zoom",
       icon: <ZoomButton />,
     },
@@ -115,6 +128,7 @@ export default function StudyDock({
       icon: <ThemeToggleButton />,
     },
   ];
+
   return (
     <div
       className={cn("flex items-center justify-center z-20", className)}

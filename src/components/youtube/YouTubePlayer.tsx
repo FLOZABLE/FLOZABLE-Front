@@ -17,8 +17,11 @@ export default function YoutubePlayer({
   ...props
 }: YoutubePlayerProps) {
   return (
-    <div className={cn("relative", className)} {...props}>
-      {videoId ? (
+    <div
+      className={cn("relative", className)}
+      {...props}
+      style={{ backgroundColor: videoId }}>
+      {videoId?.length === 11 ? (
         <ReactPlayer
           url={`https://www.youtube.com/watch?v=${videoId}`}
           loop

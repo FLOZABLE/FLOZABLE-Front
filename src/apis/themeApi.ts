@@ -44,3 +44,9 @@ export async function postThemeUnsave(themeId: string) {
     AxiosInstance.post(`/theme/unsave`, { theme_id: themeId }),
   );
 }
+
+export async function postThemeLike(themeId: string, like: boolean) {
+  return requestHandler(
+    AxiosInstance.post(`/theme/like`, { theme_id: themeId, like }),
+  );
+}

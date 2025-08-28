@@ -1,6 +1,7 @@
 "use client";
 
 import { putGroup } from "@/apis/groupApi";
+import { useChatRooms } from "@/hooks/chatHooks";
 import {
   useGroupsUpdater,
   useMyGroupsUpdater,
@@ -32,6 +33,8 @@ import {
 
 export default function CreateGroupModal() {
   const { createGroupModal, setCreateGroupModal } = useCreateGroupModal();
+
+  const { chatroomsRefetch } = useChatRooms();
 
   const form = useForm<PutGroupSchemaValues>({
     resolver: zodResolver(putGroupSchema),
@@ -80,6 +83,8 @@ export default function CreateGroupModal() {
       block: "end",
       inline: "nearest",
     });
+
+    chatroomsRefetch();
   }, []);
 
   return (

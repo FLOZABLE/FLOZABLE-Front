@@ -42,9 +42,7 @@ export default function ThemeModal() {
           </div>
         </CredenzaBody>
         <CredenzaFooter>
-          {themeModal.theme?.theme_id && (
-            <ThemeButton themeId={themeModal.theme?.theme_id} />
-          )}
+          {themeModal.theme && <ThemeButton theme={themeModal.theme} />}
         </CredenzaFooter>
       </CredenzaContent>
     </Credenza>

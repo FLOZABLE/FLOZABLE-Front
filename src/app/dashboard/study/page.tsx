@@ -8,6 +8,7 @@ import CallController from "@/components/study/CallController";
 import StudyDock from "@/components/study/StudyDock";
 import StudyModalContainer from "@/components/study/StudyModalContainer";
 import SubjectTimer from "@/components/study/SubjectTimer";
+import ThemeController from "@/components/themes/ThemeController";
 import { Button } from "@/components/ui/button";
 import { useTutorial } from "@/hooks/tutorialHooks";
 import socket from "@/lib/sockets/socket";
@@ -22,7 +23,7 @@ const YoutubePlayer = dynamic(
 );
 
 export default function Study() {
-  const [theme, setTheme] = useState({ volume: 0, id: "YQc4WT0yDH4" });
+  const [theme, setTheme] = useState({ volume: 0, id: "" });
   const [studyOptions, setStudyOptions] = useState({
     planner: true,
     timer: true,
@@ -31,6 +32,7 @@ export default function Study() {
     media: false,
     zoom: false,
     timeline: true,
+    themeController: false,
   });
 
   const [studyModal, setStudyModal] = useState(true);
@@ -38,6 +40,13 @@ export default function Study() {
   const { currentTour } = useTutorial();
 
   useEffect(() => {
+    const savedVideoId = localStorage.getItem("themeVideoId");
+    if (savedVideoId?.length === 11) {
+      setTheme((prev) => ({ ...prev, id: savedVideoId }));
+    } else {
+      setTheme((prev) => ({ ...prev, id: "YQc4WT0yDH4" }));
+    }
+
     const onMyStudyStart = () => {
       setStudyModal(false);
     };
@@ -47,6 +56,10 @@ export default function Study() {
       socket.off("mystudy:start", onMyStudyStart);
     };
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("themeVideoId", theme.id);
+  }, [theme.id]);
 
   useEffect(() => {
     if (currentTour === "newUser") {
@@ -109,6 +122,23 @@ export default function Study() {
           }}
         />
       </StudyModalContainer>
+
+      <StudyModalContainer
+        open={studyOptions.themeController}
+        onClose={() => {
+          setStudyOptions((prev) => ({ ...prev, themeController: false }));
+        }}
+        title="Theme"
+        className="right-5 bottom-20">
+        <ThemeController
+          setTheme={(videoId) => {
+            if (typeof videoId !== "string") return;
+            console.log(videoId);
+            setTheme((prev) => ({ ...prev, id: videoId }));
+          }}
+        />
+      </StudyModalContainer>
+
       <Planstimeline
         viewer={"day"}
         viewDate={new Date(new Date().setHours(0, 0, 0, 0))}

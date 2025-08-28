@@ -3,6 +3,7 @@
 import { putSubject } from "@/apis/subjectApi";
 import { useTutorial } from "@/hooks/tutorialHooks";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
+import emitter from "@/lib/emitter";
 import {
   putSubjectSchema,
   PutSubjectSchemaValues,
@@ -59,7 +60,7 @@ export default function AddSubjectModal() {
 
       form.reset();
 
-      updateSubjects((prev) => {
+      await updateSubjects((prev) => {
         const newSubjects = [...prev];
         const subjectStart = newSubjects.toSorted(
           (a, b) => a.created_at - b.created_at,
@@ -132,6 +133,11 @@ export default function AddSubjectModal() {
           week,
           month,
         };
+
+        setTimeout(() => {
+          emitter.emit("addedSubject", newSubject);
+        }, 1000);
+
         newSubjects.push(newSubject);
         return newSubjects;
       });

@@ -12,9 +12,11 @@ import {
 import { useSubjects } from "@/hooks/subjectHooks";
 import { useTutorial } from "@/hooks/tutorialHooks";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
+import emitter from "@/lib/emitter";
 import socket from "@/lib/sockets/socket";
 import { cn, toTimer } from "@/lib/utils";
 import { OnMyStopStudying, OnMyStudying } from "@/types/socketTypes";
+import { Subject } from "@/types/subjectTypes";
 import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 
@@ -107,13 +109,32 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   }, [options.length]);
 
   useEffect(() => {
+    const onAddedSubject = (subject: Subject) => {
+      if (!subject) return;
+
+      setSelectedSubject((prev) => ({
+        ...prev,
+        subject_id: subject.subject_id,
+        name: subject.name,
+        value: subject.day.total[subject.day.total.length - 1]?.data || 0,
+        active: false,
+      }));
+    };
+
+    emitter.on("addedSubject", onAddedSubject);
+
+    return () => {
+      emitter.off("addedSubject", onAddedSubject);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!subjects?.length) return;
 
     const onMyStudyStart = ({ subject }: OnMyStudying) => {
       const subjectData = subjects.find(
         (_subject) => _subject.subject_id === subject.subject_id,
       );
-      console.log("start", subjectData, subject);
       if (!subjectData) return;
 
       setSelectedSubject((prev) => ({
