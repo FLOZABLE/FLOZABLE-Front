@@ -1,5 +1,5 @@
 import { UserStatus } from "./accountTypes";
-import { ActiveGroup } from "./groupTypes";
+import { ActiveGroup, GroupMember } from "./groupTypes";
 import { ActiveSubject } from "./subjectTypes";
 
 export interface OnStudying {
@@ -29,4 +29,8 @@ export interface OnActiveGroup {
 
 export interface OnDeActiveGroup {
   user_id: string;
+}
+
+export interface OnGroupNewMember {
+  member: GroupMember;
 }

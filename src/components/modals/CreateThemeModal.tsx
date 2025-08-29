@@ -151,7 +151,7 @@ export default function CreateThemeModal() {
                   )}
                 />
 
-                <Button type="submit">Search</Button>
+                <Button type="submit">Create</Button>
               </form>
             </Form>
             <div className="max-h-40 overflow-auto"></div>

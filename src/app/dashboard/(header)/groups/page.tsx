@@ -45,6 +45,9 @@ export default function Groups() {
       <Card className="mt-10 mb-32" id="tour1-step19">
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Groups</CardTitle>
+          <div>
+            
+          </div>
           <Button
             effect={"expandIcon"}
             iconPlacement="right"

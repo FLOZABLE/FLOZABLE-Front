@@ -6,7 +6,11 @@ import socket from "@/lib/sockets/socket";
 import { secondConverter } from "@/lib/utils";
 import { Group } from "@/types/groupTypes";
 import { ServerCreateTransportResponse } from "@/types/mediaSoupTypes";
-import { OnStopStudying, OnStudying } from "@/types/socketTypes";
+import {
+  OnGroupNewMember,
+  OnStopStudying,
+  OnStudying,
+} from "@/types/socketTypes";
 import { BookOpen, GraduationCap, LogOut, UserRound } from "lucide-react";
 import { Device } from "mediasoup-client";
 import {
@@ -145,19 +149,30 @@ export default function MyGroupContainer({
       });
     };
 
+    const onNewMember = ({ member }: OnGroupNewMember) => {
+      console.log(member, "new member");
+      updateGroupMembers((prev) => [...prev, member]);
+    };
+
     if (!isActive) {
       socket.off("study:start", onStudying);
       socket.off("study:stop", onStopStudying);
+      socket.off("group:new_member", onNewMember);
       return;
     }
 
     socket.on("study:start", onStudying);
     socket.on("study:stop", onStopStudying);
+    socket.on("group:new_member", onNewMember);
+
     return () => {
       socket.off("study:start", onStudying);
       socket.off("study:stop", onStopStudying);
+      socket.off("group:new_member", onNewMember);
     };
   }, [isActive]);
+
+  useEffect(() => {}, []);
 
   const getRouterRtpCapabilities =
     useCallback(async (): Promise<RtpCapabilities> => {

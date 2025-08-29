@@ -166,6 +166,7 @@ export default function MyGroupsViewer({
       if (chatroomIndex === -1) return prev;
 
       setChatModal((prevModal) => {
+        console.log(prevModal, prev, prev[chatroomIndex]);
         if (prevModal.chatroom_id === prev[chatroomIndex].chatroom_id) {
           return { ...prevModal, chatroom_id: null };
         } else {
@@ -191,7 +192,7 @@ export default function MyGroupsViewer({
 
   if (!myGroups?.length) {
     return (
-      <div className="bg-background p-5 rounded-md">
+      <div className="bg-background p-5 rounded-md h-48 items-center justify-center flex">
         <h3>{"You haven't joined any groups yet!"}</h3>
         {pathname !== "/dashboard/groups" && (
           <Link href={"/dashboard/groups"} className="underline">

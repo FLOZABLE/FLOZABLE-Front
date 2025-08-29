@@ -49,6 +49,7 @@ export async function postGroupJoin(
   return requestHandler(
     AxiosInstance.post(`/group/${groupId}/join`, {
       password,
+      timezone: getTimezone(),
     }),
   );
 }
