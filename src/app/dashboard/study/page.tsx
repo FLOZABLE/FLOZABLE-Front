@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useTutorial } from "@/hooks/tutorialHooks";
 import socket from "@/lib/sockets/socket";
 import { cn } from "@/lib/utils";
+import { OnMyStudying } from "@/types/socketTypes";
 import { X } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -47,7 +48,8 @@ export default function Study() {
       setTheme((prev) => ({ ...prev, id: "YQc4WT0yDH4" }));
     }
 
-    const onMyStudyStart = () => {
+    const onMyStudyStart = ({ subject }: OnMyStudying) => {
+      if (subject.subject_id === "0") return;
       setStudyModal(false);
     };
     socket.on("mystudy:start", onMyStudyStart);
