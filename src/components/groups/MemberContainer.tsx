@@ -1,6 +1,6 @@
 import { GroupMember } from "@/types/groupTypes";
 import { Device } from "mediasoup-client";
-import { Transport } from "mediasoup-client/lib/Transport";
+import { Transport } from "mediasoup-client/types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -33,6 +33,10 @@ export default function MemberContainer({
     name: "",
     total: 0,
   });
+  const [media, setMedia] = useState({
+    video: false,
+    audio: false,
+  });
 
   useEffect(() => {
     const timer: SubjectTimer = {
@@ -44,7 +48,6 @@ export default function MemberContainer({
       timer.start = member.status?.start_time;
       timer.name = `Studying ${member.status.name}`;
     }
-    console.log("time", timer);
     setSubjectTimer(timer);
   }, [member]);
 
@@ -64,8 +67,10 @@ export default function MemberContainer({
         member={member}
         device={device}
         recvTransport={recvTransport}
+        media={media}
+        setMedia={setMedia}
       />
-      {subjectTimer.start ? (
+      {media.video ? null : subjectTimer.start ? (
         <IconStudyPerson className="size-12 absolute-center" />
       ) : (
         <IconRestPerson className="size-12 absolute-center" />

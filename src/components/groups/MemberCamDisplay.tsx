@@ -3,9 +3,8 @@ import { GroupMember } from "@/types/groupTypes";
 import { ServerConsumeResponse } from "@/types/mediaSoupTypes";
 import { Mic, MicOff, Video, VideoOff } from "lucide-react";
 import { Device } from "mediasoup-client";
-import { MediaKind } from "mediasoup-client/lib/RtpParameters";
-import { Transport } from "mediasoup-client/lib/Transport";
-import { useEffect, useRef, useState } from "react";
+import { MediaKind, Transport } from "mediasoup-client/types";
+import { useEffect, useRef } from "react";
 
 import { useCallOptions } from "../structure/Providers";
 import { Badge } from "../ui/badge";
@@ -14,16 +13,19 @@ interface MemberCamDisplayProps {
   member: GroupMember;
   device: Device | null;
   recvTransport: Transport | null;
+  media: { audio: boolean; video: boolean };
+  setMedia: React.Dispatch<
+    React.SetStateAction<{ audio: boolean; video: boolean }>
+  >;
 }
 export default function MemberCamDisplay({
   member,
   device,
   recvTransport,
+  media,
+  setMedia,
 }: MemberCamDisplayProps) {
   const { isHeadphone } = useCallOptions();
-
-  const [isAudio, setIsAudio] = useState(false);
-  const [isVideo, setIsVideo] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -64,13 +66,13 @@ export default function MemberCamDisplay({
         if (track.kind === "video") {
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
-            setIsVideo(true);
+            setMedia((prev) => ({ ...prev, video: true }));
             console.log("video");
           }
         } else {
           if (audioRef.current) {
             audioRef.current.srcObject = stream;
-            setIsAudio(true);
+            setMedia((prev) => ({ ...prev, audio: true }));
           }
         }
         //videoRef.current.srcObject = stream;
@@ -101,12 +103,12 @@ export default function MemberCamDisplay({
         if (audioRef.current) {
           audioRef.current.srcObject = null;
         }
-        setIsAudio(false);
+        setMedia((prev) => ({ ...prev, video: false }));
       } else {
         if (videoRef.current) {
           videoRef.current.srcObject = null;
         }
-        setIsVideo(false);
+        setMedia((prev) => ({ ...prev, video: false }));
       }
     };
 
@@ -129,16 +131,27 @@ export default function MemberCamDisplay({
 
   return (
     <div className="w-full h-full pointer-events-none">
-      <video muted={true} ref={videoRef} className="absolute-center" autoPlay playsInline />
+      <video
+        muted={true}
+        ref={videoRef}
+        className="absolute-center rotate-y-180"
+        autoPlay
+        playsInline
+        
+      />
       <audio ref={audioRef} />
       <div className="flex absolute gap-2 bottom-2 right-2">
         <Badge variant="outline">
-          {isVideo ? (
+          {media.video ? (
             <Video className="size-4" />
           ) : (
             <VideoOff className="size-4" />
           )}
-          {isAudio ? <Mic className="size-4" /> : <MicOff className="size-4" />}
+          {media.audio ? (
+            <Mic className="size-4" />
+          ) : (
+            <MicOff className="size-4" />
+          )}
         </Badge>
       </div>
     </div>

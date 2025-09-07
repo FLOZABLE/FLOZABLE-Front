@@ -14,10 +14,11 @@ import {
 import { BookOpen, GraduationCap, LogOut, UserRound } from "lucide-react";
 import { Device } from "mediasoup-client";
 import {
+  DtlsParameters,
   RtpCapabilities,
   RtpParameters,
-} from "mediasoup-client/lib/RtpParameters";
-import { DtlsParameters, Transport } from "mediasoup-client/lib/Transport";
+  Transport,
+} from "mediasoup-client/types";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -216,11 +217,19 @@ export default function MyGroupContainer({
           return;
         }
 
-        const transport = await device!.createRecvTransport(params);
+        const transport = device!.createRecvTransport(params); // No await needed here
         console.log("SFU: create recv transport", transport);
+
+        transport.on("connectionstatechange", (state) => {
+          if (state === "connected") {
+            console.log("SFU: Recv transport is connected!");
+            // Now that the transport is ready, it's safe to get producers
+          }
+        });
 
         setTimeout(() => {
           mediaSocket.emit("getRoomProducers");
+          console.log("SFU: get producers");
         }, ACTIVE_GROUP_DEBOUNCE + 500);
 
         await transport.on(
@@ -232,7 +241,7 @@ export default function MyGroupContainer({
           ) => {
             console.log("SFU: transport connect");
             try {
-              await mediaSocket.emit("transport-recv-connect", {
+              mediaSocket.emit("transport-recv-connect", {
                 dtlsParameters,
               });
               callback();

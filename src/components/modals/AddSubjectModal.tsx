@@ -8,7 +8,7 @@ import {
   putSubjectSchema,
   PutSubjectSchemaValues,
 } from "@/schemas/subjectSchemas";
-import { Subject } from "@/types/subjectTypes";
+import { Subject, TimePeriodData, TimeRange } from "@/types/subjectTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DateTime } from "luxon";
 import { useCallback, useEffect } from "react";
@@ -81,15 +81,15 @@ export default function AddSubjectModal() {
         const dailyArray = [];
         for (let i = 0; i < daysLength; i++) {
           dailyArray.push({
-            date: dayStart.plus({ day: i }).toISODate(),
-            data: 0,
+            date: dayStart.plus({ days: i }).toISODate() ?? "", // force string
+            data: 0, // for total/focus
           });
         }
 
         const weeklyArray = [];
         for (let i = 0; i < weeksLength; i++) {
           weeklyArray.push({
-            date: weekStart.plus({ week: i }).toISODate(),
+            date: weekStart.plus({ weeks: i }).toISODate() ?? "",
             data: 0,
           });
         }
@@ -97,33 +97,42 @@ export default function AddSubjectModal() {
         const monthlyArray = [];
         for (let i = 0; i < monthsLength; i++) {
           monthlyArray.push({
-            date: monthStart.plus({ month: i }).toISODate(),
+            date: monthStart.plus({ months: i }).toISODate() ?? "",
             data: 0,
           });
         }
 
-        const day = {
-          timeline: structuredClone(
-            dailyArray.map((val) => ({ ...val, data: [] })),
-          ),
-          total: structuredClone(dailyArray),
-          focus: structuredClone(dailyArray),
+        const day: TimePeriodData = {
+          timeline: dailyArray.map((val) => ({
+            date: val.date,
+            data: [] as TimeRange[],
+          })),
+          total: dailyArray.map((val) => ({ date: val.date, data: val.data })),
+          focus: dailyArray.map((val) => ({ date: val.date, data: val.data })),
         };
 
-        const week = {
-          timeline: structuredClone(
-            weeklyArray.map((val) => ({ ...val, data: [] })),
-          ),
-          total: structuredClone(weeklyArray),
-          focus: structuredClone(weeklyArray),
+        const week: TimePeriodData = {
+          timeline: weeklyArray.map((val) => ({
+            date: val.date,
+            data: [] as TimeRange[],
+          })),
+          total: weeklyArray.map((val) => ({ date: val.date, data: val.data })),
+          focus: weeklyArray.map((val) => ({ date: val.date, data: val.data })),
         };
 
-        const month = {
-          timeline: structuredClone(
-            monthlyArray.map((val) => ({ ...val, data: [] })),
-          ),
-          total: structuredClone(monthlyArray),
-          focus: structuredClone(monthlyArray),
+        const month: TimePeriodData = {
+          timeline: monthlyArray.map((val) => ({
+            date: val.date,
+            data: [] as TimeRange[],
+          })),
+          total: monthlyArray.map((val) => ({
+            date: val.date,
+            data: val.data,
+          })),
+          focus: monthlyArray.map((val) => ({
+            date: val.date,
+            data: val.data,
+          })),
         };
 
         const newSubject: Subject = {

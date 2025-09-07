@@ -1,9 +1,10 @@
-import { MediaKind, RtpParameters } from "mediasoup-client/lib/RtpParameters";
 import {
   DtlsParameters,
   IceCandidate,
   IceParameters,
-} from "mediasoup-client/lib/Transport";
+  MediaKind,
+  RtpParameters,
+} from "mediasoup-client/types";
 
 export interface ServerConsumeResponse {
   params: {
