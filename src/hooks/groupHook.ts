@@ -1,24 +1,28 @@
-import { getGroupAll, getGroupMembers, getGroupMine } from "@/apis/groupApi";
-import { useQuery } from "@tanstack/react-query";
+import {
+  getGroup,
+  getGroupMembers,
+  getGroupMine,
+  getGroups,
+} from "@/apis/groupApi";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import { useAccount } from "./accountHooks";
 
-export function useGroups(searchQuery?: string) {
-  const queryResult = useQuery({
+const groupsLength = 30;
+
+export function useGroups(searchQuery: string) {
+  const queryResult = useInfiniteQuery({
     queryKey: [`groups`],
-    queryFn: getGroupAll,
+    queryFn: ({ pageParam }) => getGroups(searchQuery, pageParam),
     staleTime: 1000 * 60 * 5,
-    select: (response) => ({
-      groups: response.data?.groups ?? [],
-    }),
-    placeholderData: () => ({
-      data: {
-        groups: [],
-        my_groups: [],
-      },
-      status: 200,
-      success: true,
-    }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage =
+        lastPage?.data?.groups.length === groupsLength
+          ? allPages.length * groupsLength
+          : undefined;
+      return nextPage;
+    },
   });
 
   const {
@@ -27,13 +31,33 @@ export function useGroups(searchQuery?: string) {
     refetch: groupsRefetch,
   } = queryResult;
 
-  const groups = groupsData?.groups;
-
   return {
     groupsData,
-    groups,
     groupsIsLoading,
     groupsRefetch,
+    ...queryResult,
+  };
+}
+
+export function useGroup(groupId: string | undefined | null) {
+  const queryResult = useQuery({
+    queryKey: [`group`, groupId],
+    queryFn: () => getGroup(groupId!),
+    staleTime: 1000 * 60 * 5,
+    select: (response) => response.data?.group,
+    enabled: !!groupId,
+  });
+
+  const {
+    data: groupData,
+    isLoading: groupIsLoading,
+    refetch: groupRefetch,
+  } = queryResult;
+
+  return {
+    groupData,
+    groupIsLoading,
+    groupRefetch,
     ...queryResult,
   };
 }

@@ -11,7 +11,7 @@ export const subjectSchema = {
   name: z
     .string()
     .min(2, { message: "Subject name must be at least 2 characters long." })
-    .max(10, { message: "Subject name cannot exceed 10 characters." })
+    .max(20, { message: "Subject name cannot exceed 20 characters." })
     .refine((val) => val.trim() !== "", {
       message: "Subject name cannot be empty.",
     }),

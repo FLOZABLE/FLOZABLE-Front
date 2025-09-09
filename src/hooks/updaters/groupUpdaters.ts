@@ -1,9 +1,12 @@
 import { Group, GroupMember } from "@/types/groupTypes";
 
-import { useUpdater } from "../otherHooks";
+import { useInfiniteUpdater, useUpdater } from "../otherHooks";
 
 export function useGroupsUpdater() {
-  return useUpdater<{ groups: Group[] }, "groups">(["groups"], "groups");
+  return useInfiniteUpdater<{ groups: Group[] }, "groups">(
+    ["groups"],
+    "groups",
+  );
 }
 
 export function useMyGroupsUpdater() {

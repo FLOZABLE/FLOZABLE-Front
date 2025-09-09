@@ -29,6 +29,12 @@ export interface GroupMember extends Pick<Userinfo, "user_id" | "name"> {
 // GET /group/all
 export type AllGroupsResponse = ApiResponse<{ groups: Group[] }>;
 
+// GET /group/:group_id
+export type GroupResponse = ApiResponse<{ group: Group }>;
+
+// GET /group/search
+export type GroupsResponse = ApiResponse<{ groups: Group[] }>;
+
 // GET /group/mine
 export type MyGroupsResponse = ApiResponse<{ groups: Group[] }>;
 

@@ -4,14 +4,36 @@ import { PutGroupSchemaValues } from "@/schemas/groupSchemas";
 import {
   AllGroupsResponse,
   GroupMembersResponse,
+  GroupResponse,
+  GroupsResponse,
   MyGroupsResponse,
   PostGroupJoin,
   PutGroupResponse,
 } from "@/types/groupTypes";
 
-// GET /group/all – Get all public groups
+// GET /group/:group_id– Get group
+export async function getGroup(groupId: string): Promise<GroupResponse> {
+  return requestHandler(AxiosInstance.get(`/group/${groupId}`));
+}
+
+// GET /group/all – Get all public groups using search - depcrecated
 export async function getGroupAll(): Promise<AllGroupsResponse> {
   return requestHandler(AxiosInstance.get("/group/all"));
+}
+
+// GET /group/search
+export async function getGroups(
+  query: string,
+  offset: number,
+): Promise<GroupsResponse> {
+  return requestHandler(
+    AxiosInstance.get("/group/search", {
+      params: {
+        query,
+        offset,
+      },
+    }),
+  );
 }
 
 // GET /group/mine – Get group IDs the user is in

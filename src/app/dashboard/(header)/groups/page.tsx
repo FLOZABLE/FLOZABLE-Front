@@ -33,24 +33,28 @@ import {
   getGroupSearchSchema,
   getGroupSearchSchemaValues,
 } from "@/schemas/groupSchemas";
+import { Group } from "@/types/groupTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Plus, Search } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useInView } from "react-intersection-observer";
 
 const PAGE_LENGTH = 20;
 
 export default function Groups() {
-  const { groups, groupsIsLoading } = useGroups();
+  const [fetchedQuery, setFetchedQuery] = useState("");
+  const [groups, setGroups] = useState<Group[]>([]);
+
+  const { ref: inViewRef, inView } = useInView();
+  const { setCreateGroupModal } = useCreateGroupModal();
+
   const { rankingsData } = useRankings(
     "day",
     new Date(new Date().setHours(0, 0, 0, 0)),
   );
-
-  const [page, setPage] = useState(1);
-  const [fetchedQuery, setFetchedQuery] = useState("");
-
-  const { setCreateGroupModal } = useCreateGroupModal();
+  const { groupsData, groupsIsLoading, fetchNextPage, hasNextPage } =
+    useGroups(fetchedQuery);
 
   const form = useForm<getGroupSearchSchemaValues>({
     resolver: zodResolver(getGroupSearchSchema),
@@ -62,6 +66,25 @@ export default function Groups() {
   const onSubmit = useCallback(async (data: getGroupSearchSchemaValues) => {
     setFetchedQuery(data.name);
   }, []);
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      console.log("fetch");
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, hasNextPage]);
+
+  useEffect(() => {
+    if (!groupsData?.pages) return;
+
+    const allGroups: Group[] = [];
+    groupsData.pages.map((page) => {
+      if (!page?.data?.groups) return;
+
+      allGroups.push(...page.data.groups);
+    });
+    setGroups(allGroups);
+  }, [groupsData]);
 
   return (
     <main className="p-5">
@@ -112,17 +135,20 @@ export default function Groups() {
           {groupsIsLoading && <Loader2 className="animate-spin" />}
           <div className="grid grid-cols-[repeat(auto-fill,_20rem)] gap-4 justify-center">
             {groups?.length ? (
-              groups
-                .slice((page - 1) * PAGE_LENGTH, page * PAGE_LENGTH)
-                .map((group, i) => {
-                  return (
-                    <GroupContainer
-                      key={i}
-                      group={group}
-                      rankings={rankingsData}
-                    />
-                  );
-                })
+              groups.map((group, i) => {
+                return (
+                  <GroupContainer
+                    key={i}
+                    group={group}
+                    rankings={rankingsData}
+                    ref={(el) => {
+                      if (i === groups.length - 10) {
+                        inViewRef(el);
+                      }
+                    }}
+                  />
+                );
+              })
             ) : (
               <div className="w-full h-full flex justify-center items-center">
                 <p>No data available!</p>
@@ -130,7 +156,7 @@ export default function Groups() {
             )}
           </div>
         </CardContent>
-        <CardFooter>
+        {/* <CardFooter>
           <Pagination>
             <PaginationContent>
               <PaginationItem>
@@ -143,7 +169,6 @@ export default function Groups() {
               </PaginationItem>
               <PaginationItem>
                 <PaginationLink isActive>{page}</PaginationLink>
-                {/* <PaginationLink href="#">1</PaginationLink> */}
               </PaginationItem>
               <PaginationItem>
                 <PaginationNext
@@ -155,7 +180,7 @@ export default function Groups() {
               </PaginationItem>
             </PaginationContent>
           </Pagination>
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     </main>
   );

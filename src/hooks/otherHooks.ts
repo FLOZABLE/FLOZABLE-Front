@@ -1,5 +1,5 @@
 import { ApiResponse } from "@/types/responseTypes";
-import { useQueryClient } from "@tanstack/react-query";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
@@ -97,6 +97,49 @@ export function useUpdater<TData extends object, TKey extends keyof TData>(
         },
       };
     });
+
+    return updatedFieldValue;
+  };
+}
+
+export function useInfiniteUpdater<
+  TData extends object,
+  TKey extends keyof TData,
+>(baseQueryKey: unknown[], nestedField: TKey) {
+  const queryClient = useQueryClient();
+
+  return async (
+    newData: TData[TKey] | ((oldValue: TData[TKey]) => TData[TKey]),
+    dynamicKey?: unknown, // optional if needed
+  ) => {
+    const queryKey = dynamicKey ? [...baseQueryKey, dynamicKey] : baseQueryKey;
+
+    let updatedFieldValue: TData[TKey] | undefined;
+
+    await queryClient.setQueryData<InfiniteData<ApiResponse<TData>>>(
+      queryKey,
+      (oldData) => {
+        if (!oldData) return oldData;
+
+        const updatedValues = oldData.pages
+          .map((page) => {
+            const prev = page.data?.[nestedField];
+            if (!prev) return;
+            const updatedValue =
+              typeof newData === "function"
+                ? (newData as (prev: TData[TKey]) => TData[TKey])(prev)
+                : newData;
+
+            return updatedValue;
+          })
+          .filter((value) => value);
+
+        return {
+          ...oldData,
+          ...updatedValues,
+        };
+      },
+    );
 
     return updatedFieldValue;
   };

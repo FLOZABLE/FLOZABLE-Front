@@ -3,7 +3,7 @@
 import { postGroupJoin } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { useChatRooms } from "@/hooks/chatHooks";
-import { useGroups } from "@/hooks/groupHook";
+import { useGroup } from "@/hooks/groupHook";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { useRankings } from "@/hooks/rankingHooks";
 import {
@@ -14,10 +14,9 @@ import {
   postGroupJoinSchema,
   PostGroupJoinSchemaValues,
 } from "@/schemas/groupSchemas";
-import { Group } from "@/types/groupTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import GroupContainer from "../groups/GroupContainer";
@@ -50,23 +49,18 @@ export default function JoinGroupModal() {
   const updateMyGroups = useMyGroupsUpdater();
 
   const { account } = useAccount();
+  const { groupData } = useGroup(groupId);
 
-  const { groups } = useGroups();
   const { rankingsData } = useRankings(
     "day",
     new Date(new Date().setHours(0, 0, 0, 0)),
   );
   const { chatroomsRefetch } = useChatRooms();
 
-  const group: Group | null = useMemo(() => {
-    const group = groups?.find(
-      (group) => group.group_id === joinGroupModal.group_id,
-    );
-    return group ? group : null;
-  }, [groups, joinGroupModal.group_id]);
-
   const form = useForm<PostGroupJoinSchemaValues>({
-    resolver: zodResolver(postGroupJoinSchema(group?.visibility ?? true)),
+    resolver: zodResolver(
+      postGroupJoinSchema(joinGroupModal.group?.visibility ?? true),
+    ),
     defaultValues: {
       password: "",
     },
@@ -74,7 +68,8 @@ export default function JoinGroupModal() {
 
   const onSubmit = useCallback(
     async (data: PostGroupJoinSchemaValues) => {
-      if (!group?.group_id || !account) return;
+      if (!joinGroupModal.group?.group_id || !account) return;
+      const group = joinGroupModal.group;
       const response = await postGroupJoin(group?.group_id, data.password);
       if (!response.success || !response.data?.group) return;
 
@@ -89,7 +84,7 @@ export default function JoinGroupModal() {
       updateGroups((prev) => {
         const newGroups = [...prev];
         const groupIndex = newGroups.findIndex(
-          (group) => group.group_id === joinGroupModal.group_id,
+          (group) => group.group_id === joinGroupModal.group!.group_id,
         );
         if (groupIndex === -1) return prev;
 
@@ -111,20 +106,20 @@ export default function JoinGroupModal() {
         inline: "nearest",
       });
     },
-    [account, group, joinGroupModal],
+    [account, joinGroupModal],
   );
 
   useEffect(() => {
-    if (!groupId) return;
+    if (!groupData) return;
     setTimeout(() => {
       setJoinGroupModal((prev) => ({
         ...prev,
-        group_id: groupId,
+        group: groupData,
         opened: true,
       }));
     }, 500);
     removeSearchParams("group");
-  }, [groupId]);
+  }, [groupData]);
 
   return (
     <Credenza
@@ -139,9 +134,9 @@ export default function JoinGroupModal() {
         </CredenzaHeader>
         <CredenzaBody className="overflow-hidden">
           <div className="flex flex-col gap-4 px-1">
-            {group && (
+            {joinGroupModal.group && (
               <GroupContainer
-                group={group}
+                group={joinGroupModal.group}
                 rankings={rankingsData}
                 isJoinButton={false}
               />
@@ -150,7 +145,7 @@ export default function JoinGroupModal() {
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6 flex justify-center flex-col">
-                {!group?.visibility && (
+                {!joinGroupModal.group?.visibility && (
                   <FormField
                     control={form.control}
                     name="password"

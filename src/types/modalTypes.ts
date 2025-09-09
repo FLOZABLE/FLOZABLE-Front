@@ -1,6 +1,7 @@
 import { CalendarApi } from "@fullcalendar/core";
 import { Swiper } from "swiper/types";
 
+import { Group } from "./groupTypes";
 import { Theme } from "./themeTypes";
 
 export interface DefaultModalState {
@@ -8,7 +9,7 @@ export interface DefaultModalState {
 }
 
 export interface JoinGroupModalState extends DefaultModalState {
-  group_id: null | string;
+  group: null | Group;
   myGroupsSwiper: null | Swiper;
 }
 

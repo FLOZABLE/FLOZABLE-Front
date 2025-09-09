@@ -1,6 +1,6 @@
 import { postGroupLeave } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
-import { useGroups, useMyGroups } from "@/hooks/groupHook";
+import { useMyGroups } from "@/hooks/groupHook";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { useChatroomsUpdater } from "@/hooks/updaters/chatUpdaters";
 import {
@@ -18,7 +18,6 @@ import {
   ComponentProps,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -47,7 +46,6 @@ export default function MyGroupsViewer({
 
   const pathname = usePathname();
 
-  const { groups } = useGroups();
   const { myGroups } = useMyGroups();
   const { account } = useAccount();
 
@@ -179,17 +177,6 @@ export default function MyGroupsViewer({
     });
   }, [myGroups, confirmLeaveModal, account]);
 
-  const myGroupsInfo = useMemo(() => {
-    if (!groups) return [];
-    if (!myGroups) return [];
-
-    const groupMap = new Map(groups.map((g) => [g.group_id, g]));
-
-    return myGroups
-      .map((group) => groupMap.get(group.group_id))
-      .filter((group): group is Group => group !== undefined);
-  }, [groups, myGroups]);
-
   if (!myGroups?.length) {
     return (
       <div className="bg-background p-5 rounded-md h-48 items-center justify-center flex">
@@ -232,7 +219,7 @@ export default function MyGroupsViewer({
             setActiveIndex(realIndex);
           }}
           ref={myGroupsRef}>
-          {myGroupsInfo.map((group, i) => {
+          {myGroups.map((group, i) => {
             return (
               <SwiperSlide key={i} className="h-screen">
                 <MyGroupContainer

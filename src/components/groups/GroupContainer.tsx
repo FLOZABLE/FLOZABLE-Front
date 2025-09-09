@@ -64,7 +64,9 @@ export default function GroupContainer({
     const response = await postGroupLike(group.group_id, like);
     if (!response.success) return;
 
-    const updatedGroups = await updateGroups((prev) => {
+    const newLiked: string[] = [];
+
+    await updateGroups((prev) => {
       const newGroups = [...prev];
       const groupIndex = newGroups.findIndex(
         (_group) => _group.group_id === group.group_id,
@@ -78,14 +80,13 @@ export default function GroupContainer({
           (like) => like !== account.user_id,
         );
       }
+
+      newLiked.push(...newGroups[groupIndex].likes);
+
       return newGroups;
     });
-    const newGroup = updatedGroups?.find(
-      (_group) => _group.group_id === group.group_id,
-    );
-    if (newGroup?.likes) {
-      setLiked([...newGroup.likes]);
-    }
+
+    setLiked(newLiked);
   }, [group, account, liked]);
 
   useEffect(() => {
@@ -148,7 +149,7 @@ export default function GroupContainer({
                 setJoinGroupModal((prev) => ({
                   ...prev,
                   opened: true,
-                  group_id: group.group_id,
+                  group: group,
                 }));
               }}>
               {!group.visibility && <Lock />}
