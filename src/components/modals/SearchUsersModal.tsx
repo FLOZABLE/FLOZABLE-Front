@@ -3,7 +3,7 @@
 import { useFriendSearch } from "@/hooks/friendHooks";
 import {
   getFriendSearchSchema,
-  getFriendSearchSchemaSchemaValues,
+  getFriendSearchSchemaValues,
 } from "@/schemas/friendSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -33,7 +33,7 @@ import UserContainer from "../users/UserContainer";
 export default function SearchUsersModal() {
   const { searchUsersModal, setSearchUsersModal } = useSearchUsersModal();
 
-  const form = useForm<getFriendSearchSchemaSchemaValues>({
+  const form = useForm<getFriendSearchSchemaValues>({
     resolver: zodResolver(getFriendSearchSchema),
     defaultValues: {
       name: "",
@@ -47,7 +47,7 @@ export default function SearchUsersModal() {
   const router = useRouter();
 
   const onSubmit = useCallback(
-    async (data: getFriendSearchSchemaSchemaValues) => {
+    async (data: getFriendSearchSchemaValues) => {
       setFetchedQuery(data.name);
     },
     [],

@@ -94,3 +94,9 @@ export const putGroupSchema = z
   });
 
 export type PutGroupSchemaValues = z.infer<typeof putGroupSchema>;
+
+export const getGroupSearchSchema = z.object({
+  name: groupSchemas.name,
+});
+
+export type getGroupSearchSchemaValues = z.infer<typeof getGroupSearchSchema>;

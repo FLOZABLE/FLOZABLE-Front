@@ -2,6 +2,7 @@
 
 import GroupContainer from "@/components/groups/GroupContainer";
 import MyGroupsViewer from "@/components/groups/MyGroupsViewer";
+import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
 import { useCreateGroupModal } from "@/components/structure/ModalProviders";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +13,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import {
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -21,8 +29,14 @@ import {
 } from "@/components/ui/pagination";
 import { useGroups } from "@/hooks/groupHook";
 import { useRankings } from "@/hooks/rankingHooks";
-import { Loader2, Plus } from "lucide-react";
-import { useState } from "react";
+import {
+  getGroupSearchSchema,
+  getGroupSearchSchemaValues,
+} from "@/schemas/groupSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, Plus, Search } from "lucide-react";
+import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
 
 const PAGE_LENGTH = 20;
 
@@ -34,8 +48,20 @@ export default function Groups() {
   );
 
   const [page, setPage] = useState(1);
+  const [fetchedQuery, setFetchedQuery] = useState("");
 
   const { setCreateGroupModal } = useCreateGroupModal();
+
+  const form = useForm<getGroupSearchSchemaValues>({
+    resolver: zodResolver(getGroupSearchSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
+
+  const onSubmit = useCallback(async (data: getGroupSearchSchemaValues) => {
+    setFetchedQuery(data.name);
+  }, []);
 
   return (
     <main className="p-5">
@@ -46,7 +72,31 @@ export default function Groups() {
         <CardHeader className="flex items-center justify-between">
           <CardTitle>Groups</CardTitle>
           <div>
-            
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-x-3 flex justify-center">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <FloatingLabelInput
+                          placeholder="Name"
+                          label="Search Name"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit">
+                  <Search />
+                </Button>
+              </form>
+            </Form>
           </div>
           <Button
             effect={"expandIcon"}

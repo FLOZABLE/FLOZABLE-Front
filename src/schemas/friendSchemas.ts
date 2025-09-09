@@ -6,4 +6,4 @@ export const getFriendSearchSchema = z.object({
   name: accountSchemas.name,
 });
 
-export type getFriendSearchSchemaSchemaValues = z.infer<typeof getFriendSearchSchema>;
+export type getFriendSearchSchemaValues = z.infer<typeof getFriendSearchSchema>;

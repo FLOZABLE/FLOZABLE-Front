@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useAccount } from "./accountHooks";
 
-export function useGroups() {
+export function useGroups(searchQuery?: string) {
   const queryResult = useQuery({
     queryKey: [`groups`],
     queryFn: getGroupAll,
