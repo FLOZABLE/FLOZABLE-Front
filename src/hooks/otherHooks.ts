@@ -110,14 +110,14 @@ export function useInfiniteUpdater<
 
   return async (
     newData: TData[TKey] | ((oldValue: TData[TKey]) => TData[TKey]),
-    dynamicKey?: unknown, // optional if needed
+    //dynamicKey?: unknown, // optional if needed
   ) => {
-    const queryKey = dynamicKey ? [...baseQueryKey, dynamicKey] : baseQueryKey;
+    //const queryKey = dynamicKey ? [...baseQueryKey, dynamicKey] : baseQueryKey;
 
     let updatedFieldValue: TData[TKey] | undefined;
 
-    await queryClient.setQueryData<InfiniteData<ApiResponse<TData>>>(
-      queryKey,
+    await queryClient.setQueriesData<InfiniteData<ApiResponse<TData>>>(
+      { queryKey: baseQueryKey, type: "active", exact: false },
       (oldData) => {
         if (!oldData) return oldData;
 

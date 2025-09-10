@@ -12,7 +12,7 @@ const groupsLength = 30;
 
 export function useGroups(searchQuery: string) {
   const queryResult = useInfiniteQuery({
-    queryKey: [`groups`],
+    queryKey: [`groups`, searchQuery],
     queryFn: ({ pageParam }) => getGroups(searchQuery, pageParam),
     staleTime: 1000 * 60 * 5,
     initialPageParam: 0,

@@ -5,13 +5,7 @@ import MyGroupsViewer from "@/components/groups/MyGroupsViewer";
 import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
 import { useCreateGroupModal } from "@/components/structure/ModalProviders";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -19,14 +13,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import { useGroups } from "@/hooks/groupHook";
 import { useRankings } from "@/hooks/rankingHooks";
 import {
@@ -39,8 +25,6 @@ import { Loader2, Plus, Search } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useInView } from "react-intersection-observer";
-
-const PAGE_LENGTH = 20;
 
 export default function Groups() {
   const [fetchedQuery, setFetchedQuery] = useState("");
@@ -92,7 +76,7 @@ export default function Groups() {
         <MyGroupsViewer />
       </Card>
       <Card className="mt-10 mb-32" id="tour1-step19">
-        <CardHeader className="flex items-center justify-between">
+        <CardHeader className="flex items-center justify-between pb-5">
           <CardTitle>Groups</CardTitle>
           <div>
             <Form {...form}>
@@ -103,7 +87,7 @@ export default function Groups() {
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="relative">
                       <FormControl>
                         <FloatingLabelInput
                           placeholder="Name"
@@ -111,7 +95,7 @@ export default function Groups() {
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="absolute whitespace-nowrap absolute-center mt-10" />
                     </FormItem>
                   )}
                 />
@@ -131,9 +115,9 @@ export default function Groups() {
             Create group
           </Button>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex justify-center min-h-[40vh]">
           {groupsIsLoading && <Loader2 className="animate-spin" />}
-          <div className="grid grid-cols-[repeat(auto-fill,_20rem)] gap-4 justify-center">
+          <div className="grid grid-cols-[repeat(auto-fill,_20rem)] gap-4 justify-center w-full">
             {groups?.length ? (
               groups.map((group, i) => {
                 return (
