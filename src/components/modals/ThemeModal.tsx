@@ -1,5 +1,10 @@
 "use client";
 
+import { useRemoveSearchParams } from "@/hooks/otherHooks";
+import { useThemes } from "@/hooks/themeHooks";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+
 import ThemeButton from "../buttons/ThemeButton";
 //import parser from "html-react-parser";
 import { useThemeModal } from "../structure/ModalProviders";
@@ -16,6 +21,21 @@ import YoutubePlayer from "../youtube/YouTubePlayer";
 
 export default function ThemeModal() {
   const { themeModal, setThemeModal } = useThemeModal();
+
+  const searchParams = useSearchParams();
+  const themeId = searchParams.get("theme");
+
+  const removeSearchParams = useRemoveSearchParams();
+
+  const { themesData } = useThemes();
+
+  useEffect(() => {
+    const theme = themesData?.find((theme) => theme.theme_id === themeId);
+    if (theme) {
+      removeSearchParams("theme");
+      setThemeModal((prev) => ({ ...prev, opened: true, theme }));
+    }
+  }, [themeId, themesData]);
 
   return (
     <Credenza
