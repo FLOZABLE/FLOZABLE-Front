@@ -1,3 +1,4 @@
+import { useAccount } from "@/hooks/accountHooks";
 import { useGroupMembers } from "@/hooks/groupHook";
 import { useGroupMembersUpdater } from "@/hooks/updaters/groupUpdaters";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
@@ -85,6 +86,7 @@ export default function MyGroupContainer({
     group.group_id,
     isActive,
   );
+  const { account } = useAccount();
 
   const [totalTime, setTotalTime] = useState("0 h");
 
@@ -491,6 +493,7 @@ export default function MyGroupContainer({
                     member={member}
                     recvTransport={recvTransport}
                     device={device}
+                    isMe={account?.user_id === member.user_id}
                     key={i}
                   />
                 );
