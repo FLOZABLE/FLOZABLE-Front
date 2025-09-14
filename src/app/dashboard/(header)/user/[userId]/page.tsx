@@ -3,7 +3,7 @@
 import RankingTrendChart from "@/components/charts/RankingTrendChart";
 import StudyTrendChart from "@/components/charts/StudyTrendChart";
 import ProfileCard from "@/components/users/ProfileCard";
-import { useAccountProfile } from "@/hooks/accountHooks";
+import { useUserProfile } from "@/hooks/userHooks";
 import { ViewerType } from "@/types/otherTypes";
 import { use, useState } from "react";
 
@@ -13,13 +13,13 @@ type UserPageProps = {
 
 export default function UserPage({ params }: UserPageProps) {
   const { userId } = use(params);
-  const { accountProfile } = useAccountProfile(userId);
+  const { userProfile } = useUserProfile(userId);
   const [viewDate, _setViewDate] = useState<Date>(
     new Date(new Date().setHours(0, 0, 0, 0)),
   );
   const [viewer, _setViewer] = useState<ViewerType>("day");
 
-  if (!accountProfile?.userinfo) return;
+  if (!userProfile?.userinfo) return;
 
   return (
     <main className="p-5">
@@ -29,9 +29,9 @@ export default function UserPage({ params }: UserPageProps) {
       <div className="flex gap-5">
         <div className="">
           <ProfileCard
-            userInfo={accountProfile.userinfo}
-            subjects={accountProfile.subjects}
-            groupedSubjects={accountProfile.grouped_subjects}
+            userInfo={userProfile.userinfo}
+            subjects={userProfile.subjects}
+            groupedSubjects={userProfile.grouped_subjects}
             className="w-96 shrink-0 "
           />
         </div>
@@ -39,14 +39,14 @@ export default function UserPage({ params }: UserPageProps) {
           <StudyTrendChart
             viewDate={viewDate}
             viewer={viewer}
-            groupedSubjects={accountProfile.grouped_subjects}
+            groupedSubjects={userProfile.grouped_subjects}
             isMine={false}
             className="h-[30rem]"
           />
           <RankingTrendChart
             viewDate={viewDate}
             viewer={viewer}
-            userId={accountProfile?.userinfo.user_id}
+            userId={userProfile?.userinfo.user_id}
             className="h-[30rem]"
           />
         </div>

@@ -1,6 +1,4 @@
-import { Friend } from "./friendTypes";
 import { ApiResponse } from "./responseTypes";
-import { ActiveSubject, GroupedSubjects, Subject } from "./subjectTypes";
 
 export interface Account {
   user_id: string;
@@ -42,16 +40,3 @@ export type AccountGoogleResponse = ApiResponse<{ google_info: GoogleAccount }>;
 
 // GET /account
 export type AccountPatchResponse = ApiResponse<{ verified: boolean }>;
-
-// GET /account/profile
-export type AccountProfileResponse = ApiResponse<{
-  userinfo: Userinfo;
-  friends: Friend[];
-  subjects: Subject[];
-  grouped_subjects: GroupedSubjects;
-}>;
-
-// GET /account/profile/status
-export type AccountProfileStatusResponse = ApiResponse<{
-  active_subject: ActiveSubject;
-}>;

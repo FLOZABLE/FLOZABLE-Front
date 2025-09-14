@@ -20,7 +20,7 @@ export default function MemberContextMenu({
         onClick={() => {
           router.push(`/dashboard/user/${memberInfo.user_id}`);
         }}>
-        Profile
+        View profile
       </ContextMenuItem>
       <ContextMenuItem
         onClick={() => {

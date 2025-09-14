@@ -1,37 +1,14 @@
 import AxiosInstance from "@/lib/axiosInstance";
-import { getTimezone, requestHandler } from "@/lib/utils";
+import { requestHandler } from "@/lib/utils";
 import {
   AccountGoogleResponse,
   AccountPatchResponse,
-  AccountProfileResponse,
-  AccountProfileStatusResponse,
   AccountResponse,
 } from "@/types/accountTypes";
 import { SuccessResponse } from "@/types/responseTypes";
 
 export async function getAccount(): Promise<AccountResponse> {
   return requestHandler(AxiosInstance.get(`/account`));
-}
-
-export async function getAccountProfile(
-  userId: string,
-): Promise<AccountProfileResponse> {
-  const timezone = getTimezone();
-
-  return requestHandler(
-    AxiosInstance.get(`/account/${userId}/profile`, {
-      params: { timezone },
-    }),
-  );
-}
-export async function getAccountProfileStatus(
-  userId: string,
-): Promise<AccountProfileStatusResponse> {
-  return requestHandler(
-    AxiosInstance.get(`/account/profile/status`, {
-      params: { user_id: userId },
-    }),
-  );
 }
 
 export async function getAccountGoogle(): Promise<AccountGoogleResponse> {
