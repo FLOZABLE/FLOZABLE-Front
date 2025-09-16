@@ -14,9 +14,11 @@ import { useTutorial } from "@/hooks/tutorialHooks";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
 import emitter from "@/lib/emitter";
 import socket from "@/lib/sockets/socket";
-import { cn, toTimer } from "@/lib/utils";
+import { cn, nowSec, toTimer } from "@/lib/utils";
+import { ActiveSubjectCookie } from "@/types/cookieTypes";
 import { OnMyStopStudying, OnMyStudying } from "@/types/socketTypes";
 import { Subject } from "@/types/subjectTypes";
+import Cookies from "js-cookie";
 import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 
@@ -131,7 +133,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   useEffect(() => {
     if (!subjects?.length) return;
 
-    const onMyStudyStart = ({ subject }: OnMyStudying) => {
+    const onMyStudyStart = async ({ subject }: OnMyStudying) => {
       const subjectData = subjects.find(
         (_subject) => _subject.subject_id === subject.subject_id,
       );
@@ -148,9 +150,16 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
       subjectTimerWorker?.postMessage({
         command: "startSubjectTimer",
       });
+
+      const now = nowSec();
+
+      Cookies.set(
+        "active_subject",
+        JSON.stringify({ subject_id: subject.subject_id, start_time: now }),
+      );
     };
 
-    const onMyStudyStop = ({
+    const onMyStudyStop = async ({
       stopped_subject_id,
       duration,
     }: OnMyStopStudying) => {
@@ -162,6 +171,8 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
       subjectTimerWorker?.postMessage({
         command: "stopSubjectTimer",
       });
+
+      Cookies.remove("active_subject");
 
       updateSubjects((prev) => {
         const subjectIndex = prev.findIndex(
@@ -211,7 +222,25 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
       });
     };
 
-    const onDisconnection = () => {};
+    const onDisconnection = async () => {
+      try {
+        console.log("disconnection");
+
+        const rawActiveSubject = Cookies.get("active_subject");
+        if (!rawActiveSubject) return;
+
+        const activeSubject: ActiveSubjectCookie = JSON.parse(rawActiveSubject);
+
+        const duration = nowSec() - activeSubject.start_time;
+
+        onMyStudyStop({
+          stopped_subject_id: activeSubject.subject_id,
+          duration: duration,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
     socket.on("mystudy:start", onMyStudyStart);
     socket.on("mystudy:stop", onMyStudyStop);

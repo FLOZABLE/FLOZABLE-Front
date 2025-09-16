@@ -502,3 +502,7 @@ export function getYouTubeId(url: string) {
   const match = url.match(regex);
   return match ? match[1] : null;
 }
+
+export function nowSec() {
+  return Math.floor(Date.now() / 1000);
+}

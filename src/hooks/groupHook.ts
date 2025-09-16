@@ -114,6 +114,7 @@ export function useGroupMembers(groupId: string, isActive: boolean) {
       status: 200,
       success: true,
     }),
+    refetchOnWindowFocus: true,
   });
 
   const { data: groupMembersData, isLoading: groupMembersIsLoading } =
