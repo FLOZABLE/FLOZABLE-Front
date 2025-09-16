@@ -8,7 +8,7 @@ export async function getUserProfile(
   const timezone = getTimezone();
 
   return requestHandler(
-    AxiosInstance.get(`/account/${userId}/profile`, {
+    AxiosInstance.get(`/user/${userId}/profile`, {
       params: { timezone },
     }),
   );
