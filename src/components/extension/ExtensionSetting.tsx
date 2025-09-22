@@ -5,8 +5,11 @@ import {
 } from "@/apis/extensionApi";
 import { useExtensionSettings } from "@/hooks/extensionHooks";
 import { useExtensionSettingsUpdater } from "@/hooks/updaters/extensionUpdaters";
-import { validateURL } from "@/lib/validate";
-import { WebsiteSettingMode } from "@/types/websiteTypes";
+import {
+  extensionSettingFormSchema,
+  ExtensionSettingFormType,
+} from "@/schemas/extensionSchemas";
+import { WebsiteSetting } from "@/types/websiteTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
 import { Trash } from "lucide-react";
@@ -35,18 +38,6 @@ import {
 import { Separator } from "../ui/separator";
 import { Switch } from "../ui/switch";
 
-const extensionSettingFormSchema = z.object({
-  url: z
-    .string()
-    .min(1, "Please provide URL")
-    .refine(
-      (value) => validateURL(value).isValid,
-      (value) => ({ message: validateURL(value).reason || "Invalid URL" }),
-    ),
-});
-
-type ExtensionSettingFormType = z.infer<typeof extensionSettingFormSchema>;
-
 export default function ExtensionSetting() {
   const { extensionSettings } = useExtensionSettings();
 
@@ -69,7 +60,9 @@ export default function ExtensionSetting() {
 
   const onSubmit = useCallback(
     async (values: z.infer<typeof extensionSettingFormSchema>) => {
-      const response = await putExtensionSetting(values.url);
+      const domain = new URL(values.url).hostname;
+      console.log(domain, "domain");
+      const response = await putExtensionSetting(domain);
       if (!response.success || !response.data?.setting) return;
 
       extensionSettingsUpdater((prev) => {
@@ -81,23 +74,20 @@ export default function ExtensionSetting() {
     [],
   );
 
-  const settingUpdate = useCallback(
-    async (website: string, mode: WebsiteSettingMode, value: boolean) => {
-      const response = await patchExtensionSetting({ website, mode, value });
-      if (!response.success) return;
+  const settingUpdate = useCallback(async (websiteSetting: WebsiteSetting) => {
+    const response = await patchExtensionSetting(websiteSetting);
+    if (!response.success || !response.data?.setting) return;
 
-      extensionSettingsUpdater((prev) => {
-        const settingIndex = prev.findIndex(
-          (setting) => setting.website === website,
-        );
-        if (settingIndex === -1) return prev;
-        const newSettings = [...prev];
-        newSettings[settingIndex][mode] = value;
-        return newSettings;
-      });
-    },
-    [],
-  );
+    extensionSettingsUpdater((prev) => {
+      const settingIndex = prev.findIndex(
+        (setting) => setting.website === websiteSetting.website,
+      );
+      if (settingIndex === -1) return prev;
+      const newSettings = [...prev];
+      newSettings[settingIndex] = response.data!.setting;
+      return newSettings;
+    });
+  }, []);
 
   const settingDelete = useCallback(async () => {
     if (!confirmDeleteModal.website) return;
@@ -198,7 +188,7 @@ export default function ExtensionSetting() {
                   <Switch
                     checked={setting.block}
                     onCheckedChange={(checked) => {
-                      settingUpdate(setting.website, "block", checked);
+                      settingUpdate({ ...setting, block: checked });
                     }}
                   />
                 </div>
@@ -206,7 +196,7 @@ export default function ExtensionSetting() {
                   <Switch
                     checked={setting.study_block}
                     onCheckedChange={(checked) => {
-                      settingUpdate(setting.website, "study_block", checked);
+                      settingUpdate({ ...setting, study_block: checked });
                     }}
                   />
                 </div>
@@ -214,7 +204,7 @@ export default function ExtensionSetting() {
                   <Switch
                     checked={setting.timer}
                     onCheckedChange={(checked) => {
-                      settingUpdate(setting.website, "timer", checked);
+                      settingUpdate({ ...setting, timer: checked });
                     }}
                   />
                 </div>
@@ -222,7 +212,7 @@ export default function ExtensionSetting() {
                   <Switch
                     checked={setting.study_timer}
                     onCheckedChange={(checked) => {
-                      settingUpdate(setting.website, "study_timer", checked);
+                      settingUpdate({ ...setting, study_timer: checked });
                     }}
                   />
                 </div>

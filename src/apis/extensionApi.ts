@@ -5,34 +5,35 @@ import { DateTime } from "luxon";
 import {
   ExtensionSettingsResponse,
   ExtensionUsageResponse,
+  PatchExtensionSettingResponse,
   PutExtensionSettingResponse,
+  WebsiteSetting,
 } from "../types/websiteTypes";
 
 async function getExtensionSettings(): Promise<ExtensionSettingsResponse> {
-  return requestHandler(AxiosInstance.get(`/extension/settings`));
+  return requestHandler(AxiosInstance.get(`/extension/setting/all`));
 }
 
 async function putExtensionSetting(
-  url: string,
+  website: string,
 ): Promise<PutExtensionSettingResponse> {
-  return requestHandler(AxiosInstance.put(`/extension/setting`, { url }));
+  return requestHandler(AxiosInstance.put(`/extension/setting`, { website }));
 }
 
-type PatchExtensionSettingParams = {
-  website: string;
-  mode: string;
-  value: boolean;
-};
 async function patchExtensionSetting({
   website,
-  mode,
-  value,
-}: PatchExtensionSettingParams) {
+  block,
+  study_block,
+  timer,
+  study_timer,
+}: WebsiteSetting): Promise<PatchExtensionSettingResponse> {
   return requestHandler(
     AxiosInstance.patch(`/extension/setting`, {
       website,
-      mode,
-      value,
+      block,
+      study_block,
+      timer,
+      study_timer,
     }),
   );
 }

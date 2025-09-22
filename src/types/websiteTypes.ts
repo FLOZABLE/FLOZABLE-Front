@@ -32,7 +32,11 @@ export type ExtensionUsageResponse = ApiResponse<{
 
 // PUT /extension/setting
 export type PutExtensionSettingResponse = ApiResponse<{
-  domain: string[];
+  setting: WebsiteSetting;
+}>;
+
+// PATCH /extension/setting
+export type PatchExtensionSettingResponse = ApiResponse<{
   setting: WebsiteSetting;
 }>;
 

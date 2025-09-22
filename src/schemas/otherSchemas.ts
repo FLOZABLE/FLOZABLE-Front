@@ -1,3 +1,4 @@
+import { validateURL } from "@/lib/validate";
 import { z } from "zod";
 
 export const otherSchemas = {
@@ -15,5 +16,13 @@ export const otherSchemas = {
         message:
           "Invalid YouTube URL: must be from youtube.com and contain a ?video_id= parameter",
       },
+    ),
+
+  url: z
+    .string()
+    .min(1, "Please provide URL")
+    .refine(
+      (value) => validateURL(value).isValid,
+      (value) => ({ message: validateURL(value).reason || "Invalid URL" }),
     ),
 };

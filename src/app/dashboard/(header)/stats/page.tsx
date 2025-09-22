@@ -4,6 +4,7 @@ import { DatePicker } from "@/components/buttons/DatePicker";
 import RankingTrendChart from "@/components/charts/RankingTrendChart";
 import StudyHeatMap from "@/components/charts/StudyHeatMap";
 import SubjectsTrendChart from "@/components/charts/SubjectsTrendChart";
+import ExtensionSetting from "@/components/extension/ExtensionSetting";
 import SelectorWrapper from "@/components/ui/select";
 import { useAccount } from "@/hooks/accountHooks";
 import { useSubjects } from "@/hooks/subjectHooks";
@@ -63,6 +64,7 @@ export default function Stats() {
           groupedSubjects={groupedSubjects}
           id="tour1-step13"
         />
+        <ExtensionSetting />
       </div>
     </main>
   );
