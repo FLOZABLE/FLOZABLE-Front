@@ -5,6 +5,7 @@ import {
 } from "@/apis/extensionApi";
 import { useExtensionSettings } from "@/hooks/extensionHooks";
 import { useExtensionSettingsUpdater } from "@/hooks/updaters/extensionUpdaters";
+import { getDomain } from "@/lib/utils";
 import {
   extensionSettingFormSchema,
   ExtensionSettingFormType,
@@ -60,7 +61,7 @@ export default function ExtensionSetting() {
 
   const onSubmit = useCallback(
     async (values: z.infer<typeof extensionSettingFormSchema>) => {
-      const domain = new URL(values.url).hostname;
+      const domain = getDomain(values.url);
       console.log(domain, "domain");
       const response = await putExtensionSetting(domain);
       if (!response.success || !response.data?.setting) return;
@@ -170,7 +171,7 @@ export default function ExtensionSetting() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
                 className="flex">
-                <div className="flex-1/5 flex items-center justify-between">
+                <div className="flex-1/5 flex items-center justify-between overflow-hidden">
                   <p className="truncate">{setting.website}</p>
                   <Button
                     variant={"destructive"}

@@ -506,3 +506,21 @@ export function getYouTubeId(url: string) {
 export function nowSec() {
   return Math.floor(Date.now() / 1000);
 }
+
+export function getDomain(url: string): string {
+  try {
+    // Add protocol if missing so URL() can parse it
+    const withProtocol = url.match(/^https?:\/\//) ? url : `https://${url}`;
+    const hostname = new URL(withProtocol).hostname;
+
+    // Remove leading "www." only if that's the only subdomain
+    if (hostname.startsWith("www.") && hostname.split(".").length === 3) {
+      return hostname.slice(4);
+    }
+
+    return hostname;
+  } catch (err) {
+    console.error("Invalid URL:", url, err);
+    return url; // fallback to input if invalid
+  }
+}
