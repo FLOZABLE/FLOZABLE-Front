@@ -80,22 +80,19 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   }, [subjects]);
 
   useEffect(() => {
+    subjectTimerWorker?.postMessage({
+      command: "stopSubjectTimer",
+    });
+
     if (isPopup) return;
 
     return () => {
       socket.emit("study:stop");
-      setTimeout(() => {
-        subjectTimerWorker?.postMessage({
-          command: "stopSubjectTimer",
-        });
-        subjectsRefetch();
-      }, 500);
 
-      setTimeout(() => {
-        subjectTimerWorker?.postMessage({
-          command: "stopSubjectTimer",
-        });
-      }, 1500);
+      subjectTimerWorker?.postMessage({
+        command: "stopSubjectTimer",
+      });
+      subjectsRefetch();
     };
   }, [isPopup]);
 
