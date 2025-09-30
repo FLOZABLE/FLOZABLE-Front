@@ -2,6 +2,7 @@
 
 import { postAuthSignin, postAuthSignup } from "@/apis/authApi";
 import { useAccount } from "@/hooks/accountHooks";
+import emitter from "@/lib/emitter";
 import { getTimezone } from "@/lib/utils";
 import {
   postAuthSigninSchema,
@@ -119,6 +120,18 @@ export default function AccountModal() {
       }
     }, 100);
   }, [account, status]);
+
+  useEffect(() => {
+    const onOpenAccountModal = () => {
+      setAccountModal((prev) => ({ ...prev, opened: true }));
+    };
+
+    emitter.on("openAccountModal", onOpenAccountModal);
+
+    return () => {
+      emitter.off("openAccountModal", onOpenAccountModal);
+    };
+  }, []);
 
   return (
     <Credenza

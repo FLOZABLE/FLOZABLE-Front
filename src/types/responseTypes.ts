@@ -5,6 +5,7 @@ export interface ApiResponseBase {
   data?: unknown;
   error?: { reason: string; code?: number };
   action?: string;
+  code?: string;
 }
 
 export interface ApiResponse<T = unknown> extends ApiResponseBase {

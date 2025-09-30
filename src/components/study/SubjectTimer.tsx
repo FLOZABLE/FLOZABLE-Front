@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useAccount } from "@/hooks/accountHooks";
 import { useSubjects } from "@/hooks/subjectHooks";
 import { useTutorial } from "@/hooks/tutorialHooks";
 import { useSubjectsUpdater } from "@/hooks/updaters/subjectUpdaters";
@@ -23,6 +24,7 @@ import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
+import { showAccountToast } from "../others/AccountToast";
 import { useAddSubjectModal } from "../structure/ModalProviders";
 import { useWorkers } from "../structure/Providers";
 import { Button } from "../ui/button";
@@ -42,6 +44,7 @@ type SubjectTimerProps = {
 export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   const { subjectTimerWorker } = useWorkers();
   const { subjects, subjectsRefetch } = useSubjects();
+  const { account } = useAccount();
 
   const { setAddSubjectModal } = useAddSubjectModal();
   const { currentStep, setCurrentStep, currentTour } = useTutorial();
@@ -394,6 +397,10 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
               setCurrentStep(6);
             } else if (currentStep === 6) {
               setCurrentStep(7);
+            }
+
+            if (!account?.user_id) {
+              showAccountToast();
             }
           }}
           clicked={selectedSubject.active}

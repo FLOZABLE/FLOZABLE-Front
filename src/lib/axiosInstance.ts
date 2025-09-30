@@ -9,6 +9,7 @@ import axiosRetry from "axios-retry";
 import { toast } from "sonner"; // Assuming 'sonner' library has TypeScript types
 
 import config from "./config"; // Assuming config.ts exports an object with a 'server' string property
+import emitter from "./emitter";
 
 // Define the type for the Axios Instance
 const AxiosInstance: AxiosInstanceType = axios.create({
@@ -63,6 +64,16 @@ AxiosInstance.interceptors.response.use(
     if (message && (type === "success" || type === "error")) {
       toast[type](message);
     }
+
+    const responseCode = response?.data?.code;
+
+    console.log("gd", response, responseCode);
+    if (
+      responseCode === "USER_NOT_FOUND" ||
+      responseCode === "AUTH_TOKEN_INVALID"
+    ) {
+      emitter.emit("openAccountModal");
+    }
     return response;
   },
   (err: AxiosError<ApiResponse>) => {
@@ -73,6 +84,15 @@ AxiosInstance.interceptors.response.use(
     } else {
       console.error("Axios Interceptor Error:", err);
       // toast.error(err.message || 'An unexpected error occurred.'); // Handle other error cases
+    }
+
+    const responseCode = err?.response?.data?.code;
+
+    if (
+      responseCode === "USER_NOT_FOUND" ||
+      responseCode === "AUTH_TOKEN_INVALID"
+    ) {
+      emitter.emit("openAccountModal");
     }
 
     return Promise.reject(err);
