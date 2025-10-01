@@ -42,7 +42,7 @@ export default function Study() {
 
   useEffect(() => {
     const savedVideoId = localStorage.getItem("themeVideoId");
-    if (savedVideoId?.length === 11) {
+    if (savedVideoId) {
       setTheme((prev) => ({ ...prev, id: savedVideoId }));
     } else {
       setTheme((prev) => ({ ...prev, id: "YQc4WT0yDH4" }));
