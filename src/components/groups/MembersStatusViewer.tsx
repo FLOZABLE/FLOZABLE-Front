@@ -44,7 +44,7 @@ export default function MembersStatusViewer({
     <div className="absolute right-0 top-0 flex gap-2">
       <HoverCard>
         <HoverCardTrigger asChild>
-          <Badge>
+          <Badge className="cursor-pointer">
             <Circle className="fill-green-500 text-green-500" />
             <p>
               {membersStatus.studying.length}
@@ -67,7 +67,7 @@ export default function MembersStatusViewer({
 
       <HoverCard>
         <HoverCardTrigger asChild>
-          <Badge>
+          <Badge className="cursor-pointer">
             <Circle className="fill-red-500 text-red-500" />
             <p>
               {membersStatus.resting.length}
@@ -90,7 +90,7 @@ export default function MembersStatusViewer({
 
       <HoverCard>
         <HoverCardTrigger asChild>
-          <Badge>
+          <Badge className="cursor-pointer">
             <Circle className="fill-gray-500 text-gray-500" />
             <p>
               {membersStatus.offline.length}

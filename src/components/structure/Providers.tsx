@@ -30,7 +30,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 import TutorialCard from "../tutorial/TutorialCard";
 import ModalProviders from "./ModalProviders";
@@ -173,7 +173,20 @@ function AppProvider({ children }: ProviderProps) {
     const onNotification = (notification: Notification) => {
       console.log("new notification", notification);
       updateNotifications((prev) => [...prev, notification]);
-      toast.info(notification.title);
+      toast.info(
+        <div>
+          <p>{notification.title}</p>
+          <p>{notification.message}</p>
+        </div>,
+        {
+          action: {
+            label: "Login",
+            onClick: () => {
+              
+            },
+          },
+        },
+      );
     };
 
     socket.on("study:start", onStudying);

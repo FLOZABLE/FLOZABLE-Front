@@ -30,7 +30,7 @@ export default function Study() {
     timer: true,
     groups: true,
     audioController: true,
-    media: false,
+    media: true,
     zoom: false,
     timeline: true,
     themeController: false,
