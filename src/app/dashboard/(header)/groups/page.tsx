@@ -13,7 +13,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { useGroups } from "@/hooks/groupHook";
+import { useGroups } from "@/hooks/groupHooks";
 import { useRankings } from "@/hooks/rankingHooks";
 import {
   getGroupSearchSchema,

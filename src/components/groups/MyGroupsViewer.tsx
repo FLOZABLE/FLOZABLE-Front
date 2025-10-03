@@ -1,6 +1,6 @@
 import { postGroupLeave } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
-import { useMyGroups } from "@/hooks/groupHook";
+import { useMyGroups } from "@/hooks/groupHooks";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { useChatroomsUpdater } from "@/hooks/updaters/chatUpdaters";
 import {

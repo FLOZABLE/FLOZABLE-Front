@@ -3,7 +3,7 @@
 import { postGroupJoin } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { useChatRooms } from "@/hooks/chatHooks";
-import { useGroup } from "@/hooks/groupHook";
+import { useGroup } from "@/hooks/groupHooks";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { useRankings } from "@/hooks/rankingHooks";
 import {
@@ -89,7 +89,8 @@ export default function JoinGroupModal() {
         if (groupIndex === -1) return prev;
 
         newGroups[groupIndex] = joinedGroup;
-        return newGroups;
+        console.log("gd")
+        return [];
       });
 
       updateMyGroups((prev) => {

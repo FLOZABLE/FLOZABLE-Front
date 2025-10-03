@@ -1,5 +1,5 @@
 import { useAccount } from "@/hooks/accountHooks";
-import { useGroupMembers } from "@/hooks/groupHook";
+import { useGroupMembers } from "@/hooks/groupHooks";
 import { useGroupMembersUpdater } from "@/hooks/updaters/groupUpdaters";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
 import mediaSocket from "@/lib/sockets/mediaSocket";

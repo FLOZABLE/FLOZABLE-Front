@@ -67,7 +67,6 @@ AxiosInstance.interceptors.response.use(
 
     const responseCode = response?.data?.code;
 
-    console.log("gd", response, responseCode);
     if (
       responseCode === "USER_NOT_FOUND" ||
       responseCode === "AUTH_TOKEN_INVALID"
