@@ -1,19 +1,13 @@
 import { postGroupLike } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
-import { useGroupsUpdater } from "@/hooks/updaters/groupUpdaters";
+import { useGroupUpdater } from "@/hooks/updaters/groupUpdaters";
 import { cn, secondConverter } from "@/lib/utils";
 import { Group } from "@/types/groupTypes";
 import { Ranking } from "@/types/rankingTypes";
 import parser from "html-react-parser";
 import { Goal, Heart, Hourglass, Lock, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
-import {
-  ComponentProps,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { ComponentProps, useCallback, useMemo } from "react";
 
 import CopyLinkButton from "../buttons/CopyLinkButton";
 import LikeButton from "../buttons/LikeButton/LikeButton";
@@ -37,11 +31,9 @@ export default function GroupContainer({
   const router = useRouter();
 
   const { account } = useAccount();
-  const updateGroups = useGroupsUpdater();
+  const updateGroup = useGroupUpdater();
 
   const { setJoinGroupModal } = useJoinGroupModal();
-
-  const [liked, setLiked] = useState<string[]>([]);
 
   const totalTime = useMemo(() => {
     if (!rankings || !group.members.length) return "0 h";
@@ -60,38 +52,22 @@ export default function GroupContainer({
   const onLike = useCallback(async () => {
     if (!account?.user_id) return;
 
-    const like = !liked.includes(account?.user_id);
+    const like = !group.likes.includes(account?.user_id);
     const response = await postGroupLike(group.group_id, like);
     if (!response.success) return;
 
-    const newLiked: string[] = [];
-
-    await updateGroups((prev) => {
-      const newGroups = [...prev];
-      const groupIndex = newGroups.findIndex(
-        (_group) => _group.group_id === group.group_id,
-      );
-      if (groupIndex === -1) return prev;
-
+    await updateGroup(group.group_id, (prev) => {
       if (like) {
-        newGroups[groupIndex].likes.push(account.user_id);
+        prev.likes.push(account.user_id);
       } else {
-        newGroups[groupIndex].likes = newGroups[groupIndex].likes.filter(
-          (like) => like !== account.user_id,
-        );
+        prev.likes = prev.likes.filter((like) => like !== account.user_id);
       }
 
-      newLiked.push(...newGroups[groupIndex].likes);
-
-      return newGroups;
+      return {
+        ...prev,
+      };
     });
-
-    setLiked(newLiked);
-  }, [group, account, liked]);
-
-  useEffect(() => {
-    setLiked(group.likes);
-  }, [group.likes]);
+  }, [group, account]);
 
   return (
     <div
@@ -117,7 +93,7 @@ export default function GroupContainer({
         </Badge>
         <Badge variant={"outline"}>
           <Heart />
-          {liked.length}
+          {group.likes.length}
         </Badge>
       </div>
       {group.tags.length ? (
@@ -157,7 +133,7 @@ export default function GroupContainer({
             </Button>
           ))}
         <LikeButton
-          liked={liked.includes(account?.user_id || "")}
+          liked={group.likes.includes(account?.user_id || "")}
           onClick={onLike}
         />
       </div>

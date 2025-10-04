@@ -7,7 +7,7 @@ import { useGroup } from "@/hooks/groupHooks";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { useRankings } from "@/hooks/rankingHooks";
 import {
-  useGroupsUpdater,
+  useGroupUpdater,
   useMyGroupsUpdater,
 } from "@/hooks/updaters/groupUpdaters";
 import {
@@ -45,7 +45,7 @@ export default function JoinGroupModal() {
   const removeSearchParams = useRemoveSearchParams();
 
   const { joinGroupModal, setJoinGroupModal } = useJoinGroupModal();
-  const updateGroups = useGroupsUpdater();
+  const updateGroup = useGroupUpdater();
   const updateMyGroups = useMyGroupsUpdater();
 
   const { account } = useAccount();
@@ -81,17 +81,10 @@ export default function JoinGroupModal() {
 
       localStorage.setItem("swiperGroupId", group.group_id);
 
-      updateGroups((prev) => {
-        const newGroups = [...prev];
-        const groupIndex = newGroups.findIndex(
-          (group) => group.group_id === joinGroupModal.group!.group_id,
-        );
-        if (groupIndex === -1) return prev;
-
-        newGroups[groupIndex] = joinedGroup;
-        console.log("gd")
-        return [];
-      });
+      updateGroup(joinGroupModal.group.group_id, (prev) => ({
+        ...prev,
+        ...joinedGroup,
+      }));
 
       updateMyGroups((prev) => {
         const newGroups = [...prev, joinedGroup];

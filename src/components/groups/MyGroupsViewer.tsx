@@ -4,7 +4,7 @@ import { useMyGroups } from "@/hooks/groupHooks";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { useChatroomsUpdater } from "@/hooks/updaters/chatUpdaters";
 import {
-  useGroupsUpdater,
+  useGroupUpdater,
   useMyGroupsUpdater,
 } from "@/hooks/updaters/groupUpdaters";
 import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
@@ -62,7 +62,7 @@ export default function MyGroupsViewer({
   const removeSearchParams = useRemoveSearchParams();
 
   const updateMyGroups = useMyGroupsUpdater();
-  const updateGroups = useGroupsUpdater();
+  const updateGroup = useGroupUpdater();
   const updateChatrooms = useChatroomsUpdater();
 
   const [confirmLeaveModal, setConfirmLeaveModal] =
@@ -142,18 +142,13 @@ export default function MyGroupsViewer({
     updateMyGroups((prev) =>
       prev.filter((group) => group.group_id !== groupId),
     );
-    updateGroups((prev) => {
-      const groupIndex = prev.findIndex((group) => group.group_id === groupId);
-      if (groupIndex === -1) return prev;
-
-      const newGroups = [...prev];
-      newGroups[groupIndex] = {
-        ...newGroups[groupIndex],
-        members: newGroups[groupIndex].members.filter(
+    updateGroup(groupId, (prev) => {
+      return {
+        ...prev,
+        members: prev.members.filter(
           (memberId) => memberId !== account?.user_id,
         ),
       };
-      return newGroups;
     });
 
     updateChatrooms((prev) => {
@@ -165,7 +160,7 @@ export default function MyGroupsViewer({
 
       setChatModal((prevModal) => {
         console.log(prevModal, prev, prev[chatroomIndex]);
-        if (prevModal.chatroom_id === prev[chatroomIndex].chatroom_id) {
+        if (prevModal.chatroom_id === prev[chatroomIndex]?.chatroom_id) {
           return { ...prevModal, chatroom_id: null };
         } else {
           return prevModal;

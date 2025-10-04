@@ -3,7 +3,7 @@
 import { putGroup } from "@/apis/groupApi";
 import { useChatRooms } from "@/hooks/chatHooks";
 import {
-  useGroupsUpdater,
+  useGroupsCacheRemover,
   useMyGroupsUpdater,
 } from "@/hooks/updaters/groupUpdaters";
 import { putGroupSchema, PutGroupSchemaValues } from "@/schemas/groupSchemas";
@@ -52,7 +52,7 @@ export default function CreateGroupModal() {
 
   const visibility = form.watch("visibility");
 
-  const updateGroups = useGroupsUpdater();
+  const groupsCacheRemover = useGroupsCacheRemover();
   const updateMyGroups = useMyGroupsUpdater();
 
   const onSubmit = useCallback(async (data: PutGroupSchemaValues) => {
@@ -67,10 +67,7 @@ export default function CreateGroupModal() {
 
     localStorage.setItem("swiperGroupId", newGroup.group_id);
 
-    updateGroups((prev) => {
-      const newGroups = [...prev, newGroup];
-      return newGroups;
-    });
+    groupsCacheRemover();
 
     updateMyGroups((prev) => {
       const newGroups = [...prev, newGroup];
