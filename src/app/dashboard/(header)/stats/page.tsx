@@ -65,7 +65,11 @@ export default function Stats() {
           groupedSubjects={groupedSubjects}
           id="tour1-step13"
         />
-        <StudyTimeline viewDate={viewDate} subjects={subjects} />
+        <StudyTimeline
+          viewDate={viewDate}
+          subjects={subjects}
+          className="h-[30rem]"
+        />
         <ExtensionSetting />
       </div>
     </main>

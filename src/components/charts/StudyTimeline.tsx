@@ -56,10 +56,9 @@ export default function StudyTimeline({
             DateTime.fromSeconds(data[1]).toFormat(" - h:mm a"),
         }));
       })
-      .sort((a, b) => a.data[0] - b.data[1]);
+      .sort((a, b) => a.data?.[0] - b.data?.[1])
+      .filter((item) => item);
   }, [subjects, viewDate]);
-
-  console.log("gd", timeline);
 
   return (
     <Card {...props}>
@@ -69,7 +68,7 @@ export default function StudyTimeline({
           Visualize your daily study habits at a glance.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-auto">
         <TimelineLayout items={timeline} size="md" />
       </CardContent>
       <CardFooter>

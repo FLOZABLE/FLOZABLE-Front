@@ -1,9 +1,10 @@
 "use client";
 
 import { TimelineElement } from "@/types/timelineTypes";
-import { motion } from "framer-motion";
-import React from "react";
+import { motion, useInView } from "framer-motion";
+import React, { useEffect, useRef } from "react";
 
+// Assuming 'Timeline' component can accept a ref and spread style props
 import { Timeline, TimelineItem } from "./timeline";
 
 interface TimelineLayoutProps {
@@ -25,17 +26,48 @@ export const TimelineLayout = ({
   connectorColor,
   className,
 }: TimelineLayoutProps) => {
+  // Use a single ref for both visibility and scroll control
+  const timelineRef = useRef<HTMLOListElement>(null);
+  const firstItemRef = useRef<HTMLDivElement>(null);
+
+  // Animation logic remains the same
+  const inView = useInView(timelineRef, { once: false, amount: 0.1 });
+
+  const itemAnimation = {
+    opacity: animate && inView ? 1 : 0,
+    y: animate && inView ? 0 : 20,
+  };
+
+  const reversedItems = [...items].reverse();
+
+  // Scroll logic: Scroll the Timeline container itself to the top
+  useEffect(() => {
+
+  }, []);
+
+
   return (
-    <Timeline size={size} className={className}>
-      {[...items].reverse().map((item, index) => (
+    <Timeline
+      size={size}
+      className={className}
+      style={{
+        overflowY: "auto",
+      }}
+      ref={timelineRef}>
+      {reversedItems.map((item, index) => (
         <motion.div
           key={index}
           initial={animate ? { opacity: 0, y: 20 } : false}
-          animate={animate ? { opacity: 1, y: 0 } : false}
+          animate={itemAnimation}
           transition={{
             duration: 0.5,
-            delay: index * 0.1,
+            delay: animate && inView ? index * 0.15 : 0,
             ease: "easeOut",
+          }}
+          ref={(ref) => {
+            if (index === 0) {
+              firstItemRef.current = ref;
+            }
           }}>
           <TimelineItem
             date={item.date}
@@ -48,7 +80,7 @@ export const TimelineLayout = ({
             }
             iconColor={item.color || iconColor}
             connectorColor={item.color || connectorColor}
-            showConnector={index !== items.length - 1}
+            showConnector={index !== reversedItems.length - 1}
           />
         </motion.div>
       ))}
