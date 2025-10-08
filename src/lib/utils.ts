@@ -524,3 +524,25 @@ export function getDomain(url: string): string {
     return url; // fallback to input if invalid
   }
 }
+
+/**
+ * Determines the best contrasting color (black or white) for a given hex background color.
+ * @param {string} hexColor - The background color (e.g., '#FFC0CB').
+ * @returns {string} - The contrasting color ('#000000' or '#FFFFFF').
+ */
+export const getContrastColor = (hexColor: string) => {
+  // 1. Remove the '#' if present
+  const color = hexColor.startsWith("#") ? hexColor.slice(1) : hexColor;
+
+  // 2. Convert to R, G, B values (assuming RRGGBB format)
+  // Ensure we can handle shorter hex codes if necessary, but full RRGGBB is standard.
+  const r = parseInt(color.substring(0, 2), 16);
+  const g = parseInt(color.substring(2, 4), 16);
+  const b = parseInt(color.substring(4, 6), 16);
+
+  // 3. Calculate Luminance (Luma) - how "light" the color is
+  const luma = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+  // 4. Return black for light backgrounds, white for dark backgrounds
+  return luma > 0.5 ? "#000000" : "#FFFFFF";
+};

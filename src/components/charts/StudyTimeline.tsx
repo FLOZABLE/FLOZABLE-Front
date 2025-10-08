@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Separator } from "../ui/separator";
 
 interface StudyTimelineProps extends React.ComponentProps<"div"> {
   viewDate: Date;

@@ -8,10 +8,10 @@ interface TimelineProps {
 
 export default function Timeline({ elements }: TimelineProps) {
   return (
-    <div>
-      {elements.map((element, index) => {
-        return <TimelineElement key={index} element={element} />;
-      })}
+    <div className="p-8 max-w-2xl mx-auto min-h-screen">
+      {elements.map((element, index) => (
+        <TimelineElement key={index} element={element} index={index} />
+      ))}
     </div>
   );
 }
