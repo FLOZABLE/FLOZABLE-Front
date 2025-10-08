@@ -1,10 +1,9 @@
 import { secondConverter } from "@/lib/utils";
 import { Subject } from "@/types/subjectTypes";
-import { TimelineStatus } from "@/types/timelineTypes";
-import { Check } from "lucide-react";
 import { DateTime } from "luxon";
 import { useMemo } from "react";
 
+import Timeline from "../others/Timeline";
 import {
   Card,
   CardContent,
@@ -13,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { TimelineLayout } from "../ui/timeline/timeline-layout";
+import { Separator } from "../ui/separator";
 
 interface StudyTimelineProps extends React.ComponentProps<"div"> {
   viewDate: Date;
@@ -40,15 +39,10 @@ export default function StudyTimeline({
     ).days;
 
     return subjects
-      .flatMap((subject, i) => {
+      .flatMap((subject) => {
         return subject.day.timeline[index].data.map((data) => ({
-          subject_id: subject.subject_id,
-          name: subject.name,
-          //color: subject.color,
-          data: data,
-          icon: <Check />,
-          id: i,
-          status: "in-progress" as TimelineStatus,
+          color: subject.color,
+          start: data[0],
           title: `Studied ${subject.name}`,
           description: `Studied for ${secondConverter({ sec: data[1] - data[0], options: ["seconds", "minutes", "hours"] })}`,
           date:
@@ -56,7 +50,7 @@ export default function StudyTimeline({
             DateTime.fromSeconds(data[1]).toFormat(" - h:mm a"),
         }));
       })
-      .sort((a, b) => a.data?.[0] - b.data?.[1])
+      .sort((a, b) => b.start - a.start)
       .filter((item) => item);
   }, [subjects, viewDate]);
 
@@ -69,7 +63,7 @@ export default function StudyTimeline({
         </CardDescription>
       </CardHeader>
       <CardContent className="overflow-auto">
-        <TimelineLayout items={timeline} size="md" />
+        <Timeline elements={timeline} />
       </CardContent>
       <CardFooter>
         <div className="text-muted-foreground">

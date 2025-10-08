@@ -40,12 +40,6 @@ export const TimelineLayout = ({
 
   const reversedItems = [...items].reverse();
 
-  // Scroll logic: Scroll the Timeline container itself to the top
-  useEffect(() => {
-
-  }, []);
-
-
   return (
     <Timeline
       size={size}
