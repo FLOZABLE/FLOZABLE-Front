@@ -58,16 +58,16 @@ export default function StudyTimeline({
       <CardHeader>
         <CardTitle>Study Timeline</CardTitle>
         <CardDescription>
-          Visualize your daily study habits at a glance.
+          Track your study sessions across time.
         </CardDescription>
       </CardHeader>
-      <CardContent className="overflow-auto">
+      <CardContent className="overflow-auto flex-1">
         <Timeline elements={timeline} />
       </CardContent>
       <CardFooter>
         <div className="text-muted-foreground">
-          See your daily study patterns—darker shades mean more time. Great for
-          spotting habits and staying consistent.
+          View all your study activities in sequence—from start to finish.
+          Perfect for reviewing progress and identifying productive streaks.
         </div>
       </CardFooter>
     </Card>
