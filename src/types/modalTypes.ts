@@ -32,3 +32,7 @@ export interface ChatModalState extends DefaultModalState {
 export interface ThemeModalState extends DefaultModalState {
   theme: Theme | null;
 }
+
+export interface GroupLeaderboardModalState extends DefaultModalState {
+  group_id: string | null;
+}

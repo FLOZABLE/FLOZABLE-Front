@@ -1,5 +1,6 @@
 import {
   getGroup,
+  getGroupLeaderboard,
   getGroupMembers,
   getGroupMine,
   getGroups,
@@ -123,6 +124,33 @@ export function useGroupMembers(groupId: string, isActive: boolean) {
   return {
     groupMembersData,
     groupMembersIsLoading,
+    ...queryResult,
+  };
+}
+
+export function useGroupLeaderboard(groupId: string | null, viewDate: Date) {
+  const queryResult = useQuery({
+    queryKey: [`groupLeaderboard`, groupId, viewDate],
+    queryFn: () => getGroupLeaderboard(groupId!, viewDate),
+    staleTime: 1000 * 10,
+    enabled: !!groupId,
+    select: (response) => response?.data?.leaderboard ?? [],
+    placeholderData: () => ({
+      data: {
+        leaderboard: [],
+      },
+      status: 200,
+      success: true,
+    }),
+    refetchOnWindowFocus: true,
+  });
+
+  const { data: groupLeaderboardData, isLoading: groupLeaderboardIsLoading } =
+    queryResult;
+
+  return {
+    groupLeaderboardData,
+    groupLeaderboardIsLoading,
     ...queryResult,
   };
 }

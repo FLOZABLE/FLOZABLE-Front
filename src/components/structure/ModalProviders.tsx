@@ -1,6 +1,7 @@
 import {
   ChatModalState,
   DefaultModalState,
+  GroupLeaderboardModalState,
   JoinGroupModalState,
   PlanModalState,
   ThemeModalState,
@@ -153,6 +154,14 @@ export const { Provider: ThemeModalProvider, useModal: useThemeModal } =
     "themeModal",
   );
 
+export const {
+  Provider: GroupLeaderboardModalProvider,
+  useModal: useGroupLeaderboardModal,
+} = createModalProvider<GroupLeaderboardModalState, "groupLeaderboardModal">(
+  { opened: false, group_id: null },
+  "groupLeaderboardModal",
+);
+
 export const { Provider: WelcomeModalProvider, useModal: useWelcomeModal } =
   createModalProvider(false, "isWelcomeModal", false);
 
@@ -169,6 +178,7 @@ const MODAL_PROVIDERS = [
   WelcomeModalProvider,
   CreateThemeModalProvider,
   ThemeModalProvider,
+  GroupLeaderboardModalProvider,
 ];
 
 export default function ModalProviders({ children }: { children: ReactNode }) {

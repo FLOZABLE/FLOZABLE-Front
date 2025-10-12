@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { otherSchemas } from "./otherSchemas";
+
 export const groupSchemas = {
   group_id: z
     .string()
@@ -55,7 +57,7 @@ export const groupSchemas = {
     .max(12, { message: "Goal hour cannot exceed 12." }),
 
   visibility: z.boolean({
-    required_error: "Visibility must be true or false.",
+    error: "Visibility must be true or false.",
   }),
 };
 
@@ -100,3 +102,12 @@ export const getGroupSearchSchema = z.object({
 });
 
 export type getGroupSearchSchemaValues = z.infer<typeof getGroupSearchSchema>;
+
+export const getGroupLeaderboardSchema = z.object({
+  group_id: groupSchemas.group_id,
+  date: otherSchemas.date,
+});
+
+export type GetGroupLeaderboardSchemaValues = z.infer<
+  typeof getGroupLeaderboardSchema
+>;

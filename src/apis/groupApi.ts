@@ -3,6 +3,7 @@ import { getTimezone, requestHandler } from "@/lib/utils";
 import { PutGroupSchemaValues } from "@/schemas/groupSchemas";
 import {
   AllGroupsResponse,
+  GroupLeaderboardResponse,
   GroupMembersResponse,
   GroupResponse,
   GroupsResponse,
@@ -10,6 +11,7 @@ import {
   PostGroupJoin,
   PutGroupResponse,
 } from "@/types/groupTypes";
+import { DateTime } from "luxon";
 
 // GET /group/:group_id– Get group
 export async function getGroup(groupId: string): Promise<GroupResponse> {
@@ -49,6 +51,22 @@ export async function getGroupMembers(
     AxiosInstance.get(`/group/${groupId}/members`, {
       params: {
         timezone: getTimezone(),
+      },
+    }),
+  );
+}
+
+// GET /group/members – Get members of a specific group
+export async function getGroupLeaderboard(
+  groupId: string,
+  viewDate: Date,
+): Promise<GroupLeaderboardResponse> {
+  const date = DateTime.fromJSDate(viewDate).toISODate();
+  return requestHandler(
+    AxiosInstance.get(`/group/${groupId}/leaderboard`, {
+      params: {
+        timezone: getTimezone(),
+        date,
       },
     }),
   );

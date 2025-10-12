@@ -25,6 +25,7 @@ import { useCallback, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 
 import ChatButton from "../buttons/ChatButton";
+import GroupLeaderboardButton from "../buttons/GroupLeaderboardButton";
 import { useCallOptions } from "../structure/Providers";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
@@ -461,6 +462,7 @@ export default function MyGroupContainer({
               {totalTime}
             </Badge>
             <ChatButton groupId={group.group_id} />
+            <GroupLeaderboardButton groupId={group.group_id} />
             <Button
               onClick={() => {
                 setConfirmLeaveModal((prev) => ({

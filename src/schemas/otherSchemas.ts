@@ -21,8 +21,13 @@ export const otherSchemas = {
   url: z
     .string()
     .min(1, "Please provide URL")
-    .refine(
-      (value) => validateURL(value).isValid,
-      (value) => ({ message: validateURL(value).reason || "Invalid URL" }),
-    ),
+    .refine((value) => ({
+      message: validateURL(value).reason || "Invalid URL",
+    })),
+
+  date: z.iso.datetime({ offset: true }) /* .messages({
+    "any.required": "Date is required.",
+    "string.empty": "Date cannot be empty.",
+    "string.isoDate": "Date must be a valid ISO 8601 string.",
+  }), */,
 };

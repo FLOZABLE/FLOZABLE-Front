@@ -51,7 +51,12 @@ export default function WelcomeModal() {
             }}>
             Start Tutorial
           </Button>
-          <StudyButton effect={null} />
+          <StudyButton
+            onClick={() => {
+              setIsWelcomeModal(false);
+            }}
+            effect={null}
+          />
         </CredenzaBody>
         {isWelcomeModal && (
           <Fireworks

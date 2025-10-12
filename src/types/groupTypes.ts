@@ -1,4 +1,5 @@
 import { Userinfo, UserStatus } from "./accountTypes";
+import { Ranking } from "./rankingTypes";
 import { ApiResponse } from "./responseTypes";
 
 export interface Group {
@@ -40,6 +41,9 @@ export type MyGroupsResponse = ApiResponse<{ groups: Group[] }>;
 
 // GET /group/:GROUP_ID/members
 export type GroupMembersResponse = ApiResponse<{ members: GroupMember[] }>;
+
+// GET /group/:GROUP_ID/leaderboard
+export type GroupLeaderboardResponse = ApiResponse<{ leaderboard: Ranking[] }>;
 
 // POST /group/:GROUP_ID/join
 export type PostGroupJoin = ApiResponse<{ group: Group }>;

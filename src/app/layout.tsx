@@ -22,6 +22,7 @@ import "@schedule-x/theme-shadcn/dist/index.css";
 
 import ChatModal from "@/components/modals/ChatModal";
 import CreateGroupModal from "@/components/modals/CreateGroupModal";
+import GroupLeaderboardModal from "@/components/modals/GroupLeaderboardModal";
 import JoinGroupModal from "@/components/modals/JoinGroupModal";
 import config from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -95,6 +96,7 @@ export default function RootLayout({
             <JoinGroupModal />
             <CreateGroupModal />
             <ChatModal />
+            <GroupLeaderboardModal />
             {children}
           </AppContainer>
           <Toaster />
