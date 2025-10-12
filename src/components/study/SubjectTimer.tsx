@@ -21,7 +21,7 @@ import { OnMyStopStudying, OnMyStudying } from "@/types/socketTypes";
 import { Subject } from "@/types/subjectTypes";
 import Cookies from "js-cookie";
 import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import AnimatedSwitchButton from "../buttons/AnimatedSwitchButton";
 import { showAccountToast } from "../others/AccountToast";
@@ -31,9 +31,9 @@ import { Button } from "../ui/button";
 import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
 
 export type SubjectOption = {
-  value: string; // subject.subject_id
+  subject_id: string; // subject.subject_id
   name: string; // subject.name
-  label: ReactNode; // the rendered JSX for the option
+  disp: string; // the rendered JSX for the option
   time: number;
 };
 
@@ -42,7 +42,7 @@ type SubjectTimerProps = {
 };
 
 export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
-  const { subjectTimerWorker } = useWorkers();
+  const { membersTimerWorker } = useWorkers();
   const { subjects, subjectsRefetch } = useSubjects();
   const { account } = useAccount();
 
@@ -68,14 +68,9 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
           subject.day.total[subject.day.total.length - 1]?.data || 0,
         );
         return {
-          value: subject.subject_id,
+          subject_id: subject.subject_id,
           name: subject.name,
-          label: (
-            <div className="flex w-full gap-2 overflow-hidden">
-              <p className="truncate">{subject.name}</p>
-              <p className="ml-auto">{disp}</p>
-            </div>
-          ),
+          disp: disp,
           time: subject.day.total[subject.day.total.length - 1]?.data || 0,
         };
       })
@@ -83,18 +78,10 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   }, [subjects]);
 
   useEffect(() => {
-    subjectTimerWorker?.postMessage({
-      command: "stopSubjectTimer",
-    });
-
     if (isPopup) return;
 
     return () => {
       socket.emit("study:stop");
-
-      subjectTimerWorker?.postMessage({
-        command: "stopSubjectTimer",
-      });
       subjectsRefetch();
     };
   }, [isPopup]);
@@ -106,7 +93,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
       ...prev,
       name: options[0].name,
       value: options[0].time,
-      subject_id: options[0].value,
+      subject_id: options[0].subject_id,
     }));
   }, [options.length]);
 
@@ -147,9 +134,6 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
           subjectData.day.total[subjectData.day.total.length - 1]?.data || 0,
         active: true,
       }));
-      subjectTimerWorker?.postMessage({
-        command: "startSubjectTimer",
-      });
 
       const now = nowSec();
 
@@ -163,15 +147,6 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
       stopped_subject_id,
       duration,
     }: OnMyStopStudying) => {
-      setSelectedSubject((prev) => ({
-        ...prev,
-        active: false,
-      }));
-
-      subjectTimerWorker?.postMessage({
-        command: "stopSubjectTimer",
-      });
-
       Cookies.remove("active_subject");
 
       updateSubjects((prev) => {
@@ -224,7 +199,7 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
 
     const onDisconnection = async () => {
       try {
-        console.log("disconnection");
+        console.log("socket disconnection");
 
         const rawActiveSubject = Cookies.get("active_subject");
         if (!rawActiveSubject) return;
@@ -257,7 +232,8 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
 
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
-      if (e.data.command !== "updateSubjectTimer") return;
+      if (!selectedSubject.active || e.data.command !== "update-timer") return;
+
       setSelectedSubject((prev) => {
         const value = prev.value + 1;
         const disp = toTimer(value);
@@ -273,12 +249,15 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
         return { ...prev, value, disp };
       });
     };
-    subjectTimerWorker?.addEventListener("message", onMessage);
+
+    if (selectedSubject.active) {
+      membersTimerWorker?.addEventListener("message", onMessage);
+    }
 
     return () => {
-      subjectTimerWorker?.removeEventListener("message", onMessage);
+      membersTimerWorker?.removeEventListener("message", onMessage);
     };
-  }, [selectedSubject.subject_id]);
+  }, [selectedSubject.subject_id, selectedSubject.active]);
 
   useEffect(() => {
     if (currentTour !== "newUser") return;
@@ -331,11 +310,11 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
                 <CommandGroup>
                   {options.map((option) => {
                     const isSelected =
-                      selectedSubject.subject_id === option.value;
+                      selectedSubject.subject_id === option.subject_id;
                     return (
                       <CommandItem
-                        key={option.value}
-                        value={option.value}
+                        key={option.subject_id}
+                        value={option.subject_id}
                         onSelect={(subject_id) => {
                           const subject = subjects?.find(
                             (subject) => subject.subject_id === subject_id,
@@ -363,17 +342,17 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
                             isSelected ? "opacity-100" : "opacity-0",
                           )}
                         />
-                        {isSelected ? (
-                          <div className="flex w-full overflow-hidden">
-                            <p className="truncate">{selectedSubject.name}</p>
+                        <div className="flex w-full overflow-hidden">
+                          <p className="truncate">{option.name}</p>
+                          {isSelected ? (
                             <AnimatedTimerDisplay
                               value={selectedSubject.value}
                               className="ml-auto"
                             />
-                          </div>
-                        ) : (
-                          option.label
-                        )}
+                          ) : (
+                            <p className="ml-auto">{option.disp}</p>
+                          )}
+                        </div>
                       </CommandItem>
                     );
                   })}

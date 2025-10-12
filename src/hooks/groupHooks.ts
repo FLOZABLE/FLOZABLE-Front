@@ -69,7 +69,7 @@ export function useMyGroups() {
   const queryResult = useQuery({
     queryKey: [`myGroups`],
     queryFn: getGroupMine,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 5,
     select: (response) => ({
       groups: response.data?.groups ?? [],
     }),
