@@ -6,6 +6,7 @@ import { useNotifications } from "@/hooks/notificationHooks";
 import { useNotificationsUpdater } from "@/hooks/updaters/notificationUpdaters";
 import { cn } from "@/lib/utils";
 import { Notification } from "@/types/notificationTypes";
+import { motion } from "framer-motion";
 import { Bell, Dot } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
@@ -182,7 +183,21 @@ export default function NotificationsButton({
             setOpen(true);
           }}
           {...props}>
-          <Bell />
+          <motion.div
+            animate={{
+              rotate: !!notifications?.length
+                ? [0, -15, 15, -15, 15, -10, 10, -5, 5, 0]
+                : 0,
+            }}
+            transition={{
+              duration: 0.8,
+              ease: "easeInOut",
+              repeat: Infinity,
+              repeatType: "loop",
+              repeatDelay: 1,
+            }}>
+            <Bell />
+          </motion.div>
           {!!notifications?.length && (
             <Dot
               color="var(--color-destructive)"

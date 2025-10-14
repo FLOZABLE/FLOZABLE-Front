@@ -35,4 +35,5 @@ export interface ThemeModalState extends DefaultModalState {
 
 export interface GroupLeaderboardModalState extends DefaultModalState {
   group_id: string | null;
+  group_name: string;
 }

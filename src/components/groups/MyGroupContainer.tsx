@@ -462,7 +462,10 @@ export default function MyGroupContainer({
               {totalTime}
             </Badge>
             <ChatButton groupId={group.group_id} />
-            <GroupLeaderboardButton groupId={group.group_id} />
+            <GroupLeaderboardButton
+              groupId={group.group_id}
+              groupName={group.name}
+            />
             <Button
               onClick={() => {
                 setConfirmLeaveModal((prev) => ({

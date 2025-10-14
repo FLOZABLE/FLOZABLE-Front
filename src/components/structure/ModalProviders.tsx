@@ -158,7 +158,7 @@ export const {
   Provider: GroupLeaderboardModalProvider,
   useModal: useGroupLeaderboardModal,
 } = createModalProvider<GroupLeaderboardModalState, "groupLeaderboardModal">(
-  { opened: false, group_id: null },
+  { opened: false, group_id: null, group_name: "" },
   "groupLeaderboardModal",
 );
 

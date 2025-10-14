@@ -43,7 +43,9 @@ export default function GroupLeaderboardModal() {
       }}>
       <CredenzaContent desktopClassName="!max-w-100" id="tour1-step3">
         <CredenzaHeader className="justify-self-center">
-          <CredenzaTitle className="text-2xl">Group Leaderboard</CredenzaTitle>
+          <CredenzaTitle className="text-2xl">
+            {groupLeaderboardModal.group_name} Leaderboard
+          </CredenzaTitle>
         </CredenzaHeader>
         <CredenzaBody>
           <div className="flex flex-col gap-2">

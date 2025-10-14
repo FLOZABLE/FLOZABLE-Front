@@ -1,5 +1,7 @@
 "use client";
 
+import { postChatRequestReply } from "@/apis/chatApi";
+import { replyToFriendRequest } from "@/apis/friendApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
 import { useNotificationsUpdater } from "@/hooks/updaters/notificationUpdaters";
@@ -19,7 +21,11 @@ import {
   OnStudying,
 } from "@/types/socketTypes";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { NextStep, NextStepProvider } from "nextstepjs";
 import {
@@ -30,7 +36,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { toast } from "sonner";
+import { Action, toast } from "sonner";
 
 import TutorialCard from "../tutorial/TutorialCard";
 import ModalProviders from "./ModalProviders";
@@ -107,6 +113,8 @@ function AppProvider({ children }: ProviderProps) {
     }, 100);
   }, [account?.user_id]);
 
+  const queryClient = useQueryClient();
+
   const updateFriendsStatus = useFriendsStatusUpdater();
 
   /* const updateProfileStatus = useCallback(
@@ -173,18 +181,54 @@ function AppProvider({ children }: ProviderProps) {
     const onNotification = (notification: Notification) => {
       console.log("new notification", notification);
       updateNotifications((prev) => [...prev, notification]);
+      let action: undefined | Action = undefined;
+      switch (notification.type) {
+        case "friend_request":
+          action = {
+            label: "Accept it",
+            onClick: async () => {
+              await replyToFriendRequest(notification.friend_request_id!, true);
+
+              updateNotifications((prev) => {
+                return prev.filter(
+                  (notification) =>
+                    notification.notification_id !==
+                    notification.notification_id,
+                );
+              });
+
+              //not using useFriendsStatus/useFriendsTrends refetch as it will rerender appprovider
+              queryClient.refetchQueries({ queryKey: ["friendsStatus"] });
+              queryClient.refetchQueries({ queryKey: ["friendsTrends"] });
+            },
+          };
+          break;
+        case "chat_request":
+          action = {
+            label: "Accept it",
+            onClick: async () => {
+              await postChatRequestReply(notification.sender!.user_id!, true);
+
+              updateNotifications((prev) => {
+                return prev.filter(
+                  (notification) =>
+                    notification.notification_id !==
+                    notification.notification_id,
+                );
+              });
+
+              queryClient.refetchQueries({ queryKey: ["chatRooms"] });
+            },
+          };
+          break;
+      }
       toast.info(
         <div>
           <p>{notification.title}</p>
           <p>{notification.message}</p>
         </div>,
         {
-          action: {
-            label: "Login",
-            onClick: () => {
-              
-            },
-          },
+          action,
         },
       );
     };

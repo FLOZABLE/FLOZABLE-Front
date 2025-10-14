@@ -5,6 +5,7 @@ import { useAccount } from "@/hooks/accountHooks";
 import { useChatRooms } from "@/hooks/chatHooks";
 import { cn } from "@/lib/utils";
 import { Userinfo } from "@/types/accountTypes";
+import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { useCallback, useMemo } from "react";
 
@@ -66,7 +67,7 @@ export default function ChatButton({
     }
 
     const chatroom = chatrooms.find(
-      (chatroom) => chatroom.chatroom_id === groupId,
+      (chatroom) => chatroom.group_id === groupId,
     );
     return chatroom?.unreads || 0;
   }, [chatrooms, groupId, userInfo]);
@@ -114,7 +115,21 @@ export default function ChatButton({
         chatRequest();
       }}
       {...props}>
-      <MessageCircle />
+      <motion.div
+        animate={{
+          scale: !!count ? [1, 1.1, 0.9, 1.05, 1] : 1,
+          rotate: !!count ? [0, -5, 5, -5, 0] : 0,
+          y: !!count ? [0, -5, 0, -2, 0] : 0,
+        }}
+        transition={{
+          duration: 0.8,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "loop",
+          repeatDelay: 1,
+        }}>
+        <MessageCircle />
+      </motion.div>
       {!!count && (
         <Badge
           variant={"secondary"}
