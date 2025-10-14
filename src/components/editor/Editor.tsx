@@ -64,32 +64,12 @@ export default function Editor({
 }: EditorProps) {
   return (
     <div className="w-full h-full overflow-hidden rounded-lg border bg-background shadow">
-      <LexicalComposer
-        initialConfig={{
-          ...editorConfig,
-          editorState: (editor) => {
-            if (!value) return;
-
-            const parser = new DOMParser();
-            const dom = parser.parseFromString(value, "text/html");
-
-            editor.update(() => {
-              const nodes = $generateNodesFromDOM(editor, dom);
-              console.log(nodes, "gd");
-
-              const root = $getRoot();
-              root.clear();
-
-              for (const node of nodes) {
-                if ($isElementNode(node)) {
-                  root.append(node);
-                }
-              }
-            });
-          },
-        }}>
+      <LexicalComposer initialConfig={editorConfig}>
         <TooltipProvider>
-          <Plugins contentEditorClassName={contentEditorClassName} />
+          <Plugins
+            value={value}
+            contentEditorClassName={contentEditorClassName}
+          />
           {onHtmlChange && <HTMLChangePlugin onHtmlChange={onHtmlChange} />}
           {onTextChange && <PlainTextPlugin onTextChange={onTextChange} />}
         </TooltipProvider>
@@ -139,10 +119,41 @@ function PlainTextPlugin({
 const placeholder = "Start typing...";
 
 export function Plugins({
+  value,
   contentEditorClassName,
 }: {
+  value?: string;
   contentEditorClassName?: string;
 }) {
+  const [editor] = useLexicalComposerContext();
+
+  useEffect(() => {
+    editor.update(() => {
+      const editorState = editor.getEditorState();
+      const currentHtml = editorState.read(() => $generateHtmlFromNodes(editor));
+
+      if (currentHtml === value) return;
+
+      if (!value) {
+        $getRoot().clear();
+        return;
+      }
+
+      const parser = new DOMParser();
+      const dom = parser.parseFromString(value, "text/html");
+      const nodes = $generateNodesFromDOM(editor, dom);
+
+      const root = $getRoot();
+      root.clear();
+
+      for (const node of nodes) {
+        if ($isElementNode(node)) {
+          root.append(node);
+        }
+      }
+    });
+  }, [value, editor]);
+
   const [_floatingAnchorElem, setFloatingAnchorElem] =
     useState<HTMLDivElement | null>(null);
 

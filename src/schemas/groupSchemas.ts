@@ -34,7 +34,7 @@ export const groupSchemas = {
     }),
 
   max_members: z.coerce
-    .number()
+    .number<number>()
     .int()
     .min(1, { message: "Max members must be at least 1." })
     .max(50, { message: "Max members cannot exceed 50." }),
@@ -51,7 +51,7 @@ export const groupSchemas = {
     }),
 
   goal_hr: z.coerce
-    .number()
+    .number<number>()
     .int()
     .min(1, { message: "Goal hour must be at least 1." })
     .max(12, { message: "Goal hour cannot exceed 12." }),
