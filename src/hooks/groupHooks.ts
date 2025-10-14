@@ -8,6 +8,7 @@ import {
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 import { useAccount } from "./accountHooks";
+import { ViewerType } from "@/types/otherTypes";
 
 const groupsLength = 30;
 
@@ -128,10 +129,10 @@ export function useGroupMembers(groupId: string, isActive: boolean) {
   };
 }
 
-export function useGroupLeaderboard(groupId: string | null, viewDate: Date) {
+export function useGroupLeaderboard(groupId: string | null, viewDate: Date, viewer: ViewerType) {
   const queryResult = useQuery({
-    queryKey: [`groupLeaderboard`, groupId, viewDate],
-    queryFn: () => getGroupLeaderboard(groupId!, viewDate),
+    queryKey: [`groupLeaderboard`, groupId, viewDate, viewer],
+    queryFn: () => getGroupLeaderboard(groupId!, viewDate, viewer),
     staleTime: 1000 * 10,
     enabled: !!groupId,
     select: (response) => response?.data?.leaderboard ?? [],

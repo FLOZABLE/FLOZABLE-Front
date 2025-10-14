@@ -34,7 +34,6 @@ function RankingContainer({
 }: RankingContainerProps) {
   const { rankingsData, rankingsIsLoading } = useRankings(viewer, viewDate);
   const { account } = useAccount();
-  const router = useRouter();
 
   let slicedRanking: Ranking[] = [];
 
@@ -63,10 +62,7 @@ function RankingContainer({
             className="flex gap-1 items-center"
             style={{ zIndex: slicedRanking.length - i }}>
             <p className="text-sm">{i + 1}.</p>
-            <UserContainer
-              userinfo={user}
-              onClick={() => router.push(`/dashboard/user/${user.user_id}`)}
-              className="w-full">
+            <UserContainer userinfo={user} className="w-full">
               <Badge variant={"secondary"}>
                 {secondConverter({ sec: user.study_time })}
               </Badge>

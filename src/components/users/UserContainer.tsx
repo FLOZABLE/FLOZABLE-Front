@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Userinfo } from "@/types/accountTypes";
+import { useRouter } from "next/navigation";
 
 import AvatarWrapper from "../ui/avatar";
 import CountryViewer from "./CountryViewer";
@@ -19,9 +20,16 @@ export default function UserContainer({
   onClick,
   maxNameWidth = "9rem",
 }: UserContainerProps) {
+  const router = useRouter();
+
   return (
     <div className={cn("flex items-center justify-between p-2", className)}>
-      <div className="flex items-center gap-2 cursor-pointer" onClick={onClick}>
+      <div
+        className="flex items-center gap-2 cursor-pointer"
+        onClick={() => {
+          onClick?.();
+          router.push(`/dashboard/user/${userinfo.user_id}`);
+        }}>
         <AvatarWrapper name={userinfo.name} userId={userinfo.user_id} />
         <div
           className="truncate text-base font-medium"

@@ -6,7 +6,6 @@ import {
   getFriendSearchSchemaValues,
 } from "@/schemas/friendSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -44,14 +43,9 @@ export default function SearchUsersModal() {
 
   const { friendsSearchData } = useFriendSearch(fetchedQuery);
 
-  const router = useRouter();
-
-  const onSubmit = useCallback(
-    async (data: getFriendSearchSchemaValues) => {
-      setFetchedQuery(data.name);
-    },
-    [],
-  );
+  const onSubmit = useCallback(async (data: getFriendSearchSchemaValues) => {
+    setFetchedQuery(data.name);
+  }, []);
 
   return (
     <Credenza
@@ -93,11 +87,7 @@ export default function SearchUsersModal() {
             <div className="max-h-40 overflow-auto">
               {friendsSearchData?.map((friend) => (
                 <div key={friend.user_id}>
-                  <UserContainer
-                    userinfo={friend}
-                    onClick={() => {
-                      router.push(`/dashboard/user/${friend.user_id}`);
-                    }}>
+                  <UserContainer userinfo={friend}>
                     <FriendRequestButton userInfo={friend} />
                   </UserContainer>
                 </div>

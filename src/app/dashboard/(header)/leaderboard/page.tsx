@@ -28,7 +28,7 @@ import { useTutorial } from "@/hooks/tutorialHooks";
 import { cn, secondConverter } from "@/lib/utils";
 import { ViewerType } from "@/types/otherTypes";
 import { Loader2 } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const PAGE_LENGTH = 30;
@@ -45,7 +45,6 @@ export default function Leaderboard() {
   const { account } = useAccount();
   const { rankingsData, rankingsIsLoading } = useRankings(viewer, viewDate);
 
-  const router = useRouter();
   const { currentStep, currentTour } = useTutorial();
 
   const searchParams = useSearchParams();
@@ -117,14 +116,7 @@ export default function Leaderboard() {
                     return (
                       <div key={i} className="flex items-center">
                         {rankingInfo.rank}
-                        <UserContainer
-                          userinfo={rankingInfo}
-                          onClick={() => {
-                            router.push(
-                              `/dashboard/user/${rankingInfo.user_id}`,
-                            );
-                          }}
-                        />
+                        <UserContainer userinfo={rankingInfo} />
                         <Badge className="ml-auto" variant={"secondary"}>
                           {secondConverter({ sec: rankingInfo.study_time })}
                         </Badge>

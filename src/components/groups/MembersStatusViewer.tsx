@@ -1,6 +1,5 @@
 import { GroupMember } from "@/types/groupTypes";
 import { Circle } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 
 import { Badge } from "../ui/badge";
@@ -17,8 +16,6 @@ type MembersStatusViewerProps = {
 export default function MembersStatusViewer({
   members,
 }: MembersStatusViewerProps) {
-  const router = useRouter();
-
   const membersStatus = useMemo(() => {
     const status = {
       offline: [] as GroupMember[],
@@ -57,9 +54,6 @@ export default function MembersStatusViewer({
             <UserContainer
               userinfo={{ ...member, created_at: 0, timezone: "" }}
               key={member.user_id}
-              onClick={() => {
-                router.push(`/dashboard/user/${member.user_id}`);
-              }}
             />
           ))}
         </HoverCardContent>
@@ -80,9 +74,6 @@ export default function MembersStatusViewer({
             <UserContainer
               userinfo={{ ...member, created_at: 0, timezone: "" }}
               key={member.user_id}
-              onClick={() => {
-                router.push(`/dashboard/user/${member.user_id}`);
-              }}
             />
           ))}
         </HoverCardContent>
@@ -103,9 +94,6 @@ export default function MembersStatusViewer({
             <UserContainer
               userinfo={{ ...member, created_at: 0, timezone: "" }}
               key={member.user_id}
-              onClick={() => {
-                router.push(`/dashboard/user/${member.user_id}`);
-              }}
             />
           ))}
         </HoverCardContent>

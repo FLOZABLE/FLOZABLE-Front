@@ -11,6 +11,7 @@ import {
   PostGroupJoin,
   PutGroupResponse,
 } from "@/types/groupTypes";
+import { ViewerType } from "@/types/otherTypes";
 import { DateTime } from "luxon";
 
 // GET /group/:group_id– Get group
@@ -60,6 +61,7 @@ export async function getGroupMembers(
 export async function getGroupLeaderboard(
   groupId: string,
   viewDate: Date,
+  viewer: ViewerType,
 ): Promise<GroupLeaderboardResponse> {
   const date = DateTime.fromJSDate(viewDate).toISODate();
   return requestHandler(
@@ -67,6 +69,7 @@ export async function getGroupLeaderboard(
       params: {
         timezone: getTimezone(),
         date,
+        viewer,
       },
     }),
   );

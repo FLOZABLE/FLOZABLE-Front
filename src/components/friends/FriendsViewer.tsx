@@ -1,7 +1,6 @@
 import { useFriendsStatus } from "@/hooks/friendHooks";
 import { useRankings } from "@/hooks/rankingHooks";
 import { Search } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 import ChatButton from "../buttons/ChatButton";
 import { useSearchUsersModal } from "../structure/ModalProviders";
@@ -21,8 +20,6 @@ export default function FriendsViewer({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const router = useRouter();
-
   const { friendsStatus } = useFriendsStatus();
   const { rankingsData } = useRankings(
     "day",
@@ -47,11 +44,7 @@ export default function FriendsViewer({
         {friendsStatus?.map((friend, i) => {
           return (
             <div key={i}>
-              <UserContainer
-                userinfo={friend}
-                onClick={() => {
-                  router.push(`/dashboard/user/${friend.user_id}`);
-                }}>
+              <UserContainer userinfo={friend}>
                 <ChatButton className="ml-10" userInfo={friend} />
               </UserContainer>
               <UserSubjectViewer userInfo={friend} />
