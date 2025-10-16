@@ -1,3 +1,5 @@
+"use client"
+
 import { fadeIn } from "@/components/animations/variants";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";

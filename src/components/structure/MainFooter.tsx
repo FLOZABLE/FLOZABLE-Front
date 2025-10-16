@@ -30,7 +30,7 @@ const MainFooter = ({}) => {
           <div className="flex w-full max-w-96 shrink flex-col items-center justify-between gap-6 lg:items-start">
             {/* Logo */}
             <div className="flex items-center gap-2 lg:justify-start">
-              <a href="https://shadcnblocks.com">
+              <Link href="/">
                 <Image
                   src={"/logo.png"}
                   alt="logo"
@@ -38,7 +38,7 @@ const MainFooter = ({}) => {
                   height={10}
                   className="w-10 h-10"
                 />
-              </a>
+              </Link>
               <h2 className="text-xl font-semibold">FLOZABLE</h2>
             </div>
             <p className="text-sm text-muted-foreground">
@@ -67,7 +67,7 @@ const MainFooter = ({}) => {
                     <li
                       key={linkIdx}
                       className="font-medium hover:text-primary">
-                      <a href={link.href}>{link.name}</a>
+                      <Link href={link.href}>{link.name}</Link>
                     </li>
                   ))}
                 </ul>

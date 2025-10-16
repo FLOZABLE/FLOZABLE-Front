@@ -69,25 +69,25 @@ export default function MainHeader() {
       <NavigationMenu className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <NavigationMenuList>
           <NavigationMenuItem>
-            <Link href="/#about" legacyBehavior passHref>
-              <NavigationMenuLink className={cn(navigationMenuTriggerStyle())}>
-                About
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink
+              href="#about"
+              className={cn(navigationMenuTriggerStyle())}>
+              About
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/#features" legacyBehavior passHref>
-              <NavigationMenuLink className={cn(navigationMenuTriggerStyle())}>
-                Features
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink
+              href="/#features"
+              className={cn(navigationMenuTriggerStyle())}>
+              Features
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/#reviews" legacyBehavior passHref>
-              <NavigationMenuLink className={cn(navigationMenuTriggerStyle())}>
-                Reviews
-              </NavigationMenuLink>
-            </Link>
+            <NavigationMenuLink
+              href="/#reviews"
+              className={cn(navigationMenuTriggerStyle())}>
+              Reviews
+            </NavigationMenuLink>
           </NavigationMenuItem>
           {/* <NavigationMenuItem>
             <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
@@ -153,13 +153,13 @@ export default function MainHeader() {
 }
 
 const ListItem = React.forwardRef<
-  React.ComponentRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
+  React.ElementRef<typeof Link>,
+  React.ComponentPropsWithoutRef<typeof Link>
 >(({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
+        <Link
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
@@ -170,7 +170,7 @@ const ListItem = React.forwardRef<
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
   );

@@ -1,5 +1,3 @@
-"use client";
-
 import AboutSection from "@/components/sections/main/AboutSection";
 import FeaturesSection from "@/components/sections/main/FeaturesSection";
 import ReviewsSection from "@/components/sections/main/ReviewsSection";

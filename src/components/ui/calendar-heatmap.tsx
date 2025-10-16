@@ -110,10 +110,13 @@ function CalendarHeatmap({
 
   return (
     <Calendar
+      className={className}
+      classNames={classNames}
       numberOfMonths={5}
       modifiers={modifiers}
       modifiersClassNames={modifiersClassNames}
       showOutsideDays={showOutsideDays}
+      {...props}
     />
   );
 }

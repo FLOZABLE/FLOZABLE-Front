@@ -1,37 +1,15 @@
+import config from "@/lib/config";
+import bundleAnalyzer from "@next/bundle-analyzer";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "3000",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "localhost",
-        port: "3000",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "api.flozable.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "http",
-        hostname: "api.localhost",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "img.youtube.com",
-        port: "",
-        pathname: "/**",
-      },
+      new URL("http://localhost:3000/**"),
+      new URL("https://localhost:3000/**"),
+      new URL("https://api.flozable.com/**"),
+      new URL("http://api.localhost/**"),
+      new URL("https://img.youtube.com/**"),
     ],
   },
   async headers() {
@@ -46,8 +24,9 @@ const nextConfig = {
         ],
       },
     ];
-  },
-  transpilePackages: ["nextstepjs"],
+  }
 };
 
-export default nextConfig;
+const withBundleAnalyzer = bundleAnalyzer({ enabled: config.analyze });
+
+export default withBundleAnalyzer(nextConfig);

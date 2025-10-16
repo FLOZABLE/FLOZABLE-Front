@@ -6,6 +6,7 @@ interface ConfigType {
   spotify_client_id: string;
   google_client_id: string;
   google_analytics_id: string;
+  analyze: boolean;
 }
 
 const config = <ConfigType>{
@@ -16,6 +17,7 @@ const config = <ConfigType>{
   spotify_client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
   google_client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
   google_analytics_id: process.env.NEXT_PUBLIC_GA_ID,
+  analyze: process.env.ANALYZE === "true",
 };
 
 export default config;

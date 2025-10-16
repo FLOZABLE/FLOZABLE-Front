@@ -8,12 +8,11 @@ import {
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
   COMMAND_PRIORITY_CRITICAL,
-  LexicalEditor,
   REDO_COMMAND,
   UNDO_COMMAND,
 } from "lexical";
 import { RedoIcon, UndoIcon } from "lucide-react";
-import { useEffect, useImperativeHandle, useState } from "react";
+import { useEffect, useState } from "react";
 
 const IS_APPLE = true;
 

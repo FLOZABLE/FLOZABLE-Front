@@ -28,7 +28,6 @@ const TimePicker: React.FC<TimePickerProps> = ({ date, setDate }) => {
     if (baseDate.toISO() !== rounded.toISO()) {
       setDate(rounded.toJSDate());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseDate, rounded]);
 
   const options = useMemo(

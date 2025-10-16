@@ -14,16 +14,9 @@ import "react-calendar-heatmap/dist/styles.css";
 import "react-tooltip/dist/react-tooltip.css";
 import "react-vertical-timeline-component/style.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
-
-import PlanModal from "@/components/modals/PlanModal";
-
 //import "@schedule-x/theme-default/dist/index.css";
 import "@schedule-x/theme-shadcn/dist/index.css";
 
-import ChatModal from "@/components/modals/ChatModal";
-import CreateGroupModal from "@/components/modals/CreateGroupModal";
-import GroupLeaderboardModal from "@/components/modals/GroupLeaderboardModal";
-import JoinGroupModal from "@/components/modals/JoinGroupModal";
 import config from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
@@ -92,11 +85,6 @@ export default function RootLayout({
         <Suspense>
           <AppContainer>
             <AccountModal />
-            <PlanModal />
-            <JoinGroupModal />
-            <CreateGroupModal />
-            <ChatModal />
-            <GroupLeaderboardModal />
             {children}
           </AppContainer>
           <Toaster />

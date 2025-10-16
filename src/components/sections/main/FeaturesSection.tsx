@@ -1,3 +1,5 @@
+"use client";
+
 import { fadeIn } from "@/components/animations/variants";
 import { motion } from "framer-motion";
 import {

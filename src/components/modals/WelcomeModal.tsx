@@ -19,7 +19,7 @@ import {
 } from "../ui/credenza";
 
 export default function WelcomeModal() {
-  const { startNextStep } = useTutorial();
+  const { startNextStep, closeNextStep } = useTutorial();
   const { isWelcomeModal, setIsWelcomeModal } = useWelcomeModal();
 
   const searchParams = useSearchParams();
@@ -54,6 +54,7 @@ export default function WelcomeModal() {
           <StudyButton
             onClick={() => {
               setIsWelcomeModal(false);
+              closeNextStep();
             }}
             effect={null}
           />
