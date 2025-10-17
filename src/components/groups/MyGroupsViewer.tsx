@@ -29,6 +29,10 @@ import { useChatModal, useJoinGroupModal } from "../structure/ModalProviders";
 import { AlertDialogWrapper } from "../ui/alert-dialog";
 import MyGroupContainer from "./MyGroupContainer";
 
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
 }
@@ -174,7 +178,7 @@ export default function MyGroupsViewer({
 
   if (!myGroups?.length) {
     return (
-      <div className="bg-background p-5 rounded-md h-48 items-center justify-center flex">
+      <div className="bg-background p-5 rounded-md h-[80vh] items-center justify-center flex">
         <h3>{"You haven't joined any groups yet!"}</h3>
         {pathname !== "/dashboard/groups" && (
           <Link href={"/dashboard/groups"} className="underline">

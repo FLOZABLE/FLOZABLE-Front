@@ -1,10 +1,10 @@
 "use client";
 
 import { DatePicker } from "@/components/buttons/DatePicker";
-import RankingTrendChart from "@/components/charts/RankingTrendChart";
 import StudyHeatMap from "@/components/charts/StudyHeatMap";
 import StudyTimeline from "@/components/charts/StudyTimeline";
-import SubjectsTrendChart from "@/components/charts/SubjectsTrendChart";
+import DynamicRankingTrendChart from "@/components/dynamic/charts/DynamicRankingTrendChart";
+import DynamicSubjectsTrendChart from "@/components/dynamic/charts/DynamicSubjectsTrendChart";
 import ExtensionSetting from "@/components/extension/ExtensionSetting";
 import SelectorWrapper from "@/components/ui/select";
 import { useAccount } from "@/hooks/accountHooks";
@@ -46,14 +46,14 @@ export default function Stats() {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <SubjectsTrendChart
+        <DynamicSubjectsTrendChart
           viewDate={viewDate}
           viewer={viewer}
           subjects={subjects}
           className="h-[30rem]"
           id="tour1-step11"
         />
-        <RankingTrendChart
+        <DynamicRankingTrendChart
           viewDate={viewDate}
           viewer={viewer}
           userId={account?.user_id}

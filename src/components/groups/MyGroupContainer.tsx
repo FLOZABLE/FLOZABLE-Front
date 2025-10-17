@@ -40,6 +40,8 @@ import MemberContainer from "./MemberContainer";
 import MembersStatusViewer from "./MembersStatusViewer";
 import { setConfirmLeaveModalType } from "./MyGroupsViewer";
 
+import "react-loading-skeleton/dist/skeleton.css";
+
 const videoParams = {
   encodings: [
     {

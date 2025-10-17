@@ -5,20 +5,9 @@ import "./globals.css";
 import AccountModal from "@/components/modals/AccountModal";
 import { AppContainer } from "@/components/structure/Providers";
 import { Toaster } from "@/components/ui/sonner";
-import { Suspense } from "react";
-
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "react-calendar-heatmap/dist/styles.css";
-import "react-tooltip/dist/react-tooltip.css";
-import "react-vertical-timeline-component/style.min.css";
-import "react-loading-skeleton/dist/skeleton.css";
-//import "@schedule-x/theme-default/dist/index.css";
-import "@schedule-x/theme-shadcn/dist/index.css";
-
 import config from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Suspense } from "react";
 
 const inter = Inter({
   subsets: ["latin"],

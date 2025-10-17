@@ -1,7 +1,7 @@
 "use client";
 
 import { DatePicker } from "@/components/buttons/DatePicker";
-import RankingTrendChart from "@/components/charts/RankingTrendChart";
+import DynamicRankingTrendChart from "@/components/dynamic/charts/DynamicRankingTrendChart";
 import TopLeaderboard from "@/components/leaderboard/TopLeaderboard";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -97,7 +97,7 @@ export default function Leaderboard() {
       </div>
       <div className="flex gap-4">
         <div className="flex-1/2 flex flex-col gap-4">
-          <RankingTrendChart
+          <DynamicRankingTrendChart
             viewDate={viewDate}
             viewer={viewer}
             userId={account?.user_id}

@@ -12,6 +12,9 @@ import CalendarHeatmap, {
   TooltipDataAttrs,
 } from "react-calendar-heatmap";
 
+import "react-calendar-heatmap/dist/styles.css";
+import "react-tooltip/dist/react-tooltip.css";
+
 import {
   Card,
   CardContent,

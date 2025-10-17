@@ -1,7 +1,7 @@
 "use client";
 
+import DynamicMyGroupsViewer from "@/components/dynamic/groups/DynamicMyGroupsViewer";
 import GroupContainer from "@/components/groups/GroupContainer";
-import MyGroupsViewer from "@/components/groups/MyGroupsViewer";
 import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
 import { useCreateGroupModal } from "@/components/structure/ModalProviders";
 import { Button } from "@/components/ui/button";
@@ -73,7 +73,7 @@ export default function Groups() {
   return (
     <main className="p-5">
       <Card className="p-6">
-        <MyGroupsViewer />
+        <DynamicMyGroupsViewer />
       </Card>
       <Card className="mt-10 mb-32" id="tour1-step19">
         <CardHeader className="flex items-center justify-between pb-5">
@@ -140,31 +140,6 @@ export default function Groups() {
             )}
           </div>
         </CardContent>
-        {/* <CardFooter>
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => {
-                    if (page <= 1) return;
-                    setPage(page - 1);
-                  }}
-                />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink isActive>{page}</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() => {
-                    if (page * PAGE_LENGTH >= (groups?.length || 0)) return;
-                    setPage(page + 1);
-                  }}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </CardFooter> */}
       </Card>
     </main>
   );

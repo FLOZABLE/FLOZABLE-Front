@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { fadeIn } from "@/components/animations/variants";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -16,6 +16,10 @@ import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { useCallback, useRef } from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 const reviews = [
   {

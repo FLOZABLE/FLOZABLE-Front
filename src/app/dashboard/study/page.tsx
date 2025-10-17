@@ -1,6 +1,6 @@
 "use client";
 
-import MyGroupsViewer from "@/components/groups/MyGroupsViewer";
+import DynamicMyGroupsViewer from "@/components/dynamic/groups/DynamicMyGroupsViewer";
 import StudyModal from "@/components/modals/StudyModal";
 import Planstimeline from "@/components/plans/Planstimeline";
 import AudioController from "@/components/study/AudioController";
@@ -94,7 +94,7 @@ export default function Study() {
         title="Groups"
         className="absolute-center bg-transparent border-0"
         cardClassName="bg-transparent border-0">
-        <MyGroupsViewer
+        <DynamicMyGroupsViewer
           className="w-[70vw]"
           swiperClassName="h-[60vh] bg-transparent"
         />

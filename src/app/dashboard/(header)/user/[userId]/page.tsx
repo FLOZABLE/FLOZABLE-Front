@@ -1,7 +1,7 @@
 "use client";
 
-import RankingTrendChart from "@/components/charts/RankingTrendChart";
-import StudyTrendChart from "@/components/charts/StudyTrendChart";
+import DynamicRankingTrendChart from "@/components/dynamic/charts/DynamicRankingTrendChart";
+import DynamicStudyTrendChart from "@/components/dynamic/charts/DynamicStudyTrendChart";
 import ProfileCard from "@/components/users/ProfileCard";
 import { useUserProfile } from "@/hooks/userHooks";
 import { ViewerType } from "@/types/otherTypes";
@@ -36,14 +36,14 @@ export default function UserPage({ params }: UserPageProps) {
           />
         </div>
         <div className="flex flex-col gap-5 flex-1/2">
-          <StudyTrendChart
+          <DynamicStudyTrendChart
             viewDate={viewDate}
             viewer={viewer}
             groupedSubjects={userProfile.grouped_subjects}
             isMine={false}
             className="h-[30rem]"
           />
-          <RankingTrendChart
+          <DynamicRankingTrendChart
             viewDate={viewDate}
             viewer={viewer}
             userId={userProfile?.userinfo.user_id}
