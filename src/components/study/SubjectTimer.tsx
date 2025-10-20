@@ -29,6 +29,7 @@ import { useAddSubjectModal } from "../structure/ModalProviders";
 import { useWorkers } from "../structure/Providers";
 import { Button } from "../ui/button";
 import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
+import PomodoroTimer from "./PomodoroTimer";
 
 export type SubjectOption = {
   subject_id: string; // subject.subject_id
@@ -402,6 +403,10 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
         id={"tour1-step2"}>
         Or add one
       </Button>
+      <PomodoroTimer
+        selectedSubject={selectedSubject}
+        setSelectedSubject={setSelectedSubject}
+      />
     </div>
   );
 }

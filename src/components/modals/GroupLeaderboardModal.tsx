@@ -33,8 +33,6 @@ export default function GroupLeaderboardModal() {
     viewer,
   );
 
-  console.log(groupLeaderboardData, "gd");
-
   return (
     <Credenza
       open={groupLeaderboardModal.opened}

@@ -51,6 +51,14 @@ export interface NewSubject
   user_id: string; //this is honestly useless. only used in db
 }
 
+export interface SelectedSubject {
+  subject_id: string;
+  name: string;
+  value: number;
+  active: boolean;
+  disp: string;
+}
+
 // GET /subjects
 export type SubjectsResponse = ApiResponse<{
   subjects: Subject[];
