@@ -18,7 +18,7 @@ import socket from "@/lib/sockets/socket";
 import { cn, nowSec, toTimer } from "@/lib/utils";
 import { ActiveSubjectCookie } from "@/types/cookieTypes";
 import { OnMyStopStudying, OnMyStudying } from "@/types/socketTypes";
-import { Subject } from "@/types/subjectTypes";
+import { SelectedSubject, Subject } from "@/types/subjectTypes";
 import Cookies from "js-cookie";
 import { Check, ChevronsUpDown, Library, Pause, Play } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
@@ -53,12 +53,13 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
   const updateSubjects = useSubjectsUpdater();
 
   const [open, setOpen] = useState(false);
-  const [selectedSubject, setSelectedSubject] = useState({
+  const [selectedSubject, setSelectedSubject] = useState<SelectedSubject>({
     subject_id: "",
     name: "",
-    value: 0,
     active: false,
-    disp: "",
+    start: 0,
+    value: 0,
+    initialValue: 0,
   });
 
   const options: SubjectOption[] = useMemo(() => {
@@ -127,16 +128,17 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
       );
       if (!subjectData) return;
 
+      const now = nowSec();
+
       setSelectedSubject((prev) => ({
         ...prev,
         subject_id: subject.subject_id,
         name: subjectData.name,
-        value:
+        initialValue:
           subjectData.day.total[subjectData.day.total.length - 1]?.data || 0,
         active: true,
+        start: now,
       }));
-
-      const now = nowSec();
 
       Cookies.set(
         "active_subject",
@@ -236,7 +238,8 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
       if (!selectedSubject.active || e.data.command !== "update-timer") return;
 
       setSelectedSubject((prev) => {
-        const value = prev.value + 1;
+        const now = Math.round(Date.now() / 1000);
+        const value = prev.initialValue + now - prev.start;
         const disp = toTimer(value);
 
         let slicedName = prev.name.slice(0, 7);

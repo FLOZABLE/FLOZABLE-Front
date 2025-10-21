@@ -54,9 +54,10 @@ export interface NewSubject
 export interface SelectedSubject {
   subject_id: string;
   name: string;
-  value: number;
   active: boolean;
-  disp: string;
+  start: number;
+  initialValue: number;
+  value: number;
 }
 
 // GET /subjects
