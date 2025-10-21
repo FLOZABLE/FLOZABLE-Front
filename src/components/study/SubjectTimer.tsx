@@ -28,6 +28,7 @@ import { showAccountToast } from "../others/AccountToast";
 import { useAddSubjectModal } from "../structure/ModalProviders";
 import { useWorkers } from "../structure/Providers";
 import { Button } from "../ui/button";
+import { Switch } from "../ui/switch";
 import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
 import PomodoroTimer from "./PomodoroTimer";
 
@@ -61,6 +62,8 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
     value: 0,
     initialValue: 0,
   });
+
+  const [isPomodoro, setIsPomodoro] = useState(false);
 
   const options: SubjectOption[] = useMemo(() => {
     if (!subjects?.length) return [];
@@ -406,10 +409,23 @@ export default function SubjectTimer({ isPopup = false }: SubjectTimerProps) {
         id={"tour1-step2"}>
         Or add one
       </Button>
-      <PomodoroTimer
-        selectedSubject={selectedSubject}
-        setSelectedSubject={setSelectedSubject}
-      />
+      {!isPopup && (
+        <div className="flex items-center justify-center gap-4">
+          <p>Pomodoro</p>
+          <Switch
+            checked={isPomodoro}
+            onCheckedChange={(checked) => {
+              setIsPomodoro(checked);
+            }}
+          />
+        </div>
+      )}
+      {isPomodoro && (
+        <PomodoroTimer
+          selectedSubject={selectedSubject}
+          setSelectedSubject={setSelectedSubject}
+        />
+      )}
     </div>
   );
 }

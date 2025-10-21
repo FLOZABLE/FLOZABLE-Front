@@ -27,32 +27,8 @@ export default function PomodoroTimer({
     "pomodoro",
   );
 
-  /* useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-
-    if (selectedSubject.active && time > 0) {
-      interval = setInterval(() => {
-        setTime((time) => time - 1);
-      }, 1000);
-    } else if (time === 0) {
-      if (mode === "pomodoro") {
-        setMode("shortBreak");
-        setTime(SHORT_BREAK_TIME);
-      } else {
-        setMode("pomodoro");
-        setTime(POMODORO_TIME);
-      }
-      setSelectedSubject((prev) => ({ ...prev, active: false }));
-    }
-
-    return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
-    };
-  }, [selectedSubject.active, time, mode, setSelectedSubject]); */
-
   useEffect(() => {
+    if (!selectedSubject.active) return;
     const totalTime =
       mode === "pomodoro"
         ? POMODORO_TIME
@@ -62,22 +38,21 @@ export default function PomodoroTimer({
     const now = Math.round(Date.now() / 1000);
 
     const time = totalTime - (now - selectedSubject.start);
+    if (time === 0) {
+      setMode("shortBreak");
+      startBreak();
+      return;
+    }
     setTime(time);
-    console.log("gd sss");
   }, [selectedSubject.value]);
 
   useEffect(() => {
     if (selectedSubject.active) {
       setMode("pomodoro");
+    } else {
+      setMode("shortBreak");
     }
   }, [selectedSubject.active]);
-
-  /* useEffect(() => {
-    if (!selectedSubject.active) {
-      setMode("pomodoro");
-      return;
-    }
-  }, [selectedSubject.active]); */
 
   useEffect(() => {
     const totalTime =
@@ -89,7 +64,7 @@ export default function PomodoroTimer({
     setTime(totalTime);
   }, [mode]);
 
-  const endBreak = useCallback(() => {
+  const startBreak = useCallback(() => {
     setSelectedSubject((prev) => ({ ...prev, active: false }));
     const intervalId = setInterval(() => {
       setTime((time) => {
@@ -102,6 +77,14 @@ export default function PomodoroTimer({
         return time - 1;
       });
     }, 1000);
+
+    const prevIntervalId = localStorage.getItem("pomodoro-interval-id");
+    if (prevIntervalId) {
+      clearInterval(prevIntervalId);
+      localStorage.removeItem("pomodoro-interval-id");
+    }
+
+    localStorage.setItem("pomodoro-interval-id", JSON.stringify(intervalId));
     socket.emit("study:stop");
 
     return () => {
@@ -176,7 +159,7 @@ export default function PomodoroTimer({
         <Button
           onClick={() => {
             setMode("shortBreak");
-            endBreak();
+            startBreak();
           }}
           variant={mode === "shortBreak" ? "default" : "secondary"}>
           Short Break
@@ -184,7 +167,7 @@ export default function PomodoroTimer({
         <Button
           onClick={() => {
             setMode("longBreak");
-            endBreak();
+            startBreak();
           }}
           variant={mode === "longBreak" ? "default" : "secondary"}>
           Long Break
