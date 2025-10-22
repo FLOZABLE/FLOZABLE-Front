@@ -6,6 +6,7 @@ import {
   useChatRoomMembers,
   useChatRooms,
 } from "@/hooks/chatHooks";
+import { useMessageSound } from "@/hooks/otherHooks";
 import { useChatroomsUpdater } from "@/hooks/updaters/chatUpdaters";
 import config from "@/lib/config";
 import socket from "@/lib/sockets/socket";
@@ -45,6 +46,8 @@ const MotionChatBubble = motion.create(ChatBubble);
 
 export default function ChatModal() {
   const { account } = useAccount();
+  
+  const { playMessageSound } = useMessageSound();
 
   const { chatModal, setChatModal } = useChatModal();
 
@@ -110,8 +113,6 @@ export default function ChatModal() {
   }, [chatMessagesData]);
 
   useEffect(() => {
-    const messageAudio = new Audio("/audio/message.mp3");
-
     setMessageDataOptions((prev) => {
       const newMessageDataOptions = structuredClone(prev);
       const chatroom = chatrooms?.find(
@@ -207,7 +208,7 @@ export default function ChatModal() {
         socket.emit("chat:read", chatModal.chatroom_id);
       } else {
         if (!muted) {
-          messageAudio.play();
+          playMessageSound();
         }
 
         const chatroom = updatedChatrooms?.find(

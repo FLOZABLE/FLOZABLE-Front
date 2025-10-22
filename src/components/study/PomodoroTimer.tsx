@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
+import { useMessageSound } from "@/hooks/otherHooks";
 import socket from "@/lib/sockets/socket";
 import { SelectedSubject } from "@/types/subjectTypes";
 import { motion } from "framer-motion";
 import React, { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import AnimatedTimerDisplay from "./AnimatedTimerDisplay";
 
@@ -18,6 +20,16 @@ const LONG_BREAK_TIME = 15 * 60;
 const radius = 45;
 const circumference = 2 * Math.PI * radius;
 
+const getColor = (percentage: number) => {
+  if (percentage > 0.5) {
+    return "#4ade80"; // green-400
+  } else if (percentage > 0.2) {
+    return "#facc15"; // yellow-400
+  } else {
+    return "#f87171"; // red-400
+  }
+};
+
 export default function PomodoroTimer({
   selectedSubject,
   setSelectedSubject,
@@ -26,6 +38,8 @@ export default function PomodoroTimer({
   const [mode, setMode] = useState<"pomodoro" | "shortBreak" | "longBreak">(
     "pomodoro",
   );
+
+  const { playMessageSound } = useMessageSound();
 
   useEffect(() => {
     if (!selectedSubject.active) return;
@@ -41,6 +55,8 @@ export default function PomodoroTimer({
     if (time === 0) {
       setMode("shortBreak");
       startBreak();
+      toast.info("Short break has started!");
+      playMessageSound();
       return;
     }
     setTime(time);
@@ -49,8 +65,6 @@ export default function PomodoroTimer({
   useEffect(() => {
     if (selectedSubject.active) {
       setMode("pomodoro");
-    } else {
-      setMode("shortBreak");
     }
   }, [selectedSubject.active]);
 
@@ -71,6 +85,9 @@ export default function PomodoroTimer({
         console.log("gd", time);
         if (time === 0) {
           setMode("pomodoro");
+          toast.info("Break has ended!");
+          playMessageSound();
+
           clearInterval(intervalId);
           return 0;
         }
@@ -99,6 +116,9 @@ export default function PomodoroTimer({
         ? SHORT_BREAK_TIME
         : LONG_BREAK_TIME;
 
+  const percentage = time / totalTime;
+  const color = getColor(percentage);
+
   return (
     <div className="flex flex-col items-center justify-center p-4">
       <div className="mb-4">
@@ -119,14 +139,13 @@ export default function PomodoroTimer({
             cy="50"
           />
           <motion.circle
-            className="text-blue-500"
             strokeWidth="5"
             strokeDasharray={circumference}
             strokeDashoffset={
               circumference - (time / totalTime) * circumference
             }
             strokeLinecap="round"
-            stroke="currentColor"
+            stroke={color}
             fill="transparent"
             r={radius}
             cx="50"
@@ -135,6 +154,7 @@ export default function PomodoroTimer({
             animate={{
               strokeDashoffset:
                 circumference - (time / totalTime) * circumference,
+              stroke: color,
             }}
             transition={{ duration: 1, ease: "linear" }}
           />

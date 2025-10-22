@@ -1,7 +1,14 @@
 import { ApiResponse } from "@/types/responseTypes";
 import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 interface WindowSize {
   width: number;
@@ -208,3 +215,18 @@ export function useFullscreen(): boolean {
 
   return isFullscreen;
 }
+
+export const useMessageSound = () => {
+  const messageAudio = useMemo(() => {
+    if (typeof window !== "undefined") {
+      return new Audio("/audio/message.mp3");
+    }
+    return null;
+  }, []);
+
+  const playMessageSound = useCallback(() => {
+    messageAudio?.play();
+  }, [messageAudio]);
+
+  return { playMessageSound };
+};
