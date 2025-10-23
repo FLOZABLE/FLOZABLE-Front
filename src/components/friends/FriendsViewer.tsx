@@ -1,6 +1,8 @@
 import { useFriendsStatus } from "@/hooks/friendHooks";
 import { useRankings } from "@/hooks/rankingHooks";
+import { nowSec } from "@/lib/utils";
 import { Search } from "lucide-react";
+import { useMemo } from "react";
 
 import ChatButton from "../buttons/ChatButton";
 import { useSearchUsersModal } from "../structure/ModalProviders";
@@ -30,6 +32,16 @@ export default function FriendsViewer({
 
   //console.log("gd", friendsStatus)
 
+  const sortedFriendsStatus = useMemo(() => {
+    if (!friendsStatus) return [];
+    const now = nowSec();
+
+    return friendsStatus.sort(
+      (a, b) =>
+        (a.status?.start_time || now + 1) - (b.status?.start_time || now + 1),
+    );
+  }, [friendsStatus]);
+
   return (
     <Card className={className} {...props}>
       <CardHeader>
@@ -43,7 +55,7 @@ export default function FriendsViewer({
         </Button>
       </CardHeader>
       <CardContent className="overflow-auto">
-        {friendsStatus?.map((friend, i) => {
+        {sortedFriendsStatus?.map((friend, i) => {
           return (
             <div key={i}>
               <UserContainer userinfo={friend}>
