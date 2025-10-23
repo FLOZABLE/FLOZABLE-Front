@@ -33,6 +33,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
+
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
 }
@@ -68,6 +70,7 @@ export default function MyGroupsViewer({
   const updateMyGroups = useMyGroupsUpdater();
   const updateGroup = useGroupUpdater();
   const updateChatrooms = useChatroomsUpdater();
+  const updateFriendsStatus = useFriendsStatusUpdater();
 
   const [confirmLeaveModal, setConfirmLeaveModal] =
     useState<setConfirmLeaveModalType>({
@@ -146,13 +149,25 @@ export default function MyGroupsViewer({
     updateMyGroups((prev) =>
       prev.filter((group) => group.group_id !== groupId),
     );
-    updateGroup(groupId, (prev) => {
+
+    await updateGroup(groupId, (prev) => {
       return {
         ...prev,
         members: prev.members.filter(
           (memberId) => memberId !== account?.user_id,
         ),
       };
+    });
+
+    await updateFriendsStatus((prev) => {
+      return prev.map((friend) => {
+        if (friend.active_group?.group_id === groupId) {
+          friend.active_group.members = friend.active_group.members.filter(
+            (memberId) => memberId !== account?.user_id,
+          );
+        }
+        return friend;
+      });
     });
 
     updateChatrooms((prev) => {

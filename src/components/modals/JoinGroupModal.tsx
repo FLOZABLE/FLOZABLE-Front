@@ -6,6 +6,7 @@ import { useChatRooms } from "@/hooks/chatHooks";
 import { useGroup } from "@/hooks/groupHooks";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { useRankings } from "@/hooks/rankingHooks";
+import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
 import {
   useGroupUpdater,
   useMyGroupsUpdater,
@@ -47,6 +48,7 @@ export default function JoinGroupModal() {
   const { joinGroupModal, setJoinGroupModal } = useJoinGroupModal();
   const updateGroup = useGroupUpdater();
   const updateMyGroups = useMyGroupsUpdater();
+  const updateFriendsStatus = useFriendsStatusUpdater();
 
   const { account } = useAccount();
   const { groupData } = useGroup(groupId);
@@ -81,10 +83,19 @@ export default function JoinGroupModal() {
 
       localStorage.setItem("swiperGroupId", group.group_id);
 
-      updateGroup(joinGroupModal.group.group_id, (prev) => ({
+      await updateGroup(joinGroupModal.group.group_id, (prev) => ({
         ...prev,
         ...joinedGroup,
       }));
+
+      await updateFriendsStatus((prev) => {
+        return prev.map((friend) => {
+          if (friend.active_group?.group_id === group.group_id) {
+            friend.active_group = { ...friend.active_group, ...joinedGroup };
+          }
+          return friend;
+        });
+      });
 
       updateMyGroups((prev) => {
         const newGroups = [...prev, joinedGroup];

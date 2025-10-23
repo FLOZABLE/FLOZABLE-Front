@@ -9,6 +9,7 @@ export function useGroupUpdater() {
 
   return useCallback(
     (groupId: string, updater: (g: Group) => Group) => {
+      let updatedGroup: Group | undefined;
       queryClient.setQueriesData({ queryKey: ["groups"] }, (oldData: any) => {
         if (!oldData) return oldData;
 
@@ -18,13 +19,19 @@ export function useGroupUpdater() {
             ...page,
             data: {
               ...page.data,
-              groups: page.data.groups.map((group: Group) =>
-                group.group_id === groupId ? updater(group) : group,
-              ),
+              groups: page.data.groups.map((group: Group) => {
+                if (group.group_id === groupId) {
+                  const newGroup = updater(group);
+                  updatedGroup = newGroup;
+                  return newGroup;
+                }
+                return group;
+              }),
             },
           })),
         };
       });
+      return updatedGroup;
     },
     [queryClient],
   );

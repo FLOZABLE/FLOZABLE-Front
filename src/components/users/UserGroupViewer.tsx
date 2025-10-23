@@ -15,7 +15,6 @@ export default function UserGroupViewer({
   group,
   rankings,
 }: UserGroupViewerProps) {
-  console.log(group);
   return (
     <Popover>
       <PopoverTrigger asChild>

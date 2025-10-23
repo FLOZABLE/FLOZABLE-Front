@@ -28,6 +28,8 @@ export default function FriendsViewer({
 
   const { setSearchUsersModal } = useSearchUsersModal();
 
+  //console.log("gd", friendsStatus)
+
   return (
     <Card className={className} {...props}>
       <CardHeader>

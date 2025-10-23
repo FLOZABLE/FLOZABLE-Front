@@ -1,5 +1,6 @@
 import { postGroupLike } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
+import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
 import { useGroupUpdater } from "@/hooks/updaters/groupUpdaters";
 import { cn, secondConverter } from "@/lib/utils";
 import { Group } from "@/types/groupTypes";
@@ -32,6 +33,8 @@ export default function GroupContainer({
 
   const { account } = useAccount();
   const updateGroup = useGroupUpdater();
+
+  const updateFriendsStatus = useFriendsStatusUpdater();
 
   const { setJoinGroupModal } = useJoinGroupModal();
 
@@ -66,6 +69,21 @@ export default function GroupContainer({
       return {
         ...prev,
       };
+    });
+
+    await updateFriendsStatus((prev) => {
+      return prev.map((friend) => {
+        if (friend.active_group?.group_id === group.group_id) {
+          if (like) {
+            friend.active_group.likes.push(account.user_id);
+          } else {
+            friend.active_group.likes = friend.active_group.likes.filter(
+              (like) => like !== account.user_id,
+            );
+          }
+        }
+        return friend;
+      });
     });
   }, [group, account]);
 
