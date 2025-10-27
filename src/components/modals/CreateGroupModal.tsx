@@ -1,11 +1,6 @@
 "use client";
 
-import { putGroup } from "@/apis/groupApi";
-import { useChatRooms } from "@/hooks/chatHooks";
-import {
-  useGroupsCacheRemover,
-  useMyGroupsUpdater,
-} from "@/hooks/updaters/groupUpdaters";
+import { useCreateGroupMutation } from "@/hooks/mutations/groupMutations";
 import { putGroupSchema, PutGroupSchemaValues } from "@/schemas/groupSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
@@ -34,8 +29,6 @@ import {
 export default function CreateGroupModal() {
   const { createGroupModal, setCreateGroupModal } = useCreateGroupModal();
 
-  const { chatroomsRefetch } = useChatRooms();
-
   const form = useForm<PutGroupSchemaValues>({
     resolver: zodResolver(putGroupSchema),
     defaultValues: {
@@ -52,36 +45,23 @@ export default function CreateGroupModal() {
 
   const visibility = form.watch("visibility");
 
-  const groupsCacheRemover = useGroupsCacheRemover();
-  const updateMyGroups = useMyGroupsUpdater();
+  const createMutation = useCreateGroupMutation();
 
   const onSubmit = useCallback(async (data: PutGroupSchemaValues) => {
-    const response = await putGroup(data);
-    if (!response.success || !response.data?.group) return;
+    createMutation.mutate(data, {
+      onSuccess: () => {
+        setCreateGroupModal((prev) => !prev);
 
-    setCreateGroupModal((prev) => !prev);
+        form.reset();
 
-    form.reset();
-
-    const newGroup = response.data.group;
-
-    localStorage.setItem("swiperGroupId", newGroup.group_id);
-
-    groupsCacheRemover();
-
-    updateMyGroups((prev) => {
-      const newGroups = [...prev, newGroup];
-      return newGroups;
+        const myGroupsViewer = document.querySelector("#myGroupsViewer");
+        myGroupsViewer?.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
+      },
     });
-
-    const myGroupsViewer = document.querySelector("#myGroupsViewer");
-    myGroupsViewer?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
-
-    chatroomsRefetch();
   }, []);
 
   return (

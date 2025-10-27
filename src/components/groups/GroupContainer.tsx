@@ -1,7 +1,7 @@
 import { useAccount } from "@/hooks/accountHooks";
+import { useGroup } from "@/hooks/groupHooks";
 import { useLikeGroupMutation } from "@/hooks/mutations/groupMutations";
 import { cn, secondConverter } from "@/lib/utils";
-import { Group } from "@/types/groupTypes";
 import { Ranking } from "@/types/rankingTypes";
 import parser from "html-react-parser";
 import { Goal, Heart, Hourglass, Lock, UserRound } from "lucide-react";
@@ -15,13 +15,13 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
 interface GroupContainerProps extends ComponentProps<"div"> {
-  group: Group;
+  groupId: string;
   rankings: Ranking[] | undefined;
   isJoinButton?: boolean;
 }
 
 export default function GroupContainer({
-  group,
+  groupId,
   rankings,
   isJoinButton = true,
   className,
@@ -29,6 +29,7 @@ export default function GroupContainer({
 }: GroupContainerProps) {
   const router = useRouter();
 
+  const { group } = useGroup(groupId);
   const { account } = useAccount();
 
   const { setJoinGroupModal } = useJoinGroupModal();
@@ -36,7 +37,7 @@ export default function GroupContainer({
   const likeMutation = useLikeGroupMutation();
 
   const totalTime = useMemo(() => {
-    if (!rankings || !group.members.length) return "0 h";
+    if (!rankings || !group?.members.length) return "0 h";
     const groupMembers = rankings.filter((user) =>
       group.members.includes(user.user_id),
     );
@@ -47,14 +48,18 @@ export default function GroupContainer({
     const membersAvg = Math.floor(totalTime / group.members.length);
     const formattedValue = secondConverter({ sec: membersAvg });
     return formattedValue;
-  }, [group.members, rankings]);
+  }, [group?.members, rankings]);
 
   const onLike = useCallback(async () => {
-    if (!account?.user_id) return;
+    if (!account?.user_id || !group?.group_id) return;
 
-    const like = !group.likes.includes(account?.user_id);
+    const like = !group?.likes.includes(account?.user_id);
     likeMutation.mutate({ groupId: group.group_id, like });
   }, [group, account]);
+
+  if (!group) {
+    return <div></div>;
+  }
 
   return (
     <div
@@ -112,7 +117,7 @@ export default function GroupContainer({
                 setJoinGroupModal((prev) => ({
                   ...prev,
                   opened: true,
-                  group: group,
+                  groupId: group.group_id,
                 }));
               }}>
               {!group.visibility && <Lock />}

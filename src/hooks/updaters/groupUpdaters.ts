@@ -4,7 +4,9 @@ import { useCallback } from "react";
 
 import { useUpdater } from "../otherHooks";
 
-export function useGroupUpdater() {
+
+//deprecated
+/* export function useGroupUpdater() {
   const queryClient = useQueryClient();
 
   return useCallback(
@@ -35,7 +37,7 @@ export function useGroupUpdater() {
     },
     [queryClient],
   );
-}
+} */
 
 export function useGroupsCacheRemover() {
   const queryClient = useQueryClient();

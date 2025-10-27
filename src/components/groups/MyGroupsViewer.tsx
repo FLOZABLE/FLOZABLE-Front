@@ -1,12 +1,10 @@
-import { postGroupLeave } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
 import { useMyGroups } from "@/hooks/groupHooks";
 import { useRemoveSearchParams } from "@/hooks/otherHooks";
 import { useChatroomsUpdater } from "@/hooks/updaters/chatUpdaters";
-import {
-  useGroupUpdater,
-  useMyGroupsUpdater,
-} from "@/hooks/updaters/groupUpdaters";
+
+import "@/hooks/updaters/groupUpdaters";
+
 import { ACTIVE_GROUP_DEBOUNCE } from "@/lib/constants";
 import mediaSocket from "@/lib/sockets/mediaSocket";
 import socket from "@/lib/sockets/socket";
@@ -33,7 +31,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
+import { useLeaveGroupMutation } from "@/hooks/mutations/groupMutations";
 
 interface MyGroupsViewerProps extends ComponentProps<"div"> {
   swiperClassName?: ComponentProps<"div">["className"];
@@ -67,10 +65,9 @@ export default function MyGroupsViewer({
 
   const removeSearchParams = useRemoveSearchParams();
 
-  const updateMyGroups = useMyGroupsUpdater();
-  const updateGroup = useGroupUpdater();
   const updateChatrooms = useChatroomsUpdater();
-  const updateFriendsStatus = useFriendsStatusUpdater();
+
+  const leaveMutation = useLeaveGroupMutation();
 
   const [confirmLeaveModal, setConfirmLeaveModal] =
     useState<setConfirmLeaveModalType>({
@@ -141,34 +138,10 @@ export default function MyGroupsViewer({
 
   const leaveGroup = useCallback(async () => {
     const groupId = confirmLeaveModal.group?.group_id;
+
     if (!groupId) return;
 
-    const response = await postGroupLeave(groupId);
-    if (!response.success) return;
-
-    updateMyGroups((prev) =>
-      prev.filter((group) => group.group_id !== groupId),
-    );
-
-    await updateGroup(groupId, (prev) => {
-      return {
-        ...prev,
-        members: prev.members.filter(
-          (memberId) => memberId !== account?.user_id,
-        ),
-      };
-    });
-
-    await updateFriendsStatus((prev) => {
-      return prev.map((friend) => {
-        if (friend.active_group?.group_id === groupId) {
-          friend.active_group.members = friend.active_group.members.filter(
-            (memberId) => memberId !== account?.user_id,
-          );
-        }
-        return friend;
-      });
-    });
+    leaveMutation.mutate({ groupId });
 
     updateChatrooms((prev) => {
       const chatroomIndex = prev.findIndex(

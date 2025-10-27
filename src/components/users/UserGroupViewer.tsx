@@ -28,7 +28,9 @@ export default function UserGroupViewer({
         )}
       </PopoverTrigger>
       <PopoverContent side="bottom" align={"center"} className="w-[21rem]">
-        {group && <GroupContainer group={group} rankings={rankings} />}
+        {group && (
+          <GroupContainer groupId={group.group_id} rankings={rankings} />
+        )}
       </PopoverContent>
     </Popover>
   );

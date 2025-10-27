@@ -24,7 +24,10 @@ export function useGroups(searchQuery: string) {
     queryFn: async ({ pageParam = 0 }) => {
       const response = await getGroups(searchQuery, pageParam);
       response?.data?.groups.forEach((group) => {
-        queryClient.setQueryData(["group", group.group_id], group);
+        queryClient.setQueryData(["group", group.group_id], {
+          success: true,
+          data: { group },
+        });
       });
       return response;
     },
@@ -63,13 +66,13 @@ export function useGroup(groupId: string | undefined | null) {
   });
 
   const {
-    data: groupData,
+    data: group,
     isLoading: groupIsLoading,
     refetch: groupRefetch,
   } = queryResult;
 
   return {
-    groupData,
+    group,
     groupIsLoading,
     groupRefetch,
     ...queryResult,
@@ -86,7 +89,10 @@ export function useMyGroups() {
     queryFn: async () => {
       const response = await getGroupMine();
       response?.data?.groups.forEach((group) => {
-        queryClient.setQueryData(["group", group.group_id], group);
+        queryClient.setQueryData(["group", group.group_id], {
+          success: true,
+          data: { group },
+        });
       });
       return response;
     },

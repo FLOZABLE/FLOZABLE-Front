@@ -123,7 +123,7 @@ export default function Groups() {
                 return (
                   <GroupContainer
                     key={i}
-                    group={group}
+                    groupId={group.group_id}
                     rankings={rankingsData}
                     ref={(el) => {
                       if (i === groups.length - 10) {
