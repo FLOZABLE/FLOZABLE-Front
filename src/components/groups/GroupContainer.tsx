@@ -1,7 +1,5 @@
-import { postGroupLike } from "@/apis/groupApi";
 import { useAccount } from "@/hooks/accountHooks";
-import { useFriendsStatusUpdater } from "@/hooks/updaters/friendUpdaters";
-import { useGroupUpdater } from "@/hooks/updaters/groupUpdaters";
+import { useLikeGroupMutation } from "@/hooks/mutations/groupMutations";
 import { cn, secondConverter } from "@/lib/utils";
 import { Group } from "@/types/groupTypes";
 import { Ranking } from "@/types/rankingTypes";
@@ -32,11 +30,10 @@ export default function GroupContainer({
   const router = useRouter();
 
   const { account } = useAccount();
-  const updateGroup = useGroupUpdater();
-
-  const updateFriendsStatus = useFriendsStatusUpdater();
 
   const { setJoinGroupModal } = useJoinGroupModal();
+
+  const likeMutation = useLikeGroupMutation();
 
   const totalTime = useMemo(() => {
     if (!rankings || !group.members.length) return "0 h";
@@ -56,35 +53,7 @@ export default function GroupContainer({
     if (!account?.user_id) return;
 
     const like = !group.likes.includes(account?.user_id);
-    const response = await postGroupLike(group.group_id, like);
-    if (!response.success) return;
-
-    await updateGroup(group.group_id, (prev) => {
-      if (like) {
-        prev.likes.push(account.user_id);
-      } else {
-        prev.likes = prev.likes.filter((like) => like !== account.user_id);
-      }
-
-      return {
-        ...prev,
-      };
-    });
-
-    await updateFriendsStatus((prev) => {
-      return prev.map((friend) => {
-        if (friend.active_group?.group_id === group.group_id) {
-          if (like) {
-            friend.active_group.likes.push(account.user_id);
-          } else {
-            friend.active_group.likes = friend.active_group.likes.filter(
-              (like) => like !== account.user_id,
-            );
-          }
-        }
-        return friend;
-      });
-    });
+    likeMutation.mutate({ groupId: group.group_id, like });
   }, [group, account]);
 
   return (

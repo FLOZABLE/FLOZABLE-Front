@@ -1,10 +1,10 @@
 import AxiosInstance from "@/lib/axiosInstance";
 import { getTimezone, requestHandler } from "@/lib/utils";
-import { AccountProfileResponse } from "@/types/userTypes";
+import { UserProfileResponse } from "@/types/userTypes";
 
 export async function getUserProfile(
   userId: string,
-): Promise<AccountProfileResponse> {
+): Promise<UserProfileResponse> {
   const timezone = getTimezone();
 
   return requestHandler(

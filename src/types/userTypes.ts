@@ -4,7 +4,7 @@ import { ApiResponse } from "./responseTypes";
 import { GroupedSubjects, Subject } from "./subjectTypes";
 
 // GET /user/:user_id/profile
-export type AccountProfileResponse = ApiResponse<{
+export type UserProfileResponse = ApiResponse<{
   userinfo: Userinfo;
   friends: Friend[];
   subjects: Subject[];

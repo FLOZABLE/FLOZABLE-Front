@@ -4,7 +4,7 @@ import {
   getFriendTrends,
   searchFriends,
 } from "@/apis/friendApi";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useAccount } from "./accountHooks";
 
@@ -66,11 +66,26 @@ export function useFriendsTrends() {
 }
 
 export function useFriendsStatus() {
+  const queryClient = useQueryClient();
+
   const { account } = useAccount();
 
   const queryResult = useQuery({
     queryKey: [`friendsStatus`],
-    queryFn: getFriendStatus,
+    queryFn: async () => {
+      const response = await getFriendStatus();
+
+      response?.data?.friends.forEach((friend) => {
+        if (friend.active_group) {
+          queryClient.setQueryData(
+            ["group", friend.active_group.group_id],
+            friend.active_group,
+          );
+        }
+      });
+
+      return response;
+    },
     staleTime: 60 * 30 * 1000,
     enabled: !!account,
     select: (response) => response?.data?.friends ?? [],

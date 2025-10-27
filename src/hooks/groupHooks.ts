@@ -5,17 +5,29 @@ import {
   getGroupMine,
   getGroups,
 } from "@/apis/groupApi";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { ViewerType } from "@/types/otherTypes";
+import {
+  useInfiniteQuery,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import { useAccount } from "./accountHooks";
-import { ViewerType } from "@/types/otherTypes";
 
 const groupsLength = 30;
 
 export function useGroups(searchQuery: string) {
+  const queryClient = useQueryClient();
+
   const queryResult = useInfiniteQuery({
     queryKey: [`groups`, searchQuery],
-    queryFn: ({ pageParam }) => getGroups(searchQuery, pageParam),
+    queryFn: async ({ pageParam = 0 }) => {
+      const response = await getGroups(searchQuery, pageParam);
+      response?.data?.groups.forEach((group) => {
+        queryClient.setQueryData(["group", group.group_id], group);
+      });
+      return response;
+    },
     staleTime: 1000 * 60 * 5,
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
@@ -65,11 +77,19 @@ export function useGroup(groupId: string | undefined | null) {
 }
 
 export function useMyGroups() {
+  const queryClient = useQueryClient();
+
   const { account } = useAccount();
 
   const queryResult = useQuery({
     queryKey: [`myGroups`],
-    queryFn: getGroupMine,
+    queryFn: async () => {
+      const response = await getGroupMine();
+      response?.data?.groups.forEach((group) => {
+        queryClient.setQueryData(["group", group.group_id], group);
+      });
+      return response;
+    },
     staleTime: 1000 * 5,
     select: (response) => ({
       groups: response.data?.groups ?? [],
@@ -129,7 +149,11 @@ export function useGroupMembers(groupId: string, isActive: boolean) {
   };
 }
 
-export function useGroupLeaderboard(groupId: string | null, viewDate: Date, viewer: ViewerType) {
+export function useGroupLeaderboard(
+  groupId: string | null,
+  viewDate: Date,
+  viewer: ViewerType,
+) {
   const queryResult = useQuery({
     queryKey: [`groupLeaderboard`, groupId, viewDate, viewer],
     queryFn: () => getGroupLeaderboard(groupId!, viewDate, viewer),
