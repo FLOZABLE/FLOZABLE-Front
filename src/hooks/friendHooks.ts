@@ -77,10 +77,10 @@ export function useFriendsStatus() {
 
       response?.data?.friends.forEach((friend) => {
         if (friend.active_group) {
-          queryClient.setQueryData(
-            ["group", friend.active_group.group_id],
-            friend.active_group,
-          );
+          queryClient.setQueryData(["group", friend.active_group.group_id], {
+            success: true,
+            data: { group: friend.active_group },
+          });
         }
       });
 

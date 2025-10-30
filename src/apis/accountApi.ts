@@ -11,6 +11,10 @@ export async function getAccount(): Promise<AccountResponse> {
   return requestHandler(AxiosInstance.get(`/account`));
 }
 
+export async function deleteAccount(): Promise<SuccessResponse> {
+  return requestHandler(AxiosInstance.delete(`/account`));
+}
+
 export async function getAccountGoogle(): Promise<AccountGoogleResponse> {
   return requestHandler(AxiosInstance.get(`/account/google`));
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  deleteAccount,
   patchAccountInfo,
   patchAccountPassword,
   putAccountProfileImage,
@@ -9,6 +10,17 @@ import GoogleLoginButton from "@/components/buttons/GoogleLoginButton";
 import ExtensionSetting from "@/components/extension/ExtensionSetting";
 import { FloatingLabelInput } from "@/components/inputs/FloatingLabelInput";
 import { IconGoogleCalendar, IconYoutube } from "@/components/others/Svgs";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,13 +46,17 @@ import {
   PatchAccountProfileSchemaValues,
 } from "@/schemas/accountSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import { Camera, Lock, UserRoundPen } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function Account() {
   const { account } = useAccount();
   const { accountGoogleData } = useAccountGoogle();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const [profileUrl, setProfileUrl] = useState(
     `${config.static_server}/img/profile-images/${account?.user_id}.jpeg`,
@@ -107,12 +123,25 @@ export default function Account() {
     reader.readAsDataURL(file);
   };
 
-  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!inputRef || !inputRef.current) return;
+  const handleButtonClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      if (!inputRef || !inputRef.current) return;
 
-    inputRef.current.click();
-  };
+      inputRef.current.click();
+    },
+    [],
+  );
+
+  const onDeleteAccount = useCallback(async () => {
+    const response = await deleteAccount();
+    console.log(response);
+    if (response.success) {
+      queryClient.clear();
+      router.replace("/");
+      queryClient.setQueryData(["account"], { success: false });
+    }
+  }, []);
 
   if (!account) return <div></div>;
 
@@ -324,27 +353,33 @@ export default function Account() {
                 className="ml-auto"
               />
             </div>
-            {/* <div className="flex gap-5">
-              <div>
-                <IconSpotify className="size-13" />
-              </div>
-              {!spotifyInfo ? (
-                <p>
-                  You haven&apos;t connected your Spotify Account yet or you
-                  aren&apos;t authorized. Please authorize our application to
-                  access your Spotify Playlists here.
-                </p>
-              ) : (
-                <p>
-                  Spotify is successfully connected! Enjoy your playlists within
-                  our app and set the perfect mood for your tasks.
-                </p>
-              )}
-              <GoogleLoginButton
-                scope={"email profile https://www.googleapis.com/auth/calendar"}
-                required="calendar"
-              />
-            </div> */}
+            <div className="items-center flex justify-center">
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive">Delete Account</Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete
+                      your account and remove your data from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => {
+                        onDeleteAccount();
+                      }}>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           </CardContent>
         </Card>
       </div>

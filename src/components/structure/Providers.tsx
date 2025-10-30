@@ -117,18 +117,6 @@ function AppProvider({ children }: ProviderProps) {
 
   const updateFriendsStatus = useFriendsStatusUpdater();
 
-  /* const updateProfileStatus = useCallback(
-    async (userId: string, field: string, newData: any) => {
-      await queryClient.setQueryData(
-        ["useProfileStatus", userId],
-        (oldData: any) => {
-          return updateQueryData(oldData, newData, field);
-        }
-      );
-    },
-    []
-  ); */
-
   const updateNotifications = useNotificationsUpdater();
 
   useEffect(() => {

@@ -1,6 +1,5 @@
 "use client";
 
-import { useAccount } from "@/hooks/accountHooks";
 import { useChatRooms } from "@/hooks/chatHooks";
 import { useGroup } from "@/hooks/groupHooks";
 import { useJoinGroupMutation } from "@/hooks/mutations/groupMutations";
@@ -44,7 +43,6 @@ export default function JoinGroupModal() {
 
   const joinMutation = useJoinGroupMutation();
 
-  const { account } = useAccount();
   const { group } = useGroup(joinGroupModal.groupId);
 
   const { rankingsData } = useRankings(
@@ -62,7 +60,7 @@ export default function JoinGroupModal() {
 
   const onSubmit = useCallback(
     async (data: PostGroupJoinSchemaValues) => {
-      if (!group || !account) return;
+      if (!group) return;
       joinMutation.mutate(
         {
           groupId: group.group_id,
@@ -71,7 +69,7 @@ export default function JoinGroupModal() {
         {
           onSuccess: (response) => {
             if (!response.success) return;
-            
+
             setJoinGroupModal((prev) => ({ ...prev, opened: false }));
 
             form.reset();
@@ -90,7 +88,7 @@ export default function JoinGroupModal() {
         },
       );
     },
-    [account, group],
+    [group],
   );
 
   useEffect(() => {
