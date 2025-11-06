@@ -39,7 +39,7 @@ export default function StudyTimeline({
 
     return subjects
       .flatMap((subject) => {
-        return subject.day.timeline[index].data.map((data) => ({
+        return subject.day.timeline[index]?.data.map((data) => ({
           color: subject.color,
           start: data[0],
           title: `Studied ${subject.name}`,
