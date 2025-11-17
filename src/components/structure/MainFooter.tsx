@@ -42,8 +42,9 @@ const MainFooter = ({}) => {
               <h2 className="text-xl font-semibold">FLOZABLE</h2>
             </div>
             <p className="text-sm text-muted-foreground">
-              A collection of 100+ responsive HTML templates for your startup
-              business or side project.
+              Stay organized and track your progress with the FLOZABLE. Monitor
+              study hours, view achievements, and plan your study sessions
+              efficiently.
             </p>
             <ul className="flex items-center space-x-6 text-muted-foreground">
               <li className="font-medium hover:text-primary">
