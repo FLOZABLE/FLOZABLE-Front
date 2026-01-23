@@ -68,7 +68,7 @@
     "html-react-parser": "^5.2.3",
     "js-cookie": "^3.0.5",
     "lexical": "^0.30.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "lucide-react": "^0.486.0",
     "luxon": "^3.5.0",
     "mediasoup-client": "^3.9.2",
